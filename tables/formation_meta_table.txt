@@ -1,0 +1,4 @@
+misc1,1
+misc2,1
+eventscript,1
+misc3,1

@@ -1,0 +1,6 @@
+misc,4
+x,1
+y,1
+graphics,1
+graphics_index,1
+facing,1

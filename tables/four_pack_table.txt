@@ -1,0 +1,4 @@
+common1,2
+common2,2
+common3,2
+rare,2

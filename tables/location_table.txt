@@ -1,0 +1,21 @@
+name_id,1
+animated_layers,bit:u10 warpable u12 u13 u14 u15 u16 u17
+battlebg,1
+unknown0,1
+tileproperties,1
+attacks,bit:u50 u51 u52 u53 u54 u55 u56 enable_encounters
+unknown1,1
+graphic_sets,4,list
+tileformations,2
+mapdata,4
+unknown2,1
+bgshift,4,list
+unknown3,1
+layer12dimensions,1
+unknown4,1
+palette_index,3
+music,1
+unknown5,1
+width,1
+height,1
+layerpriorities,1

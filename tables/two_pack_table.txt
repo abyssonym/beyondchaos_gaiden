@@ -1,0 +1,2 @@
+common,2
+rare,2

@@ -1,0 +1,30 @@
+InitialMembitObject initial_membit_table.txt    e0a0    128
+CharPaletteObject   char_palette_table.txt      2ce2b   14
+EventObject         event_table.txt             40000   414 pointed 40000   2
+NpcObject           npc_table.txt               41a10   414 pointed 41a10   2
+ShopObject          shop_table.txt              47ac0   86
+# BNW uses some of the dialogue pointers for event code
+DialoguePtrObject   dialogue_ptr_table.txt      ce602   3075
+MonsterObject       monster_table.txt           f0000   384
+MonsterLootObject   monster_loot_table.txt      f3000   384
+MonsterCtrlObject   monster_ctrl_table.txt      f3d00   384
+MonsterSketchObject monster_sketch_table.txt    f4300   384
+MonsterRageObject   monster_rage_table.txt      f4600   255
+MonsterAIObject     monster_ai_table.txt        f8400   384
+FourPackObject      four_pack_table.txt         f4800   256
+TwoPackObject       two_pack_table.txt          f5000   256
+ZonePackPackObject  zone_pack_pack_table.txt    f5400   128
+AreaPackObject      area_pack_table.txt         f5600   414
+ZoneRateObject      zone_rate_table.txt         f5800   128
+FormationMetaObject formation_meta_table.txt    f5900   576
+FormationObject     formation_table.txt         f6200   576
+ItemObject          item_table.txt              185000  255
+EntranceObject      entrance_table.txt          1fbb00  414 pointed 1fbb00  2
+LocNamePtrObject    loc_name_ptr_table.txt      268400  448
+ChestObject         chest_table.txt             2d82f4  414 pointed 2d8634  2
+LocationObject      location_table.txt          2d8f00  414
+CharacterObject     character_table.txt         2d7ca0  44
+LongEntranceObject  long_entrance_table.txt     2df480  414 pointed 2df480  2
+$location_names         ef100
+$location_names_max     ef600
+$cheatproof_addr        cff61

@@ -1,0 +1,5 @@
+x,1
+y,1
+memid_low,1
+misc,bit:memid_high unk0 unk1 empty1 empty2 monster treasure gold
+contents,1

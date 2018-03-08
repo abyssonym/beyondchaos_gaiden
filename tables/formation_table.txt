@@ -1,0 +1,5 @@
+mould,1
+enemies_present,1
+enemy_ids,6,list
+enemy_pos,6,list
+bossbyte,1

@@ -1,0 +1,2 @@
+steal_item_ids,2,list
+drop_item_ids,2,list
