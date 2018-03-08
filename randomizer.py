@@ -408,7 +408,11 @@ def execute_fanatix_mode():
                 newparty = list(party)
                 newchar = random.choice([c for c in range(14)
                                          if c not in party])
-                oldchar = random.choice(party)
+                if n >= 2:
+                    oldchars = [c for c in party if c in partydict[n-2]]
+                else:
+                    oldchars = party
+                oldchar = random.choice(oldchars)
                 newparty.remove(oldchar)
                 newparty.append(newchar)
                 newparty = tuple(sorted(newparty))
