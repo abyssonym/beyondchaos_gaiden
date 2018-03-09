@@ -41,6 +41,16 @@ price_message_indexes = {
     60000:  0xa66,
     }
 
+
+def int_to_bytelist(value, length):
+    value_list = []
+    for _ in xrange(length):
+        value_list.append(value & 0xFF)
+        value >>= 8
+    assert value == 0
+    return value_list
+
+
 class InitialMembitObject(TableObject): pass
 class CharPaletteObject(TableObject): pass
 class EventObject(TableObject): pass
@@ -91,12 +101,10 @@ class NpcObject(TableObject):
         yes_p = pointer + 13
         no_p = yes_p + 7
         script = [
-            0x4B, price_message & 0xFF, price_message >> 8, # show price
-            0x4B, 0x24, 0x85,                               # ask
-            0xB6, yes_p & 0xFF, (yes_p >> 8) & 0xFF, yes_p >> 16,
-            no_p & 0xFF, (no_p >> 8) & 0xFF, no_p >> 16,
-            0x85, price & 0xFF, price >> 8,                 # take money
-            ]
+            0x4B] + int_to_bytelist(price_message, 2) + [   # show price
+            0x4B] + int_to_bytelist(addresses.ask_message | 0x8000, 2) + [
+            0xB6] + int_to_bytelist(yes_p, 3) + int_to_bytelist(no_p, 3) + [
+            0x85] + int_to_bytelist(price, 2)               # take money
         script += pay_save_command + [0xFE]
         assert script[no_p-pointer:] == [0xFE]
         event_addr = write_event(script) - 0xA0000
@@ -124,6 +132,9 @@ class ShopObject(TableObject):
 class DialoguePtrObject(TableObject):
     @classmethod
     def bring_back_auction_prices(cls):
+        if "BNW" not in get_global_label():
+            raise NotImplementedError
+
         indexes = sorted(price_message_indexes.values())
         assert all([i & 0xa00 == 0xa00 for i in indexes])
         pointer = min([DialoguePtrObject.get(i).dialogue_pointer
@@ -276,11 +287,6 @@ class CharacterObject(TableObject):
         self.relics = [0xFF, 0xE6]
 
 
-#free_space_pointer = 0xADD1E
-#free_space_pointer = 0xAD52B
-free_space_pointer = 0xAD037
-
-
 def number_location_names():
     pointer = addresses.location_names
     f = open(get_outfile(), 'r+b')
@@ -298,33 +304,29 @@ def number_location_names():
     f.close()
 
 
+fanatix_space_pointer = None
+
+
 def execute_fanatix_mode():
     for i in xrange(32):
         InitialMembitObject.get(i).membyte = 0xFF
 
-    # TODO: including ending maps
-    BANNED_MAPS = [0, 1, 2, 3, 4, 5, 7, 20, 21]
-    BANNED_MAPS += [47, 0x5b, 0xdd]  # just a minor palette glitch?
-    BANNED_MAPS += [
-        0, 1, 2, 3, 0xB, 0xC, 0xD, 0x11, 0x22, 0x37, 0x40, 0x4b, 0x50, 0x53,
+    BANNED_MAPS = [
+        0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x07, 0x0B, 0x0C, 0x0D,
+        0x11, 0x14, 0x15, 0x22, 0x2f, 0x37, 0x40, 0x4b, 0x50, 0x53, 0x5b,
         0x75, 0x7b, 0x7d, 0x7e, 0x7f,
-        0x81, 0x82, 0x88, 0x89, 0x8c, 0x8f, 0x90, 0x92, 0x99, 0x9c, 0x9d, 0xa9,
+        0x81, 0x82, 0x88, 0x89, 0x8c, 0x8f,
+        0x90, 0x92, 0x99, 0x9c, 0x9d, 0xa9,
         0xb6, 0xb7, 0xb8, 0xbd, 0xbe,
-        0xcd, 0xcf, 0xd0, 0xd1, 0xd9,
+        0xcd, 0xcf, 0xd0, 0xd1, 0xd9, 0xdd,
         0xd2, 0xd3, 0xd4, 0xd5, 0xd7,
-        0xe1,
-        0xe7, 0xe9, 0xea, 0xeb,
+        0xe1, 0xe7, 0xe9, 0xea, 0xeb,
         0xfd, 0xfe, 0xff,
         0x100, 0x102, 0x103, 0x104, 0x105, 0x106, 0x107, 0x10c, 0x12e,
-        0x131, 0x132,
-        0x139, 0x13a, 0x13b, 0x13c,
-        0x13d,
-        0x13e,
-        0x141, 0x142,
-        0x143, 0x144,
-        0x150,
-        0x154, 0x155, 0x157, 0x158,
-        ]  # list taken from beyond chaos
+        0x131, 0x132, 0x139, 0x13a, 0x13b, 0x13c, 0x13d, 0x13e,
+        0x141, 0x142, 0x143, 0x144,
+        0x150, 0x154, 0x155, 0x157, 0x158,
+        ]
     BANNED_MAPS += range(0x160, 0x200)
     BANNED_MAPS.remove(0x16a)
     BANNED_MAPS.remove(0x16c)
@@ -379,16 +381,13 @@ def execute_fanatix_mode():
         0xFE,
         ]
     f = open(get_outfile(), 'r+b')
-    f.seek(0xA5E8E)
+    f.seek(addresses.opening_crawl_pointer)
     f.write("".join(map(chr, [0xFD]*4)))  # no opening crawl
-    opening_jump_addr = 0xC9B1D
-    f.seek(0xC9A4F)
-    f.write("".join(map(chr, [
-        0xB2, opening_jump_addr & 0xFF, (opening_jump_addr >> 8) & 0xFF,
-            (opening_jump_addr >> 16) - 0xA,
-        0xFE,
-        ])))
-    f.seek(opening_jump_addr)
+    opening_jump_pointer = addresses.opening_jump_pointer
+    f.seek(addresses.opening_pointer)
+    f.write("".join(map(chr,
+        [0xB2] + int_to_bytelist(opening_jump_pointer-0xA0000, 3) + [0xFE])))
+    f.seek(opening_jump_pointer)
     f.write("".join(map(chr, opening_event)))
 
     partydict = {}
@@ -423,14 +422,16 @@ def execute_fanatix_mode():
         partydict[n] = party
         done_parties.add(party)
 
-    limit = 0xAE8F4
+    limit = addresses.fanatix_space_limit
     def write_event(script):
-        global free_space_pointer
-        old_pointer = free_space_pointer
-        f.seek(free_space_pointer)
+        global fanatix_space_pointer
+        if fanatix_space_pointer is None:
+            fanatix_space_pointer = addresses.fanatix_space_pointer
+        old_pointer = fanatix_space_pointer
+        f.seek(fanatix_space_pointer)
         f.write("".join(map(chr, script)))
-        free_space_pointer += len(script)
-        assert free_space_pointer <= limit
+        fanatix_space_pointer += len(script)
+        assert fanatix_space_pointer <= limit
         return old_pointer
 
     clear_party_script = []
@@ -440,18 +441,17 @@ def execute_fanatix_mode():
         clear_party_script += [0x3F, i, 0x00]
     clear_party_script += [0xFE]
     clear_party = write_event(clear_party_script) - 0xA0000
-    clear_party_command = [0xB2, clear_party & 0xFF, (clear_party >> 8) & 0xFF,
-                           clear_party >> 16]
+    clear_party_command = [0xB2] + int_to_bytelist(clear_party, 3)
 
     post_boss_script = [
-        0xB2, 0xA9, 0x5E, 0x00,             # game over check
+        0xB2] + int_to_bytelist(addresses.gameover_check_pointer-0xA0000,
+                                3) + [
         0x3E, 0x10,                         # delete npc
         0x59, 0x08,                         # unfade
         0xFE,
         ]
     post_boss = write_event(post_boss_script) - 0xA0000
-    post_boss_command = [0xB2, post_boss & 0xFF, (post_boss >> 8) & 0xFF,
-                         post_boss >> 16]
+    post_boss_command = [0xB2] + int_to_bytelist(post_boss, 3)
 
     pay_save_script = [
         0xC0, 0xBE, 0x81, 0xFF, 0x69, 0x01,     # check enough money
@@ -462,17 +462,15 @@ def execute_fanatix_mode():
         0xFE,
         ]
     pay_save = write_event(pay_save_script) - 0xA0000
-    pay_save_command = [0xB2, pay_save & 0xFF, (pay_save >> 8) & 0xFF,
-                        pay_save >> 16]
+    pay_save_command = [0xB2] + int_to_bytelist(pay_save, 3)
 
     pay_inn_script = [
         0xC0, 0xBE, 0x81, 0xFF, 0x69, 0x01,     # check enough money
-        0xB2, 0x4B, 0x22, 0x01,                 # refreshments
+        0xB2] + int_to_bytelist(addresses.refreshments_pointer-0xA0000, 3) + [
         0xFE
         ]
     pay_inn = write_event(pay_inn_script) - 0xA0000
-    pay_inn_command = [0xB2, pay_inn & 0xFF, (pay_inn >> 8) & 0xFF,
-                       pay_inn >> 16]
+    pay_inn_command = [0xB2] + int_to_bytelist(pay_inn, 3)
 
     done_pay_inns = {}
 
@@ -535,8 +533,8 @@ def execute_fanatix_mode():
                 locked |= (1 << i)
 
         script += [
-            0x99, 0x01, locked & 0xFF, locked >> 8, # party select
-            0x6B, l.index & 0xFF, 0x10 | (l.index >> 8), 9, 27, 0x00, # new map
+            0x99, 0x01] + int_to_bytelist(locked, 2) + [        # party select
+            0x6B] + int_to_bytelist(l.index | 0x1000, 2) + [9, 27, 0x00,
             0xFE,
             ]
         e.event_addr = write_event(script) - 0xA0000
@@ -625,7 +623,7 @@ def execute_fanatix_mode():
                                         "armor_shop", "relic_shop",
                                         "item_shop", "item_shop"])
         if npc_choice == "save_point":
-            pointer = free_space_pointer - 0xA0000
+            pointer = fanatix_space_pointer - 0xA0000
             npc.become_pay_save(pointer, price, price_message,
                                 pay_save_command, write_event)
         elif npc_choice == "inn":
@@ -634,16 +632,15 @@ def execute_fanatix_mode():
             if price in done_pay_inns:
                 npc.set_event_addr(done_pay_inns[price])
             else:
-                pointer = free_space_pointer - 0xA0000
+                pointer = fanatix_space_pointer - 0xA0000
                 yes_p = pointer + 13
                 no_p = yes_p + 7
                 script = [
-                    0x4B, price_message & 0xFF, price_message >> 8, # show $$$
-                    0x4B, 0x17, 0x05,                               # ask
-                    0xB6, yes_p & 0xFF, (yes_p >> 8) & 0xFF, yes_p >> 16,
-                    no_p & 0xFF, (no_p >> 8) & 0xFF, no_p >> 16,
-                    0x85, price & 0xFF, price >> 8,                 # take $$$
-                    ]
+                    0x4B] + int_to_bytelist(price_message, 2) + [   # show $$$
+                    0x4B] + int_to_bytelist(addresses.inn_ask_message, 2) + [
+                    0xB6] + (int_to_bytelist(yes_p, 3) +
+                             int_to_bytelist(no_p, 3)) + [
+                    0x85] + int_to_bytelist(price, 2)               # take $$$
                 script += pay_inn_command + [0xFE]
                 assert script[no_p-pointer:] == [0xFE]
                 event_addr = write_event(script) - 0xA0000
@@ -652,7 +649,7 @@ def execute_fanatix_mode():
         elif npc_choice == "colosseum":
             npc.graphics = 0x3B
             npc.set_palette(2)
-            npc.set_event_addr(0x178CB)
+            npc.set_event_addr(addresses.colosseum_pointer - 0xA0000)
         elif "shop" in npc_choice:
             if npc_choice == "weapon_shop":
                 npc.graphics = 0x0E
@@ -686,7 +683,7 @@ def execute_fanatix_mode():
         npc.set_palette(0)
         npc.facing = 2
         npc.x, npc.y = 10, 8
-        npc.set_event_addr(0x23510)
+        npc.set_event_addr(addresses.unequipper_pointer - 0xA0000)
 
         l.name_id, l2.name_id = n+1, n+1
         l.set_bit("enable_encounters", False)
@@ -711,7 +708,7 @@ def execute_fanatix_mode():
     npc = NpcObject.create_new()
     npc.groupindex = tower_roof.index
     npc.x, npc.y = 4, 5
-    pointer = free_space_pointer - 0xA0000
+    pointer = fanatix_space_pointer - 0xA0000
     npc.become_pay_save(pointer, price, price_message,
                         pay_save_command, write_event)
 
@@ -722,7 +719,7 @@ def execute_fanatix_mode():
     npc.set_palette(0)
     npc.facing = 2
     npc.x, npc.y = 11, 6
-    npc.set_event_addr(0x23510)
+    npc.set_event_addr(addresses.unequipper_pointer-0xA0000)
 
     final_room = LocationObject.get(0x19b)
     for x in final_room.exits:
@@ -732,9 +729,8 @@ def execute_fanatix_mode():
     e.x, e.y = 7, 6
     e.groupindex = tower_roof.index
     script = list(clear_party_command)
-    script += [
-        0xB2, 0x0B, 0xC9, 0x00, # load all characters
-        ]
+    script += (
+        [0xB2] + int_to_bytelist(addresses.load_all_party_pointer-0xA0000, 3))
     locked = 0
     not_locked = range(14)
     for i in xrange(4):
@@ -747,12 +743,12 @@ def execute_fanatix_mode():
             not_locked.remove(c)
     script += [
         0x46, 0x02,
-        0x99, 0x03, locked & 0xFF, locked >> 8,         # party select
-        0x6B, final_room.index & 0xFF, final_room.index >> 8,
+        0x99, 0x03] + int_to_bytelist(locked, 2) + [    # party select
+        0x6B] + int_to_bytelist(final_room.index, 2) + [
             109, 42, 0x00,      # next map
         0xD2, 0xCE,             # enable party switching with Y
         # place party 3 and select it
-        0x79, 0x03, final_room.index & 0xFF, final_room.index >> 8,
+        0x79, 0x03] + int_to_bytelist(final_room.index, 2) + [
         0x46, 0x03,
         0x45,
         0x31, 0x84, 0xD5, 115, 44, 0xFF,
@@ -760,7 +756,7 @@ def execute_fanatix_mode():
         0x41, 0x31,
         0x45,
         # place party 1 and select it
-        0x79, 0x01, final_room.index & 0xFF, final_room.index >> 8,
+        0x79, 0x01] + int_to_bytelist(final_room.index, 2) + [
         0x46, 0x01,
         0x45,
         0x31, 0x84, 0xD5, 103, 45, 0xFF,
@@ -783,29 +779,29 @@ def execute_fanatix_mode():
         ex.x, ex.y = x, y
         ex.destx, ex.desty = 7, 7
 
-    final_addr = 0xA057D
     script = []
     for i, pack_index in enumerate([0, 0, 0]):
         script += [
             0x46, i+1,
             0x4D, pack_index & 0xFF, 0x36,
-            0xB2, 0xA9, 0x5E, 0x00,
-            ]
-    # cff61 - b2 04 21 02
+            0xB2] + int_to_bytelist(addresses.gameover_check_pointer-0xA0000,
+                                    3)
+
     script += [
         0xDC, 0x7E,     # set/clear bits to fix ending
         0xD7, 0x9F,     # clear bit $39F (1EF3-7)
         0xD7, 0xFF,     # clear bit $3FF (1EFF-7)
-        0xB2, 0x64, 0x13, 0x00,
+        0xB2] + int_to_bytelist(addresses.ending_pointer-0xA0000, 3) + [
         0xFE,
         ]
-    f.seek(final_addr)
+    f.seek(addresses.final_pointer)
     f.write("".join(map(chr, script)))
 
     if "BNW" in get_global_label():
         DialoguePtrObject.bring_back_auction_prices()
         f.seek(addresses.cheatproof_addr)
-        f.write("".join(map(chr, [0xB2, 0x7D, 0x05, 0x00])))
+        f.write("".join(map(chr,
+            [0xB2] + int_to_bytelist(addresses.final_pointer-0xA0000, 3))))
 
     tower_roof.set_bit("enable_encounters", False)
 

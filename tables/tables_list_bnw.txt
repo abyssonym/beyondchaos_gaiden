@@ -25,6 +25,21 @@ ChestObject         chest_table.txt             2d82f4  414 pointed 2d8634  2
 LocationObject      location_table.txt          2d8f00  414
 CharacterObject     character_table.txt         2d7ca0  44
 LongEntranceObject  long_entrance_table.txt     2df480  414 pointed 2df480  2
+$inn_ask_message        517
+$ask_message            524
+$final_pointer          a057d
+$ending_pointer         a1364
+$opening_crawl_pointer  a5e8e
+$gameover_check_pointer a5ea9
+$load_all_party_pointer ac90b
+$fanatix_space_pointer  ad037
+$fanatix_space_limit    ae8f4
+$refreshments_pointer   b224b
+$colosseum_pointer      b78cb
+$unequipper_pointer     c3510
+$opening_pointer        c9a4f
+$opening_jump_pointer   c9b1d
 $location_names         ef100
 $location_names_max     ef600
+
 $cheatproof_addr        cff61
