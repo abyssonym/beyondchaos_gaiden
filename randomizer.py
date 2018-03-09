@@ -391,7 +391,7 @@ def execute_fanatix_mode():
     f.write("".join(map(chr, opening_event)))
 
     partydict = {}
-    removedict = {}
+    removedict, addict = {}, {}
     done_parties = set([])
     NUM_FLOORS = 99
     #NUM_FLOORS = 49
@@ -401,16 +401,17 @@ def execute_fanatix_mode():
     for n in xrange(NUM_FLOORS):
         if n == 0:
             party = tuple(sorted(random.sample(range(14),5)))
+            addict[n] = random.choice(party)
         else:
             party = partydict[n-1]
             for _ in xrange(1000):
                 newparty = list(party)
-                newchar = random.choice([c for c in range(14)
-                                         if c not in party])
+                oldchars = party
+                newchars = [c for c in range(14) if c not in party]
                 if n >= 2:
-                    oldchars = [c for c in party if c in partydict[n-2]]
-                else:
-                    oldchars = party
+                    oldchars = [c for c in oldchars if c in partydict[n-2]]
+                    newchars = [c for c in newchars if c not in partydict[n-2]]
+                newchar = random.choice(newchars)
                 oldchar = random.choice(oldchars)
                 newparty.remove(oldchar)
                 newparty.append(newchar)
@@ -419,6 +420,7 @@ def execute_fanatix_mode():
                     break
             party = newparty
             removedict[n] = oldchar
+            addict[n] = newchar
         partydict[n] = party
         done_parties.add(party)
 
@@ -506,9 +508,10 @@ def execute_fanatix_mode():
         e.groupindex = prev.index if prev else tower_base.index
 
         locked = 0
+        lockable = [c for c in partydict[n] if c != addict[n]]
         num_locked = (random.randint(0, 1) + random.randint(0, 1)
                       + random.randint(0, 1))
-        to_lock = random.sample(partydict[n], num_locked)
+        to_lock = random.sample(lockable, num_locked)
         script = []
 
         script += clear_party_command
@@ -519,14 +522,15 @@ def execute_fanatix_mode():
             assert removedict[n] not in partydict[n]
 
         for i in sorted(to_lock):
+            if i == addict[n]:
+                continue
             script += [0x3F, i, 0x01]
             locked |= (1 << i)
 
-        suggested = random.sample([
-            c for c in partydict[n] if c not in to_lock], 4-len(to_lock))
-        for i in sorted(suggested):
+        for i in sorted(partydict[n]):
+            if i in to_lock or i == addict[n]:
+                continue
             script += [0x3F, i, 0x01]
-        assert len(set(suggested + to_lock)) == 4
 
         for i in xrange(14):
             if i not in partydict[n]:
@@ -734,9 +738,9 @@ def execute_fanatix_mode():
     locked = 0
     not_locked = range(14)
     for i in xrange(4):
-        num_lock = int(round(random.random() + random.random()
-                             + random.random()))
-        for _ in xrange(num_lock):
+        num_locked = (random.randint(0, 1) + random.randint(0, 1)
+                      + random.randint(0, 1))
+        for _ in xrange(num_locked):
             c = random.choice(not_locked)
             locked |= (1 << c)
             script += [0x3F, c, i]
