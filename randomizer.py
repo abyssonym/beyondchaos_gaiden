@@ -157,24 +157,152 @@ class DialoguePtrObject(TableObject):
             pointer += len(s)
 
 
-class MonsterObject(TableObject): pass
+class MonsterObject(TableObject):
+    @property
+    def name(self):
+        return MonsterNameObject.get(self.index).name
+
+    @property
+    def ai(self):
+        return MonsterAIObject.get(self.index)
+
+    @property
+    def true_hp(self):
+        return self.hp * self.ai.hp_refills
+
+    @property
+    def true_hp_old(self):
+        return self.old_data['hp'] * self.ai.hp_refills
+
+    @property
+    def ai_script(self):
+        return self.ai.ai_script
+
+    @property
+    def pretty_ai_script(self):
+        return self.ai.pretty_ai_script
+
+    @property
+    def rank(self):
+        if hasattr(self, "_rank"):
+            return self._rank
+
+        monsters = list(MonsterObject.every)
+        monsters = [m for m in monsters if m.old_data['level'] > 0
+                    and m.old_data['hp'] < 65535
+                    and "Event" not in m.name and set(m.name) != {'_'}]
+
+        score_a = lambda m: (m.old_data['level'], m.true_hp_old,
+                             len(m.ai_script), random.random())
+        score_b = lambda m: (m.true_hp_old, m.old_data['level'],
+                             len(m.ai_script), random.random())
+        by_a = sorted(monsters, key=score_a)
+        by_b = sorted(monsters, key=score_b)
+
+        for m in MonsterObject.every:
+            if m in monsters:
+                a, b = (by_a.index(m), by_b.index(m))
+                m._rank = max(a, b) * (a+b)
+            else:
+                m._rank = -1
+        return self.rank
+
 class MonsterLootObject(TableObject): pass
 class MonsterCtrlObject(TableObject): pass
 class MonsterSketchObject(TableObject): pass
 class MonsterRageObject(TableObject): pass
-class MonsterAIObject(TableObject): pass
 
-class FourPackObject(TableObject):
+class MonsterAIObject(TableObject):
+    AICODES = {0xF0: 3, 0xF1: 1, 0xF2: 3, 0xF3: 2,
+               0xF4: 3, 0xF5: 3, 0xF6: 3, 0xF7: 1,
+               0xF8: 2, 0xF9: 3, 0xFA: 3, 0xFB: 2,
+               0xFC: 3, 0xFD: 0, 0xFE: 0, 0xFF: 0
+               }
+
+    @cached_property
+    def ai_script(self):
+        pointer = addresses.ai_scripts_address + self.ai_pointer
+        f = open(get_outfile(), 'r+b')
+        f.seek(pointer)
+        script = []
+        seen = False
+        while True:
+            value = f.read(1)
+            try:
+                numargs = self.AICODES[ord(value)]
+                args = f.read(numargs)
+            except KeyError:
+                args = ""
+            script.append(map(ord, value + args))
+            if ord(value) == 0xFF:
+                if seen:
+                    break
+                else:
+                    seen = True
+        f.close()
+        return script
+
+    @cached_property
+    def hp_refills(self):
+        for (i, line) in enumerate(self.ai_script):
+            if line == [0xFC, 0x06, 0x36, 0x00]:
+                for line2 in self.ai_script[i+1:]:
+                    if line2[0] == 0xFC:
+                        if line2[:2] == [0xFC, 0x0D]:
+                            return line2[3] + 1
+                    elif line2[0] in [0xFE, 0xFF]:
+                        break
+        return 1
+
+    @cached_property
+    def pretty_ai_script(self):
+        s = ""
+        for line in self.ai_script:
+            s += ("%X : " % line[0]) + " ".join(
+                ["{0:0>2}".format("%X" % v) for v in line[1:]])
+            s = s.strip() + "\n"
+        return s.strip()
+
+
+class PackObject(TableObject):
+    def __repr__(self):
+        s = "%s-PACK %x:\n%s" % (
+            len(self.formations), self.index,
+            "\n".join(str(f) for f in self.formations))
+        return s
+
+    @property
+    def rank(self):
+        a = max([f.rank for f in self.formations])
+        b = max([f.rank for f in self.formations[:3]])
+        return (a+b) / 2.0
+
+
+class FourPackObject(PackObject):
     @property
     def formations(self):
-        return [FormationObject.get(self.common1),
-                FormationObject.get(self.common2),
-                FormationObject.get(self.common3),
-                FormationObject.get(self.rare),
+        return [FormationObject.get(self.common1 & 0x7fff),
+                FormationObject.get(self.common2 & 0x7fff),
+                FormationObject.get(self.common3 & 0x7fff),
+                FormationObject.get(self.rare & 0x7fff),
                 ]
 
+    @cached_property
+    def is_random_encounter(self):
+        for l in LocationObject.every:
+            if not l.get_bit("enable_encounters"):
+                continue
+            if self is l.pack:
+                return True
 
-class TwoPackObject(TableObject):
+        for zpp in ZonePackPackObject.every:
+            if self in zpp.packs:
+                return True
+
+        return False
+
+
+class TwoPackObject(PackObject):
     @property
     def formations(self):
         return [FormationObject.get(self.common),
@@ -205,10 +333,62 @@ class AreaPackObject(TableObject):
 class FormationMetaObject(TableObject): pass
 
 class FormationObject(TableObject):
+    def __repr__(self):
+        s = "FORMATION %x: %s" % (
+            self.index, " ".join(e.name for e in self.enemies))
+        return s
+
+    @cached_property
+    def is_random_encounter(self):
+        for p in FourPackObject.every:
+            if p.is_random_encounter and self in p.formations:
+                return True
+
+        return False
+
     @property
     def metadata(self):
         return FormationMetaObject.get(self.index)
 
+    @property
+    def enemies(self):
+        enemies = []
+        for (i, eid) in enumerate(self.enemy_ids):
+            if eid == 0xFF and not self.enemies_present & (1 << i):
+                continue
+            if self.bossbyte & (1 << i):
+                eid |= 0x100
+            enemies.append(MonsterObject.get(eid))
+        return enemies
+
+    @property
+    def rank(self):
+        enemy_ranks = [e.rank for e in self.enemies if e.rank > 0]
+        if not enemy_ranks:
+            return -1
+        return max(enemy_ranks) * (sum(enemy_ranks)**0.0625)
+
+    @cached_property
+    def two_packs(self):
+        return [p for p in TwoPackObject.every if self in p.formations]
+
+
+class MonsterNameObject(TableObject):
+    @property
+    def name(self):
+        s = ""
+        for c in self.name_text:
+            c = ord(c)
+            if 0x80 <= c <= 0x99:
+                s += chr(ord('A') + c-0x80)
+                pass
+            elif 0x9A <= c <= 0xB3:
+                s += chr(ord('a') + c-0x9A)
+            elif 0xB4 <= c <= 0xBD:
+                s += chr(ord('0') + c-0xB4)
+            else:
+                s += '_'
+        return s
 
 class ItemObject(TableObject): pass
 class EntranceObject(TableObject): pass
@@ -259,6 +439,10 @@ class LocationObject(TableObject):
     @property
     def pack(self):
         return self.area_pack.pack
+
+    def set_enemy_pack(self, pack):
+        self.area_pack.pack_id = pack.index & 0xFF
+        assert self.pack is pack
 
     @property
     def formations(self):
@@ -380,21 +564,21 @@ def execute_fanatix_mode():
         0x6B, 0x01, 0x20, 160, 127, 0x00, 0xFF,     # start at fanatics tower
         0xFE,
         ]
-    f = open(get_outfile(), 'r+b')
-    f.seek(addresses.opening_crawl_pointer)
-    f.write("".join(map(chr, [0xFD]*4)))  # no opening crawl
+    fo = open(get_outfile(), 'r+b')
+    fo.seek(addresses.opening_crawl_pointer)
+    fo.write("".join(map(chr, [0xFD]*4)))  # no opening crawl
     opening_jump_pointer = addresses.opening_jump_pointer
-    f.seek(addresses.opening_pointer)
-    f.write("".join(map(chr,
+    fo.seek(addresses.opening_pointer)
+    fo.write("".join(map(chr,
         [0xB2] + int_to_bytelist(opening_jump_pointer-0xA0000, 3) + [0xFE])))
-    f.seek(opening_jump_pointer)
-    f.write("".join(map(chr, opening_event)))
+    fo.seek(opening_jump_pointer)
+    fo.write("".join(map(chr, opening_event)))
 
     partydict = {}
     removedict, addict = {}, {}
     done_parties = set([])
     NUM_FLOORS = 99
-    #NUM_FLOORS = 49
+    NUM_FLOORS = 49
     #NUM_FLOORS = 2
     next_membit = 1
     LocationObject.class_reseed("prefanatix")
@@ -430,8 +614,8 @@ def execute_fanatix_mode():
         if fanatix_space_pointer is None:
             fanatix_space_pointer = addresses.fanatix_space_pointer
         old_pointer = fanatix_space_pointer
-        f.seek(fanatix_space_pointer)
-        f.write("".join(map(chr, script)))
+        fo.seek(fanatix_space_pointer)
+        fo.write("".join(map(chr, script)))
         fanatix_space_pointer += len(script)
         assert fanatix_space_pointer <= limit
         return old_pointer
@@ -479,7 +663,12 @@ def execute_fanatix_mode():
     esper_floors = random.sample(range(NUM_FLOORS), min(27, NUM_FLOORS))
     esper_floors = dict((b, a) for (a, b) in enumerate(esper_floors))
 
-    colosseum_floor = random.randint(0, NUM_FLOORS-1)
+    if NUM_FLOORS >= 99:
+        colosseum_floors = random.sample(range(NUM_FLOORS), 3)
+    elif NUM_FLOORS >= 29:
+        colosseum_floors = random.sample(range(NUM_FLOORS), 2)
+    else:
+        colosseum_floors = [random.randint(0, NUM_FLOORS-1)]
 
     tower_map = LocationObject.get(0x167)
     tower_base = LocationObject.get(0x16a)
@@ -487,6 +676,68 @@ def execute_fanatix_mode():
     tower_roof = LocationObject.get(0x16c)
     for l in [tower_base, tower_roof]:
         l.set_palette(16)
+
+    LocationObject.class_reseed("prefanatix_monsters")
+    if "BNW" in get_global_label():
+        BANNED_FORMATIONS = [0x162, 0x163, 0x164, 0x1d7, 0x200, 0x201, 0x202]
+    done_monsters = set([])
+    formations = [f for f in FormationObject.every
+                  if f.rank > 0 and f.index not in BANNED_FORMATIONS]
+    boss_formations = [f for f in formations
+                       if f.two_packs and not f.is_random_encounter]
+    extra_formations = [f for f in formations
+                        if f.two_packs and f not in boss_formations]
+    new_formations = []
+    random.shuffle(boss_formations)
+    for f in boss_formations:
+        if set(f.enemies) <= done_monsters:
+            continue
+        new_formations.append(f)
+        done_monsters |= set(f.enemies)
+    extra_formations += [f for f in boss_formations if f not in new_formations]
+    while len(new_formations) < NUM_FLOORS:
+        if extra_formations:
+            f = random.choice(extra_formations)
+            new_formations.append(f)
+        else:
+            new_formations.append(random.choice(new_formations))
+    if len(new_formations) > NUM_FLOORS:
+        new_formations = random.sample(new_formations, NUM_FLOORS)
+    all_formations = [f for f in FormationObject.every
+                      if f in boss_formations + new_formations]
+    all_formations = sorted(all_formations)
+    all_formations = shuffle_normal(
+        all_formations, random_degree=FormationObject.random_degree)
+    boss_formations = [f for f in all_formations if f in new_formations]
+    assert len(boss_formations) == NUM_FLOORS
+
+    boss_packs = []
+    for bf in boss_formations:
+        packs = [p for p in TwoPackObject.every if bf in p.formations]
+        if len(packs) > 1:
+            pack = random.choice(packs)
+        else:
+            pack = packs[0]
+        boss_packs.append(pack)
+
+    packs = [p for p in FourPackObject.every
+             if p.is_random_encounter and p.rank > 0]
+    done_packs = set([])
+    chosen_packs = []
+    highest_threshold = 0
+    for (i, bp) in enumerate(boss_packs):
+        highest_threshold = max(highest_threshold, bp.rank)
+        candidates = [p for p in packs if p.rank <= highest_threshold]
+        temp = [p for p in candidates if p not in done_packs]
+        if temp:
+            candidates = temp
+        max_index = len(candidates)-1
+        index = int(round(max_index * ((i/float(NUM_FLOORS))**0.5)))
+        index = mutate_normal(index, 0, max_index, wide=True,
+                              random_degree=FormationObject.random_degree)
+        chosen = candidates[index]
+        chosen_packs.append(chosen)
+        done_packs.add(chosen)
 
     prev = None
     dummy = ChestObject.create_new()
@@ -550,8 +801,9 @@ def execute_fanatix_mode():
         npc.facing = 0x43
         npc.x, npc.y = 5, 3
         assert len(l.npcs) == 1
+        index = boss_packs[n].index & 0xFF
         script = [
-            #0x4D, 0x00, 0x3F,   # battle
+            0x4D, index, 0x3F,   # battle
             ]
         script += post_boss_command
         script += [
@@ -620,7 +872,7 @@ def execute_fanatix_mode():
         npc.facing = 2
         npc.x, npc.y = 4, 8
 
-        if n == colosseum_floor:
+        if n in colosseum_floors:
             npc_choice = "colosseum"
         else:
             npc_choice = random.choice(["save_point", "inn", "weapon_shop",
@@ -690,7 +942,8 @@ def execute_fanatix_mode():
         npc.set_event_addr(addresses.unequipper_pointer - 0xA0000)
 
         l.name_id, l2.name_id = n+1, n+1
-        l.set_bit("enable_encounters", False)
+        l.set_bit("enable_encounters", True)
+        l.set_enemy_pack(chosen_packs[n])
         l.set_palette(16)
         prev = l
 
@@ -798,18 +1051,18 @@ def execute_fanatix_mode():
         0xB2] + int_to_bytelist(addresses.ending_pointer-0xA0000, 3) + [
         0xFE,
         ]
-    f.seek(addresses.final_pointer)
-    f.write("".join(map(chr, script)))
+    fo.seek(addresses.final_pointer)
+    fo.write("".join(map(chr, script)))
 
     if "BNW" in get_global_label():
         DialoguePtrObject.bring_back_auction_prices()
-        f.seek(addresses.cheatproof_addr)
-        f.write("".join(map(chr,
+        fo.seek(addresses.cheatproof_addr)
+        fo.write("".join(map(chr,
             [0xB2] + int_to_bytelist(addresses.final_pointer-0xA0000, 3))))
 
     tower_roof.set_bit("enable_encounters", False)
 
-    f.close()
+    fo.close()
 
 
 if __name__ == "__main__":

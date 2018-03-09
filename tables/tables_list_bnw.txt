@@ -18,6 +18,7 @@ AreaPackObject      area_pack_table.txt         f5600   414
 ZoneRateObject      zone_rate_table.txt         f5800   128
 FormationMetaObject formation_meta_table.txt    f5900   576
 FormationObject     formation_table.txt         f6200   576
+MonsterNameObject   monster_name_table.txt      fc050   384
 ItemObject          item_table.txt              185000  255
 EntranceObject      entrance_table.txt          1fbb00  414 pointed 1fbb00  2
 LocNamePtrObject    loc_name_ptr_table.txt      268400  448
@@ -41,5 +42,6 @@ $opening_pointer        c9a4f
 $opening_jump_pointer   c9b1d
 $location_names         ef100
 $location_names_max     ef600
+$ai_scripts_address     f8700
 
 $cheatproof_addr        cff61
