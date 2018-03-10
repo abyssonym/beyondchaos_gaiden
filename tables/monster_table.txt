@@ -11,9 +11,9 @@ mp,2
 xp,2
 gp,2
 level,1
-morph,1
-misc1,1
-misc2,1
+morph_id,1
+misc1,bit:dies_zero_mp m11 m12 m13 is_humanoid m15 m16 is_undead
+misc2,bit:is_difficult_to_run m21 m22 is_inescapable cant_be_scanned m25 m26 m27
 immunities,3
 absorb,1
 null,1

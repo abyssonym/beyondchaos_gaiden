@@ -3,6 +3,7 @@ CharPaletteObject   char_palette_table.txt      2ce2b   14
 EventObject         event_table.txt             40000   414 pointed 40000   2
 NpcObject           npc_table.txt               41a10   414 pointed 41a10   2
 ShopObject          shop_table.txt              47ac0   86
+MetamorphObject     metamorph_table.txt         47f40   32
 # BNW uses some of the dialogue pointers for event code
 DialoguePtrObject   dialogue_ptr_table.txt      ce602   3075
 MonsterObject       monster_table.txt           f0000   384
@@ -19,7 +20,9 @@ ZoneRateObject      zone_rate_table.txt         f5800   128
 FormationMetaObject formation_meta_table.txt    f5900   576
 FormationObject     formation_table.txt         f6200   576
 MonsterNameObject   monster_name_table.txt      fc050   384
+ItemNameObject      item_name_table.txt         12b300  255
 ItemObject          item_table.txt              185000  255
+ColosseumObject     colosseum_table.txt         1fb600  255
 EntranceObject      entrance_table.txt          1fbb00  414 pointed 1fbb00  2
 LocNamePtrObject    loc_name_ptr_table.txt      268400  448
 ChestObject         chest_table.txt             2d82f4  414 pointed 2d8634  2

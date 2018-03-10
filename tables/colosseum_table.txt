@@ -1,0 +1,4 @@
+opponent_id,1
+sixtyfour,1
+trade_id,1
+hidden,1

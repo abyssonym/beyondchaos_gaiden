@@ -42,6 +42,22 @@ price_message_indexes = {
     }
 
 
+def to_ascii(text):
+    s = ""
+    for c in text:
+        c = ord(c)
+        if 0x80 <= c <= 0x99:
+            s += chr(ord('A') + c-0x80)
+            pass
+        elif 0x9A <= c <= 0xB3:
+            s += chr(ord('a') + c-0x9A)
+        elif 0xB4 <= c <= 0xBD:
+            s += chr(ord('0') + c-0xB4)
+        else:
+            s += '_'
+    return s
+
+
 def int_to_bytelist(value, length):
     value_list = []
     for _ in xrange(length):
@@ -129,6 +145,18 @@ class ShopObject(TableObject):
         return max(i.price for i in self.items)
 
 
+class MetamorphObject(TableObject):
+    def __repr__(self):
+        s = "MORPH %x\n" % self.index
+        for i in self.items:
+            s += str(i.name) + "\n"
+        return s.strip()
+
+    @property
+    def items(self):
+        return [ItemObject.get(i) for i in self.item_ids if i <= 0xFE]
+
+
 class DialoguePtrObject(TableObject):
     @classmethod
     def bring_back_auction_prices(cls):
@@ -183,6 +211,21 @@ class MonsterObject(TableObject):
         return self.ai.pretty_ai_script
 
     @property
+    def metamorph(self):
+        return MetamorphObject.get(self.morph_id & 0x1F)
+
+    @property
+    def old_morphrate(self):
+        return self.old_data['morph_id'] >> 5
+
+    @cached_property
+    def is_farmable(self):
+        for f in FormationObject.every:
+            if f.is_random_encounter and self.index in f.old_data['enemy_ids']:
+                return True
+        return False
+
+    @property
     def rank(self):
         if hasattr(self, "_rank"):
             return self._rank
@@ -207,7 +250,15 @@ class MonsterObject(TableObject):
                 m._rank = -1
         return self.rank
 
-class MonsterLootObject(TableObject): pass
+class MonsterLootObject(TableObject):
+    @property
+    def monster(self):
+        return MonsterObject.get(self.index)
+
+    @property
+    def is_farmable(self):
+        return self.monster.is_farmable
+
 class MonsterCtrlObject(TableObject): pass
 class MonsterSketchObject(TableObject): pass
 class MonsterRageObject(TableObject): pass
@@ -277,6 +328,15 @@ class PackObject(TableObject):
         b = max([f.rank for f in self.formations[:3]])
         return (a+b) / 2.0
 
+    @cached_property
+    def old_formation_ids(self):
+        formation_ids = []
+        for attr in ["common", "common1", "common2", "common3", "rare"]:
+            if hasattr(self, attr):
+                formation_ids.append(self.old_data[attr])
+        assert len(formation_ids) in [2, 4]
+        return formation_ids
+
 
 class FourPackObject(PackObject):
     @property
@@ -292,11 +352,11 @@ class FourPackObject(PackObject):
         for l in LocationObject.every:
             if not l.get_bit("enable_encounters"):
                 continue
-            if self is l.pack:
+            if self.index == l.area_pack.old_data['pack_id']:
                 return True
 
         for zpp in ZonePackPackObject.every:
-            if self in zpp.packs:
+            if self.index in zpp.old_data['pack_ids']:
                 return True
 
         return False
@@ -341,25 +401,50 @@ class FormationObject(TableObject):
     @cached_property
     def is_random_encounter(self):
         for p in FourPackObject.every:
-            if p.is_random_encounter and self in p.formations:
+            if (p.is_random_encounter
+                    and self.index in p.old_formation_ids):
                 return True
-
         return False
+
+    @cached_property
+    def is_inescapable(self):
+        for e in self.enemies:
+            if e.get_bit("is_inescapable"):
+                return True
 
     @property
     def metadata(self):
         return FormationMetaObject.get(self.index)
 
     @property
-    def enemies(self):
-        enemies = []
+    def true_enemy_ids(self):
+        eids = []
         for (i, eid) in enumerate(self.enemy_ids):
             if eid == 0xFF and not self.enemies_present & (1 << i):
                 continue
             if self.bossbyte & (1 << i):
                 eid |= 0x100
-            enemies.append(MonsterObject.get(eid))
-        return enemies
+            eids.append(eid)
+        return eids
+
+    @cached_property
+    def old_true_enemy_ids(self):
+        eids = []
+        for (i, eid) in enumerate(self.old_data['enemy_ids']):
+            if eid == 0xFF and not self.old_data['enemies_present'] & (1 << i):
+                continue
+            if self.old_data['bossbyte'] & (1 << i):
+                eid |= 0x100
+            eids.append(eid)
+        return eids
+
+    @property
+    def enemies(self):
+        return [MonsterObject.get(eid) for eid in self.true_enemy_ids]
+
+    @cached_property
+    def old_enemies(self):
+        return [MonsterObject.get(eid) for eid in self.old_true_enemy_ids]
 
     @property
     def rank(self):
@@ -376,21 +461,175 @@ class FormationObject(TableObject):
 class MonsterNameObject(TableObject):
     @property
     def name(self):
-        s = ""
-        for c in self.name_text:
-            c = ord(c)
-            if 0x80 <= c <= 0x99:
-                s += chr(ord('A') + c-0x80)
-                pass
-            elif 0x9A <= c <= 0xB3:
-                s += chr(ord('a') + c-0x9A)
-            elif 0xB4 <= c <= 0xBD:
-                s += chr(ord('0') + c-0xB4)
-            else:
-                s += '_'
-        return s
+        return to_ascii(self.name_text)
 
-class ItemObject(TableObject): pass
+class ItemNameObject(TableObject):
+    @property
+    def name(self):
+        return to_ascii(self.name_text)
+
+class ItemObject(TableObject):
+    @property
+    def name(self):
+        return ItemNameObject.get(self.index).name
+
+    @property
+    def is_legit(self):
+        if "BNW" in get_global_label():
+            return set(self.name) != {'_'}
+        return True
+
+    @property
+    def rank(self):
+        if hasattr(self, "_rank"):
+            return self._rank
+
+        ItemObject.class_reseed("ranking")
+
+        # TODO: also consider morphs?
+        tier0 = [i for i in ItemObject.every if i.is_buyable]
+        tier0 = sorted(tier0, key=lambda i: (i.is_buyable, random.random()))
+        tier1 = [i for i in ItemObject.every
+                 if i.is_farmable and i not in tier0]
+        tier1 = sorted(tier1, key=lambda i: (i.is_farmable, random.random()))
+        tier2b = [i for i in ItemObject.every
+                  if i.is_boss_loot and i not in tier0 + tier1]
+        tier2b = sorted(tier2b,
+                        key=lambda i: (i.is_boss_loot, random.random()))
+        tier2c = [i for i in ItemObject.every
+                  if i.is_chest and i not in tier0 + tier1]
+        tier2c = sorted(tier2c, key=lambda i: (i.is_chest, random.random()),
+                        reverse=True)
+        tier2 = [i for i in ItemObject.every
+                 if i in tier2b and i in tier2c]
+        tier2 = sorted(
+            tier2, key=lambda i: min(
+                tier2b.index(i), tier2c.index(i), random.random()))
+        tier3 = [i for i in ItemObject.every
+                 if i in tier2b + tier2c and i not in tier2]
+
+        def t3_sorter(i):
+            mylist = tier2b if i in tier2b else tier2c
+            return (mylist.index(i) / float(len(mylist)-1), random.random())
+
+        tier3 = sorted(tier3, key=t3_sorter)
+        tier4 = [i for i in ItemObject.every if i.is_legit and
+                 i not in tier0 + tier1 + tier2 + tier3]
+        full_list = tier0 + tier1 + tier2 + tier3 + tier4
+        assert len(full_list) == len(set(full_list))
+        full_list = [i for i in full_list if i.is_legit]
+
+        for i in full_list:
+            i._rank_no_colosseum = full_list.index(i)
+
+        for i in full_list:
+            i._rank = i._rank_no_colosseum
+            if i.is_colosseum:
+                colosseum_rank = min(i2._rank_no_colosseum
+                                     for i2 in i.is_colosseum)
+                if colosseum_rank + 0.1 < i._rank_no_colosseum:
+                    i._rank = colosseum_rank + 0.1
+
+        full_list = sorted(full_list, key=lambda i: (i._rank, random.random()))
+        for i in full_list:
+            i._rank = full_list.index(i)
+
+        for i in ItemObject.every:
+            if not hasattr(i, "_rank"):
+                i._rank = -1
+
+        return self.rank
+
+    @cached_property
+    def is_buyable(self):
+        for s in ShopObject.every:
+            if self.index in s.old_data['item_ids']:
+                return self.price
+        return 0
+
+    @cached_property
+    def is_farmable(self):
+        mls = []
+        for ml in MonsterLootObject.every:
+            if (ml.is_farmable and self.index in ml.old_data['steal_item_ids']
+                    + ml.old_data['drop_item_ids']):
+                mls.append(ml)
+        if mls:
+            return min([ml.monster.rank for ml in mls])
+        return 0
+
+    @cached_property
+    def is_boss_loot(self):
+        mls = []
+        for ml in MonsterLootObject.every:
+            if (not ml.is_farmable and
+                    self.index in ml.old_data['steal_item_ids']
+                    + ml.old_data['drop_item_ids']):
+                mls.append(ml)
+        if mls:
+            return min([ml.monster.rank for ml in mls])
+        return 0
+
+    @cached_property
+    def is_chest(self):
+        cs = []
+        for c in ChestObject.every:
+            if self is c.old_treasure:
+                cs.append(c)
+        for c in CharacterObject.every[:14]:
+            if self in c.old_initial_equipment:
+                cs.append(c)
+        return len(cs)
+
+    @property
+    def is_colosseum(self):
+        if hasattr(self, "_is_colosseum"):
+            return self._is_colosseum
+
+        for i in ItemObject.every:
+            i._is_colosseum = set([])
+
+        for c in ColosseumObject.every:
+            if c.is_legit:
+                c.trade._is_colosseum.add(c.item)
+
+        while True:
+            finished = True
+            for i in ItemObject.every:
+                for i2 in list(i._is_colosseum):
+                    if i2._is_colosseum - i._is_colosseum:
+                        i._is_colosseum |= i2._is_colosseum
+                        finished = False
+            if finished:
+                break
+
+        return self.is_colosseum
+
+
+class ColosseumObject(TableObject):
+    def __repr__(self):
+        return "%s -> %s : %s" % (
+            self.item.name, self.trade.name, self.opponent.name)
+
+    @property
+    def is_legit(self):
+        if "JP" not in get_global_label():
+            return "chupon" not in str(self).lower()
+        raise NotImplementedError
+
+    @property
+    def opponent(self):
+        return MonsterObject.get(self.opponent_id)
+
+    @property
+    def item(self):
+        return ItemObject.get(self.index)
+
+    @property
+    def trade(self):
+        return ItemObject.get(self.trade_id)
+
+
 class EntranceObject(TableObject): pass
 class LocNamePtrObject(TableObject): pass
 
@@ -409,6 +648,20 @@ class ChestObject(TableObject):
         else:
             self.set_bit("memid_high", False)
         self.memid_low = index & 0xFF
+
+    @cached_property
+    def old_treasure(self):
+        if self.old_data['misc'] & 0x40:
+            return ItemObject.get(self.old_data['contents'])
+        return None
+
+    def set_contents(self, item):
+        if isinstance(item, ItemObject):
+            self.set_bit("treasure", True)
+            item = item.index
+        elif isinstance(item, FormationObject):
+            raise NotImplementedError
+        self.contents = item
 
 
 class LocationObject(TableObject):
@@ -465,10 +718,19 @@ class LocationObject(TableObject):
 class LongEntranceObject(TableObject): pass
 
 class CharacterObject(TableObject):
+    @property
+    def old_initial_equipment_ids(self):
+        return ([self.old_data[attr]
+                 for attr in ["weapon", "shield", "helm", "armor"]]
+                + self.old_data["relics"])
+
+    @property
+    def old_initial_equipment(self):
+        return [ItemObject.get(i)
+                for i in self.old_initial_equipment_ids if i <= 0xFE]
+
     def cleanup(self):
         self.level = 0
-        self.relics = [0xDE, 0xE6]
-        self.relics = [0xFF, 0xE6]
 
 
 def number_location_names():
@@ -560,7 +822,7 @@ def execute_fanatix_mode():
     opening_event += [
         0x3D, 0x00,
         0x3F, 0x00, 0x01,                           # start with terra
-        0x84, 0xFF, 0xFF,                           # starting gil
+        0x84, 0xB8, 0xBB,                           # starting gil
         0x6B, 0x01, 0x20, 160, 127, 0x00, 0xFF,     # start at fanatics tower
         0xFE,
         ]
@@ -679,7 +941,12 @@ def execute_fanatix_mode():
 
     LocationObject.class_reseed("prefanatix_monsters")
     if "BNW" in get_global_label():
-        BANNED_FORMATIONS = [0x162, 0x163, 0x164, 0x1d7, 0x200, 0x201, 0x202]
+        TRIAD = [0x162, 0x164, 0x163]
+        BANNED_FORMATIONS = TRIAD + [0x1d7, 0x200, 0x201, 0x202]
+    else:
+        TRIAD = [0x1d4, 0x1d6, 0x1d5]  # Doom, Poltrgeist, Goddess
+        BANNED_FORMATIONS = TRIAD + [
+            0x1c5, 0x1ca, 0x1d7, 0x1fa, 0x200, 0x201, 0x202, 0x20e, 0x232]
     done_monsters = set([])
     formations = [f for f in FormationObject.every
                   if f.rank > 0 and f.index not in BANNED_FORMATIONS]
@@ -687,6 +954,9 @@ def execute_fanatix_mode():
                        if f.two_packs and not f.is_random_encounter]
     extra_formations = [f for f in formations
                         if f.two_packs and f not in boss_formations]
+    extra_formations += [f for f in formations
+                         if f.is_random_encounter and f.is_inescapable
+                         and f not in boss_formations + extra_formations]
     new_formations = []
     random.shuffle(boss_formations)
     for f in boss_formations:
@@ -728,6 +998,8 @@ def execute_fanatix_mode():
     for (i, bp) in enumerate(boss_packs):
         highest_threshold = max(highest_threshold, bp.rank)
         candidates = [p for p in packs if p.rank <= highest_threshold]
+        if not candidates:
+            candidates = sorted(packs[:2])
         temp = [p for p in candidates if p not in done_packs]
         if temp:
             candidates = temp
@@ -738,6 +1010,17 @@ def execute_fanatix_mode():
         chosen = candidates[index]
         chosen_packs.append(chosen)
         done_packs.add(chosen)
+
+    LocationObject.class_reseed("prefanatix_chests")
+    items = [i for i in ItemObject.ranked if i.rank > 0]
+    chosen_items = [i for i in items if not i.is_buyable]
+    if len(chosen_items) > NUM_FLOORS:
+        chosen_items = random.sample(chosen_items, NUM_FLOORS)
+    items = shuffle_normal(items, random_degree=ChestObject.random_degree)
+    chosen_items = sorted(chosen_items, key=lambda i: items.index(i))
+    while len(chosen_items) < NUM_FLOORS:
+        i = random.choice(items)
+        chosen_items.insert(random.randint(0, len(chosen_items)), i)
 
     prev = None
     dummy = ChestObject.create_new()
@@ -842,8 +1125,7 @@ def execute_fanatix_mode():
         c.groupindex = l2.index
         c.x, c.y = 7, 6
         c.set_memid(n+1)
-        c.set_bit("treasure", True)
-        c.contents = 0
+        c.set_contents(chosen_items[n])
 
         ratio = min(n / float(NUM_FLOORS-1), 1.0)
         index = int(round((len(price_message_indexes.keys())-1) * ratio))
