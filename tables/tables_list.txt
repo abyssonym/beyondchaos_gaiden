@@ -23,6 +23,7 @@ ItemObject          item_table.txt              185000  255
 ColosseumObject     colosseum_table.txt         1fb600  255
 EntranceObject      entrance_table.txt          1fbb00  414 pointed 1fbb00  2
 LocNamePtrObject    loc_name_ptr_table.txt      268400  448
+ExperienceObject    experience_table.txt        2d8220  98
 ChestObject         chest_table.txt             2d82f4  414 pointed 2d8634  2
 LocationObject      location_table.txt          2d8f00  414
 CharacterObject     character_table.txt         2d7ca0  44

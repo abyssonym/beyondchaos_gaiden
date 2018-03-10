@@ -639,6 +639,12 @@ class ColosseumObject(TableObject):
 
 
 class EntranceObject(TableObject): pass
+
+class ExperienceObject(TableObject):
+    def cleanup(self):
+        if "fanatix" in get_activated_codes():
+            self.experience /= 2
+
 class LocNamePtrObject(TableObject): pass
 
 class ChestObject(TableObject):
@@ -739,7 +745,12 @@ class CharacterObject(TableObject):
 
     def cleanup(self):
         if "fanatix" in get_activated_codes():
-            self.level = 0
+            self.level &= 0xF3
+            if self.index == 0x0E:
+                self.level |= 0x08
+                self.relics = [0xFF, 0xFF]
+                for attr in ["weapon", "shield", "helm", "armor"]:
+                    setattr(self, attr, 0xFF)
 
 
 def number_location_names():
@@ -831,9 +842,16 @@ def execute_fanatix_mode():
             ]
 
     opening_event += [
+        0x7F, 0x0E, 0x0E,   # banon
+        0x37, 0x0E, 0x11,
+        0x43, 0x0E, 0x03,
+        0x40, 0x0E, 0x0E,
+        ]
+
+    opening_event += [
         0x3D, 0x00,
         0x3F, 0x00, 0x01,                           # start with terra
-        0x84, 0xB8, 0xBB,                           # starting gil
+        0x84, 0xB8, 0x0B,                           # starting gil
         0x6B, 0x01, 0x20, 160, 127, 0x00, 0xFF,     # start at fanatics tower
         0xFE,
         ]
@@ -851,7 +869,7 @@ def execute_fanatix_mode():
     removedict, addict = {}, {}
     done_parties = set([])
     NUM_FLOORS = 99
-    NUM_FLOORS = 49
+    #NUM_FLOORS = 49
     #NUM_FLOORS = 2
     next_membit = 1
     LocationObject.class_reseed("prefanatix")
@@ -868,8 +886,15 @@ def execute_fanatix_mode():
                 if n >= 2:
                     oldchars = [c for c in oldchars if c in partydict[n-2]]
                     newchars = [c for c in newchars if c not in partydict[n-2]]
-                newchar = random.choice(newchars)
-                oldchar = random.choice(oldchars)
+                if (0xE not in party and n < NUM_FLOORS-1
+                        and random.randint(1, 20) == 20):
+                    newchar = 0xE  # banon
+                else:
+                    newchar = random.choice(newchars)
+                if 0xE in party:
+                    oldchar = 0xE
+                else:
+                    oldchar = random.choice(oldchars)
                 newparty.remove(oldchar)
                 newparty.append(newchar)
                 newparty = tuple(sorted(newparty))
@@ -895,7 +920,7 @@ def execute_fanatix_mode():
 
     clear_party_script = []
     clear_party_script += [0x46, 0x01]
-    for i in xrange(14):
+    for i in xrange(15):
         clear_party_script += [0x3E, i]
         clear_party_script += [0x3F, i, 0x00]
     clear_party_script += [0xFE]
@@ -960,11 +985,10 @@ def execute_fanatix_mode():
             0x1c5, 0x1ca, 0x1d7, 0x1fa, 0x200, 0x201, 0x202, 0x20e, 0x232]
     done_monsters = set([])
     formations = [f for f in FormationObject.every
-                  if f.rank > 0 and f.index not in BANNED_FORMATIONS]
-    boss_formations = [f for f in formations
-                       if f.two_packs and not f.is_random_encounter]
-    extra_formations = [f for f in formations
-                        if f.two_packs and f not in boss_formations]
+                  if f.two_packs and f.rank > 0
+                  and f.index not in BANNED_FORMATIONS]
+    boss_formations = [f for f in formations if not f.is_random_encounter]
+    extra_formations = [f for f in formations if f not in boss_formations]
     extra_formations += [f for f in formations
                          if f.is_random_encounter and f.is_inescapable
                          and f not in boss_formations + extra_formations]
@@ -976,6 +1000,7 @@ def execute_fanatix_mode():
         new_formations.append(f)
         done_monsters |= set(f.enemies)
     extra_formations += [f for f in boss_formations if f not in new_formations]
+    assert not set(extra_formations) & set(new_formations)
     while len(new_formations) < NUM_FLOORS:
         if extra_formations:
             f = random.choice(extra_formations)
@@ -988,8 +1013,9 @@ def execute_fanatix_mode():
                       if f in boss_formations + new_formations]
     all_formations = sorted(all_formations)
     all_formations = shuffle_normal(
-        all_formations, random_degree=FormationObject.random_degree)
-    boss_formations = [f for f in all_formations if f in new_formations]
+        all_formations, random_degree=FormationObject.random_degree**1.5)
+    boss_formations = sorted(
+            new_formations, key=lambda f: all_formations.index(f))
     assert len(boss_formations) == NUM_FLOORS
 
     boss_packs = []
@@ -1064,20 +1090,32 @@ def execute_fanatix_mode():
             script += [0x3D, i]
         if n in removedict:
             script += [0x3D, removedict[n]]
+            locked |= (1 << removedict[n])
             assert removedict[n] not in partydict[n]
+            if removedict[n] == 0x0E:
+                script += [0x8D, 0x0E]
 
-        for i in sorted(to_lock):
-            if i == addict[n]:
-                continue
-            script += [0x3F, i, 0x01]
-            locked |= (1 << i)
+        if 0x0E in partydict[n]:
+            script += [
+                0x88, 0x0E, 0x00, 0x00,     # remove status from banon
+                0x40, 0x0E, 0x0E,           # relevel banon
+                0x3F, 0x0E, 0x01,
+                #0x9C, 0x0E,
+                ]
+            locked |= (1 << 0x0E)
+        else:
+            for i in sorted(to_lock):
+                if i == addict[n]:
+                    continue
+                script += [0x3F, i, 0x01]
+                locked |= (1 << i)
 
-        for i in sorted(partydict[n]):
-            if i in to_lock or i == addict[n]:
-                continue
-            script += [0x3F, i, 0x01]
+            for i in sorted(partydict[n]):
+                if i in to_lock or i == addict[n]:
+                    continue
+                script += [0x3F, i, 0x01]
 
-        for i in xrange(14):
+        for i in xrange(15):
             if i not in partydict[n]:
                 locked |= (1 << i)
 
@@ -1352,6 +1390,15 @@ def execute_fanatix_mode():
         fo.seek(addresses.cheatproof_addr)
         fo.write("".join(map(chr,
             [0xB2] + int_to_bytelist(addresses.final_pointer-0xA0000, 3))))
+
+        fo.seek(0x31e6e)
+        fo.write("\xc9\x0f")
+        fo.seek(0x31e83)
+        fo.write("\xc9\x0f")
+        for i in ItemObject.every:
+            if 1 <= i.itemtype & 0x7 <= 5:
+                i.equippable |= 0xC000
+
 
     tower_roof.set_bit("enable_encounters", False)
 
