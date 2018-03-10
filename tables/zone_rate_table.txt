@@ -1,1 +1,1 @@
-encounter_rate,4
+encounter_rates,1

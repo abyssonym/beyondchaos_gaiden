@@ -390,6 +390,14 @@ class AreaPackObject(TableObject):
         return self.pack.formations
 
 
+class ZoneRateObject(TableObject):
+    # first 128: 64 WoB 4x4 packs 64 WoR 4x4 packs
+    # latter 104: 4 locations per zro, 2 bits per location
+    def cleanup(self):
+        if "fanatix" in get_activated_codes():
+            self.encounter_rates = 0
+
+
 class FormationMetaObject(TableObject): pass
 
 class FormationObject(TableObject):
@@ -730,7 +738,8 @@ class CharacterObject(TableObject):
                 for i in self.old_initial_equipment_ids if i <= 0xFE]
 
     def cleanup(self):
-        self.level = 0
+        if "fanatix" in get_activated_codes():
+            self.level = 0
 
 
 def number_location_names():
@@ -754,6 +763,8 @@ fanatix_space_pointer = None
 
 
 def execute_fanatix_mode():
+    print "FANATIX MODE ACTIVATED"
+
     for i in xrange(32):
         InitialMembitObject.get(i).membyte = 0xFF
 
@@ -1358,10 +1369,12 @@ if __name__ == "__main__":
                        and g not in [TableObject]]
 
         codes = {
+            "fanatix": ["fanatix"],
         }
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
-        execute_fanatix_mode()
+        if "fanatix" in get_activated_codes():
+            execute_fanatix_mode()
 
         hexify = lambda x: "{0:0>2}".format("%x" % x)
         numify = lambda x: "{0: >3}".format(x)

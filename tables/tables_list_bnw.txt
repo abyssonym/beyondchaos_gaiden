@@ -16,7 +16,7 @@ FourPackObject      four_pack_table.txt         f4800   256
 TwoPackObject       two_pack_table.txt          f5000   256
 ZonePackPackObject  zone_pack_pack_table.txt    f5400   128
 AreaPackObject      area_pack_table.txt         f5600   414
-ZoneRateObject      zone_rate_table.txt         f5800   128
+ZoneRateObject      zone_rate_table.txt         f5800   232
 FormationMetaObject formation_meta_table.txt    f5900   576
 FormationObject     formation_table.txt         f6200   576
 MonsterNameObject   monster_name_table.txt      fc050   384

@@ -1,4 +1,4 @@
-misc1,1
-misc2,1
+misc0,bit:m00 m01 m02 m03 disable_normal disable_back disable_pincer disable_side
+misc1,bit:disable_fanfare m11 m12 m13 m14 m15 m16 enable_event_script
 eventscript,1
-misc3,1
+music_misc,bit:mm0 mm1 show_attack_windows music3 music4 music5 mm6 continue_current_music
