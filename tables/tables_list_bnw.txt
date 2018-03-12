@@ -1,5 +1,6 @@
 InitialMembitObject initial_membit_table.txt    e0a0    128
 CharPaletteObject   char_palette_table.txt      2ce2b   14
+CharEsperObject     char_esper_table.txt        3f0f5   12
 EventObject         event_table.txt             40000   414 pointed 40000   2
 NpcObject           npc_table.txt               41a10   414 pointed 41a10   2
 ShopObject          shop_table.txt              47ac0   86

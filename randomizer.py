@@ -69,6 +69,24 @@ def int_to_bytelist(value, length):
 
 class InitialMembitObject(TableObject): pass
 class CharPaletteObject(TableObject): pass
+
+class CharEsperObject(TableObject):
+    @classproperty
+    def esper_names(cls):
+        return ["Ramuh", "Ifrit", "Shiva", "Siren", "Terrato", "Shoat",
+                "Maduin", "Bismark", "Stray", "Palador", "Tritoch", "Odin",
+                "Raiden", "Bahamut", "Alexandr", "Crusader", "Ragnarok",
+                "Kirin", "ZoneSeek", "Carbunkl", "Phantom", "Sraphim", "Golem",
+                "Unicorn", "Fenrir", "Starlet", "Phoenix"]
+
+    def __repr__(self):
+        s = ""
+        for i in xrange(27):
+            if self.allocations & (1 << i):
+                s += " " + self.esper_names[i]
+        return "%x: %s" % (self.index, s.strip())
+
+
 class EventObject(TableObject): pass
 
 class NpcObject(TableObject):
@@ -218,6 +236,11 @@ class MonsterObject(TableObject):
     def old_morphrate(self):
         return self.old_data['morph_id'] >> 5
 
+    @property
+    def loot(self):
+        ml = MonsterLootObject.get(self.index)
+        return ml.loot
+
     @cached_property
     def is_farmable(self):
         for f in FormationObject.every:
@@ -230,6 +253,7 @@ class MonsterObject(TableObject):
         if hasattr(self, "_rank"):
             return self._rank
 
+        MonsterObject.class_reseed("ranking")
         monsters = list(MonsterObject.every)
         monsters = [m for m in monsters if m.old_data['level'] > 0
                     and m.old_data['hp'] < 65535
@@ -258,6 +282,11 @@ class MonsterLootObject(TableObject):
     @property
     def is_farmable(self):
         return self.monster.is_farmable
+
+    @property
+    def loot(self):
+        return [ItemObject.get(i)
+                for i in self.steal_item_ids + self.drop_item_ids if i < 0xFF]
 
 class MonsterCtrlObject(TableObject): pass
 class MonsterSketchObject(TableObject): pass
@@ -494,6 +523,11 @@ class ItemObject(TableObject):
 
         ItemObject.class_reseed("ranking")
 
+        if "BNW" in get_global_label():
+            BANNED_INDEXES = [0x10]  # Narpas
+        else:
+            BANNED_INDEXES = []
+
         # TODO: also consider morphs?
         tier0 = [i for i in ItemObject.every if i.is_buyable]
         tier0 = sorted(tier0, key=lambda i: (i.is_buyable, random.random()))
@@ -535,7 +569,7 @@ class ItemObject(TableObject):
             if i.is_colosseum:
                 colosseum_rank = min(i2._rank_no_colosseum
                                      for i2 in i.is_colosseum)
-                if colosseum_rank + 0.1 < i._rank_no_colosseum:
+                if 0 < colosseum_rank + 0.1 < i._rank_no_colosseum:
                     i._rank = colosseum_rank + 0.1
 
         full_list = sorted(full_list, key=lambda i: (i._rank, random.random()))
@@ -543,7 +577,7 @@ class ItemObject(TableObject):
             i._rank = full_list.index(i)
 
         for i in ItemObject.every:
-            if not hasattr(i, "_rank"):
+            if i.index in BANNED_INDEXES or not hasattr(i, "_rank"):
                 i._rank = -1
 
         return self.rank
@@ -779,10 +813,12 @@ def execute_fanatix_mode():
     for i in xrange(32):
         InitialMembitObject.get(i).membyte = 0xFF
 
+    BANNED_BBGS = [
+        0x07, 0x0D, 0x25, 0x29, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36]
     BANNED_MAPS = [
         0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x07, 0x0B, 0x0C, 0x0D,
         0x11, 0x14, 0x15, 0x22, 0x2f, 0x37, 0x40, 0x4b, 0x50, 0x53, 0x5b,
-        0x75, 0x7b, 0x7d, 0x7e, 0x7f,
+        0x60, 0x75, 0x7b, 0x7d, 0x7e, 0x7f,
         0x81, 0x82, 0x88, 0x89, 0x8c, 0x8f,
         0x90, 0x92, 0x99, 0x9c, 0x9d, 0xa9,
         0xb6, 0xb7, 0xb8, 0xbd, 0xbe,
@@ -840,6 +876,9 @@ def execute_fanatix_mode():
             0xD4, 0xE0+i,
             0xD4, 0xF0+i,
             ]
+
+    #for i in xrange(27):   # espers
+    #    opening_event += [0x86, i + 0x36,]
 
     opening_event += [
         0x7F, 0x0E, 0x0E,   # banon
@@ -958,9 +997,11 @@ def execute_fanatix_mode():
 
     done_pay_inns = {}
 
+    LocationObject.class_reseed("prefanatix_espers")
     esper_floors = random.sample(range(NUM_FLOORS), min(27, NUM_FLOORS))
     esper_floors = dict((b, a) for (a, b) in enumerate(esper_floors))
 
+    LocationObject.class_reseed("prefanatix_colosseum")
     if NUM_FLOORS >= 99:
         colosseum_floors = random.sample(range(NUM_FLOORS), 3)
     elif NUM_FLOORS >= 29:
@@ -968,6 +1009,7 @@ def execute_fanatix_mode():
     else:
         colosseum_floors = [random.randint(0, NUM_FLOORS-1)]
 
+    LocationObject.class_reseed("prefanatix_bbgs")
     tower_map = LocationObject.get(0x167)
     tower_base = LocationObject.get(0x16a)
     tower_treasure_room = LocationObject.get(0x16d)
@@ -975,10 +1017,21 @@ def execute_fanatix_mode():
     for l in [tower_base, tower_roof]:
         l.set_palette(16)
 
+    candidates = [bbg for bbg in range(0x38) if bbg not in BANNED_BBGS]
+    bbgs = []
+    while len(bbgs) < NUM_FLOORS-1:
+        remaining = (NUM_FLOORS-1) - len(bbgs)
+        if remaining >= len(candidates):
+            bbgs += candidates
+        else:
+            bbgs += random.sample(candidates, remaining)
+    random.shuffle(bbgs)
+    bbgs = [0x2D] + bbgs
+
     LocationObject.class_reseed("prefanatix_monsters")
     if "BNW" in get_global_label():
         TRIAD = [0x162, 0x164, 0x163]
-        BANNED_FORMATIONS = TRIAD + [0x1d7, 0x200, 0x201, 0x202]
+        BANNED_FORMATIONS = TRIAD + [0x142, 0x1d7, 0x200, 0x201, 0x202]
     else:
         TRIAD = [0x1d4, 0x1d6, 0x1d5]  # Doom, Poltrgeist, Goddess
         BANNED_FORMATIONS = TRIAD + [
@@ -1276,6 +1329,7 @@ def execute_fanatix_mode():
         l.set_bit("enable_encounters", True)
         l.set_enemy_pack(chosen_packs[n])
         l.set_palette(16)
+        l.battlebg = bbgs[n]
         prev = l
 
     # top section
