@@ -1,6 +1,6 @@
 from randomtools.tablereader import (
     TableObject, get_global_label, tblpath, addresses, get_random_degree,
-    mutate_normal, shuffle_normal)
+    mutate_normal, shuffle_normal, write_patch)
 from randomtools.utils import (
     classproperty, cached_property, get_snes_palette_transformer,
     read_multi, write_multi, utilrandom as random)
@@ -517,6 +517,16 @@ class ItemObject(TableObject):
         return True
 
     @property
+    def pretty_type(self):
+        return {0: "tool",
+                1: "weapon",
+                2: "armor",
+                3: "shield",
+                4: "helm",
+                5: "relic",
+                6: "consumable"}[self.itemtype & 0x7]
+
+    @property
     def rank(self):
         if hasattr(self, "_rank"):
             return self._rank
@@ -784,6 +794,18 @@ class CharacterObject(TableObject):
                 self.level |= 0x08
                 self.relics = [0xFF, 0xFF]
                 for attr in ["weapon", "shield", "helm", "armor"]:
+                    '''
+                    # make banon's default equipment optimum-friendly
+                    candidates = set([
+                        getattr(c, attr) for c in CharacterObject.every[:12]
+                        if getattr(c, attr) < 0xFF])
+                    items = sorted([ItemObject.get(c) for c in candidates],
+                                    key=lambda i: i.price)
+                    items = [i for i in items if i.pretty_type == attr]
+                    chosen = items[0]
+                    chosen.price = 1
+                    setattr(self, attr, chosen.index)
+                    '''
                     setattr(self, attr, 0xFF)
 
 
@@ -1035,7 +1057,8 @@ def execute_fanatix_mode():
     else:
         TRIAD = [0x1d4, 0x1d6, 0x1d5]  # Doom, Poltrgeist, Goddess
         BANNED_FORMATIONS = TRIAD + [
-            0x1c5, 0x1ca, 0x1d7, 0x1fa, 0x200, 0x201, 0x202, 0x20e, 0x232]
+            0x187, 0x1c5, 0x1ca, 0x1d7, 0x1e5, 0x1fa,
+            0x200, 0x201, 0x202, 0x20e, 0x232]
     done_monsters = set([])
     formations = [f for f in FormationObject.every
                   if f.two_packs and f.rank > 0
@@ -1150,10 +1173,12 @@ def execute_fanatix_mode():
 
         if 0x0E in partydict[n]:
             script += [
+                # IMPORTANT: unequip banon here or lose items permanently
+                0x8D, 0x0E,                 # remove items from banon
                 0x88, 0x0E, 0x00, 0x00,     # remove status from banon
                 0x40, 0x0E, 0x0E,           # relevel banon
                 0x3F, 0x0E, 0x01,
-                #0x9C, 0x0E,
+                #0x9C, 0x0E,                 # optimum (glitchy)
                 ]
             locked |= (1 << 0x0E)
         else:
@@ -1445,14 +1470,6 @@ def execute_fanatix_mode():
         fo.write("".join(map(chr,
             [0xB2] + int_to_bytelist(addresses.final_pointer-0xA0000, 3))))
 
-        fo.seek(0x31e6e)
-        fo.write("\xc9\x0f")
-        fo.seek(0x31e83)
-        fo.write("\xc9\x0f")
-        for i in ItemObject.every:
-            if 1 <= i.itemtype & 0x7 <= 5:
-                i.equippable |= 0xC000
-
 
     tower_roof.set_bit("enable_encounters", False)
 
@@ -1475,6 +1492,7 @@ if __name__ == "__main__":
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
         if "fanatix" in get_activated_codes():
+            write_patch(get_outfile(), "let_banon_equip_patch.txt")
             execute_fanatix_mode()
 
         hexify = lambda x: "{0:0>2}".format("%x" % x)
