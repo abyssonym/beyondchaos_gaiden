@@ -980,6 +980,10 @@ def execute_fanatix_mode():
         return old_pointer
 
     clear_party_script = []
+    clear_party_script += [
+        # IMPORTANT: unequip banon here or lose items permanently
+        0x8D, 0x0E,
+        ]
     clear_party_script += [0x46, 0x01]
     for i in xrange(15):
         clear_party_script += [0x3E, i]
@@ -1173,8 +1177,6 @@ def execute_fanatix_mode():
 
         if 0x0E in partydict[n]:
             script += [
-                # IMPORTANT: unequip banon here or lose items permanently
-                0x8D, 0x0E,                 # remove items from banon
                 0x88, 0x0E, 0x00, 0x00,     # remove status from banon
                 0x40, 0x0E, 0x0E,           # relevel banon
                 0x3F, 0x0E, 0x01,
