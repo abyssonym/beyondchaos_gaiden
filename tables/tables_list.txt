@@ -2,6 +2,7 @@ InitialMembitObject initial_membit_table.txt    e0a0    128
 CharPaletteObject   char_palette_table.txt      2ce2b   14
 EventObject         event_table.txt             40000   414 pointed 40000   2
 NpcObject           npc_table.txt               41a10   414 pointed 41a10   2
+InitialRageObject   initial_rage_table.txt      47aa0   32
 ShopObject          shop_table.txt              47ac0   86
 MetamorphObject     metamorph_table.txt         47f40   32
 MonsterObject       monster_table.txt           f0000   384
@@ -45,3 +46,5 @@ $opening_jump_pointer   c9b1d
 $location_names         ef100
 $location_names_max     ef600
 $ai_scripts_address     f8700
+.patch              sort_rages_patch.txt
+$sort_rages_address     310100

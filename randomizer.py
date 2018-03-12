@@ -146,6 +146,15 @@ class NpcObject(TableObject):
         self.done_pay_saves[price] = event_addr
 
 
+class InitialRageObject(TableObject):
+    def cleanup(self):
+        if "fanatix" in get_activated_codes():
+            if self.index == 0:
+                self.initial_rages = 1
+            else:
+                self.initial_rages = 0
+
+
 class ShopObject(TableObject):
     @property
     def items(self):
@@ -273,6 +282,7 @@ class MonsterObject(TableObject):
             else:
                 m._rank = -1
         return self.rank
+
 
 class MonsterLootObject(TableObject):
     @property
@@ -499,6 +509,20 @@ class MonsterNameObject(TableObject):
     @property
     def name(self):
         return to_ascii(self.name_text)
+
+    @classmethod
+    def full_cleanup(cls):
+        if hasattr(addresses, "sort_rages_address"):
+            f = open(get_outfile(), 'r+b')
+            f.seek(addresses.sort_rages_address)
+            for mno in sorted(MonsterNameObject.every, key=lambda n: n.name):
+                if mno.index >= 0x100:
+                    continue
+                f.write(chr(mno.index))
+            f.close()
+
+        super(MonsterNameObject, cls).full_cleanup()
+
 
 class ItemNameObject(TableObject):
     @property
@@ -1202,8 +1226,12 @@ def execute_fanatix_mode():
         script += [
             0x99, 0x01] + int_to_bytelist(locked, 2) + [        # party select
             0x6B] + int_to_bytelist(l.index | 0x1000, 2) + [9, 27, 0x00,
-            0xFE,
             ]
+
+        if 0x0E in partydict[n] and "BNW" not in get_global_label():
+            script += [0x9C, 0x0E]  # optimum (glitchy)
+
+        script += [0xFE]
         e.event_addr = write_event(script) - 0xA0000
 
         npc = NpcObject.create_new()
@@ -1494,6 +1522,8 @@ if __name__ == "__main__":
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
         if "fanatix" in get_activated_codes():
+            if get_global_label() in ["FF6_NA_1.0", "FF6_NA_1.1"]:
+                write_patch(get_outfile(), "auto_learn_rage_patch.txt")
             write_patch(get_outfile(), "let_banon_equip_patch.txt")
             execute_fanatix_mode()
 

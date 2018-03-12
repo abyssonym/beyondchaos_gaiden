@@ -1,0 +1,16 @@
+024840: ad 0b 30
+024843: 30 03
+024845: 20 07 4a
+024848: 80 17
+
+02484a: ae 0b 30
+02484d: 30 12
+02484f: a9 01
+024851: 1c e4 11
+024854: f0 0b
+
+024856: ea ea ea ea  ea ea ea ea  ea
+02485f: 80 6d
+
+# 024861: shadow stuff after gau
+# 0248ce: gau returning stuff (cutscene)
