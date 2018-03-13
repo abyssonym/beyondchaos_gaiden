@@ -46,5 +46,6 @@ $opening_jump_pointer   c9b1d
 $location_names         ef100
 $location_names_max     ef600
 $ai_scripts_address     f8700
+.option             graphics_decensor_patch.bin
 .patch              sort_rages_patch.txt
 $sort_rages_address     310100
