@@ -681,6 +681,13 @@ class ItemObject(TableObject):
 
         return self.is_colosseum
 
+    def cleanup(self):
+        if "fanatix" in get_activated_codes():
+            if self.index in [0xF6, 0xF7]:
+                self.price = 0
+                self.otherproperties = 0
+                self.itemtype = 6
+
 
 class ColosseumObject(TableObject):
     def __repr__(self):
