@@ -1502,7 +1502,9 @@ def execute_fanatix_mode():
         ex.destx, ex.desty = 7, 7
 
     script = []
-    for i, pack_index in enumerate([0, 0, 0]):
+    pack_indexes = list(enumerate(TRIAD))
+    random.shuffle(pack_indexes)
+    for i, pack_index in pack_indexes:
         script += [
             0x46, i+1,
             0x4D, pack_index & 0xFF, 0x36,
