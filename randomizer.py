@@ -1160,15 +1160,33 @@ def execute_fanatix_mode():
         done_packs.add(chosen)
 
     LocationObject.class_reseed("prefanatix_chests")
+    initial_equipment = [i for c in CharacterObject.every[:14]
+                         for i in c.old_initial_equipment]
     items = [i for i in ItemObject.ranked if i.rank > 0]
-    chosen_items = [i for i in items if not i.is_buyable]
-    if len(chosen_items) > NUM_FLOORS:
-        chosen_items = random.sample(chosen_items, NUM_FLOORS)
-    items = shuffle_normal(items, random_degree=ChestObject.random_degree)
-    chosen_items = sorted(chosen_items, key=lambda i: items.index(i))
-    while len(chosen_items) < NUM_FLOORS:
-        i = random.choice(items)
-        chosen_items.insert(random.randint(0, len(chosen_items)), i)
+    special_items = [i for i in items if not i.is_buyable
+                     and i not in initial_equipment]
+    chosen_items = {}
+    floors = range(NUM_FLOORS)
+    random.shuffle(floors)
+    for f in floors:
+        if random.randint(1, 10) == 10:
+            candidates = items
+        else:
+            candidates = special_items
+            if random.randint(1, 10) != 10:
+                candidates = [c for c in candidates
+                              if c not in chosen_items.values()]
+        if not candidates:
+            candidates = items
+        max_index = len(candidates)-1
+        index = (f/float(NUM_FLOORS-1)) * max_index
+        index = mutate_normal(index, 0, max_index, wide=True,
+                              random_degree=ChestObject.random_degree)
+        chosen = candidates[index]
+        chosen_items[f] = chosen
+
+    chosen_items = [chosen_items[f] for f in sorted(chosen_items)]
+    assert len(chosen_items) == NUM_FLOORS
 
     prev = None
     dummy = ChestObject.create_new()
