@@ -1,0 +1,92 @@
+.def char_esper_addr        80 10 f1
+.def cant_equip_text_addr   70 10 f1
+.def uneq_addr              40 10 f1
+.def stchr_addr             00 10 f1
+.def chkesp_addr            10 10 f1
+
+031b5f: 22 stchr_addr
+031b63: ea
+
+035524: 20 74 55
+0358e1: 20 74 55
+0359b1: 20 74 55
+
+035574: 5c chkesp_addr
+
+035593: a9 2c                       # gray text / blue shadow
+
+03559a: 5c uneq_addr
+
+0358e8:
+: c9 20
+: f0 16
+
+# StChr
+311000:
+:a5 28
+:aa
+:b5 69
+:8d f8 1c
+:6b
+
+# ChkEsp
+311010:
+:da                                 # phx
+:08                                 # php
+:85 e0                              # sta $e0
+:0a                                 # asl
+:aa                                 # tax
+:e2 10                              # sep #$10
+:da                                 # phx
+:ad f8 1c                           # lda $1cf8
+:0a                                 # asl
+:aa                                 # tax
+:c2 20                              # rep #$20
+:bf 67 9c c3                        # lda $c39c67,x (character bit mask)
+:fa                                 # plx
+:3f char_esper_addr                 # and $char_esper_addr,x (character-esper data)
+:f0 no_eq                           # beq
+
+# Eq
+:28                                 # plp
+:fa                                 # plx
+:a6 00                              # ldx $00
+:5c 78 55 c3                        # jml $c35578 (esper color)
+
+# NoEq
+.label no_eq
+:28                                 # plp
+:fa                                 # plx
+:a9 28                              # lda #$28 (color: gray)
+:5c 95 55 c3                        # jml $c35595 (esper color)
+
+# Uneq
+311040:
+:bd 02 16                           # lda $1602,x (name letter)
+:c9 80                              # cmp #$80  (???)
+:b0 someone_else_equipped           # bcs
+:fa                                 # plx
+:a6 00                              # ldx #$00
+.label cant_equip_loop
+:bf cant_equip_text_addr            # lda $cant_equip_text_addr,x (can't equip text?)
+:f0 terminate_cant_equip_loop       # beq
+:8d 80 21                           # sta $2180
+:e8                                 # inx
+:80 cant_equip_loop                 # bra
+.label someone_else_equipped
+:a9 20                              # lda #$20 (palette 0)
+:85 29                              # sta $29 (color: user's)
+:5c 9e 55 c3                        # jml $c3559e (back to where we were)
+.label terminate_cant_equip_loop
+:9c 80 21                           # stz $2180
+:5c d9 7f c3                        # jml $c37fd9 (draw string)
+
+311070:
+:00
+# C  a  n  '  t     e  q  u  i  p  !
+#:82 9a a7 c3 ad ff 9e aa ae a2 a9 be 00
+
+# character-esper allocations
+311080:
+
+3fffff: 00

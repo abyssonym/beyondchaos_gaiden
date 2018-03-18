@@ -86,6 +86,10 @@ class CharEsperObject(TableObject):
                 s += " " + self.esper_names[i]
         return "%x: %s" % (self.index, s.strip())
 
+    def cleanup(self):
+        if "BNW" not in get_global_label():
+            self.allocations = 0xFFFFFFFF
+
 
 class EventObject(TableObject): pass
 
@@ -155,6 +159,8 @@ class InitialRageObject(TableObject):
                 self.initial_rages = 0
 
 
+class SkillObject(TableObject): pass
+
 class ShopObject(TableObject):
     @property
     def items(self):
@@ -182,6 +188,12 @@ class MetamorphObject(TableObject):
     @property
     def items(self):
         return [ItemObject.get(i) for i in self.item_ids if i <= 0xFE]
+
+
+class MagiciteObject(TableObject):
+    def cleanup(self):
+        assert self.instruction in [0x86, 0x87]
+        assert 0x36 <= self.esper_index <= 0x50
 
 
 class DialoguePtrObject(TableObject):
@@ -437,7 +449,16 @@ class ZoneRateObject(TableObject):
             self.encounter_rates = 0
 
 
-class FormationMetaObject(TableObject): pass
+class FormationMetaObject(TableObject):
+    @property
+    def music(self):
+        return (self.music_misc >> 3) & 0x7
+
+    def clear_music(self):
+        if self.music == 0:
+            self.set_bit("disable_fanfare", True)
+            self.set_bit("continue_current_music", True)
+
 
 class FormationObject(TableObject):
     def __repr__(self):
@@ -462,6 +483,9 @@ class FormationObject(TableObject):
     @property
     def metadata(self):
         return FormationMetaObject.get(self.index)
+
+    def clear_music(self):
+        self.metadata.clear_music()
 
     @property
     def true_enemy_ids(self):
@@ -514,11 +538,17 @@ class MonsterNameObject(TableObject):
     def full_cleanup(cls):
         if hasattr(addresses, "sort_rages_address"):
             f = open(get_outfile(), 'r+b')
-            f.seek(addresses.sort_rages_address)
+            counter = 0
             for mno in sorted(MonsterNameObject.every, key=lambda n: n.name):
                 if mno.index >= 0x100:
                     continue
+                f.seek(addresses.sort_rages_address + counter)
                 f.write(chr(mno.index))
+                if hasattr(addresses, "myself_rages_address"):
+                    f.seek(addresses.myself_rages_address + counter)
+                    f.write(chr(mno.index))
+                counter += 1
+            assert counter <= 0x100
             f.close()
 
         super(MonsterNameObject, cls).full_cleanup()
@@ -687,6 +717,15 @@ class ItemObject(TableObject):
                 self.price = 0
                 self.otherproperties = 0
                 self.itemtype = 6
+
+
+class EsperObject(TableObject):
+    def __repr__(self):
+        s = "ESPER %x\n" % self.index
+        for i in xrange(1, 6):
+            s += "{0:0>2}".format("%x" % getattr(self, "spell%s" % i))
+            s += " x%s\n" % getattr(self, "learn%s" % i)
+        return s.strip()
 
 
 class ColosseumObject(TableObject):
@@ -1158,6 +1197,9 @@ def execute_fanatix_mode():
         chosen = candidates[index]
         chosen_packs.append(chosen)
         done_packs.add(chosen)
+    for pack in sorted(done_packs):
+        for f in pack.formations:
+            f.clear_music()
 
     LocationObject.class_reseed("prefanatix_chests")
     initial_equipment = [i for c in CharacterObject.every[:14]
@@ -1431,7 +1473,7 @@ def execute_fanatix_mode():
     npc.groupindex = tower_roof.index
     npc.x, npc.y = 4, 5
     pointer = fanatix_space_pointer - 0xA0000
-    npc.become_pay_save(pointer, price, price_message,
+    npc.become_pay_save(pointer, min(price_message_indexes), price_message,
                         pay_save_command, write_event)
 
 

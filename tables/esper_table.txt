@@ -1,0 +1,11 @@
+learn1,1
+spell1,1
+learn2,1
+spell2,1
+learn3,1
+spell3,1
+learn4,1
+spell4,1
+learn5,1
+spell5,1
+bonus,1

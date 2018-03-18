@@ -32,7 +32,6 @@ ChestObject         chest_table.txt             2d82f4  414 pointed 2d8634  2
 LocationObject      location_table.txt          2d8f00  414
 CharacterObject     character_table.txt         2d7ca0  44
 LongEntranceObject  long_entrance_table.txt     2df480  414 pointed 2df480  2
-CharEsperObject     char_esper_table.txt        311080  14
 $inn_ask_message        517
 $ask_message            524
 $final_pointer          a057d
@@ -50,20 +49,3 @@ $opening_jump_pointer   c9b1d
 $location_names         ef100
 $location_names_max     ef600
 $ai_scripts_address     f8700
-.patch                  always_sprint_patch.txt
-.option                 y_equip_patch.bin
-.option                 condensed_spell_list_patch.bin
-.option                 graphics_decensor_patch.bin
-.option                 colosseum_display_patch.bin
-.option                 status_aura_color_patch.bin
-.patch                  myself_core_patch.bin
-.patch                  myself_menu_dance_patch.txt
-.patch                  myself_menu_gogo_patch.txt
-.patch                  myself_menu_item_patch.txt
-#.option                 myself_menu_names_patch.txt
-.patch                  myself_menu_rage_patch.txt
-$myself_rages_address   301416
-.patch                  sort_rages_patch.txt
-$sort_rages_address     310100
-.patch                  esper_allocation_patch.txt
-$char_esper_address     311080

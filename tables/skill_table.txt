@@ -1,0 +1,11 @@
+targeting,bit:target_one target_one_side_only target_everyone target_group_default target_auto target_group target_enemy_default target_random
+elements,bit:fire ice bolt bio wind pearl earth water
+misc1,bit:physical miss_if_death_prot target_dead invert_undead randomize_target ignore_defense no_split_damage abort_on_allies
+misc2,bit:outside_battle unreflectable learnifcast enablerunic m24 retarget_dead caster_dies concerns_mp
+misc3,bit:healing draining cure_status invert_status uses_stamina unblockable level_spell percentage
+mp,1
+power,1
+accuracy,1
+unknown,1
+special,1
+statuses,4
