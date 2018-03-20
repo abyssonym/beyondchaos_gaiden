@@ -1,1 +1,1 @@
-allocations,4
+allocations,2

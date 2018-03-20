@@ -940,6 +940,9 @@ class FieldPaletteObject(TableObject): pass
 class LongEntranceObject(TableObject): pass
 
 class CharEsperObject(TableObject):
+    flag = 'a'
+    flag_description = "esper allocations"
+
     @classproperty
     def esper_names(cls):
         return ["Ramuh", "Ifrit", "Shiva", "Siren", "Terrato", "Shoat",
@@ -949,15 +952,124 @@ class CharEsperObject(TableObject):
                 "Unicorn", "Fenrir", "Starlet", "Phoenix"]
 
     def __repr__(self):
-        s = ""
-        for i in xrange(27):
-            if self.allocations & (1 << i):
-                s += " " + self.esper_names[i]
-        return "%x: %s" % (self.index, s.strip())
+        if len(CharEsperObject.every) <= 16:
+            s = ""
+            for i in xrange(len(self.esper_names)):
+                if self.allocations & (1 << i):
+                    s += " " + self.esper_names[i]
+            return "%x: %s" % (self.index, s.strip())
+        else:
+            s = "%x %s: " % (self.index, self.esper_names[self.index])
+            for i in xrange(16):
+                if self.allocations & (1 << i):
+                    s += "%s " % i
+            return s.strip()
 
     def cleanup(self):
-        if "BNW" not in get_global_label():
+        if "BNW" not in get_global_label() and 'a' not in get_flags():
             self.allocations = 0xFFFFFFFF
+
+    @classproperty
+    def allocations_by_character(self):
+        if len(CharEsperObject.every) <= 16:
+            allocations = [ceo.allocations for ceo in CharEsperObject.every]
+            while len(allocations) < 16:
+                allocations.append(0)
+            return allocations
+
+        allocations = [0] * 16
+        for ceo in CharEsperObject.every:
+            for i in xrange(len(allocations)):
+                if ceo.allocations & (1 << i):
+                    allocations[i] |= (1 << ceo.index)
+        return allocations
+
+    @classmethod
+    def allocate(cls, character, esper):
+        if len(CharEsperObject.every) <= 16:
+            ceo = CharEsperObject.get(character)
+            ceo.allocations |= (1 << esper)
+        else:
+            ceo = CharEsperObject.get(esper)
+            ceo.allocations |= (1 << character)
+
+    @classmethod
+    def full_randomize(cls):
+        CharEsperObject.class_reseed("allocations")
+
+        values = set(CharEsperObject.allocations_by_character)
+        char_ratios, esper_ratios = {}, {}
+        if len(values) == 1:
+            valid_mask = 0x3ffffff
+        else:
+            valid_mask = 0
+            for v in values:
+                valid_mask |= v
+
+        for i in xrange(32):
+            if valid_mask & (1 << i):
+                esper_ratios[i] = 0.15
+            else:
+                esper_ratios[i] = 0.0
+
+        for i in xrange(12):
+            char_ratios[i] = 0.15
+        for i in xrange(12, 16):
+            char_ratios[i] = 0.0
+
+        '''
+        # I wrote this to better match BNW's distribution
+        # but honestly I think I like the simple 15% approach better
+        for i in xrange(16):
+            allocations = CharEsperObject.allocations_by_character[i]
+            num_espers = bin(allocations).count('1')
+            char_ratios[i] = num_espers / float(
+                bin(valid_mask).count('1'))
+        for i in xrange(32):
+            num_chars = len([
+                a for a in CharEsperObject.allocations_by_character
+                if a & (1 << i)])
+            esper_ratios[i] = num_chars / float(
+                len([v for v in char_ratios.values() if v > 0]))
+        '''
+
+        for ceo in CharEsperObject.every:
+            ceo.allocations = 0
+
+        for i in xrange(16):
+            char_ratio = char_ratios[i]
+            for k, esper_ratio in sorted(esper_ratios.items()):
+                if min(char_ratio, esper_ratio) <= 0:
+                    continue
+                avg_ratio = (char_ratio + esper_ratio) / 2.0
+                if random.random() < avg_ratio:
+                    CharEsperObject.allocate(i, k)
+
+        new_mask = 0
+        for allocation in CharEsperObject.allocations_by_character:
+            new_mask |= allocation
+
+        undone_chars = [i for i in xrange(16) if char_ratios[i]
+                        and not CharEsperObject.allocations_by_character[i]]
+        undone_espers = [i for i in xrange(32) if esper_ratios[i]
+                         and (valid_mask ^ new_mask) & (1 << i)]
+
+        while undone_chars or undone_espers:
+            if undone_chars:
+                chosen_char = random.choice(undone_chars)
+                undone_chars.remove(chosen_char)
+            else:
+                chosen_char = random.choice([i for (i, a) in enumerate(
+                    CharEsperObject.allocations_by_character) if a])
+            if undone_espers:
+                chosen_esper = random.choice(undone_espers)
+                undone_espers.remove(chosen_esper)
+            else:
+                chosen_esper = random.choice(
+                    [i for i in xrange(32) if valid_mask & (1 << i)])
+            CharEsperObject.allocate(chosen_char, chosen_esper)
+
+        super(CharEsperObject, cls).full_randomize()
 
 
 def number_location_names():

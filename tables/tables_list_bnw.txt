@@ -15,7 +15,7 @@ CmdChangeFBObject   cmd_change_table.txt        36198   5
 CmdChangeTBObject   cmd_change_table.txt        3619d   5
 PortraitPalObject   portrait_pal_table.txt      36f00   27
 PortraitPtrObject   portrait_ptr_table.txt      36f1b   27
-CharEsperObject     char_esper_table.txt        3f0f5   12
+CharEsperObject     char_esper_table_bnw.txt    3f0f5   14
 EventObject         event_table.txt             40000   414 pointed 40000   2
 NpcObject           npc_table.txt               41a10   414 pointed 41a10   2
 SkillObject         skill_table.txt             46ac0   255

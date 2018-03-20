@@ -1,11 +1,7 @@
 .def char_esper_addr        80 10 f1
 .def cant_equip_text_addr   70 10 f1
 .def uneq_addr              40 10 f1
-.def stchr_addr             00 10 f1
 .def chkesp_addr            10 10 f1
-
-031b5f: 22 stchr_addr
-031b63: ea
 
 035524: 20 74 55
 0358e1: 20 74 55
@@ -21,14 +17,6 @@
 : c9 20
 : f0 16
 
-# StChr
-311000:
-:a5 28
-:aa
-:b5 69
-:8d f8 1c
-:6b
-
 # ChkEsp
 311010:
 :da                                 # phx
@@ -38,7 +26,10 @@
 :aa                                 # tax
 :e2 10                              # sep #$10
 :da                                 # phx
-:ad f8 1c                           # lda $1cf8
+:a5 28                              # lda $28 (current slot)
+:aa                                 # tax
+:b5 69                              # lda $69,X (actor in slot)
+#:ad f8 1c                           # lda $1cf8
 :0a                                 # asl
 :aa                                 # tax
 :c2 20                              # rep #$20
