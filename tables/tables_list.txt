@@ -10,7 +10,7 @@ SlotsObject         slots_table.txt             24e4a   8
 CmdChangeFAObject   cmd_change_table.txt        25452   5
 CmdChangeTAObject   cmd_change_table.txt        25457   5
 CharPaletteObject   char_palette_table.txt      2ce2b   14
-MouldObject         mould_table.txt             2d01a   13  pointed 20000   2
+MouldObject         mould_table.txt             2d01a   13
 CmdChangeFBObject   cmd_change_table.txt        36198   5
 CmdChangeTBObject   cmd_change_table.txt        3619d   5
 PortraitPalObject   portrait_pal_table.txt      36f00   27
@@ -100,6 +100,7 @@ $npc_choco_palette_address  2680e0
 $known_lores_address        26f564
 .patch                      rom_expansion_patch.txt
 .patch                      always_sprint_patch.txt
+.option                     auto_learn_rage_patch.txt
 .option                     y_equip_patch.bin
 .option                     condensed_spell_list_patch.bin
 .option                     graphics_decensor_patch.bin

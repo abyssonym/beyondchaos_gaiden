@@ -69,7 +69,24 @@ def int_to_bytelist(value, length):
 
 class OverworldRateObject(TableObject): pass
 class DungeonRateObject(TableObject): pass
-class InitialMembitObject(TableObject): pass
+class InitialMembitObject(TableObject):
+    @classmethod
+    def set_membit(self, address, bit=None, value=True):
+        assert isinstance(value, bool)
+        if bit is None:
+            address, bit = (address >> 3), address & 7
+        else:
+            assert not isinstance(bit, bool)
+        InitialMembitObject.get(address & 0x7F).set_own_bit(bit, value)
+
+    def set_own_bit(self, bit, value):
+        mask = (1 << bit)
+        if value:
+            self.membyte |= mask
+        else:
+            self.membyte = (self.membyte | mask) ^ mask
+
+
 class RNGObject(TableObject): pass
 class CmdMenuPtrObject(TableObject): pass
 class MagitekTargetObject(TableObject): pass
@@ -237,6 +254,11 @@ class DialoguePtrObject(TableObject):
 class MonsterObject(TableObject):
     @property
     def name(self):
+        if "JP" in get_global_label():
+            if self.index in [0x16e, 0x16f, 0x170, 0x172, 0x173, 0x174, 0x177,
+                              0x178, 0x17a, 0x17b, 0x17c, 0x17e, 0x17f]:
+                return "Event %x" % self.index
+            return "%x" % self.index
         return MonsterNameObject.get(self.index).name
 
     @property
@@ -759,9 +781,9 @@ class ColosseumObject(TableObject):
 
     @property
     def is_legit(self):
-        if "JP" not in get_global_label():
-            return "chupon" not in str(self).lower()
-        raise NotImplementedError
+        if "JP" in get_global_label():
+            return self.opponent.index != 0x40
+        return "chupon" not in str(self).lower()
 
     @property
     def opponent(self):
@@ -939,6 +961,8 @@ class CharEsperObject(TableObject):
 
 
 def number_location_names():
+    if "JP" in get_global_label():
+        raise NotImplementedError
     pointer = addresses.location_names
     f = open(get_outfile(), 'r+b')
     f.seek(pointer)
@@ -961,8 +985,11 @@ fanatix_space_pointer = None
 def execute_fanatix_mode():
     print "FANATIX MODE ACTIVATED"
 
-    for i in xrange(32):
+    for i in xrange(0x20):
         InitialMembitObject.get(i).membyte = 0xFF
+    # bit needs to be unset for saving to work
+    InitialMembitObject.set_membit(0xa0, value=False)
+    assert InitialMembitObject.get(0x14).membyte == 0xFE
 
     BANNED_BBGS = [
         0x07, 0x0D, 0x25, 0x29, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36]
@@ -1004,7 +1031,8 @@ def execute_fanatix_mode():
         for e in l.events:
             e.groupindex = -1
 
-    number_location_names()
+    if "JP" not in get_global_label():
+        number_location_names()
 
     opening_event = [
         0xB8, 0x42,                         # enable morph
@@ -1190,8 +1218,11 @@ def execute_fanatix_mode():
     else:
         TRIAD = [0x1d4, 0x1d6, 0x1d5]  # Doom, Poltrgeist, Goddess
         BANNED_FORMATIONS = TRIAD + [
-            0x187, 0x1a4, 0x1bd, 0x1c5, 0x1ca, 0x1d7, 0x1e5, 0x1fa,
-            0x200, 0x201, 0x202, 0x20e, 0x232]
+            #0x3b, 0x3c, 0x3f,
+            0x180, 0x181, 0x182, 0x184, 0x185, 0x186, 0x187, 0x188, 0x189,
+            0x1a4, 0x1bd, 0x1c5, 0x1ca, 0x1d7, 0x1e5,
+            0x1f8, 0x1fa, 0x1fb, 0x1fc, 0x1fd, 0x1fe,
+            0x200, 0x201, 0x202, 0x20e, 0x232, 0x23e]
     done_monsters = set([])
     formations = [f for f in FormationObject.every
                   if f.two_packs and f.rank > 0
@@ -1396,7 +1427,9 @@ def execute_fanatix_mode():
         #l2.set_bit("warpable", True)
         l2.set_bit("enable_encounters", False)
         x = EntranceObject.create_new()
-        x.groupindex, x.dest = l.index, l2.index | 0x800
+        x.groupindex, x.dest = l.index, l2.index
+        if "JP" not in get_global_label():
+            x.dest |= 0x800
         x.x, x.y = 10, 10
         x.destx, x.desty = 7, 12
         x = EntranceObject.create_new()
@@ -1652,7 +1685,11 @@ if __name__ == "__main__":
         if "fanatix" in get_activated_codes():
             if get_global_label() in ["FF6_NA_1.0", "FF6_NA_1.1"]:
                 write_patch(get_outfile(), "auto_learn_rage_patch.txt")
-            write_patch(get_outfile(), "let_banon_equip_patch.txt")
+            if "JP" in get_global_label():
+                write_patch(get_outfile(), "let_banon_equip_patch_jp.txt")
+                write_patch(get_outfile(), "auto_learn_rage_patch_jp.txt")
+            elif "SAFE_MODE" not in get_global_label():
+                write_patch(get_outfile(), "let_banon_equip_patch.txt")
             execute_fanatix_mode()
 
         hexify = lambda x: "{0:0>2}".format("%x" % x)
