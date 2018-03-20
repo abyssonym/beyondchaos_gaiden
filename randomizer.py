@@ -67,30 +67,23 @@ def int_to_bytelist(value, length):
     return value_list
 
 
+class OverworldRateObject(TableObject): pass
+class DungeonRateObject(TableObject): pass
 class InitialMembitObject(TableObject): pass
+class RNGObject(TableObject): pass
+class CmdMenuPtrObject(TableObject): pass
+class MagitekTargetObject(TableObject): pass
+class MagitekSkillObject(TableObject): pass
+class CmdPtrObject(TableObject): pass
+class SlotsObject(TableObject): pass
+class CmdChangeFAObject(TableObject): pass
+class CmdChangeTAObject(TableObject): pass
 class CharPaletteObject(TableObject): pass
-
-class CharEsperObject(TableObject):
-    @classproperty
-    def esper_names(cls):
-        return ["Ramuh", "Ifrit", "Shiva", "Siren", "Terrato", "Shoat",
-                "Maduin", "Bismark", "Stray", "Palador", "Tritoch", "Odin",
-                "Raiden", "Bahamut", "Alexandr", "Crusader", "Ragnarok",
-                "Kirin", "ZoneSeek", "Carbunkl", "Phantom", "Sraphim", "Golem",
-                "Unicorn", "Fenrir", "Starlet", "Phoenix"]
-
-    def __repr__(self):
-        s = ""
-        for i in xrange(27):
-            if self.allocations & (1 << i):
-                s += " " + self.esper_names[i]
-        return "%x: %s" % (self.index, s.strip())
-
-    def cleanup(self):
-        if "BNW" not in get_global_label():
-            self.allocations = 0xFFFFFFFF
-
-
+class MouldObject(TableObject): pass
+class CmdChangeFBObject(TableObject): pass
+class CmdChangeTBObject(TableObject): pass
+class PortraitPalObject(TableObject): pass
+class PortraitPtrObject(TableObject): pass
 class EventObject(TableObject): pass
 
 class NpcObject(TableObject):
@@ -150,6 +143,10 @@ class NpcObject(TableObject):
         self.done_pay_saves[price] = event_addr
 
 
+class SkillObject(TableObject): pass
+class CharNameObject(TableObject): pass
+class BlitzInputObject(TableObject): pass
+
 class InitialRageObject(TableObject):
     def cleanup(self):
         if "fanatix" in get_activated_codes():
@@ -158,8 +155,6 @@ class InitialRageObject(TableObject):
             else:
                 self.initial_rages = 0
 
-
-class SkillObject(TableObject): pass
 
 class ShopObject(TableObject):
     @property
@@ -192,8 +187,23 @@ class MetamorphObject(TableObject):
 
 class MagiciteObject(TableObject):
     def cleanup(self):
-        assert self.instruction in [0x86, 0x87]
-        assert 0x36 <= self.esper_index <= 0x50
+        try:
+            assert self.instruction in [0x86, 0x87]
+            assert 0x36 <= self.esper_index <= 0x50
+        except AssertionError:
+            if "SAFE_MODE" in get_global_label():
+                self.assert_unchanged()
+            else:
+                raise AssertionError
+
+
+class EventSpriteObject(TableObject):
+    def cleanup(self):
+        if "SAFE_MODE" in get_global_label():
+            self.assert_unchanged()
+        else:
+            assert self.thirty_seven == 0x37
+            assert self.forty_three == 0x43
 
 
 class DialoguePtrObject(TableObject):
@@ -310,61 +320,11 @@ class MonsterLootObject(TableObject):
         return [ItemObject.get(i)
                 for i in self.steal_item_ids + self.drop_item_ids if i < 0xFF]
 
+
+class SpecialAnimObject(TableObject): pass
 class MonsterCtrlObject(TableObject): pass
 class MonsterSketchObject(TableObject): pass
 class MonsterRageObject(TableObject): pass
-
-class MonsterAIObject(TableObject):
-    AICODES = {0xF0: 3, 0xF1: 1, 0xF2: 3, 0xF3: 2,
-               0xF4: 3, 0xF5: 3, 0xF6: 3, 0xF7: 1,
-               0xF8: 2, 0xF9: 3, 0xFA: 3, 0xFB: 2,
-               0xFC: 3, 0xFD: 0, 0xFE: 0, 0xFF: 0
-               }
-
-    @cached_property
-    def ai_script(self):
-        pointer = addresses.ai_scripts_address + self.ai_pointer
-        f = open(get_outfile(), 'r+b')
-        f.seek(pointer)
-        script = []
-        seen = False
-        while True:
-            value = f.read(1)
-            try:
-                numargs = self.AICODES[ord(value)]
-                args = f.read(numargs)
-            except KeyError:
-                args = ""
-            script.append(map(ord, value + args))
-            if ord(value) == 0xFF:
-                if seen:
-                    break
-                else:
-                    seen = True
-        f.close()
-        return script
-
-    @cached_property
-    def hp_refills(self):
-        for (i, line) in enumerate(self.ai_script):
-            if line == [0xFC, 0x06, 0x36, 0x00]:
-                for line2 in self.ai_script[i+1:]:
-                    if line2[0] == 0xFC:
-                        if line2[:2] == [0xFC, 0x0D]:
-                            return line2[3] + 1
-                    elif line2[0] in [0xFE, 0xFF]:
-                        break
-        return 1
-
-    @cached_property
-    def pretty_ai_script(self):
-        s = ""
-        for line in self.ai_script:
-            s += ("%X : " % line[0]) + " ".join(
-                ["{0:0>2}".format("%X" % v) for v in line[1:]])
-            s = s.strip() + "\n"
-        return s.strip()
-
 
 class PackObject(TableObject):
     def __repr__(self):
@@ -529,6 +489,58 @@ class FormationObject(TableObject):
         return [p for p in TwoPackObject.every if self in p.formations]
 
 
+class MonsterAIObject(TableObject):
+    AICODES = {0xF0: 3, 0xF1: 1, 0xF2: 3, 0xF3: 2,
+               0xF4: 3, 0xF5: 3, 0xF6: 3, 0xF7: 1,
+               0xF8: 2, 0xF9: 3, 0xFA: 3, 0xFB: 2,
+               0xFC: 3, 0xFD: 0, 0xFE: 0, 0xFF: 0
+               }
+
+    @cached_property
+    def ai_script(self):
+        pointer = addresses.ai_scripts_address + self.ai_pointer
+        f = open(get_outfile(), 'r+b')
+        f.seek(pointer)
+        script = []
+        seen = False
+        while True:
+            value = f.read(1)
+            try:
+                numargs = self.AICODES[ord(value)]
+                args = f.read(numargs)
+            except KeyError:
+                args = ""
+            script.append(map(ord, value + args))
+            if ord(value) == 0xFF:
+                if seen:
+                    break
+                else:
+                    seen = True
+        f.close()
+        return script
+
+    @cached_property
+    def hp_refills(self):
+        for (i, line) in enumerate(self.ai_script):
+            if line == [0xFC, 0x06, 0x36, 0x00]:
+                for line2 in self.ai_script[i+1:]:
+                    if line2[0] == 0xFC:
+                        if line2[:2] == [0xFC, 0x0D]:
+                            return line2[3] + 1
+                    elif line2[0] in [0xFE, 0xFF]:
+                        break
+        return 1
+
+    @cached_property
+    def pretty_ai_script(self):
+        s = ""
+        for line in self.ai_script:
+            s += ("%X : " % line[0]) + " ".join(
+                ["{0:0>2}".format("%X" % v) for v in line[1:]])
+            s = s.strip() + "\n"
+        return s.strip()
+
+
 class MonsterNameObject(TableObject):
     @property
     def name(self):
@@ -554,10 +566,18 @@ class MonsterNameObject(TableObject):
         super(MonsterNameObject, cls).full_cleanup()
 
 
+class SpecialNameObject(TableObject): pass
+class DanceObject(TableObject): pass
+class MonsterSpriteObject(TableObject): pass
+
 class ItemNameObject(TableObject):
     @property
     def name(self):
         return to_ascii(self.name_text)
+
+
+class FullSpriteObject(TableObject): pass
+class AlmostSpriteObject(TableObject): pass
 
 class ItemObject(TableObject):
     @property
@@ -728,6 +748,10 @@ class EsperObject(TableObject):
         return s.strip()
 
 
+class CmdNameObject(TableObject): pass
+class ShopPaletteObject(TableObject): pass
+class FormationAPObject(TableObject): pass
+
 class ColosseumObject(TableObject):
     def __repr__(self):
         return "%s -> %s : %s" % (
@@ -753,13 +777,60 @@ class ColosseumObject(TableObject):
 
 
 class EntranceObject(TableObject): pass
+class NPCPaletteObject(TableObject): pass
+class LocNamePtrObject(TableObject): pass
+class BBGPaletteObject(TableObject): pass
+class TerraNatMagObject(TableObject): pass
+class CelesNatMagObject(TableObject): pass
+class WeaponAnimObject(TableObject): pass
+class WindowGfxObject(TableObject): pass
+class WindowPaletteObject(TableObject): pass
+class BattlePaletteObject(TableObject): pass
+
+
+class CharacterObject(TableObject):
+    @property
+    def name(self):
+        return to_ascii(CharNameObject.get(self.index).name_text)
+
+    @property
+    def old_initial_equipment_ids(self):
+        return ([self.old_data[attr]
+                 for attr in ["weapon", "shield", "helm", "armor"]]
+                + self.old_data["relics"])
+
+    @property
+    def old_initial_equipment(self):
+        return [ItemObject.get(i)
+                for i in self.old_initial_equipment_ids if i <= 0xFE]
+
+    def cleanup(self):
+        if "fanatix" in get_activated_codes():
+            self.level_escape &= 0xF3
+            if self.index == 0x0E:
+                self.level_escape |= 0x08
+                self.relics = [0xFF, 0xFF]
+                for attr in ["weapon", "shield", "helm", "armor"]:
+                    '''
+                    # make banon's default equipment optimum-friendly
+                    candidates = set([
+                        getattr(c, attr) for c in CharacterObject.every[:12]
+                        if getattr(c, attr) < 0xFF])
+                    items = sorted([ItemObject.get(c) for c in candidates],
+                                    key=lambda i: i.price)
+                    items = [i for i in items if i.pretty_type == attr]
+                    chosen = items[0]
+                    chosen.price = 1
+                    setattr(self, attr, chosen.index)
+                    '''
+                    setattr(self, attr, 0xFF)
+
 
 class ExperienceObject(TableObject):
     def cleanup(self):
         if "fanatix" in get_activated_codes():
             self.experience /= 2
 
-class LocNamePtrObject(TableObject): pass
 
 class ChestObject(TableObject):
     @property
@@ -843,40 +914,28 @@ class LocationObject(TableObject):
         self.palette_index |= value
 
 
+class FieldPaletteObject(TableObject): pass
 class LongEntranceObject(TableObject): pass
 
-class CharacterObject(TableObject):
-    @property
-    def old_initial_equipment_ids(self):
-        return ([self.old_data[attr]
-                 for attr in ["weapon", "shield", "helm", "armor"]]
-                + self.old_data["relics"])
+class CharEsperObject(TableObject):
+    @classproperty
+    def esper_names(cls):
+        return ["Ramuh", "Ifrit", "Shiva", "Siren", "Terrato", "Shoat",
+                "Maduin", "Bismark", "Stray", "Palador", "Tritoch", "Odin",
+                "Raiden", "Bahamut", "Alexandr", "Crusader", "Ragnarok",
+                "Kirin", "ZoneSeek", "Carbunkl", "Phantom", "Sraphim", "Golem",
+                "Unicorn", "Fenrir", "Starlet", "Phoenix"]
 
-    @property
-    def old_initial_equipment(self):
-        return [ItemObject.get(i)
-                for i in self.old_initial_equipment_ids if i <= 0xFE]
+    def __repr__(self):
+        s = ""
+        for i in xrange(27):
+            if self.allocations & (1 << i):
+                s += " " + self.esper_names[i]
+        return "%x: %s" % (self.index, s.strip())
 
     def cleanup(self):
-        if "fanatix" in get_activated_codes():
-            self.level &= 0xF3
-            if self.index == 0x0E:
-                self.level |= 0x08
-                self.relics = [0xFF, 0xFF]
-                for attr in ["weapon", "shield", "helm", "armor"]:
-                    '''
-                    # make banon's default equipment optimum-friendly
-                    candidates = set([
-                        getattr(c, attr) for c in CharacterObject.every[:12]
-                        if getattr(c, attr) < 0xFF])
-                    items = sorted([ItemObject.get(c) for c in candidates],
-                                    key=lambda i: i.price)
-                    items = [i for i in items if i.pretty_type == attr]
-                    chosen = items[0]
-                    chosen.price = 1
-                    setattr(self, attr, chosen.index)
-                    '''
-                    setattr(self, attr, 0xFF)
+        if "BNW" not in get_global_label():
+            self.allocations = 0xFFFFFFFF
 
 
 def number_location_names():

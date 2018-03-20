@@ -15,4 +15,4 @@ shield,1
 helm,1
 armor,1
 relics,2,list
-level,1
+level_escape,1

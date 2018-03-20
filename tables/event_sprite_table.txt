@@ -1,0 +1,6 @@
+thirty_seven,1
+sprite,1
+actor1,1
+forty_three,1
+palette,1
+actor2,1

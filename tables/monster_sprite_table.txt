@@ -1,0 +1,3 @@
+sprite,2
+palette_index,2
+size_template,1

@@ -1,0 +1,1 @@
+special_name,10,str

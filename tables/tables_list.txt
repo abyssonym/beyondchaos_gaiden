@@ -1,18 +1,37 @@
+OverworldRateObject encounter_rate_table.txt    c29f    16
+DungeonRateObject   encounter_rate_table.txt    c2bf    16
 InitialMembitObject initial_membit_table.txt    e0a0    128
+RNGObject           rng_table.txt               fd00    256
+CmdMenuPtrObject    cmd_ptr_table.txt           17ce9   30
+MagitekTargetObject magitek_target_table.txt    19104   1
+MagitekSkillObject  magitek_skill_table.txt     1910c   2
+CmdPtrObject        cmd_ptr_table.txt           219c7   30
+SlotsObject         slots_table.txt             24e4a   8
+CmdChangeFAObject   cmd_change_table.txt        25452   5
+CmdChangeTAObject   cmd_change_table.txt        25457   5
 CharPaletteObject   char_palette_table.txt      2ce2b   14
+MouldObject         mould_table.txt             2d01a   13  pointed 20000   2
+CmdChangeFBObject   cmd_change_table.txt        36198   5
+CmdChangeTBObject   cmd_change_table.txt        3619d   5
+PortraitPalObject   portrait_pal_table.txt      36f00   27
+PortraitPtrObject   portrait_ptr_table.txt      36f1b   27
 EventObject         event_table.txt             40000   414 pointed 40000   2
 NpcObject           npc_table.txt               41a10   414 pointed 41a10   2
 SkillObject         skill_table.txt             46ac0   255
+CharNameObject      char_name_table.txt         478c0   64
+BlitzInputObject    blitz_input_table.txt       47a40   8
 InitialRageObject   initial_rage_table.txt      47aa0   32
 ShopObject          shop_table.txt              47ac0   86
 MetamorphObject     metamorph_table.txt         47f40   32
 MagiciteObject      magicite_table.txt          magicite_pointers.txt
+EventSpriteObject   event_sprite_table.txt      event_sprite_pointers.txt
+DialoguePtrObject   dialogue_ptr_table.txt      ce602   3327
 MonsterObject       monster_table.txt           f0000   384
 MonsterLootObject   monster_loot_table.txt      f3000   384
+SpecialAnimObject   special_anim_table.txt      f37c0   384
 MonsterCtrlObject   monster_ctrl_table.txt      f3d00   384
 MonsterSketchObject monster_sketch_table.txt    f4300   384
 MonsterRageObject   monster_rage_table.txt      f4600   255
-MonsterAIObject     monster_ai_table.txt        f8400   384
 FourPackObject      four_pack_table.txt         f4800   256
 TwoPackObject       two_pack_table.txt          f5000   256
 ZonePackPackObject  zone_pack_pack_table.txt    f5400   128
@@ -20,50 +39,80 @@ AreaPackObject      area_pack_table.txt         f5600   414
 ZoneRateObject      zone_rate_table.txt         f5800   232
 FormationMetaObject formation_meta_table.txt    f5900   576
 FormationObject     formation_table.txt         f6200   576
+MonsterAIObject     monster_ai_table.txt        f8400   384
 MonsterNameObject   monster_name_table.txt      fc050   384
+SpecialNameObject   special_name_table.txt      fd0d0   384
+DanceObject         dance_table.txt             ffe80   8
+MonsterSpriteObject monster_sprite_table.txt    127000  384
 ItemNameObject      item_name_table.txt         12b300  255
+FullSpriteObject    full_sprite_table.txt       150000  16
+AlmostSpriteObject  almost_sprite_table.txt     166a00  6
 ItemObject          item_table.txt              185000  255
 EsperObject         esper_table.txt             186e00  27
+CmdNameObject       cmd_name_table.txt          18cea0  30
+ShopPaletteObject   shop_palette_table.txt      18ea5c  37
+FormationAPObject   formation_ap_table.txt      1fb400  512
 ColosseumObject     colosseum_table.txt         1fb600  255
 EntranceObject      entrance_table.txt          1fbb00  414 pointed 1fbb00  2
+NPCPaletteObject    npc_palette_table.txt       268000  9
 LocNamePtrObject    loc_name_ptr_table.txt      268400  448
+BBGPaletteObject    bbg_palette_table.txt       270150  53
+TerraNatMagObject   nat_mag_table.txt           2ce3c0  16
+CelesNatMagObject   nat_mag_table.txt           2ce3e0  16
+WeaponAnimObject    weapon_anim_table.txt       2ce408  90
+WindowGfxObject     window_gfx_table.txt        2d0000  8
+WindowPaletteObject window_palette_table.txt    2d1c00  8
+BattlePaletteObject npc_palette_table.txt       2d6300  7
+CharacterObject     character_table.txt         2d7ca0  44
 ExperienceObject    experience_table.txt        2d8220  98
 ChestObject         chest_table.txt             2d82f4  414 pointed 2d8634  2
 LocationObject      location_table.txt          2d8f00  414
-CharacterObject     character_table.txt         2d7ca0  44
+FieldPaletteObject  field_palette_table.txt     2dc480  48
 LongEntranceObject  long_entrance_table.txt     2df480  414 pointed 2df480  2
 CharEsperObject     char_esper_table.txt        311080  14
-$inn_ask_message        517
-$ask_message            524
-$final_pointer          a057d
-$ending_pointer         a1364
-$opening_crawl_pointer  a5e8e
-$gameover_check_pointer a5ea9
-$load_all_party_pointer ac90b
-$fanatix_space_pointer  ad037
-$fanatix_space_limit    ae8f4
-$refreshments_pointer   b224b
-$colosseum_pointer      b78cb
-$unequipper_pointer     c3510
-$opening_pointer        c9a4f
-$opening_jump_pointer   c9b1d
-$location_names         ef100
-$location_names_max     ef600
-$ai_scripts_address     f8700
-.patch                  always_sprint_patch.txt
-.option                 y_equip_patch.bin
-.option                 condensed_spell_list_patch.bin
-.option                 graphics_decensor_patch.bin
-.option                 colosseum_display_patch.bin
-.option                 status_aura_color_patch.bin
-.patch                  myself_core_patch.bin
-.patch                  myself_menu_dance_patch.txt
-.patch                  myself_menu_gogo_patch.txt
-.patch                  myself_menu_item_patch.txt
-#.option                 myself_menu_names_patch.txt
-.patch                  myself_menu_rage_patch.txt
-$myself_rages_address   301416
-.patch                  sort_rages_patch.txt
-$sort_rages_address     310100
-.patch                  esper_allocation_patch.txt
-$char_esper_address     311080
+$inn_ask_message            517
+$ask_message                524
+$while_confused_cmd_address 204d0
+$while_berserk_cmd_address  204d4
+$retarget_cmd_address       24e46
+$magitek_palette_address    2cfd4
+$final_pointer              a057d
+$ending_pointer             a1364
+$opening_crawl_pointer      a5e8e
+$gameover_check_pointer     a5ea9
+$load_all_party_pointer     ac90b
+$fanatix_space_pointer      ad037
+$fanatix_space_limit        ae8f4
+$refreshments_pointer       b224b
+$colosseum_pointer          b78cb
+$unequipper_pointer         c3510
+$opening_pointer            c9a4f
+$opening_jump_pointer       c9b1d
+$location_names             ef100
+$location_names_max         ef600
+$ai_scripts_address         f8700
+$wor_palette_1_address      12ed00
+$wor_palette_2_address      12ef40
+$falcon_palette_address     12ef00
+$wob_choco_palette_address  12ee20
+$wor_choco_palette_address  12ef20
+$npc_choco_palette_address  2680e0
+$known_lores_address        26f564
+.patch                      rom_expansion_patch.txt
+.patch                      always_sprint_patch.txt
+.option                     y_equip_patch.bin
+.option                     condensed_spell_list_patch.bin
+.option                     graphics_decensor_patch.bin
+.option                     colosseum_display_patch.bin
+.option                     status_aura_color_patch.bin
+.patch                      myself_core_patch.bin
+.patch                      myself_menu_dance_patch.txt
+.patch                      myself_menu_gogo_patch.txt
+.patch                      myself_menu_item_patch.txt
+#.option                     myself_menu_names_patch.txt
+.patch                      myself_menu_rage_patch.txt
+$myself_rages_address       301416
+.patch                      sort_rages_patch.txt
+$sort_rages_address         310100
+.patch                      esper_allocation_patch.txt
+$char_esper_address         311080
