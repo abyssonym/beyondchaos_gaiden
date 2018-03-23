@@ -166,6 +166,8 @@ class BlitzInputObject(TableObject): pass
 
 class InitialRageObject(TableObject):
     def cleanup(self):
+        if "BNW" in get_global_label():
+            return
         if "fanatix" in get_activated_codes():
             if self.index == 0:
                 self.initial_rages = 1
@@ -174,6 +176,12 @@ class InitialRageObject(TableObject):
 
 
 class ShopObject(TableObject):
+    def __repr__(self):
+        s = "SHOP %x\n" % self.index
+        for i in self.items:
+            s += "%s %s\n" % (str(i), i.price)
+        return s.strip()
+
     @property
     def items(self):
         return [ItemObject.get(i) for i in self.item_ids if i < 0xFF]
@@ -361,6 +369,15 @@ class PackObject(TableObject):
         b = max([f.rank for f in self.formations[:3]])
         return (a+b) / 2.0
 
+    @property
+    def formation_ids(self):
+        formation_ids = []
+        for attr in ["common", "common1", "common2", "common3", "rare"]:
+            if hasattr(self, attr):
+                formation_ids.append(getattr(self, attr))
+        assert len(formation_ids) in [2, 4]
+        return formation_ids
+
     @cached_property
     def old_formation_ids(self):
         formation_ids = []
@@ -393,6 +410,10 @@ class FourPackObject(PackObject):
                 return True
 
         return False
+
+    def cleanup(self):
+        for f in self.formations:
+            f.clear_music()
 
 
 class TwoPackObject(PackObject):
@@ -436,8 +457,8 @@ class FormationMetaObject(TableObject):
     def music(self):
         return (self.music_misc >> 3) & 0x7
 
-    def clear_music(self):
-        if self.music == 0:
+    def clear_music(self, force=False):
+        if self.music == 0 or force:
             self.set_bit("disable_fanfare", True)
             self.set_bit("continue_current_music", True)
 
@@ -466,8 +487,8 @@ class FormationObject(TableObject):
     def metadata(self):
         return FormationMetaObject.get(self.index)
 
-    def clear_music(self):
-        self.metadata.clear_music()
+    def clear_music(self, force=False):
+        self.metadata.clear_music(force=force)
 
     @property
     def true_enemy_ids(self):
@@ -830,21 +851,11 @@ class CharacterObject(TableObject):
         if "fanatix" in get_activated_codes():
             self.level_escape &= 0xF3
             if self.index == 0x0E:
-                self.level_escape |= 0x08
+                if get_global_label() not in ["FF6_NA_1.0", "FF6_NA_1.1",
+                                              "FF6_JP"]:
+                    self.level_escape |= 0x08
                 self.relics = [0xFF, 0xFF]
                 for attr in ["weapon", "shield", "helm", "armor"]:
-                    '''
-                    # make banon's default equipment optimum-friendly
-                    candidates = set([
-                        getattr(c, attr) for c in CharacterObject.every[:12]
-                        if getattr(c, attr) < 0xFF])
-                    items = sorted([ItemObject.get(c) for c in candidates],
-                                    key=lambda i: i.price)
-                    items = [i for i in items if i.pretty_type == attr]
-                    chosen = items[0]
-                    chosen.price = 1
-                    setattr(self, attr, chosen.index)
-                    '''
                     setattr(self, attr, 0xFF)
 
 
@@ -995,8 +1006,6 @@ class CharEsperObject(TableObject):
 
     @classmethod
     def full_randomize(cls):
-        CharEsperObject.class_reseed("allocations")
-
         values = set(CharEsperObject.allocations_by_character)
         char_ratios, esper_ratios = {}, {}
         if len(values) == 1:
@@ -1042,6 +1051,7 @@ class CharEsperObject(TableObject):
                 if min(char_ratio, esper_ratio) <= 0:
                     continue
                 avg_ratio = (char_ratio + esper_ratio) / 2.0
+                CharEsperObject.class_reseed("allocate %s %s" % (i, k))
                 if random.random() < avg_ratio:
                     CharEsperObject.allocate(i, k)
 
@@ -1054,6 +1064,7 @@ class CharEsperObject(TableObject):
         undone_espers = [i for i in xrange(32) if esper_ratios[i]
                          and (valid_mask ^ new_mask) & (1 << i)]
 
+        CharEsperObject.class_reseed("remaining_allocations")
         while undone_chars or undone_espers:
             if undone_chars:
                 chosen_char = random.choice(undone_chars)
@@ -1103,13 +1114,13 @@ def execute_fanatix_mode():
     InitialMembitObject.set_membit(0xa0, value=False)
     assert InitialMembitObject.get(0x14).membyte == 0xFE
 
-    BANNED_BBGS = [
-        0x07, 0x0D, 0x25, 0x29, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36]
+    BANNED_BBGS = [0x07, 0x0D, 0x19, 0x21, 0x25, 0x29, 0x2c,
+                   0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36]
     BANNED_MAPS = [
-        0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x07, 0x0B, 0x0C, 0x0D,
+        0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x09, 0x0B, 0x0C, 0x0D,
         0x11, 0x14, 0x15, 0x22, 0x2f, 0x37, 0x40, 0x4b, 0x50, 0x53, 0x5b,
-        0x60, 0x75, 0x7b, 0x7d, 0x7e, 0x7f,
-        0x81, 0x82, 0x88, 0x89, 0x8c, 0x8f,
+        0x60, 0x61, 0x73, 0x75, 0x7b, 0x7d, 0x7e, 0x7f,
+        0x80, 0x81, 0x82, 0x88, 0x89, 0x8c, 0x8f,
         0x90, 0x92, 0x99, 0x9c, 0x9d, 0xa9,
         0xb6, 0xb7, 0xb8, 0xbd, 0xbe,
         0xcd, 0xcf, 0xd0, 0xd1, 0xd9, 0xdd,
@@ -1251,7 +1262,7 @@ def execute_fanatix_mode():
     clear_party_script = []
     clear_party_script += [
         # IMPORTANT: unequip banon here or lose items permanently
-        0x8D, 0x0E,
+        0x8D, 0x0E,  # yes, do it even if banon's not supposed to be there
         ]
     clear_party_script += [0x46, 0x01]
     for i in xrange(15):
@@ -1297,12 +1308,14 @@ def execute_fanatix_mode():
     esper_floors = dict((b, a) for (a, b) in enumerate(esper_floors))
 
     LocationObject.class_reseed("prefanatix_colosseum")
+    valid_floors = [floor for floor in range(NUM_FLOORS)
+                    if floor in addict and addict[floor] <= 13]
     if NUM_FLOORS >= 99:
-        colosseum_floors = random.sample(range(NUM_FLOORS), 3)
+        colosseum_floors = random.sample(valid_floors, 3)
     elif NUM_FLOORS >= 29:
-        colosseum_floors = random.sample(range(NUM_FLOORS), 2)
+        colosseum_floors = random.sample(valid_floors, 2)
     else:
-        colosseum_floors = [random.randint(0, NUM_FLOORS-1)]
+        colosseum_floors = [random.choice(valid_floors)]
 
     LocationObject.class_reseed("prefanatix_bbgs")
     tower_map = LocationObject.get(0x167)
@@ -1326,48 +1339,53 @@ def execute_fanatix_mode():
     LocationObject.class_reseed("prefanatix_monsters")
     if "BNW" in get_global_label():
         TRIAD = [0x162, 0x164, 0x163]
-        BANNED_FORMATIONS = TRIAD + [0x142, 0x1bd, 0x1d7, 0x200, 0x201, 0x202]
+        BANNED_FORMATIONS = TRIAD + [
+            0x2f, 0xaf, 0x142, 0x178, 0x180, 0x1bd, 0x1d7, 0x200, 0x201, 0x202]
     else:
         TRIAD = [0x1d4, 0x1d6, 0x1d5]  # Doom, Poltrgeist, Goddess
         BANNED_FORMATIONS = TRIAD + [
             #0x3b, 0x3c, 0x3f,
+            0x22, 0x14f, 0x178,
             0x180, 0x181, 0x182, 0x184, 0x185, 0x186, 0x187, 0x188, 0x189,
-            0x1a4, 0x1bd, 0x1c5, 0x1ca, 0x1d7, 0x1e5,
-            0x1f8, 0x1fa, 0x1fb, 0x1fc, 0x1fd, 0x1fe,
+            0x1a4, 0x1bd, 0x1c5, 0x1ca, 0x1d7, 0x1e5, 0x1e8,
+            0x1f5, 0x1f8, 0x1fa, 0x1fb, 0x1fc, 0x1fd, 0x1fe, 0x1ff,
             0x200, 0x201, 0x202, 0x20e, 0x232, 0x23e]
-    done_monsters = set([])
-    formations = [f for f in FormationObject.every
-                  if f.two_packs and f.rank > 0
-                  and f.index not in BANNED_FORMATIONS]
-    boss_formations = [f for f in formations if not f.is_random_encounter]
-    extra_formations = [f for f in formations if f not in boss_formations]
-    extra_formations += [f for f in formations
-                         if f.is_random_encounter and f.is_inescapable
-                         and f not in boss_formations + extra_formations]
-    new_formations = []
-    random.shuffle(boss_formations)
-    for f in boss_formations:
-        if set(f.enemies) <= done_monsters:
+    BANNED_FORMATIONS = set(BANNED_FORMATIONS)
+    boss_formations = [f for f in FormationObject.ranked
+                       if f.two_packs and f.rank > 0
+                       and f.index not in BANNED_FORMATIONS]
+
+    duplicates = []
+    for f1 in list(boss_formations):
+        if f1 not in boss_formations:
             continue
-        new_formations.append(f)
-        done_monsters |= set(f.enemies)
-    extra_formations += [f for f in boss_formations if f not in new_formations]
-    assert not set(extra_formations) & set(new_formations)
-    while len(new_formations) < NUM_FLOORS:
-        if extra_formations:
-            f = random.choice(extra_formations)
-            new_formations.append(f)
-        else:
-            new_formations.append(random.choice(new_formations))
-    if len(new_formations) > NUM_FLOORS:
-        new_formations = random.sample(new_formations, NUM_FLOORS)
-    all_formations = [f for f in FormationObject.every
-                      if f in boss_formations + new_formations]
-    all_formations = sorted(all_formations)
-    all_formations = shuffle_normal(
-        all_formations, random_degree=FormationObject.random_degree**1.5)
-    boss_formations = sorted(
-            new_formations, key=lambda f: all_formations.index(f))
+        for f2 in boss_formations[boss_formations.index(f1):]:
+            if f1 is f2:
+                continue
+            if str(sorted(f1.enemies)) == str(sorted(f2.enemies)):
+                duplicates.append((f1, f2))
+                if f2 in boss_formations:
+                    boss_formations.remove(f2)
+
+    unique_boss_formations = sorted(set(boss_formations), key=lambda f: f.rank)
+    max_index = len(unique_boss_formations)-1
+    while len(boss_formations) < NUM_FLOORS:
+        index = random.randint(random.randint(0, max_index), max_index)
+        boss_formations.append(unique_boss_formations[index])
+    boss_formations = sorted(boss_formations, key=lambda f: f.rank)
+
+    if len(boss_formations) > NUM_FLOORS:
+        candidates = random.sample(boss_formations, NUM_FLOORS)
+        candidates += random.sample(boss_formations, NUM_FLOORS)
+        boss_formations = [f for f in boss_formations if f in candidates]
+        boss_formations = boss_formations[-NUM_FLOORS:]
+    assert len(boss_formations) == NUM_FLOORS
+
+    boss_formations = shuffle_normal(boss_formations,
+        wide=True, random_degree=FormationObject.random_degree**2)
+    minboss = min(boss_formations, key=lambda f: f.rank)
+    boss_formations.remove(minboss)
+    boss_formations = [minboss] + boss_formations
     assert len(boss_formations) == NUM_FLOORS
 
     boss_packs = []
@@ -1379,11 +1397,17 @@ def execute_fanatix_mode():
             pack = packs[0]
         boss_packs.append(pack)
 
-    packs = [p for p in FourPackObject.every
-             if p.is_random_encounter and p.rank > 0]
+    packs = [p for p in FourPackObject.ranked
+             if p.is_random_encounter and p.rank > 0
+             and not set(p.formation_ids) & BANNED_FORMATIONS]
     done_packs = set([])
     chosen_packs = []
     highest_threshold = 0
+    boss_ranks = [bp.rank for bp in boss_packs]
+    random_ranks = [p.rank for p in packs]
+    minboss, maxboss = min(boss_ranks), max(boss_ranks)
+    minrandom, maxrandom = min(random_ranks), max(random_ranks)
+    lowratio, highratio = (minrandom / minboss), (maxrandom / maxboss)
     for (i, bp) in enumerate(boss_packs):
         highest_threshold = max(highest_threshold, bp.rank)
         candidates = [p for p in packs if p.rank <= highest_threshold]
@@ -1393,15 +1417,17 @@ def execute_fanatix_mode():
         if temp:
             candidates = temp
         max_index = len(candidates)-1
-        index = int(round(max_index * ((i/float(NUM_FLOORS))**0.5)))
+        floor_ratio = i / float(NUM_FLOORS-1)
+        ratio = (floor_ratio*highratio) + ((1-floor_ratio)*lowratio)
+        threshold = highest_threshold * ratio
+        index = len([p for p in candidates if p.rank <= threshold])-1
+        assert index <= max_index
+        index = max(index, 0)
         index = mutate_normal(index, 0, max_index, wide=True,
                               random_degree=FormationObject.random_degree)
         chosen = candidates[index]
         chosen_packs.append(chosen)
         done_packs.add(chosen)
-    for pack in sorted(done_packs):
-        for f in pack.formations:
-            f.clear_music()
 
     LocationObject.class_reseed("prefanatix_chests")
     initial_equipment = [i for c in CharacterObject.every[:14]
@@ -1447,6 +1473,8 @@ def execute_fanatix_mode():
             next_map += 1
         l.purge_associated_objects()
         l.copy_data(tower_map)
+        l.set_bit("warpable", False)
+        l.set_bit("enable_encounters", True)
         e = EventObject.create_new()
         e.x, e.y = 8, 1
         e.groupindex = prev.index if prev else tower_base.index
@@ -1462,7 +1490,8 @@ def execute_fanatix_mode():
         for i in partydict[n]:
             script += [0x3D, i]
         if n in removedict:
-            script += [0x3D, removedict[n]]
+            script += [0x3D, removedict[n],
+                       0x8D, removedict[n],]
             locked |= (1 << removedict[n])
             assert removedict[n] not in partydict[n]
             if removedict[n] == 0x0E:
@@ -1536,7 +1565,7 @@ def execute_fanatix_mode():
             next_map += 1
         l2.purge_associated_objects()
         l2.copy_data(tower_treasure_room)
-        #l2.set_bit("warpable", True)
+        l2.set_bit("warpable", False)
         l2.set_bit("enable_encounters", False)
         x = EntranceObject.create_new()
         x.groupindex, x.dest = l.index, l2.index
@@ -1585,9 +1614,9 @@ def execute_fanatix_mode():
         if n in colosseum_floors:
             npc_choice = "colosseum"
         else:
-            npc_choice = random.choice(["save_point", "inn", "weapon_shop",
-                                        "armor_shop", "relic_shop",
-                                        "item_shop", "item_shop"])
+            npc_choice = random.choice([
+                "save_point", "save_point", "inn", "inn", "weapon_shop",
+                "armor_shop", "relic_shop", "item_shop", "item_shop"])
         if npc_choice == "save_point":
             pointer = fanatix_space_pointer - 0xA0000
             npc.become_pay_save(pointer, price, price_message,
@@ -1629,7 +1658,7 @@ def execute_fanatix_mode():
                          if s.rank > 0 and s.shop_type == "armor"]
             elif npc_choice == "relic_shop":
                 npc.graphics = 0x13
-                npc.set_palette(0)
+                npc.set_palette(2)
                 shops = [s for s in ShopObject.every
                          if s.rank > 0 and s.shop_type == "relics"]
             else:
@@ -1644,7 +1673,8 @@ def execute_fanatix_mode():
             npc.set_event_addr(event_addr)
 
         npc = NpcObject.create_new()
-        npc.groupindex = l2.index
+        #npc.groupindex = l2.index
+        npc.groupindex = -1
         npc.graphics = 0x17
         npc.set_palette(0)
         npc.facing = 2
@@ -1667,6 +1697,11 @@ def execute_fanatix_mode():
     x.dest = tower_roof.index | 0x1000
     x.destx, x.desty = 8, 13
 
+    # Uncomment to create shortcut to top of tower
+    #x.groupindex = tower_base.index
+    #for e in tower_base.events:
+    #    e.groupindex = -1
+
     x = EntranceObject.create_new()
     x.groupindex = tower_roof.index
     x.x, x.y = 7, 14
@@ -1677,9 +1712,9 @@ def execute_fanatix_mode():
     npc.groupindex = tower_roof.index
     npc.x, npc.y = 4, 5
     pointer = fanatix_space_pointer - 0xA0000
-    npc.become_pay_save(pointer, min(price_message_indexes), price_message,
+    price = min(price_message_indexes)
+    npc.become_pay_save(pointer, price, price_message_indexes[price],
                         pay_save_command, write_event)
-
 
     npc = NpcObject.create_new()
     npc.groupindex = tower_roof.index
@@ -1692,6 +1727,12 @@ def execute_fanatix_mode():
     final_room = LocationObject.get(0x19b)
     for x in final_room.exits:
         x.groupindex = -1
+    final_room.set_bit("enable_encounters", False)
+    final_room.set_bit("warpable", False)
+
+    tower_base.music = 0x3a
+    tower_roof.music = 0x39
+    final_room.music = 0
 
     e = EventObject.create_new()
     e.x, e.y = 7, 6
@@ -1747,17 +1788,29 @@ def execute_fanatix_mode():
         ex.x, ex.y = x, y
         ex.destx, ex.desty = 7, 7
 
+    # 19 16 - Flaming house
+    # 36 30 - Kefka's background
+    final_palette = BBGPaletteObject.get(0x16)
+
     script = []
-    pack_indexes = list(enumerate(TRIAD))
-    random.shuffle(pack_indexes)
-    for i, pack_index in pack_indexes:
+    formation_indexes = list(enumerate(TRIAD))
+    random.shuffle(formation_indexes)
+    for i, formation_index in formation_indexes:
+        tps = [tp for tp in TwoPackObject.every
+               if set(tp.formation_ids) == {formation_index}]
+        pack = tps[0]
+        for f in pack.formations:
+            f.clear_music(force=True)
+        script += [0xF0, 0x33]  # play fierce battle
         script += [
             0x46, i+1,
-            0x4D, pack_index & 0xFF, 0x36,
+            0x4D, pack.index & 0xFF, 0x19 | 0xC0,  # battle no swoosh
             0xB2] + int_to_bytelist(addresses.gameover_check_pointer-0xA0000,
                                     3)
 
     script += [
+        0xF2, 0x80,     # fade out music
+        0x95, 0x95,     # pause
         0xDC, 0x7E,     # set/clear bits to fix ending
         0xD7, 0x9F,     # clear bit $39F (1EF3-7)
         0xD7, 0xFF,     # clear bit $3FF (1EFF-7)
@@ -1775,6 +1828,7 @@ def execute_fanatix_mode():
 
 
     tower_roof.set_bit("enable_encounters", False)
+    tower_roof.set_bit("warpable", False)
 
     fo.close()
 

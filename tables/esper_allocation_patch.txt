@@ -29,7 +29,6 @@
 :a5 28                              # lda $28 (current slot)
 :aa                                 # tax
 :b5 69                              # lda $69,X (actor in slot)
-#:ad f8 1c                           # lda $1cf8
 :0a                                 # asl
 :aa                                 # tax
 :c2 20                              # rep #$20
