@@ -16,6 +16,7 @@ from collections import Counter
 VERSION = 0
 ALL_OBJECTS = None
 DEBUG_MODE = False
+FOOLS = False
 
 price_message_indexes = {
     10:     0xa6b,
@@ -1245,6 +1246,8 @@ def execute_fanatix_mode():
             removedict[n] = oldchar
             addict[n] = newchar
         partydict[n] = party
+        if n == 0 and 0 not in party:
+            removedict[n] = 0
         done_parties.add(party)
 
     limit = addresses.fanatix_space_limit
@@ -1309,7 +1312,7 @@ def execute_fanatix_mode():
 
     LocationObject.class_reseed("prefanatix_colosseum")
     valid_floors = [floor for floor in range(NUM_FLOORS)
-                    if floor in addict and addict[floor] <= 13]
+                    if floor > 0 and floor in addict and addict[floor] <= 13]
     if NUM_FLOORS >= 99:
         colosseum_floors = random.sample(valid_floors, 3)
     elif NUM_FLOORS >= 29:
@@ -1345,7 +1348,7 @@ def execute_fanatix_mode():
         TRIAD = [0x1d4, 0x1d6, 0x1d5]  # Doom, Poltrgeist, Goddess
         BANNED_FORMATIONS = TRIAD + [
             #0x3b, 0x3c, 0x3f,
-            0x22, 0x14f, 0x178,
+            0x00, 0x22, 0x14f, 0x178,
             0x180, 0x181, 0x182, 0x184, 0x185, 0x186, 0x187, 0x188, 0x189,
             0x1a4, 0x1bd, 0x1c5, 0x1ca, 0x1d7, 0x1e5, 0x1e8,
             0x1f5, 0x1f8, 0x1fa, 0x1fb, 0x1fc, 0x1fd, 0x1fe, 0x1ff,
@@ -1425,6 +1428,8 @@ def execute_fanatix_mode():
         index = max(index, 0)
         index = mutate_normal(index, 0, max_index, wide=True,
                               random_degree=FormationObject.random_degree)
+        if i == 0:
+            index = 0
         chosen = candidates[index]
         chosen_packs.append(chosen)
         done_packs.add(chosen)
@@ -1457,6 +1462,23 @@ def execute_fanatix_mode():
 
     chosen_items = [chosen_items[f] for f in sorted(chosen_items)]
     assert len(chosen_items) == NUM_FLOORS
+
+    LocationObject.class_reseed("prefanatix_music")
+    valid_songs = [23, 24, 32, 33, 35, 40, 41, 45, 46, 48, 71, 75, 77, 78, 79]
+    avg = lambda stuff: (sum(stuff) / float(len(stuff)))
+    valid_songs = sorted(valid_songs,
+        key=lambda s: (avg([l.pack.rank for l in LocationObject.every
+                            if l.attacks and l.music == s
+                            and l.pack.index > 0]), random.random(), s))
+    valid_songs.insert(len(valid_songs)/2, 55)
+    valid_songs = shuffle_normal(valid_songs, wide=True)
+    if FOOLS and "BNW" in get_global_label():
+        valid_songs = [77]
+    chosen_music = {}
+    for f in xrange(NUM_FLOORS):
+        ratio = f / float(NUM_FLOORS-1)
+        max_index = len(valid_songs)-1
+        chosen_music[f] = valid_songs[int(round(max_index*ratio))]
 
     prev = None
     dummy = ChestObject.create_new()
@@ -1567,6 +1589,7 @@ def execute_fanatix_mode():
         l2.copy_data(tower_treasure_room)
         l2.set_bit("warpable", False)
         l2.set_bit("enable_encounters", False)
+        l2.music = chosen_music[n]
         x = EntranceObject.create_new()
         x.groupindex, x.dest = l.index, l2.index
         if "JP" not in get_global_label():
@@ -1611,7 +1634,9 @@ def execute_fanatix_mode():
         npc.facing = 2
         npc.x, npc.y = 4, 8
 
-        if n in colosseum_floors:
+        if n == 0:
+            npc_choice = "inn"
+        elif n in colosseum_floors:
             npc_choice = "colosseum"
         else:
             npc_choice = random.choice([
@@ -1686,6 +1711,7 @@ def execute_fanatix_mode():
         l.set_enemy_pack(chosen_packs[n])
         l.set_palette(16)
         l.battlebg = bbgs[n]
+        l.music = chosen_music[n]
         prev = l
 
     # top section
