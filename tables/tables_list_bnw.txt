@@ -7,8 +7,6 @@ MagitekTargetObject magitek_target_table.txt    19104   1
 MagitekSkillObject  magitek_skill_table.txt     1910c   2
 CmdPtrObject        cmd_ptr_table.txt           219c7   30
 SlotsObject         slots_table.txt             24e4a   8
-CmdChangeFAObject   cmd_change_table.txt        25452   5
-CmdChangeTAObject   cmd_change_table.txt        25457   5
 CharPaletteObject   char_palette_table.txt      2ce2b   14
 MouldObject         mould_table.txt             2d01a   13
 CmdChangeFBObject   cmd_change_table.txt        36198   5

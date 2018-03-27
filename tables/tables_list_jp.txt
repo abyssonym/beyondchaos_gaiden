@@ -94,4 +94,5 @@ $npc_choco_palette_address  2680e0
 $known_lores_address        26f564
 .patch                      always_sprint_patch.txt
 .patch                      esper_allocation_patch_jp.txt
+.option                     auto_learn_rage_patch_jp.txt
 $char_esper_address         311080

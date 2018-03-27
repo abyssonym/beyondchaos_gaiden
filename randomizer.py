@@ -1,6 +1,6 @@
 from randomtools.tablereader import (
     TableObject, get_global_label, tblpath, addresses, get_random_degree,
-    mutate_normal, shuffle_normal, write_patch)
+    get_activated_patches, mutate_normal, shuffle_normal, write_patch)
 from randomtools.utils import (
     classproperty, cached_property, get_snes_palette_transformer,
     read_multi, write_multi, utilrandom as random)
@@ -94,12 +94,93 @@ class MagitekTargetObject(TableObject): pass
 class MagitekSkillObject(TableObject): pass
 class CmdPtrObject(TableObject): pass
 class SlotsObject(TableObject): pass
-class CmdChangeFAObject(TableObject): pass
-class CmdChangeTAObject(TableObject): pass
+
+
+class CmdChangeMixin(object):
+    @property
+    def equipment_bit(self):
+        i = (4-self.index) + 2
+        return (1 << i)
+
+
+class CmdChangeFAObject(TableObject, CmdChangeMixin):
+    @classproperty
+    def after_order(cls):
+        return [CmdChangeFBObject]
+
+    def cleanup(self):
+        self.command = CmdChangeFBObject.get(self.index).command
+
+
+class CmdChangeTAObject(TableObject, CmdChangeMixin):
+    @classproperty
+    def after_order(cls):
+        return [CmdChangeTBObject]
+
+    def cleanup(self):
+        self.command = CmdChangeTBObject.get(self.index).command
+
+
 class CharPaletteObject(TableObject): pass
 class MouldObject(TableObject): pass
-class CmdChangeFBObject(TableObject): pass
-class CmdChangeTBObject(TableObject): pass
+
+class CmdChangeFBObject(TableObject, CmdChangeMixin):
+    flag = 'o'
+    flag_description = "character commands"
+
+    @classproperty
+    def after_order(cls):
+        return [CharacterObject]
+
+    def randomize(self):
+        valid_commands = sorted(CharacterObject.current_initial_commands)
+        if self.command not in valid_commands:
+            self.command = random.choice(valid_commands)
+
+
+class CmdChangeTBObject(TableObject, CmdChangeMixin):
+    @classproperty
+    def after_order(cls):
+        return [CharacterObject, CmdChangeFBObject]
+
+    def randomize(self):
+        existing_commands = sorted(CharacterObject.current_initial_commands)
+        potential_commands = [c for c in CharacterObject.valid_commands
+                              if c not in existing_commands]
+        companion = CmdChangeFBObject.get(self.index)
+        if self.command in existing_commands and (
+                potential_commands or companion.command == self.command
+                or random.choice([True, False])):
+            if not potential_commands:
+                banned_commands = {self.companion.command}
+                for c in CharacterObject.every[:14]:
+                    if self.companion.command in c.commands:
+                        banned_commands |= set(c.commands)
+                for c in CharacterObject.every[:14]:
+                    if (self.companion.command in c.commands
+                            and 0x02 not in c.commands
+                            and 0x17 not in c.commands):
+                        banned_commands -= {0x02, 0x17}
+                potential_commands = [c for c in existing_commands
+                                      if c not in banned_commands]
+                if not potential_commands:
+                    potential_commands = existing_commands
+
+            self.command = random.choice(potential_commands)
+
+    @classmethod
+    def randomize_all(cls):
+        CmdChangeTBObject.class_reseed("ran_order")
+        objs = list(CmdChangeTBObject.every)
+        random.shuffle(objs)
+        for o in objs:
+            if hasattr(o, "randomized") and o.randomized:
+                continue
+            o.reseed(salt="ran")
+            o.randomize()
+            o.randomized = True
+
+
 class PortraitPalObject(TableObject): pass
 class PortraitPtrObject(TableObject): pass
 class EventObject(TableObject): pass
@@ -261,6 +342,35 @@ class DialoguePtrObject(TableObject):
 
 
 class MonsterObject(TableObject):
+    flag = 'm'
+    flag_description = "monsters"
+
+    magic_mutate_bit_attributes = {
+        ("statuses", "immunities"): (0xFFFFFFFF, 0xFFFFFF),
+        ("absorb", "null", "weakness"): (0xFF, 0xFF, 0xFF),
+        }
+
+    mutate_attributes = {
+        "speed": None,
+        "attack": None,
+        "hit": None,
+        "evade": None,
+        "mblock": None,
+        "def": None,
+        "mdef": None,
+        "mpow": None,
+        "hp": None,
+        "mp": None,
+        "xp": None,
+        "gp": None,
+        "level": None,
+        }
+
+    randomselect_attributes = [
+        "speed", "attack", "hit", "evade", "mblock", "def", "mdef", "mpow",
+        "hp", "xp", "gp", "level", "morph_id", "animation", "special",
+        ]
+
     @property
     def name(self):
         if "JP" in get_global_label():
@@ -269,6 +379,14 @@ class MonsterObject(TableObject):
                 return "Event %x" % self.index
             return "%x" % self.index
         return MonsterNameObject.get(self.index).name
+
+    @property
+    def is_boss(self):
+        return not self.is_farmable
+
+    @property
+    def intershuffle_valid(self):
+        return self.rank >= 0
 
     @property
     def ai(self):
@@ -306,7 +424,7 @@ class MonsterObject(TableObject):
     @cached_property
     def is_farmable(self):
         for f in FormationObject.every:
-            if f.is_random_encounter and self.index in f.old_data['enemy_ids']:
+            if f.is_random_encounter and self in f.old_enemies:
                 return True
         return False
 
@@ -335,6 +453,34 @@ class MonsterObject(TableObject):
             else:
                 m._rank = -1
         return self.rank
+
+    def mutate(self):
+        if self.rank < 0:
+            return
+
+        assert self.random_selected
+        super(MonsterObject, self).mutate()
+
+        if not self.is_boss and self.hp > self.old_data['hp']:
+            self.hp = mutate_normal(
+                self.old_data['hp'], self.old_data['hp'], self.hp,
+                wide=True, random_degree=self.random_degree)
+
+    def cleanup(self):
+        elements, old_elements = (self.absorb | self.null), (
+            self.old_data['absorb'] | self.old_data['null'])
+        if (elements & old_elements) == elements:
+            self.absorb = self.old_data['absorb']
+            self.null = self.old_data['null']
+        if self.immunities & self.old_data['immunities'] == self.immunities:
+            self.immunities = self.old_data['immunities']
+
+        if self.is_boss and self.rank >= 0:
+            for attr in sorted(self.mutate_attributes):
+                setattr(self, attr, max(getattr(self, attr),
+                                        self.old_data[attr]))
+
+        self.statuses ^= (self.statuses & self.immunities)
 
 
 class MonsterLootObject(TableObject):
@@ -379,6 +525,11 @@ class PackObject(TableObject):
         assert len(formation_ids) in [2, 4]
         return formation_ids
 
+    @property
+    def formations(self):
+        return [FormationObject.get(fid & 0x7fff)
+                for fid in self.formation_ids]
+
     @cached_property
     def old_formation_ids(self):
         formation_ids = []
@@ -387,6 +538,11 @@ class PackObject(TableObject):
                 formation_ids.append(self.old_data[attr])
         assert len(formation_ids) in [2, 4]
         return formation_ids
+
+    @cached_property
+    def old_formations(self):
+        return [FormationObject.get(fid & 0x7fff)
+                for fid in self.old_formation_ids]
 
 
 class FourPackObject(PackObject):
@@ -473,8 +629,7 @@ class FormationObject(TableObject):
     @cached_property
     def is_random_encounter(self):
         for p in FourPackObject.every:
-            if (p.is_random_encounter
-                    and self.index in p.old_formation_ids):
+            if (p.is_random_encounter and self in p.old_formations):
                 return True
         return False
 
@@ -624,6 +779,24 @@ class FullSpriteObject(TableObject): pass
 class AlmostSpriteObject(TableObject): pass
 
 class ItemObject(TableObject):
+    flag = 'q'
+    flag_description = "equipment"
+
+    mutate_attributes = {
+        "power": None,
+        "price": None,
+        }
+
+    magic_mutate_bit_attributes = {
+        "equipability": 0xBFFF,
+        ("elements", "elemabsorbs", "elemnulls", "elemweaks"): (
+            0xFF, 0xFF, 0xFF, 0xFF),
+        }
+
+    @property
+    def magic_mutate_valid(self):
+        return self.equipability and 1 <= (self.itemtype & 0x7) <= 5
+
     @property
     def name(self):
         return ItemNameObject.get(self.index).name
@@ -751,6 +924,13 @@ class ItemObject(TableObject):
                 cs.append(c)
         return len(cs)
 
+    @cached_property
+    def is_initial_equipment(self):
+        for c in CharacterObject.every[:14]:
+            if self in c.old_initial_equipment:
+                return True
+        return False
+
     @property
     def is_colosseum(self):
         if hasattr(self, "_is_colosseum"):
@@ -775,7 +955,118 @@ class ItemObject(TableObject):
 
         return self.is_colosseum
 
+    @property
+    def command_changes(self):
+        matches = []
+        for c in CmdChangeFBObject.every:
+            if c.equipment_bit & self.special1:
+                matches.append(c)
+        return matches
+
+    def mutate(self):
+        if not self.mutate_valid:
+            return
+        super(ItemObject, self).mutate()
+        if self.pretty_type == "weapon":
+            candidates = [o for o in self.every if o.pretty_type == "weapon"]
+        else:
+            candidates = [o for o in self.every if o.pretty_type != "weapon"]
+        candidates = [o for o in candidates if o.mutate_valid]
+        values = [o.hitmdef for o in candidates]
+        minval, maxval = min(values), max(values)
+        self.hitmdef = mutate_normal(self.hitmdef, minval, maxval,
+                                     random_degree=self.random_degree)
+        candidates = [o for o in self.every if o.mutate_valid]
+        make_negative = lambda v: -(v & 0x7) if v >= 8 else v
+        reverse_negative = lambda v: (0x8 | abs(v)) if v < 0 else v
+        for attribute in ["speedvigor", "magstam"]:
+            myval = make_negative(getattr(self, attribute) & 0xF)
+            myval = mutate_normal(myval, -7, 7,
+                                  random_degree=self.random_degree)
+            myval = reverse_negative(myval)
+            setattr(self, attribute,
+                    (getattr(self, attribute) & 0xF0) | myval)
+
+            myval = make_negative(getattr(self, attribute) >> 4)
+            myval = mutate_normal(myval, -7, 7,
+                                  random_degree=self.random_degree)
+            myval = reverse_negative(myval)
+            setattr(self, attribute,
+                    (getattr(self, attribute) & 0xF) | (myval << 4))
+
+        blockranks = [0xa, 0x9, 0x8, 0x7, 0x6, 0x0, 0x1, 0x2, 0x3, 0x4, 0x5]
+        myval = self.mblockevade & 0xF
+        index = mutate_normal(blockranks.index(myval), 0, len(blockranks)-1,
+                              random_degree=self.random_degree)
+        self.mblockevade = (self.mblockevade & 0xF0) | blockranks[index]
+
+        myval = self.mblockevade >> 4
+        index = mutate_normal(blockranks.index(myval), 0, len(blockranks)-1,
+                              random_degree=self.random_degree)
+        self.mblockevade = (self.mblockevade & 0xF) | (blockranks[index] << 4)
+
+    @property
+    def is_equipable(self):
+        equiptypes = ["weapon", "armor", "shield", "helm", "relic"]
+        return self.pretty_type in equiptypes
+
+    def magic_mutate_bits(self):
+        super(ItemObject, self).magic_mutate_bits()
+        equiptypes = ["weapon", "armor", "shield", "helm"]
+        if self.pretty_type not in equiptypes:
+            return
+
+        if not hasattr(ItemObject, "character_mapping"):
+            self.class_reseed("mut_equips")
+            ItemObject.character_mapping = {}
+            for equiptype in equiptypes:
+                if equiptype not in self.character_mapping:
+                    shuffled = range(14)
+                    random.shuffle(shuffled)
+                    self.character_mapping[equiptype] = shuffled
+
+        if self.is_equipable and not self.equipability & 0x3fff:
+            self.equipability |= self.old_data['equipability'] & 0x3fff
+
+        if not self.is_equipable or 'c' not in get_flags():
+            return
+
+        mutated = self.equipability
+        self.equipability &= 0xC000
+        for (i, c) in enumerate(self.character_mapping[self.pretty_type]):
+            if mutated & (1 << i):
+                self.equipability |= (1 << c)
+
     def cleanup(self):
+        if self.is_equipable and self.equipability & 0xbfff == 0xbfff:
+            self.equipability ^= 0x8000
+
+        if self.pretty_type == "weapon":
+            for attribute in ["elements", "elemabsorbs",
+                              "elemnulls", "elemweaks"]:
+                setattr(self, attribute, self.old_data[attribute])
+
+        if not self.is_equipable:
+            self.power = self.old_data["power"]
+
+        if self.price > 100:
+            price = self.price * 2
+            counter = 0
+            while price >= 100:
+                price /= 10
+                counter += 1
+            price *= (10**counter)
+            self.price = price / 2
+
+        if self.is_equipable and self.command_changes:
+            equip_mask = 0
+            for cc in self.command_changes:
+                for c in CharacterObject.every[:14]:
+                    if cc.command in c.commands:
+                        equip_mask |= (1 << c.index)
+            equip_mask |= 0x1000
+            self.equipability = equip_mask
+
         if "fanatix" in get_activated_codes():
             if self.index in [0xF6, 0xF7]:
                 self.price = 0
@@ -833,6 +1124,18 @@ class BattlePaletteObject(TableObject): pass
 
 
 class CharacterObject(TableObject):
+    flag = 'c'
+    flag_description = "characters"
+
+    randomize_attributes = [
+        "hp", "mp", "vigor", "speed", "stamina", "magpwr",
+        "batpwr", "def", "magdef", "evade", "mblock",
+        ]
+
+    @property
+    def intershuffle_valid(self):
+        return self.index < 12
+
     @property
     def name(self):
         return to_ascii(CharNameObject.get(self.index).name_text)
@@ -848,7 +1151,126 @@ class CharacterObject(TableObject):
         return [ItemObject.get(i)
                 for i in self.old_initial_equipment_ids if i <= 0xFE]
 
+    @classproperty
+    def valid_commands(cls):
+        if hasattr(CharacterObject, "_valid_commands"):
+            return CharacterObject._valid_commands
+
+        valid_commands = set([])
+        seen_commands = set([])
+        for char in CharacterObject.every:
+            for c in char.commands:
+                if c <= 0x1f:
+                    if char.index < 14:
+                        valid_commands.add(c)
+                    seen_commands.add(c)
+        for c in CmdChangeFBObject:
+            if c.command in valid_commands:
+                command = CmdChangeTBObject.get(c.index).command
+                valid_commands.add(command)
+                seen_commands.add(command)
+        for command in [0x19, 0x1a, 0x1b]:
+            if command in seen_commands:
+                valid_commands.add(command)
+        valid_commands.add(0x1d)
+        for command in [0x00, 0x01, 0x02, 0x11, 0xff]:
+            if command in valid_commands:
+                valid_commands.remove(command)
+        CharacterObject._valid_commands = sorted(valid_commands)
+
+        return CharacterObject.valid_commands
+
+    @classproperty
+    def current_initial_commands(cls):
+        seen_commands = set([])
+        for char in CharacterObject.every:
+            if char.index < 14:
+                seen_commands |= set(char.commands)
+        if 0xFF in seen_commands:
+            seen_commands.remove(0xFF)
+        return seen_commands
+
+    def randomize_commands(self):
+        if 'o' not in get_flags() or self.index in [12, 13]:
+            return
+
+        if self.index > 13:
+            commands = [0x00, 0x01]
+        elif "wildcommands" not in get_activated_codes():
+            commands = [c for c in self.old_data["commands"]
+                        if c in [0x00, 0x02, 0x01]]
+        else:
+            while True:
+                commands = []
+                if random.choice([True, False]):
+                    commands.append(0x00)
+                if random.choice([True, False]):
+                    commands.append(0x02)
+                if random.choice([True, False]):
+                    commands.append(0x01)
+                if 0x00 in commands or 0x01 in commands:
+                    break
+
+        while len(commands) < 4:
+            chosen = random.choice(CharacterObject.valid_commands)
+            if chosen not in commands:
+                if commands[0] == 0x00:
+                    commands.insert(1, chosen)
+                else:
+                    commands.insert(0, chosen)
+        if 0x17 in commands:
+            commands.remove(0x17)
+            if commands[-1] == 0x01:
+                commands.insert(2, 0x17)
+            else:
+                commands.append(0x17)
+
+        NO_RAGE_PATCH = True
+        for patchfilename in get_activated_patches():
+            if "auto_learn_rage_patch" in patchfilename.lower():
+                NO_RAGE_PATCH = False
+                break
+        if self.index == 0x0b and 0x11 not in commands and NO_RAGE_PATCH:
+            replaceable = [c for c in commands if c not in [0x10, 0x00, 0x01]]
+            commands.remove(random.choice(replaceable))
+            commands.insert(1, 0x11)
+
+        self.commands = commands
+
+    def randomize(self):
+        self.reseed("rand_commands")
+        self.randomize_commands()
+        self.reseed("rand_escape")
+        if self.index < 14:
+            c = CharacterObject.get(random.randint(0, 14))
+            escape = c.old_data["level_escape"] & 3
+            c.level_escape = (c.level_escape & 0xFC) | escape
+        super(CharacterObject, self).randomize()
+
     def cleanup(self):
+        if self.index < 14:
+            for attr in ["weapon", "shield", "helm", "armor"]:
+                index = getattr(self, attr)
+                if index == 0xFF:
+                    continue
+                item = ItemObject.get(index)
+                if not item.equipability & (1 << self.index):
+                    candidates = [
+                        i for i in ItemObject.ranked if i.pretty_type == attr
+                        and i.rank >= 0
+                        and (i.is_buyable or i.is_initial_equipment)
+                        and i.equipability & (1 << self.index)]
+                    if candidates:
+                        setattr(self, attr, candidates[0].index)
+                    else:
+                        setattr(self, attr, 0xff)
+            for (i, r) in enumerate(self.relics):
+                if r == 0xFF:
+                    continue
+                item = ItemObject.get(index)
+                if not item.equipability & (1 << self.index):
+                    self.relics[i] = 0xFF
+
         if "fanatix" in get_activated_codes():
             self.level_escape &= 0xF3
             if self.index == 0x0E:

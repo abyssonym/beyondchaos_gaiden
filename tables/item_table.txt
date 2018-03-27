@@ -1,5 +1,5 @@
 itemtype,1
-equippable,2
+equipability,2
 learnrate,1
 learnspell,1
 fieldeffect,1
@@ -7,7 +7,7 @@ statusprotect,1
 statusprotect2,1
 statusacquire3,1
 statboost1,1
-special1,1
+special1,bit:gale_hairpin back_guard dragoon_boots gem_box fake_mustache coin_toss thief_glove dragon_horn
 statboost2,bit:sb20 sb21 sb22 sb23 sb24 sb25 economizer sb27
 special2,1
 special3,1
