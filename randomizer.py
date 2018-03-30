@@ -1401,7 +1401,10 @@ class CharEsperObject(TableObject):
 
     def cleanup(self):
         if "BNW" not in get_global_label() and 'a' not in get_flags():
-            self.allocations = 0xFFFFFFFF
+            if len(CharEsperObject.every) <= 16:
+                self.allocations = 0xFFFFFFFF
+            else:
+                self.allocations = 0xFFFF
 
     @classproperty
     def allocations_by_character(self):
