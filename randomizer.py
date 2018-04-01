@@ -2351,7 +2351,7 @@ def execute_fanatix_mode():
 
     if len(boss_formations) > NUM_FLOORS:
         candidates = random.sample(boss_formations, NUM_FLOORS)
-        candidates += random.sample(boss_formations, NUM_FLOORS)
+        candidates += random.sample(boss_formations, NUM_FLOORS/2)
         boss_formations = [f for f in boss_formations if f in candidates]
         boss_formations = boss_formations[-NUM_FLOORS:]
     assert len(boss_formations) == NUM_FLOORS
