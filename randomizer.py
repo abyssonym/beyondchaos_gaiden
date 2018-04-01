@@ -291,6 +291,7 @@ class InitialRageObject(TableObject):
 class ShopObject(TableObject):
     flag = 'p'
     flag_description = "shops"
+    custom_random_enable = True
 
     def __repr__(self):
         s = "%s SHOP %x\n" % (self.shop_type.upper(), self.index)
@@ -437,6 +438,7 @@ class DialoguePtrObject(TableObject):
 class MonsterObject(TableObject):
     flag = 'm'
     flag_description = "monsters"
+    custom_random_enable = True
 
     magic_mutate_bit_attributes = {
         ("statuses", "immunities"): (0xFFFFFFFF, 0xFFFFFF),
@@ -538,9 +540,9 @@ class MonsterObject(TableObject):
                     and "Event" not in m.name and set(m.name) != {'_'}]
 
         score_a = lambda m: (m.old_data['level'], m.true_hp_old,
-                             len(m.ai_script), random.random())
+                             len(m.ai_script), m.signature)
         score_b = lambda m: (m.true_hp_old, m.old_data['level'],
-                             len(m.ai_script), random.random())
+                             len(m.ai_script), m.signature)
         by_a = sorted(monsters, key=score_a)
         by_b = sorted(monsters, key=score_b)
 
@@ -583,6 +585,7 @@ class MonsterObject(TableObject):
 
 class MonsterLootObject(TableObject):
     flag = 't'
+    custom_random_enable = True
 
     intershuffle_attributes = ["steal_item_ids", "drop_item_ids"]
 
@@ -936,6 +939,7 @@ class AlmostSpriteObject(TableObject): pass
 class ItemObject(TableObject):
     flag = 'q'
     flag_description = "equipment"
+    custom_random_enable = True
 
     mutate_attributes = {
         "power": None,
@@ -989,29 +993,29 @@ class ItemObject(TableObject):
 
         # TODO: also consider morphs?
         tier0 = [i for i in ItemObject.every if i.is_buyable]
-        tier0 = sorted(tier0, key=lambda i: (i.is_buyable, random.random()))
+        tier0 = sorted(tier0, key=lambda i: (i.is_buyable, i.signature))
         tier1 = [i for i in ItemObject.every
                  if i.is_farmable and i not in tier0]
-        tier1 = sorted(tier1, key=lambda i: (i.is_farmable, random.random()))
+        tier1 = sorted(tier1, key=lambda i: (i.is_farmable, i.signature))
         tier2b = [i for i in ItemObject.every
                   if i.is_boss_loot and i not in tier0 + tier1]
         tier2b = sorted(tier2b,
-                        key=lambda i: (i.is_boss_loot, random.random()))
+                        key=lambda i: (i.is_boss_loot, i.signature))
         tier2c = [i for i in ItemObject.every
                   if i.is_chest and i not in tier0 + tier1]
-        tier2c = sorted(tier2c, key=lambda i: (i.is_chest, random.random()),
+        tier2c = sorted(tier2c, key=lambda i: (i.is_chest, i.signature),
                         reverse=True)
         tier2 = [i for i in ItemObject.every
                  if i in tier2b and i in tier2c]
         tier2 = sorted(
             tier2, key=lambda i: min(
-                tier2b.index(i), tier2c.index(i), random.random()))
+                tier2b.index(i), tier2c.index(i), i.signature))
         tier3 = [i for i in ItemObject.every
                  if i in tier2b + tier2c and i not in tier2]
 
         def t3_sorter(i):
             mylist = tier2b if i in tier2b else tier2c
-            return (mylist.index(i) / float(len(mylist)-1), random.random())
+            return (mylist.index(i) / float(len(mylist)-1), i.signature)
 
         tier3 = sorted(tier3, key=t3_sorter)
         tier4 = [i for i in ItemObject.every if i.is_legit and
@@ -1032,7 +1036,7 @@ class ItemObject(TableObject):
                 if 0 < colosseum_rank + 0.1 < i._rank_no_colosseum:
                     i._rank = colosseum_rank + 0.1
 
-        full_list = sorted(full_list, key=lambda i: (i._rank, random.random()))
+        full_list = sorted(full_list, key=lambda i: (i._rank, i.signature))
         for i in full_list:
             i._rank = full_list.index(i)
 
@@ -1269,6 +1273,7 @@ class ItemObject(TableObject):
 class EsperObject(TableObject):
     flag = 'e'
     flag_description = "espers"
+    custom_random_enable = True
 
     randomize_attributes = ["bonus"]
 
@@ -1355,7 +1360,7 @@ class EsperObject(TableObject):
         candidates = sorted(
             SkillObject.every[:0x36],
             key=lambda s: (self.get_spell_similarity_score(s),
-                           random.random(), s.index), reverse=True)
+                           s.signature, s.index), reverse=True)
         return candidates
 
     @classmethod
@@ -1472,6 +1477,7 @@ class BattlePaletteObject(TableObject): pass
 class CharacterObject(TableObject):
     flag = 'c'
     flag_description = "characters"
+    custom_random_enable = True
 
     randomize_attributes = [
         "hp", "mp", "vigor", "speed", "stamina", "magpwr",
@@ -1643,6 +1649,7 @@ class ExperienceObject(TableObject):
 class ChestObject(TableObject):
     flag = 't'
     flag_description = "treasure"
+    custom_random_enable = True
 
     @property
     def memid(self):
@@ -2331,7 +2338,7 @@ def execute_fanatix_mode():
     valid_songs = sorted(valid_songs,
         key=lambda s: (avg([l.pack.rank for l in LocationObject.every
                             if l.attacks and l.music == s
-                            and l.pack.index > 0]), random.random(), s))
+                            and l.pack.index > 0]), l.signature, s))
     valid_songs.insert(len(valid_songs)/2, 55)
     valid_songs = shuffle_normal(valid_songs, wide=True)
     if FOOLS and "BNW" in get_global_label():
@@ -2733,9 +2740,9 @@ if __name__ == "__main__":
 
         codes = {
             "fanatix": ["fanatix"],
-            "wildcommands": ["wildcommands"],
+            #"wildcommands": ["wildcommands"],
         }
-        run_interface(ALL_OBJECTS, snes=True, codes=codes)
+        run_interface(ALL_OBJECTS, snes=True, codes=codes, custom_degree=True)
 
         if "fanatix" in get_activated_codes():
             if get_global_label() in ["FF6_NA_1.0", "FF6_NA_1.1"]:
