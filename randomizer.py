@@ -1625,6 +1625,9 @@ class CharacterObject(TableObject):
                 for attr in ["weapon", "shield", "helm", "armor"]:
                     setattr(self, attr, 0xFF)
 
+        if self.index == 0x1b and 't' in get_flags():
+            self.weapon = 0x29
+
 
 class ExperienceObject(TableObject):
     def cleanup(self):
