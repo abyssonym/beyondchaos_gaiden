@@ -107,6 +107,8 @@ $known_lores_address        26f564
 #.option                     graphics_decensor_patch.bin
 .option                     colosseum_display_patch.bin
 .option                     status_aura_color_patch.bin
+.option                     evade_mblock_patch.txt
+.option                     vanish_doom_patch.txt
 .option                     myself_core_patch.bin
 .option                     myself_menu_dance_patch.txt
 .option                     myself_menu_gogo_patch.txt
