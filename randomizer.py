@@ -1100,14 +1100,14 @@ class ItemObject(TableObject):
     @property
     def is_equipable(self):
         equiptypes = ["weapon", "armor", "shield", "helm", "relic"]
-        return self.pretty_type in equiptypes
+        return (self.pretty_type in equiptypes and self.rank >= 0
+                and self.old_data["equipability"] & 0x3fff)
 
     def magic_mutate_bits(self):
-        super(ItemObject, self).magic_mutate_bits()
-        equiptypes = ["weapon", "armor", "shield", "helm"]
-        if self.pretty_type not in equiptypes:
+        if not self.is_equipable:
             return
 
+        equiptypes = ["weapon", "armor", "shield", "helm", "relic"]
         if not hasattr(ItemObject, "character_mapping"):
             self.class_reseed("mut_equips")
             ItemObject.character_mapping = {}
@@ -1117,6 +1117,16 @@ class ItemObject(TableObject):
                     random.shuffle(shuffled)
                     self.character_mapping[equiptype] = shuffled
 
+        equipability = self.equipability & 0x3fff
+        if bin(equipability).count('1') >= 2:
+            equipables = [i for i in ItemObject.every if i.is_equipable]
+            chosen = random.choice(equipables)
+            if chosen is not self and (
+                    chosen.old_data["equipability"] & equipability ==
+                    chosen.old_data["equipability"] & 0x3fff):
+                self.equipability = chosen.old_data["equipability"]
+
+        super(ItemObject, self).magic_mutate_bits()
         if self.is_equipable and not self.equipability & 0x3fff:
             self.equipability |= self.old_data['equipability'] & 0x3fff
 
@@ -1167,6 +1177,21 @@ class ItemObject(TableObject):
                 self.price = 0
                 self.otherproperties = 0
                 self.itemtype = 6
+
+        if self.learnrate > 0:
+            equipability = self.equipability & 0xfff
+            learnability = 0
+            for i in xrange(14):
+                spells = CharEsperObject.get_character_spells(i)
+                if self.learnspell in spells:
+                    learnability |= (1 << i)
+            both = equipability & learnability
+            if both:
+                self.equipability &= 0xf000
+                self.equipability |= both
+            elif bin(equipability).count('1') > bin(learnability).count('1'):
+                self.equipability &= 0xf000
+                self.equipability |= learnability
 
 
 class EsperObject(TableObject):
@@ -1226,6 +1251,14 @@ class EsperObject(TableObject):
         for i in xrange(1, 6):
             spell_learns.append(
                 (self.old_data["spell%s" % i], self.old_data["learn%s" % i]))
+        return spell_learns
+
+    @property
+    def spell_learns(self):
+        spell_learns = []
+        for i in xrange(1, 6):
+            spell_learns.append(
+                (getattr(self, "spell%s" % i), getattr(self, "learn%s" % i)))
         return spell_learns
 
     @classproperty
@@ -1718,6 +1751,9 @@ class CharEsperObject(TableObject):
                 self.allocations = 0xFFFFFFFF
             else:
                 self.allocations = 0xFFFF
+        if 'a' in get_flags() and ("BNW" not in get_global_label()
+                or self.old_data["allocations"]):
+            assert self.allocations > 0
 
     @classproperty
     def allocations_by_character(self):
@@ -1735,6 +1771,19 @@ class CharEsperObject(TableObject):
         return allocations
 
     @classmethod
+    def get_character_spells(self, charid):
+        allocations = self.allocations_by_character[charid]
+        spells = set([])
+        for i in xrange(len(CharEsperObject.esper_names)):
+            if allocations & (1 << i):
+                e = EsperObject.get(i)
+                for s, l in e.spell_learns:
+                    spells.add(s)
+        if 0xff in spells:
+            spells.remove(0xff)
+        return sorted(spells)
+
+    @classmethod
     def allocate(cls, character, esper):
         if len(CharEsperObject.every) <= 16:
             ceo = CharEsperObject.get(character)
@@ -1748,7 +1797,7 @@ class CharEsperObject(TableObject):
         values = set(CharEsperObject.allocations_by_character)
         char_ratios, esper_ratios = {}, {}
         if len(values) == 1:
-            valid_mask = 0x3ffffff
+            valid_mask = 0x7ffffff
         else:
             valid_mask = 0
             for v in values:
