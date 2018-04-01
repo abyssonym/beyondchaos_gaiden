@@ -68,6 +68,11 @@ def int_to_bytelist(value, length):
     return value_list
 
 
+class VanillaObject(TableObject):
+    flag = 'v'
+    flag_description = "nothing"
+
+
 class OverworldRateObject(TableObject): pass
 class DungeonRateObject(TableObject): pass
 class InitialMembitObject(TableObject):
