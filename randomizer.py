@@ -131,15 +131,15 @@ class CharPaletteObject(TableObject): pass
 class MouldObject(TableObject): pass
 
 class CmdChangeFBObject(TableObject, CmdChangeMixin):
-    flag = 'o'
-    flag_description = "character commands"
+    #flag = 'o'
+    #flag_description = "character commands"
 
     @classmethod
     def randomize_all(cls):
-        for c in CharacterObject.every:
-            assert not hasattr(c, "randomized")
-            c.reseed("rand_commands")
-            c.randomize_commands()
+        #for c in CharacterObject.every:
+        #    assert not hasattr(c, "randomized")
+        #    c.reseed("rand_commands")
+        #    c.randomize_commands()
 
         for o in CmdChangeFBObject.every:
             if hasattr(o, "randomized") and o.randomized:
