@@ -5,11 +5,11 @@ from randomtools.utils import (
     classproperty, cached_property, get_snes_palette_transformer,
     read_multi, write_multi, utilrandom as random)
 from randomtools.interface import (
-    get_outfile, get_seed, get_flags, get_activated_codes,
+    get_outfile, get_seed, get_flags, get_activated_codes, activate_code,
     run_interface, rewrite_snes_meta, clean_and_write, finish_interface)
 from collections import defaultdict
 from os import path
-from time import time, sleep
+from time import time, sleep, gmtime
 from collections import Counter
 
 
@@ -2079,7 +2079,8 @@ fanatix_space_pointer = None
 
 
 def execute_fanatix_mode():
-    print "FANATIX MODE ACTIVATED"
+    if not FOOLS:
+        print "FANATIX MODE ACTIVATED"
 
     for i in xrange(0x20):
         InitialMembitObject.get(i).membyte = 0xFF
@@ -2846,7 +2847,12 @@ if __name__ == "__main__":
             "fanatix": ["fanatix"],
             #"wildcommands": ["wildcommands"],
         }
+
         run_interface(ALL_OBJECTS, snes=True, codes=codes, custom_degree=True)
+        tm = gmtime(get_seed())
+        if tm.tm_mon == 4 and (tm.tm_mday == 1):
+            activate_code("fanatix")
+            FOOLS = True
 
         if "fanatix" in get_activated_codes():
             if get_global_label() in ["FF6_NA_1.0", "FF6_NA_1.1"]:
