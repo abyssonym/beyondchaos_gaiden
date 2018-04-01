@@ -529,6 +529,14 @@ class MonsterObject(TableObject):
 
 
 class MonsterLootObject(TableObject):
+    flag = 't'
+
+    intershuffle_attributes = ["steal_item_ids", "drop_item_ids"]
+
+    @property
+    def intershuffle_valid(self):
+        return self.is_farmable
+
     @property
     def monster(self):
         return MonsterObject.get(self.index)
@@ -545,6 +553,17 @@ class MonsterLootObject(TableObject):
     @property
     def drops(self):
         return [ItemObject.get(i) for i in self.drop_item_ids if i < 0xFF]
+
+    def mutate(self):
+        for i, s in enumerate(self.steal_item_ids):
+            if s < 0xFF:
+                s = ItemObject.get(s).get_similar().index
+                self.steal_item_ids[i] = s
+
+        for i, d in enumerate(self.drop_item_ids):
+            if d < 0xFF:
+                d = ItemObject.get(d).get_similar().index
+                self.steal_item_ids[i] = d
 
 
 class SpecialAnimObject(TableObject): pass
