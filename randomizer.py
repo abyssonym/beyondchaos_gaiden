@@ -284,8 +284,11 @@ class InitialRageObject(TableObject):
 
 
 class ShopObject(TableObject):
+    flag = 'p'
+    flag_description = "shops"
+
     def __repr__(self):
-        s = "SHOP %x\n" % self.index
+        s = "%s SHOP %x\n" % (self.shop_type.upper(), self.index)
         for i in self.items:
             s += "%s %s\n" % (str(i), i.price)
         return s.strip()
@@ -304,6 +307,51 @@ class ShopObject(TableObject):
         if set(self.item_ids) == {255}:
             return -1
         return max(i.price for i in self.items)
+
+    def mutate(self):
+        items = list(self.items)
+        num_items = len(items)
+        if num_items <= 0:
+            return
+        num_items = mutate_normal(num_items, 1, 8, wide=True,
+                                  random_degree=self.random_degree)
+
+        candidates = set([])
+        for s in ShopObject.every:
+            if s.shop_type == self.shop_type or (
+                    self.shop_type == "misc" and s.shop_type == "items"):
+                candidates |= set(s.old_data["item_ids"])
+
+        if 0xff in candidates:
+            candidates.remove(0xff)
+        candidates = [ItemObject.get(i) for i in sorted(candidates)]
+        candidates = sorted(candidates, key=lambda i: i.rank)
+        new_items = []
+        for _ in xrange(100):
+            i = random.choice(items)
+            i = i.get_similar(candidates, random_degree=self.random_degree)
+            if i not in new_items:
+                new_items.append(i)
+            if self.shop_type in ["items", "misc"] and i.pretty_type == "tool":
+                candidates = [c for c in candidates if c.pretty_type != "tool"
+                              or c.index in self.old_data["item_ids"]]
+            if len(new_items) >= num_items:
+                break
+
+        new_items = sorted([i.index for i in new_items])
+
+        if self.index == 0xc and 0xfe in self.old_data["item_ids"]:
+            # dried meat in mobliz
+            if len(new_items) == 8:
+                new_items.remove(random.choice(new_items))
+            max_index = len(new_items)-1
+            new_items.insert(random.randint(0, max_index), 0xfe)
+
+        while len(new_items) < 8:
+            new_items.append(0xff)
+
+        assert len(new_items) == 8
+        self.item_ids = new_items
 
 
 class MetamorphObject(TableObject):
