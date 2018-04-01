@@ -128,9 +128,19 @@ class CmdChangeFBObject(TableObject, CmdChangeMixin):
     flag = 'o'
     flag_description = "character commands"
 
-    @classproperty
-    def after_order(cls):
-        return [CharacterObject]
+    @classmethod
+    def randomize_all(cls):
+        for c in CharacterObject.every:
+            assert not hasattr(c, "randomized")
+            c.reseed("rand_commands")
+            c.randomize_commands()
+
+        for o in CmdChangeFBObject.every:
+            if hasattr(o, "randomized") and o.randomized:
+                continue
+            o.reseed(salt="ran")
+            o.randomize()
+            o.randomized = True
 
     def randomize(self):
         valid_commands = sorted(CharacterObject.current_initial_commands)
@@ -242,7 +252,17 @@ class NpcObject(TableObject):
         self.done_pay_saves[price] = event_addr
 
 
-class SkillObject(TableObject): pass
+class SkillObject(TableObject):
+    bit_similarity_attributes = {
+        "targeting": 0xff,
+        "elements": 0xff,
+        "misc1": 0xff,
+        "misc2": 0xff,
+        "misc3": 0xff,
+        "statuses": 0xffffffff,
+        }
+
+
 class CharNameObject(TableObject): pass
 class BlitzInputObject(TableObject): pass
 
@@ -293,6 +313,20 @@ class MetamorphObject(TableObject):
 
 
 class MagiciteObject(TableObject):
+    flag = 'g'
+    flag_description = "magicite"
+
+    @classmethod
+    def randomize_all(cls):
+        MagiciteObject.class_reseed("ran")
+        indexes = sorted(set([m.esper_index for m in MagiciteObject.every]))
+        shuffled = list(indexes)
+        random.shuffle(shuffled)
+        for m in MagiciteObject.every:
+            index = indexes.index(m.esper_index)
+            m.esper_index = shuffled[index]
+            m.randomized = True
+
     def cleanup(self):
         try:
             assert self.instruction in [0x86, 0x87]
@@ -1075,12 +1109,158 @@ class ItemObject(TableObject):
 
 
 class EsperObject(TableObject):
+    flag = 'e'
+    flag_description = "espers"
+
+    randomize_attributes = ["bonus"]
+
     def __repr__(self):
         s = "ESPER %x\n" % self.index
         for i in xrange(1, 6):
             s += "{0:0>2}".format("%x" % getattr(self, "spell%s" % i))
             s += " x%s\n" % getattr(self, "learn%s" % i)
         return s.strip()
+
+    @property
+    def intershuffle_valid(self):
+        return self.valid
+
+    @property
+    def valid(self):
+        if 'BNW' in get_global_label() and (self.index == 0x42-0x36):
+            return False
+        return True
+
+    @property
+    def spell_object(self):
+        return SkillObject.get(0x36 + self.index)
+
+    def get_spell_similarity_score(self, spell):
+        if not hasattr(EsperObject, "_spell_similarity_averages"):
+            EsperObject._spell_similarity_averages = {}
+            for s in SkillObject.every[:0x36]:
+                scores = []
+                for e in EsperObject.every:
+                    scores.append(e.spell_object.get_bit_similarity_score(s))
+                EsperObject._spell_similarity_averages[s] = (
+                    sum(scores) / float(len(scores)))
+        score1 = (self.spell_object.get_bit_similarity_score(spell)
+                  - EsperObject._spell_similarity_averages[spell])
+        scores = []
+        for s, l in self.old_spell_learns:
+            if s == 0xFF:
+                continue
+            s = SkillObject.get(s)
+            scores.append(s.get_bit_similarity_score(spell))
+        if not scores:
+            return score1
+
+        score2 = (sum(scores) / float(len(scores)) -
+                  spell.get_bit_similarity_score(spell))
+        return (score1 + score1 + score2) / 3.0
+
+    @cached_property
+    def old_spell_learns(self):
+        spell_learns = []
+        for i in xrange(1, 6):
+            spell_learns.append(
+                (self.old_data["spell%s" % i], self.old_data["learn%s" % i]))
+        return spell_learns
+
+    @classproperty
+    def spell_freq(cls):
+        if hasattr(EsperObject, "_spell_freq"):
+            return EsperObject._spell_freq
+
+        num_spells, total = 0, 0
+        for e in EsperObject.every:
+            if not e.valid:
+                continue
+            for s, l in e.old_spell_learns:
+                if s <= 0x35:
+                    num_spells += 1
+                total += 1
+
+        EsperObject._spell_freq = float(num_spells) / total
+        return EsperObject.spell_freq
+
+    @property
+    def ranked_spell_candidates(self):
+        candidates = sorted(
+            SkillObject.every[:0x36],
+            key=lambda s: (self.get_spell_similarity_score(s),
+                           random.random(), s.index), reverse=True)
+        return candidates
+
+    @classmethod
+    def randomize_all(cls):
+        done_spells = set([])
+        for i in xrange(5):
+            EsperObject.class_reseed("esper_spells%s" % i)
+            espers = list(EsperObject.every)
+            random.shuffle(espers)
+            for e in espers:
+                if not hasattr(e, "new_spells"):
+                    e.new_spells = []
+                if not e.valid:
+                    continue
+                e.reseed("esper_spell%s" % i)
+                if random.random() > EsperObject.spell_freq:
+                    continue
+                candidates = [c.index for c in e.ranked_spell_candidates]
+                candidates = [c for c in candidates if c not in e.new_spells]
+                candidates = ([c for c in candidates if c not in done_spells] +
+                              [c for c in candidates if c in done_spells])
+                max_index = len(candidates)-1
+                index = mutate_normal(0, 0, max_index, wide=True,
+                                      random_degree=e.random_degree**2)
+                chosen = candidates[index]
+                e.new_spells.append(chosen)
+                done_spells.add(chosen)
+
+        for e in EsperObject.every:
+            e.reseed("esper_learn")
+            e.randomize()
+            while len(e.new_spells) < 5:
+                e.new_spells.append(0xFF)
+            e.new_spells = sorted(e.new_spells)
+            for i in xrange(5):
+                setattr(e, "spell%s" % (i+1), e.new_spells[i])
+                setattr(e, "learn%s" % (i+1),
+                        e.make_spell_learn_rate(e.new_spells[i]))
+            e.randomized = True
+
+    @classmethod
+    def make_spell_learn_rate(cls, spell_id):
+        if spell_id == 0xFF:
+            return 0
+
+        old_learn_rates = []
+        lowest = 0xFF
+        highest = 0
+        for e in EsperObject.every:
+            for s, l in e.old_spell_learns:
+                lowest = min(lowest, l)
+                highest = max(highest, l)
+                if s == spell_id:
+                    old_learn_rates.append(l)
+
+        if not old_learn_rates:
+            if "BNW" in get_global_label():
+                return highest
+            else:
+                return lowest
+
+        chosen = random.choice(old_learn_rates)
+        chosen = mutate_normal(chosen, lowest, highest,
+                               random_degree=EsperObject.random_degree)
+        if chosen >= 10:
+            chosen = int(round(chosen*2, -1) / 2)
+        elif chosen == 9:
+            chosen = 8
+        elif chosen == 6:
+            chosen = 7
+        return chosen
 
 
 class CmdNameObject(TableObject): pass
@@ -1131,6 +1311,10 @@ class CharacterObject(TableObject):
         "hp", "mp", "vigor", "speed", "stamina", "magpwr",
         "batpwr", "def", "magdef", "evade", "mblock",
         ]
+
+    @classproperty
+    def after_order(cls):
+        return [CmdChangeFBObject]
 
     @property
     def intershuffle_valid(self):
@@ -1238,8 +1422,6 @@ class CharacterObject(TableObject):
         self.commands = commands
 
     def randomize(self):
-        self.reseed("rand_commands")
-        self.randomize_commands()
         self.reseed("rand_escape")
         if self.index < 14:
             c = CharacterObject.get(random.randint(0, 14))
