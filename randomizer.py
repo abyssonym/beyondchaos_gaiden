@@ -1465,7 +1465,110 @@ class ColosseumObject(TableObject):
 class EntranceObject(TableObject): pass
 class NPCPaletteObject(TableObject): pass
 class LocNamePtrObject(TableObject): pass
-class BBGPaletteObject(TableObject): pass
+
+class BBGPaletteObject(TableObject):
+    @classmethod
+    def color_to_rgb(cls, color):
+        r = color & 0b11111
+        g = (color >> 5) & 0b11111
+        b = (color >> 10) & 0b11111
+        return r, g, b
+
+    @classmethod
+    def rgb_to_hsl(cls, r, g, b):
+        r = r / float(0b11111)
+        g = g / float(0b11111)
+        b = b / float(0b11111)
+
+        minval = min(r, g, b)
+        maxval = max(r, g, b)
+        luminance = (maxval + minval) / 2
+        if maxval == minval:
+            saturation = 0
+        elif luminance <= 0.5:
+            saturation = (maxval-minval) / (maxval + minval)
+        else:
+            saturation = (maxval-minval) / (2.0-(maxval + minval))
+
+        if maxval == minval:
+            hue = 0
+        elif r == maxval:
+            hue = (g-b)/(maxval-minval)
+        elif g == maxval:
+            hue = 2.0 + ((b-r)/(maxval-minval))
+        elif b == maxval:
+            hue = 4.0 + ((r-g)/(maxval-minval))
+        hue *= 60
+
+        r = int(round(r * 0b11111))
+        g = int(round(g * 0b11111))
+        b = int(round(b * 0b11111))
+
+        assert (r, g, b) == cls.hsl_to_rgb(hue, saturation, luminance)
+        return hue, saturation, luminance
+
+    @classmethod
+    def hsl_to_rgb(cls, hue, saturation, luminance):
+        if saturation <= 0:
+            r, g, b = luminance, luminance, luminance
+            r = int(round(r*0b11111))
+            g = int(round(g*0b11111))
+            b = int(round(b*0b11111))
+            return r, g, b
+
+        if luminance < 0.5:
+            t1 = luminance * (1.0+saturation)
+        else:
+            t1 = luminance + saturation - (luminance*saturation)
+        t2 = (2*luminance) - t1
+        hue /= 360.0
+        colordict = {}
+        tempdict = {}
+        tempdict['r'] = (hue + 0.333) % 1
+        tempdict['g'] = hue
+        tempdict['b'] = (hue - 0.333) % 1
+
+        for key, value in tempdict.items():
+            if (6*value) < 1:
+                newval = t2 + ((t1-t2) * 6 * value)
+            elif (2*value) < 1:
+                newval = t1
+            elif (3*value) < 2:
+                newval = t2 + ((t1-t2) * ((2/3.0)-value) * 6)
+            else:
+                newval = t2
+            colordict[key] = newval
+
+        r = int(round(colordict['r']*0b11111))
+        g = int(round(colordict['g']*0b11111))
+        b = int(round(colordict['b']*0b11111))
+        return r, g, b
+
+    def get_color_hsl(self, color_index):
+        color = self.colors[color_index]
+        r, g, b = self.color_to_rgb(color)
+        h, s, l = self.rgb_to_hsl(r, g, b)
+        return h, s, l
+
+    def set_color_hsl(self, color_index, h, s, l):
+        r, g, b = self.hsl_to_rgb(h, s, l)
+        self.set_color(color_index, r, g, b)
+
+    def set_color(self, color_index, r, g, b):
+        val = r
+        val |= (g << 5)
+        val |= (b << 10)
+        self.colors[color_index] = val
+
+    def shift_green(self):
+        for i in xrange(len(self.colors)):
+            color = self.colors[i]
+            r, g, b = self.color_to_rgb(color)
+            r, g = g, r
+            b = 0
+            self.set_color(i, r, g, b)
+
+
 class TerraNatMagObject(TableObject): pass
 class CelesNatMagObject(TableObject): pass
 class WeaponAnimObject(TableObject): pass
@@ -2686,6 +2789,7 @@ def execute_fanatix_mode():
     # 19 16 - Flaming house
     # 36 30 - Kefka's background
     final_palette = BBGPaletteObject.get(0x16)
+    final_palette.shift_green()
 
     script = []
     formation_indexes = list(enumerate(TRIAD))
