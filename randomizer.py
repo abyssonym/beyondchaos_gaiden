@@ -13,7 +13,7 @@ from time import time, sleep, gmtime
 from collections import Counter
 
 
-VERSION = 0
+VERSION = 1
 ALL_OBJECTS = None
 DEBUG_MODE = False
 FOOLS = False
@@ -2877,7 +2877,7 @@ if __name__ == "__main__":
         minmax = lambda x: (min(x), max(x))
 
         clean_and_write(ALL_OBJECTS)
-        rewrite_snes_meta("BCG-R", VERSION, lorom=False)
+        rewrite_snes_meta("BC GAIDEN", VERSION, lorom=False)
 
         finish_interface()
 
