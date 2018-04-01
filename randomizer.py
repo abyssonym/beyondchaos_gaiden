@@ -88,7 +88,13 @@ class InitialMembitObject(TableObject):
             self.membyte = (self.membyte | mask) ^ mask
 
 
-class RNGObject(TableObject): pass
+class RNGObject(TableObject):
+    flag = 'r'
+    flag_description = 'RNG'
+
+    intershuffle_attributes = ["value"]
+
+
 class CmdMenuPtrObject(TableObject): pass
 class MagitekTargetObject(TableObject): pass
 class MagitekSkillObject(TableObject): pass
@@ -455,6 +461,11 @@ class MonsterObject(TableObject):
         ml = MonsterLootObject.get(self.index)
         return ml.loot
 
+    @property
+    def drops(self):
+        ml = MonsterLootObject.get(self.index)
+        return ml.drops
+
     @cached_property
     def is_farmable(self):
         for f in FormationObject.every:
@@ -531,6 +542,10 @@ class MonsterLootObject(TableObject):
         return [ItemObject.get(i)
                 for i in self.steal_item_ids + self.drop_item_ids if i < 0xFF]
 
+    @property
+    def drops(self):
+        return [ItemObject.get(i) for i in self.drop_item_ids if i < 0xFF]
+
 
 class SpecialAnimObject(TableObject): pass
 class MonsterCtrlObject(TableObject): pass
@@ -544,8 +559,28 @@ class PackObject(TableObject):
             "\n".join(str(f) for f in self.formations))
         return s
 
+    @cached_property
+    def guaranteed_treasure(self):
+        treasure = None
+        for f in self.formations:
+            if f.guaranteed_treasure is None:
+                return None
+            if treasure is None:
+                treasure = f.guaranteed_treasure
+            elif f.guaranteed_treasure.rank < treasure.rank:
+                treasure = f.guaranteed_treasure
+        return treasure
+
+    @cached_property
+    def treasure_rank(self):
+        if self.guaranteed_treasure is None:
+            return 0
+        return self.guaranteed_treasure.rank
+
     @property
     def rank(self):
+        if any([f.rank < 0 for f in self.formations]):
+            return -1
         a = max([f.rank for f in self.formations])
         b = max([f.rank for f in self.formations[:3]])
         return (a+b) / 2.0
@@ -659,6 +694,20 @@ class FormationObject(TableObject):
         s = "FORMATION %x: %s" % (
             self.index, " ".join(e.name for e in self.enemies))
         return s
+
+    @cached_property
+    def guaranteed_treasure(self):
+        if self.rank < 0:
+            return None
+        guaranteed = []
+        for e in self.enemies:
+            drops = e.drops
+            if len(drops) < 2:
+                continue
+            guaranteed.append(min(drops, key=lambda d: d.rank))
+        if not guaranteed:
+            return None
+        return max(guaranteed, key=lambda d: d.rank)
 
     @cached_property
     def is_random_encounter(self):
@@ -827,6 +876,9 @@ class ItemObject(TableObject):
             0xFF, 0xFF, 0xFF, 0xFF),
         }
 
+    def __repr__(self):
+        return self.name
+
     @property
     def magic_mutate_valid(self):
         return self.equipability and 1 <= (self.itemtype & 0x7) <= 5
@@ -904,6 +956,7 @@ class ItemObject(TableObject):
             if i.is_colosseum:
                 colosseum_rank = min(i2._rank_no_colosseum
                                      for i2 in i.is_colosseum)
+                colosseum_rank = max(colosseum_rank, max(i2._rank_no_colosseum for i2 in full_list if i2.is_buyable))
                 if 0 < colosseum_rank + 0.1 < i._rank_no_colosseum:
                     i._rank = colosseum_rank + 0.1
 
@@ -916,6 +969,11 @@ class ItemObject(TableObject):
                 i._rank = -1
 
         return self.rank
+
+    @cached_property
+    def highest_rank_price(self):
+        return max([i.old_data['price'] for i in ItemObject.every
+                    if i.rank <= self.rank and i.rank >= 0])
 
     @cached_property
     def is_buyable(self):
@@ -1091,6 +1149,9 @@ class ItemObject(TableObject):
                 counter += 1
             price *= (10**counter)
             self.price = price / 2
+
+        if self.price < 10 and self.old_data["price"] <= 2:
+            self.price = self.old_data["price"]
 
         if self.is_equipable and self.command_changes:
             equip_mask = 0
@@ -1378,22 +1439,23 @@ class CharacterObject(TableObject):
         if 'o' not in get_flags() or self.index in [12, 13]:
             return
 
-        if self.index > 13:
-            commands = [0x00, 0x01]
-        elif "wildcommands" not in get_activated_codes():
+        if self.index > 13 or "wildcommands" not in get_activated_codes():
             commands = [c for c in self.old_data["commands"]
-                        if c in [0x00, 0x02, 0x01]]
+                        if c in [0x00, 0x02, 0x17, 0x01]]
         else:
             while True:
                 commands = []
-                if random.choice([True, False]):
+                if random.choice([True, True, False]):
                     commands.append(0x00)
-                if random.choice([True, False]):
+                if random.choice([True, True, False]):
                     commands.append(0x02)
-                if random.choice([True, False]):
+                if random.choice([True, True, False]):
                     commands.append(0x01)
                 if 0x00 in commands or 0x01 in commands:
                     break
+
+        if not commands:
+            return
 
         while len(commands) < 4:
             chosen = random.choice(CharacterObject.valid_commands)
@@ -1471,6 +1533,9 @@ class ExperienceObject(TableObject):
 
 
 class ChestObject(TableObject):
+    flag = 't'
+    flag_description = "treasure"
+
     @property
     def memid(self):
         memid = self.memid_low
@@ -1492,13 +1557,79 @@ class ChestObject(TableObject):
             return ItemObject.get(self.old_data['contents'])
         return None
 
+    @cached_property
+    def old_formation(self):
+        if self.old_data['misc'] & 0x20:
+            return TwoPackObject.get(self.old_data['contents'])
+        return None
+
+    @cached_property
+    def rank(self):
+        item = None
+        if self.old_treasure:
+            item = self.old_treasure
+        if self.old_formation:
+            item = self.old_formation.guaranteed_treasure
+            if item is None:
+                rank = self.old_formation.ranked_ratio**2
+                return rank
+
+        if item:
+            return item.ranked_ratio
+
+        if self.old_data['misc'] & 0x80:
+            return self.old_data['contents'] / 655.35
+        else:
+            return 0
+
     def set_contents(self, item):
+        for bitname in ["gold", "treasure", "monster", "empty1", "empty2"]:
+            self.set_bit(bitname, False)
         if isinstance(item, ItemObject):
             self.set_bit("treasure", True)
             item = item.index
-        elif isinstance(item, FormationObject):
+        elif isinstance(item, TwoPackObject):
+            self.set_bit("monster", True)
+            item = item.index
+        elif isinstance(item, int):
+            self.set_bit("gold", True)
+        else:
             raise NotImplementedError
         self.contents = item
+
+    def mutate(self):
+        candidates = [c for c in ChestObject.every if c.rank > 0]
+        chosen_type = random.choice(candidates)
+        if chosen_type.old_treasure:
+            candidates = ItemObject.ranked
+        elif chosen_type.old_formation:
+            if chosen_type.old_formation.guaranteed_treasure:
+                candidates = [tp for tp in TwoPackObject.ranked
+                              if tp.guaranteed_treasure]
+            else:
+                candidates = TwoPackObject.ranked
+        else:
+            # gold
+            candidates = None
+            value = self.ranked_ratio * 655.35
+            value = mutate_normal(value, 0, 655.35, wide=True,
+                                  random_degree=self.random_degree)
+            value = min(255, int(round(value)))
+            self.set_contents(value)
+            return
+
+        candidates = [c for c in candidates if c.rank >= 0]
+        max_index = len(candidates)-1
+        if chosen_type.old_treasure:
+            index = len([c for c in candidates
+                         if c.ranked_ratio <= self.ranked_ratio]) - 1
+        else:
+            index = len([c for c in candidates
+                         if c.ranked_ratio <= self.ranked_ratio**0.5]) - 1
+        index = max(index, 0)
+        index = mutate_normal(index, 0, max_index, wide=True,
+                              random_degree=self.random_degree)
+        self.set_contents(candidates[index])
 
 
 class LocationObject(TableObject):
@@ -2478,6 +2609,7 @@ if __name__ == "__main__":
 
         codes = {
             "fanatix": ["fanatix"],
+            "wildcommands": ["wildcommands"],
         }
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
