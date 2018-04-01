@@ -379,10 +379,13 @@ class MagiciteObject(TableObject):
     @classmethod
     def randomize_all(cls):
         MagiciteObject.class_reseed("ran")
-        indexes = sorted(set([m.esper_index for m in MagiciteObject.every]))
+        indexes = sorted(set([m.esper_index for m in MagiciteObject.every
+                              if m.instruction in [0x86, 0x87]]))
         shuffled = list(indexes)
         random.shuffle(shuffled)
         for m in MagiciteObject.every:
+            if m.esper_index not in indexes:
+                continue
             index = indexes.index(m.esper_index)
             m.esper_index = shuffled[index]
             m.randomized = True
@@ -535,8 +538,13 @@ class MonsterObject(TableObject):
 
         MonsterObject.class_reseed("ranking")
         monsters = list(MonsterObject.every)
+        if "BNW" in get_global_label():
+            max_hp = 65535
+        else:
+            max_hp = 65536
+
         monsters = [m for m in monsters if m.old_data['level'] > 0
-                    and m.old_data['hp'] < 65535
+                    and m.old_data['hp'] < max_hp
                     and "Event" not in m.name and set(m.name) != {'_'}]
 
         score_a = lambda m: (m.old_data['level'], m.true_hp_old,
