@@ -2877,7 +2877,7 @@ if __name__ == "__main__":
         minmax = lambda x: (min(x), max(x))
 
         clean_and_write(ALL_OBJECTS)
-        rewrite_snes_meta("BC GAIDEN", VERSION, lorom=False)
+        rewrite_snes_meta("BCG-R", VERSION, lorom=False)
 
         finish_interface()
 

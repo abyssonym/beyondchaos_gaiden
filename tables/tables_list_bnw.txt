@@ -2,7 +2,6 @@ VanillaObject       empty.txt                   0       1
 OverworldRateObject encounter_rate_table.txt    c29f    16
 DungeonRateObject   encounter_rate_table.txt    c2bf    16
 InitialMembitObject initial_membit_table.txt    e0a0    128
-RNGObject           rng_table.txt               fd00    256
 CmdMenuPtrObject    cmd_ptr_table.txt           17ce9   30
 MagitekTargetObject magitek_target_table.txt    19104   1
 MagitekSkillObject  magitek_skill_table.txt     1910c   2
