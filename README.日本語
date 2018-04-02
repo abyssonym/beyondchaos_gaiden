@@ -1,0 +1,29 @@
+ファイナルファンタジーVI　ビヨンドカオス外伝 ランダマイザ
+バージョン: 1.2
+日: April 2, 2018
+ダウンロード:
+    https://github.com/abyssonym/beyondchaos_gaiden/archive/master.zip
+連絡先:
+    https://twitter.com/abyssonym
+
+ファイナルファンタジーVIのROMイメージが必要です。正しいROMはこのハッシュです。日本語版です。
+    MD5 - 97bf78e916b80f47cf35edf502be34dc
+
+オプション ("Flags"):
+    a   キャラと幻獣の割り当て
+    c   キャラのステータス
+    e   幻獣
+    g   魔石
+    m   敵のステータス
+    p   ショップ
+    q   キャラの装備
+    r   乱数発生
+    t   宝
+    v   何でもない
+
+混沌 ("Randomness"):
+    0.5を推奨です。
+
+--- FAQ ---
+質問: 特別ゲームモードはどうやっていますか？
+答え: Flagsにfanatixって入力します。vfanatixってのも推奨です
