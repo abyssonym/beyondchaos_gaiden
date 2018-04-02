@@ -1224,18 +1224,18 @@ class ItemObject(TableObject):
                 self.equipability |= (1 << c)
 
     def cleanup(self):
-        if self.is_equipable and self.equipability & 0xbfff == 0xbfff:
-            self.equipability ^= 0x8000
-
         if self.pretty_type == "weapon":
             for attribute in ["elements", "elemabsorbs",
                               "elemnulls", "elemweaks"]:
                 setattr(self, attribute, self.old_data[attribute])
+            if 'q' in get_flags():
+                self.set_bit("swdtech", True)
+                self.set_bit("runic_percentage", True)
 
         if not self.is_equipable:
             self.power = self.old_data["power"]
 
-        if self.price > 100:
+        if self.price > 100 and 'q' in get_flags():
             price = self.price * 2
             counter = 0
             while price >= 100:
@@ -1247,14 +1247,18 @@ class ItemObject(TableObject):
         if self.price < 10 and self.old_data["price"] <= 2:
             self.price = self.old_data["price"]
 
-        if self.is_equipable and self.command_changes:
-            equip_mask = 0
-            for cc in self.command_changes:
-                for c in CharacterObject.every[:14]:
-                    if cc.command in c.commands:
-                        equip_mask |= (1 << c.index)
-            equip_mask |= 0x1000
-            self.equipability = equip_mask
+        if self.is_equipable and 'q' in get_flags():
+            if self.command_changes:
+                equip_mask = 0
+                for cc in self.command_changes:
+                    for c in CharacterObject.every[:14]:
+                        if cc.command in c.commands:
+                            equip_mask |= (1 << c.index)
+                equip_mask |= 0x1000
+                self.equipability = equip_mask
+
+            if self.equipability & 0xbfff == 0xbfff:
+                self.equipability ^= 0x8000
 
         if "fanatix" in get_activated_codes():
             if self.index in [0xF6, 0xF7]:
@@ -1262,7 +1266,8 @@ class ItemObject(TableObject):
                 self.otherproperties = 0
                 self.itemtype = 6
 
-        if self.learnrate > 0:
+        if (self.learnrate > 0 and 'a' in get_flags() and 'q' in get_flags()
+                and self.is_equipable and self.pretty_type != "weapon"):
             equipability = self.equipability & 0xfff
             learnability = 0
             for i in xrange(14):
@@ -1568,13 +1573,15 @@ class BBGPaletteObject(TableObject):
         val |= (b << 10)
         self.colors[color_index] = val
 
-    def shift_green(self):
+    def shift_blue(self):
         for i in xrange(len(self.colors)):
             color = self.colors[i]
             r, g, b = self.color_to_rgb(color)
-            r, g = g, r
-            b = 0
-            self.set_color(i, r, g, b)
+            r, g, b = b, g, r
+            h, s, l = self.rgb_to_hsl(r, g, b)
+            if l < 0.2:
+                s = s * ((l*5)**2)
+            self.set_color_hsl(i, h, s, l)
 
 
 class TerraNatMagObject(TableObject): pass
@@ -2798,7 +2805,7 @@ def execute_fanatix_mode():
     # 19 16 - Flaming house
     # 36 30 - Kefka's background
     final_palette = BBGPaletteObject.get(0x16)
-    final_palette.shift_green()
+    final_palette.shift_blue()
 
     script = []
     formation_indexes = list(enumerate(TRIAD))

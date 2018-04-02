@@ -16,7 +16,7 @@ elements,1
 speedvigor,1
 magstam,1
 breakeffect,1
-otherproperties,1
+otherproperties,bit:weapon_death_protect swdtech op2 restore_hp restore_mp back_row_remove_status two_hand_causes_damage runic_percentage
 power,1
 hitmdef,1
 elemabsorbs,1
