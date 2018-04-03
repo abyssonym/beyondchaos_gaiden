@@ -1218,6 +1218,9 @@ class ItemObject(TableObject):
         if self.is_equipable and not self.equipability & 0x3fff:
             self.equipability |= self.old_data['equipability'] & 0x3fff
 
+        self.equipability = (self.equipability | 0x4000) ^ 0x4000
+        self.equipability |= (self.old_data["equipability"] & 0x4000)
+
         if not self.is_equipable or 'c' not in get_flags():
             return
 
@@ -1253,6 +1256,8 @@ class ItemObject(TableObject):
             self.price = self.old_data["price"]
 
         if self.is_equipable and 'q' in get_flags():
+            assert (self.equipability & 0x4000 ==
+                    self.old_data["equipability"] & 0x4000)
             if self.command_changes:
                 equip_mask = 0
                 for cc in self.command_changes:
@@ -2881,8 +2886,9 @@ if __name__ == "__main__":
         }
 
         run_interface(ALL_OBJECTS, snes=True, codes=codes, custom_degree=True)
+
         tm = gmtime(get_seed())
-        if tm.tm_mon == 4 and (tm.tm_mday == 1):
+        if tm.tm_mon == 4 and tm.tm_mday == 1:
             activate_code("fanatix")
             FOOLS = True
 
