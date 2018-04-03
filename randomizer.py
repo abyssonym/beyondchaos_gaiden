@@ -2596,6 +2596,7 @@ def execute_fanatix_mode():
         for i in to_create:
             script += [0x3D, i]
         if n in removedict:
+            script += [0x8D, removedict[n],]  # remove equips
             locked |= (1 << removedict[n])
             assert removedict[n] not in partydict[n]
 
