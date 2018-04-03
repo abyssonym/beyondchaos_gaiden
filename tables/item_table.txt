@@ -8,7 +8,7 @@ statusprotect2,1
 statusacquire3,1
 statboost1,1
 special1,bit:gale_hairpin back_guard dragoon_boots gem_box fake_mustache coin_toss thief_glove dragon_horn
-statboost2,bit:sb20 sb21 sb22 sb23 sb24 sb25 economizer sb27
+statboost2,bit:sneak_ring sb21 beret coronet sniper_sight gold_hairpin economizer hyper_wrist
 special2,1
 special3,1
 targeting,1
