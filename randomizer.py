@@ -1243,8 +1243,14 @@ class ItemObject(TableObject):
                 self.set_bit("runic_percentage", True)
 
         if not self.is_equipable:
-            self.power = self.old_data["power"]
-            self.equipability = self.old_data["equipability"]
+            attrs = [a for (a, b, c) in self.specsattrs]
+            assert "price" in attrs
+            for a in attrs:
+                if a != "price":
+                    setattr(self, a, self.old_data[a])
+            #self.power = self.old_data["power"]
+            #self.equipability = self.old_data["equipability"]
+            #self.otherproperties = self.old_data["otherproperties"]
 
         if self.price > 100 and 'q' in get_flags():
             price = self.price * 2
@@ -1273,12 +1279,6 @@ class ItemObject(TableObject):
             if self.equipability & 0xbfff == 0xbfff:
                 self.equipability ^= 0x8000
 
-        if "fanatix" in get_activated_codes():
-            if self.index in [0xF6, 0xF7]:
-                self.price = 0
-                self.otherproperties = 0
-                self.itemtype = 6
-
         if (self.learnrate > 0 and 'a' in get_flags() and 'q' in get_flags()
                 and self.is_equipable and self.pretty_type != "weapon"):
             equipability = self.equipability & 0xfff
@@ -1294,6 +1294,12 @@ class ItemObject(TableObject):
             elif bin(equipability).count('1') > bin(learnability).count('1'):
                 self.equipability &= 0xf000
                 self.equipability |= learnability
+
+        if "fanatix" in get_activated_codes():
+            if self.index in [0xF6, 0xF7]:
+                self.price = 0
+                self.otherproperties = 0
+                self.itemtype = 6
 
 
 class EsperObject(TableObject):
