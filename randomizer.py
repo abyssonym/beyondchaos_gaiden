@@ -11,6 +11,7 @@ from collections import defaultdict
 from os import path
 from time import time, sleep, gmtime
 from collections import Counter
+from itertools import combinations
 
 
 VERSION = 1
@@ -2219,12 +2220,10 @@ def execute_fanatix_mode():
     fo.seek(opening_jump_pointer)
     fo.write("".join(map(chr, opening_event)))
 
-    partydict = {}
+    partydict, fulldict = {}, {}
     removedict, addict = {}, {}
     done_parties = set([])
     NUM_FLOORS = 99
-    #NUM_FLOORS = 49
-    #NUM_FLOORS = 2
     next_membit = 1
     LocationObject.class_reseed("prefanatix")
     for n in xrange(NUM_FLOORS):
@@ -2260,6 +2259,13 @@ def execute_fanatix_mode():
         partydict[n] = party
         if n == 0 and 0 not in party:
             removedict[n] = 0
+        if n in removedict:
+            fulldict[n] = tuple(sorted(list(partydict[n]) + [removedict[n]]))
+        else:
+            fulldict[n] = list(partydict[n])
+        assert addict[n] in fulldict[n]
+        assert len(set(fulldict[n])) == len(fulldict[n])
+        assert len(fulldict[n]) in [5, 6]
         done_parties.add(party)
 
     limit = addresses.fanatix_space_limit
@@ -2273,6 +2279,47 @@ def execute_fanatix_mode():
         fanatix_space_pointer += len(script)
         assert fanatix_space_pointer <= limit
         return old_pointer
+
+    sortuple = lambda x: tuple(sorted(x))
+    partial_dict = {}
+    for k, v in fulldict.items():
+        partial_dict[k] = set(v)
+
+    def get_updated_groupon_dict():
+        groupon = []
+        for n in xrange(NUM_FLOORS):
+            party = partial_dict[n]
+            for i in xrange(3, 6):
+                groupon.extend(map(sortuple, combinations(party, i)))
+        groupon_dict = Counter(groupon)
+        for k, count in groupon_dict.items():
+            if (count*len(k)*2) <= (1 + (len(k)*2) + (count*4)):
+                del(groupon_dict[k])
+        return groupon_dict
+
+    groupon_pointer_dict = {}
+    groupon_mapping_dict = defaultdict(set)
+    while True:
+        groupon_dict = get_updated_groupon_dict()
+        if not groupon_dict:
+            break
+        groupon_score = lambda g: (1 + (len(g)*2) + (groupon_dict[g]*4) -
+                                   (groupon_dict[g]*len(g)*2))
+        chosen = min(groupon_dict, key=lambda g: groupon_score(g))
+        if groupon_score(chosen) >= 0:
+            break
+
+        script = []
+        for c in chosen:
+            script += [0x3D, c]
+        script.append(0xFE)
+        groupon_pointer = write_event(script)
+        groupon_pointer_dict[chosen] = groupon_pointer
+
+        for k, v in partial_dict.items():
+            if set(chosen) <= set(v):
+                partial_dict[k] = set(v)-set(chosen)
+                groupon_mapping_dict[k].add(chosen)
 
     clear_party_script = []
     clear_party_script += [
@@ -2507,8 +2554,6 @@ def execute_fanatix_mode():
             next_map += 1
         l.purge_associated_objects()
         l.copy_data(tower_map)
-        l.set_bit("warpable", False)
-        l.set_bit("enable_encounters", True)
         e = EventObject.create_new()
         e.x, e.y = 8, 1
         e.groupindex = prev.index if prev else tower_base.index
@@ -2521,15 +2566,20 @@ def execute_fanatix_mode():
         script = []
 
         script += clear_party_command
-        for i in partydict[n]:
+        to_create = list(fulldict[n])
+        assert len(to_create) in [5, 6]
+
+        groupons = groupon_mapping_dict[n]
+        for groupon in groupons:
+            to_create = [c for c in to_create if c not in groupon]
+            script += [0xB2] + int_to_bytelist(
+                groupon_pointer_dict[groupon]-0xa0000, 3)
+
+        for i in to_create:
             script += [0x3D, i]
         if n in removedict:
-            script += [0x3D, removedict[n],
-                       0x8D, removedict[n],]
             locked |= (1 << removedict[n])
             assert removedict[n] not in partydict[n]
-            if removedict[n] == 0x0E:
-                script += [0x8D, 0x0E]
 
         if 0x0E in partydict[n]:
             script += [
@@ -2558,10 +2608,15 @@ def execute_fanatix_mode():
         script += [
             0x99, 0x01] + int_to_bytelist(locked, 2) + [        # party select
             0x6B] + int_to_bytelist(l.index | 0x1000, 2) + [9, 27, 0x00,
+            #0xB2] + int_to_bytelist(
+            #    addresses.unequipper_pointer-0xA0000, 3) + [
             ]
 
-        if 0x0E in partydict[n] and "BNW" not in get_global_label():
-            script += [0x9C, 0x0E]  # optimum (glitchy)
+        if n > 0 and "BNW" not in get_global_label():
+            script += [0x9C, addict[n]]  # optimum (glitchy)
+
+        if 0x0E in partydict[n]:
+            assert addict[n] == 0xE
 
         script += [0xFE]
         e.event_addr = write_event(script) - 0xA0000
@@ -2710,8 +2765,8 @@ def execute_fanatix_mode():
             npc.set_event_addr(event_addr)
 
         npc = NpcObject.create_new()
-        #npc.groupindex = l2.index
-        npc.groupindex = -1
+        npc.groupindex = l2.index
+        #npc.groupindex = -1
         npc.graphics = 0x17
         npc.set_palette(0)
         npc.facing = 2
@@ -2719,6 +2774,7 @@ def execute_fanatix_mode():
         npc.set_event_addr(addresses.unequipper_pointer - 0xA0000)
 
         l.name_id, l2.name_id = n+1, n+1
+        l.set_bit("warpable", False)
         l.set_bit("enable_encounters", True)
         l.set_enemy_pack(chosen_packs[n])
         l.set_palette(16)
