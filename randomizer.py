@@ -2444,14 +2444,18 @@ def execute_fanatix_mode():
 
     if len(boss_formations) > NUM_FLOORS:
         candidates = random.sample(boss_formations, NUM_FLOORS)
-        candidates += random.sample(boss_formations, NUM_FLOORS/2)
+        candidates += random.sample(boss_formations, NUM_FLOORS)
         boss_formations = [f for f in boss_formations if f in candidates]
         boss_formations = boss_formations[-NUM_FLOORS:]
     assert len(boss_formations) == NUM_FLOORS
 
     boss_formations = shuffle_normal(boss_formations,
         wide=True, random_degree=FormationObject.random_degree**2)
-    minboss = min(boss_formations, key=lambda f: f.rank)
+    escapable = [bf for bf in boss_formations if not bf.is_inescapable]
+    if escapable:
+        minboss = min(escapable, key=lambda f: f.rank)
+    else:
+        minboss = min(boss_formations, key=lambda f: f.rank)
     boss_formations.remove(minboss)
     boss_formations = [minboss] + boss_formations
     assert len(boss_formations) == NUM_FLOORS
