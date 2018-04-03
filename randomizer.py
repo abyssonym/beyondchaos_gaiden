@@ -1802,6 +1802,10 @@ class ChestObject(TableObject):
             memid |= 0x100
         return memid
 
+    @property
+    def mutate_valid(self):
+        return self.rank is not None and self.rank >= 0
+
     def set_memid(self, index):
         assert index <= 0x1FF
         if self.index & 0x100:
@@ -1830,11 +1834,12 @@ class ChestObject(TableObject):
         if self.old_formation:
             item = self.old_formation.guaranteed_treasure
             if item is None:
-                rank = self.old_formation.ranked_ratio**2
+                rank = (self.old_formation.ranked_ratio**2
+                        if self.old_formation.ranked_ratio is not None else -1)
                 return rank
 
         if item:
-            return item.ranked_ratio
+            return item.ranked_ratio if item.ranked_ratio is not None else -1
 
         if self.old_data['misc'] & 0x80:
             return self.old_data['contents'] / 655.35
@@ -1877,7 +1882,8 @@ class ChestObject(TableObject):
             self.set_contents(value)
             return
 
-        candidates = [c for c in candidates if c.rank >= 0]
+        candidates = [c for c in candidates
+                      if c.rank >= 0 and c.ranked_ratio is not None]
         max_index = len(candidates)-1
         if chosen_type.old_treasure:
             index = len([c for c in candidates
