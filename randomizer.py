@@ -2631,7 +2631,7 @@ def execute_fanatix_mode():
             #    addresses.unequipper_pointer-0xA0000, 3) + [
             ]
 
-        if n > 0 and "BNW" not in get_global_label():
+        if n > 0 and "BNW" not in get_global_label() and addict[n] == 0xE:
             script += [0x9C, addict[n]]  # optimum (glitchy)
 
         if 0x0E in partydict[n]:
