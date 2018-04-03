@@ -14,7 +14,7 @@ from collections import Counter
 from itertools import combinations
 
 
-VERSION = 1
+VERSION = 2
 ALL_OBJECTS = None
 DEBUG_MODE = False
 FOOLS = False
