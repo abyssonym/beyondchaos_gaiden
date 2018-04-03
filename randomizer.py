@@ -1601,6 +1601,19 @@ class CharacterObject(TableObject):
         "hp", "mp", "vigor", "speed", "stamina", "magpwr",
         "batpwr", "def", "magdef", "evade", "mblock",
         ]
+    mutate_attributes = {
+        "hp": None,
+        "mp": None,
+        "vigor": None,
+        "speed": None,
+        "stamina": None,
+        "magpwr": None,
+        "batpwr": None,
+        "def": None,
+        "magdef": None,
+        "evade": None,
+        "mblock": None,
+        }
 
     @classproperty
     def after_order(cls):
