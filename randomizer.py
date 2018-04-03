@@ -1206,7 +1206,9 @@ class ItemObject(TableObject):
                     self.character_mapping[equiptype] = shuffled
 
         equipability = self.equipability & 0x3fff
-        if bin(equipability).count('1') >= 2:
+        if (bin(equipability).count('1') >= 2
+                and random.random() < ((self.random_degree**0.5)
+                                       *self.ranked_ratio)):
             equipables = [i for i in ItemObject.every if i.is_equipable]
             chosen = random.choice(equipables)
             if chosen is not self and (
