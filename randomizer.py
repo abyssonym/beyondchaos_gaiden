@@ -1139,6 +1139,10 @@ class ItemObject(TableObject):
                 matches.append(c)
         return matches
 
+    @property
+    def mutate_valid(self):
+        return self.is_equipable
+
     def mutate(self):
         if not self.mutate_valid:
             return
@@ -1224,7 +1228,7 @@ class ItemObject(TableObject):
                 self.equipability |= (1 << c)
 
     def cleanup(self):
-        if self.pretty_type == "weapon":
+        if self.pretty_type not in ["armor", "shield", "helm", "relic"]:
             for attribute in ["elements", "elemabsorbs",
                               "elemnulls", "elemweaks"]:
                 setattr(self, attribute, self.old_data[attribute])
