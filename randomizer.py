@@ -1238,6 +1238,7 @@ class ItemObject(TableObject):
 
         if not self.is_equipable:
             self.power = self.old_data["power"]
+            self.equipability = self.old_data["equipability"]
 
         if self.price > 100 and 'q' in get_flags():
             price = self.price * 2
