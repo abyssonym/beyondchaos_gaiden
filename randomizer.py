@@ -1063,6 +1063,8 @@ class ItemObject(TableObject):
     @cached_property
     def is_buyable(self):
         for s in ShopObject.every:
+            if set(s.old_data['item_ids']) <= {0x00, 0xFF}:
+                continue
             if self.index in s.old_data['item_ids']:
                 return self.price
         return 0
