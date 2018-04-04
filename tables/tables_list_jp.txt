@@ -80,6 +80,8 @@ $gameover_check_pointer     a5e9f
 $load_all_party_pointer     ac901
 $fanatix_space_pointer      ad02d
 $fanatix_space_limit        ae8ea
+$fanatix_space_pointer_2    b4e3d
+$fanatix_space_limit_2      b5ebb
 $refreshments_pointer       b2241
 $colosseum_pointer          b78c1
 $unequipper_pointer         c3506

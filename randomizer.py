@@ -2259,6 +2259,10 @@ def execute_fanatix_mode():
 
     #for i in xrange(27):   # espers
     #    opening_event += [0x86, i + 0x36,]
+    opening_event += [
+        0x80, 0xf0,
+        0x80, 0xf0,
+        ]
 
     opening_event += [
         0x7F, 0x0E, 0x0E,   # banon
@@ -2332,11 +2336,23 @@ def execute_fanatix_mode():
         assert len(fulldict[n]) in [5, 6]
         done_parties.add(party)
 
-    limit = addresses.fanatix_space_limit
     def write_event(script):
         global fanatix_space_pointer
         if fanatix_space_pointer is None:
             fanatix_space_pointer = addresses.fanatix_space_pointer
+
+        limit = -1
+        if fanatix_space_pointer < addresses.fanatix_space_limit:
+            assert fanatix_space_pointer >= addresses.fanatix_space_pointer
+            limit = addresses.fanatix_space_limit
+            if fanatix_space_pointer + len(script) > limit:
+                fanatix_space_pointer = addresses.fanatix_space_pointer_2
+        if fanatix_space_pointer >= addresses.fanatix_space_limit:
+            assert fanatix_space_pointer >= addresses.fanatix_space_pointer_2
+            limit = addresses.fanatix_space_limit_2
+            if fanatix_space_pointer + len(script) > limit:
+                raise Exception("Not enough space.")
+
         old_pointer = fanatix_space_pointer
         fo.seek(fanatix_space_pointer)
         fo.write("".join(map(chr, script)))
@@ -2384,6 +2400,17 @@ def execute_fanatix_mode():
             if set(chosen) <= set(v):
                 partial_dict[k] = set(v)-set(chosen)
                 groupon_mapping_dict[k].add(chosen)
+
+    add_char_scripts = {}
+    for i in xrange(14):
+        script = []
+        script += [0x3F, addict[n], 0x01]
+        if "BNW" not in get_global_label():
+            script += [0x9C, addict[n]]  # optimum (glitchy)
+        script += [0x3F, addict[n], 0x00]
+        script += [0xFE]
+        add_char = write_event(script) - 0xA0000
+        add_char_scripts[i] = [0xB2] + int_to_bytelist(add_char, 3)
 
     clear_party_script = []
     clear_party_script += [
@@ -2657,10 +2684,12 @@ def execute_fanatix_mode():
                 0x88, 0x0E, 0x00, 0x00,     # remove status from banon
                 0x40, 0x0E, 0x0E,           # relevel banon
                 0x3F, 0x0E, 0x01,
-                #0x9C, 0x0E,                 # optimum (glitchy)
+                0x9c, 0x0E,
                 ]
             locked |= (1 << 0x0E)
         else:
+            if n > 0:
+                script += add_char_scripts[addict[n]]
             for i in sorted(to_lock):
                 if i == addict[n]:
                     continue
@@ -2682,9 +2711,6 @@ def execute_fanatix_mode():
             #0xB2] + int_to_bytelist(
             #    addresses.unequipper_pointer-0xA0000, 3) + [
             ]
-
-        if n > 0 and "BNW" not in get_global_label() and addict[n] == 0xE:
-            script += [0x9C, addict[n]]  # optimum (glitchy)
 
         if 0x0E in partydict[n]:
             assert addict[n] == 0xE
