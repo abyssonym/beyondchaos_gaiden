@@ -322,6 +322,17 @@ class ShopObject(TableObject):
             return -1
         return max(i.price for i in self.items)
 
+    @classproperty
+    def consumables(cls):
+        if hasattr(ShopObject, "_consumables"):
+            return ShopObject._consumables
+        consumables = set([])
+        for s in ShopObject.every:
+            if s.shop_type == "items":
+                consumables |= set(s.old_items)
+        ShopObject._consumables = sorted(consumables, key=lambda i: i.index)
+        return ShopObject.consumables
+
     def mutate(self):
         items = list(self.items)
         num_items = len(items)
@@ -362,6 +373,19 @@ class ShopObject(TableObject):
 
         assert len(new_items) == 8
         self.item_ids = new_items
+
+    def cleanup(self):
+        self.reseed("cleanup")
+        if "fanatix" in get_activated_codes() and self.shop_type == "items":
+            for banned_id in [0xF6, 0xF7]:
+                if banned_id not in self.item_ids:
+                    continue
+                consumables = [i for i in self.consumables
+                               if i.index not in self.item_ids]
+                i = random.choice(consumables)
+                self.item_ids.remove(banned_id)
+                self.item_ids.append(i.index)
+        self.item_ids = sorted(self.item_ids)
 
 
 class MetamorphObject(TableObject):
