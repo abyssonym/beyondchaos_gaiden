@@ -2591,6 +2591,7 @@ def execute_fanatix_mode():
         chosen_music[f] = valid_songs[int(round(max_index*ratio))]
 
     prev, previous_npc = None, None
+    done_shops = set([])
     dummy = ChestObject.create_new()
     dummy.groupindex = 0
     next_map = 0
@@ -2813,7 +2814,12 @@ def execute_fanatix_mode():
                 npc.set_palette(1)
                 shops = [s for s in ShopObject.every
                          if s.rank > 0 and s.shop_type in ["items", "misc"]]
+            temp = [s for s in shops if s not in done_shops]
+            if temp:
+                shops = temp
             chosen = random.choice(shops)
+            print chosen
+            done_shops.add(chosen)
             script = [0x9B, chosen.index,
                       0xFE]
             event_addr = write_event(script) - 0xA0000
