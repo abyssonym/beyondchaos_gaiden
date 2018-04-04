@@ -292,7 +292,7 @@ class InitialRageObject(TableObject):
 class ShopObject(TableObject):
     flag = 'p'
     flag_description = "shops"
-    custom_random_enable = True
+    #custom_random_enable = True
 
     def __repr__(self):
         s = "%s SHOP %x\n" % (self.shop_type.upper(), self.index)
@@ -305,13 +305,20 @@ class ShopObject(TableObject):
         return [ItemObject.get(i) for i in self.item_ids if i < 0xFF]
 
     @property
+    def old_items(self):
+        return [ItemObject.get(i) for i in self.old_data["item_ids"]
+                if i < 0xFF]
+
+    @property
     def shop_type(self):
         shop_types = {1:"weapons", 2:"armor", 3:"items", 4:"relics", 5:"misc"}
         return shop_types[self.misc & 0x7]
 
     @property
     def rank(self):
-        if set(self.item_ids) == {255}:
+        if len(self.old_items) <= 0:
+            return -1
+        if set(self.old_data["item_ids"]) == {255}:
             return -1
         return max(i.price for i in self.items)
 
@@ -320,32 +327,28 @@ class ShopObject(TableObject):
         num_items = len(items)
         if num_items <= 0:
             return
-        num_items = mutate_normal(num_items, 1, 8, wide=True,
+        candidate_shops = [
+            s for s in ShopObject.every if s.shop_type == self.shop_type
+            or (self.shop_type == "misc" and s.shop_type == "items")]
+        candidate_shops = [c for c in candidate_shops
+                           if c.rank >= 0 and len(c.old_items) > 0]
+        num_items = len(random.choice(candidate_shops).old_items)
+        num_items = mutate_normal(num_items, 1, 8, wide=False,
                                   random_degree=self.random_degree)
 
-        candidates = set([])
-        for s in ShopObject.every:
-            if s.shop_type == self.shop_type or (
-                    self.shop_type == "misc" and s.shop_type == "items"):
-                candidates |= set(s.old_data["item_ids"])
+        candidates = []
+        for s in candidate_shops:
+            candidates.extend(s.old_data["item_ids"])
+        candidates = [c for c in candidates if c != 0xff]
 
-        if 0xff in candidates:
-            candidates.remove(0xff)
-        candidates = [ItemObject.get(i) for i in sorted(candidates)]
-        candidates = sorted(candidates, key=lambda i: i.rank)
         new_items = []
-        for _ in xrange(100):
-            i = random.choice(items)
-            i = i.get_similar(candidates, random_degree=self.random_degree)
-            if i not in new_items:
-                new_items.append(i)
-            if self.shop_type in ["items", "misc"] and i.pretty_type == "tool":
-                candidates = [c for c in candidates if c.pretty_type != "tool"
-                              or c.index in self.old_data["item_ids"]]
-            if len(new_items) >= num_items:
-                break
+        while len(new_items) < num_items:
+            remaining = num_items - len(new_items)
+            new_items += random.sample(candidates, remaining)
+            new_items = sorted(set(new_items))
+            candidates = [c for c in candidates if c not in new_items]
 
-        new_items = sorted([i.index for i in new_items])
+        new_items = sorted(set(new_items))
 
         if self.index == 0xc and 0xfe in self.old_data["item_ids"]:
             # dried meat in mobliz
