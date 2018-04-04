@@ -575,6 +575,11 @@ class MonsterObject(TableObject):
                 self.old_data['hp'], self.old_data['hp'], self.hp,
                 wide=True, random_degree=self.random_degree)
 
+        if self.level > self.old_data['level']:
+            self.level = mutate_normal(
+                self.old_data['level'], self.old_data['level'], self.level,
+                wide=True, random_degree=self.random_degree)
+
     def cleanup(self):
         elements, old_elements = (self.absorb | self.null), (
             self.old_data['absorb'] | self.old_data['null'])
