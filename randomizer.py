@@ -636,7 +636,7 @@ class MonsterLootObject(TableObject):
         for i, d in enumerate(self.drop_item_ids):
             if d < 0xFF:
                 d = ItemObject.get(d).get_similar().index
-                self.steal_item_ids[i] = d
+                self.drop_item_ids[i] = d
 
 
 class SpecialAnimObject(TableObject): pass
