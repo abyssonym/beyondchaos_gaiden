@@ -328,7 +328,7 @@ class ShopObject(TableObject):
             return -1
         if set(self.item_ids) == {255}:
             return -1
-        return max(i.price for i in self.items)
+        return sum(i.price for i in self.items) / float(len(self.items))
 
     @classproperty
     def consumables(cls):
