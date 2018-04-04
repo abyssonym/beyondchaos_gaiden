@@ -2413,6 +2413,7 @@ def execute_fanatix_mode():
         add_char_scripts[i] = [0xB2] + int_to_bytelist(add_char, 3)
 
     clear_party_script = []
+    clear_party_script += [0x97, 0x5c]  # fade out
     clear_party_script += [
         # IMPORTANT: unequip banon here or lose items permanently
         0x8D, 0x0E,  # yes, do it even if banon's not supposed to be there
