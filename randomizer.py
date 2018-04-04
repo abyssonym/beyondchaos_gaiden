@@ -2590,7 +2590,7 @@ def execute_fanatix_mode():
         max_index = len(valid_songs)-1
         chosen_music[f] = valid_songs[int(round(max_index*ratio))]
 
-    prev = None
+    prev, previous_npc = None, None
     dummy = ChestObject.create_new()
     dummy.groupindex = 0
     next_map = 0
@@ -2758,9 +2758,12 @@ def execute_fanatix_mode():
         elif n in colosseum_floors:
             npc_choice = "colosseum"
         else:
-            npc_choice = random.choice([
+            candidates = [
                 "save_point", "save_point", "inn", "inn", "weapon_shop",
-                "armor_shop", "relic_shop", "item_shop", "item_shop"])
+                "armor_shop", "relic_shop", "item_shop", "item_shop"]
+            candidates = [c for c in candidates if c != previous_npc]
+            npc_choice = random.choice(candidates)
+        previous_npc = npc_choice
         if npc_choice == "save_point":
             pointer = fanatix_space_pointer - 0xA0000
             npc.become_pay_save(pointer, price, price_message,
