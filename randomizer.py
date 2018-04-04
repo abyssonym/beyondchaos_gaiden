@@ -1003,8 +1003,8 @@ class ItemObject(TableObject):
 
     magic_mutate_bit_attributes = {
         "equipability": 0xBFFF,
-        ("elements", "elemabsorbs", "elemnulls", "elemweaks"): (
-            0xFF, 0xFF, 0xFF, 0xFF),
+        #("elements", "elemabsorbs", "elemnulls", "elemweaks"): (
+        #    0xFF, 0xFF, 0xFF, 0xFF),
         }
 
     def __repr__(self):
