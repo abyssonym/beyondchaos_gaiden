@@ -320,6 +320,14 @@ class ShopObject(TableObject):
             return -1
         if set(self.old_data["item_ids"]) == {255}:
             return -1
+        return max(i.price for i in self.old_items)
+
+    @property
+    def current_rank(self):
+        if len(self.items) <= 0:
+            return -1
+        if set(self.item_ids) == {255}:
+            return -1
         return max(i.price for i in self.items)
 
     @classproperty
@@ -2814,11 +2822,18 @@ def execute_fanatix_mode():
                 npc.set_palette(1)
                 shops = [s for s in ShopObject.every
                          if s.rank > 0 and s.shop_type in ["items", "misc"]]
+            shops = sorted(shops, key=lambda s: s.current_rank)
             temp = [s for s in shops if s not in done_shops]
             if temp:
                 shops = temp
-            chosen = random.choice(shops)
-            print chosen
+                max_index = len(shops)-1
+                index = int(round(n * max_index / float(NUM_FLOORS-1)))
+                index = mutate_normal(index, 0, max_index, wide=True,
+                                      random_degree=ShopObject.random_degree)
+            else:
+                max_index = len(shops)-1
+                index = random.randint(0, max_index)
+            chosen = shops[index]
             done_shops.add(chosen)
             script = [0x9B, chosen.index,
                       0xFE]
