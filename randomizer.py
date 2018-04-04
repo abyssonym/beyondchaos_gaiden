@@ -593,9 +593,29 @@ class MonsterObject(TableObject):
         for m in MonsterObject.every:
             if m in monsters:
                 a, b = (by_a.index(m), by_b.index(m))
-                m._rank = max(a, b) * (a+b)
+                m._base_rank = max(a, b) * (a+b)
+            else:
+                m._base_rank = -1
+
+        companion_dict = defaultdict(set)
+        for f in FormationObject.every:
+            enemies = set([m for m in f.enemies if m._base_rank >= 0])
+            for m in enemies:
+                companion_dict[m] |= enemies
+
+        for m in MonsterObject.every:
+            if m in companion_dict:
+                companion_rank = (
+                    sum([m2._base_rank for m2 in companion_dict[m]])
+                    / len(companion_dict[m]))
+                similarity = m._base_rank / companion_rank
+                if similarity > 1:
+                    similarity = 1 / similarity
+                ratio = similarity / 2
+                m._rank = (m._base_rank*(1-ratio)) + (companion_rank*ratio)
             else:
                 m._rank = -1
+
         return self.rank
 
     def mutate(self):
@@ -711,9 +731,18 @@ class PackObject(TableObject):
     def rank(self):
         if any([f.rank < 0 for f in self.formations]):
             return -1
-        a = max([f.rank for f in self.formations])
-        b = max([f.rank for f in self.formations[:3]])
-        return (a+b) / 2.0
+
+        if len(self.formations) == 4:
+            weights = [5, 5, 5, 1]
+        else:
+            assert len(self.formations) == 2
+            weights = [1, 1]
+
+        rank = 0
+        for w, f in zip(weights, self.formations):
+            rank += (w / float(sum(weights))) * f.rank
+
+        return rank
 
     @property
     def formation_ids(self):
@@ -891,10 +920,35 @@ class FormationObject(TableObject):
 
     @property
     def rank(self):
-        enemy_ranks = [e.rank for e in self.enemies if e.rank > 0]
-        if not enemy_ranks:
-            return -1
-        return max(enemy_ranks) * (sum(enemy_ranks)**0.0625)
+        if hasattr(self, "_rank"):
+            return self._rank
+
+        for f in FormationObject.every:
+            enemy_ranks = [e.rank for e in f.enemies if e.rank > 0]
+            if not enemy_ranks:
+                f._base_rank = -1
+            else:
+                f._base_rank = max(enemy_ranks) * (sum(enemy_ranks)**0.0625)
+            f._rank = f._base_rank
+
+        companion_dict = defaultdict(set)
+        for fp in FourPackObject.every:
+            formations = set([f for f in fp.formations if f._base_rank >= 0])
+            for f in formations:
+                companion_dict[f] |= formations
+
+        for f in FormationObject.every:
+            if f in companion_dict:
+                companion_rank = (
+                    sum([f2._base_rank for f2 in companion_dict[f]])
+                    / len(companion_dict[f]))
+                similarity = f._base_rank / companion_rank
+                if similarity > 1:
+                    similarity = 1 / similarity
+                ratio = similarity / 2
+                f._rank = (f._base_rank*(1-ratio)) + (companion_rank*ratio)
+
+        return self.rank
 
     @cached_property
     def two_packs(self):
@@ -2531,7 +2585,7 @@ def execute_fanatix_mode():
 
     if len(boss_formations) > NUM_FLOORS:
         candidates = random.sample(boss_formations, NUM_FLOORS)
-        candidates += random.sample(boss_formations, NUM_FLOORS)
+        candidates += random.sample(boss_formations, NUM_FLOORS/2)
         boss_formations = [f for f in boss_formations if f in candidates]
         boss_formations = boss_formations[-NUM_FLOORS:]
     assert len(boss_formations) == NUM_FLOORS
@@ -2576,7 +2630,7 @@ def execute_fanatix_mode():
         if temp:
             candidates = temp
         max_index = len(candidates)-1
-        floor_ratio = i / float(NUM_FLOORS-1)
+        floor_ratio = (i / float(NUM_FLOORS-1))**0.5
         ratio = (floor_ratio*highratio) + ((1-floor_ratio)*lowratio)
         threshold = highest_threshold * ratio
         index = len([p for p in candidates if p.rank <= threshold])-1
