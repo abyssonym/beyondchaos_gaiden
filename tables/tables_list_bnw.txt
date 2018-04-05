@@ -69,7 +69,6 @@ ChestObject         chest_table.txt             2d82f4  414 pointed 2d8634  2
 LocationObject      location_table.txt          2d8f00  414
 FieldPaletteObject  field_palette_table.txt     2dc480  48
 LongEntranceObject  long_entrance_table.txt     2df480  414 pointed 2df480  2
-.patch              splash_removal_patch.txt
 $inn_ask_message            517
 $ask_message                524
 $while_confused_cmd_address 204d0
@@ -100,5 +99,11 @@ $wob_choco_palette_address  12ee20
 $wor_choco_palette_address  12ef20
 $npc_choco_palette_address  2680e0
 $known_lores_address        26f564
-
 $cheatproof_addr            cff61
+.option                     splash_removal_patch.txt
+.option                     myself_core_patch.bin
+.option                     myself_menu_dance_patch.txt
+#.option                     myself_menu_gogo_patch.txt
+.option                     myself_menu_item_patch.txt
+#.option                     myself_menu_names_patch.txt
+#.option                     myself_menu_rage_patch.txt
