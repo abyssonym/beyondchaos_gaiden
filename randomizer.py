@@ -1983,8 +1983,8 @@ class ChestObject(TableObject):
         else:
             # gold
             candidates = None
-            value = self.ranked_ratio * 655.35
-            value = mutate_normal(value, 0, 655.35, wide=True,
+            value = (self.ranked_ratio**2) * 255
+            value = mutate_normal(value, 0, 255, wide=True,
                                   random_degree=self.random_degree)
             value = min(255, int(round(value)))
             self.set_contents(value)
