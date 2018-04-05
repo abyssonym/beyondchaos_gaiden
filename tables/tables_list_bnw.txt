@@ -100,6 +100,7 @@ $wor_choco_palette_address  12ef20
 $npc_choco_palette_address  2680e0
 $known_lores_address        26f564
 $cheatproof_addr            cff61
+.patch                      undo_brushless_sketch_bnw_patch.txt
 .option                     splash_removal_patch.txt
 .option                     myself_core_patch.bin
 .option                     myself_menu_dance_patch.txt
