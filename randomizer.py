@@ -728,6 +728,10 @@ class PackObject(TableObject):
         return self.guaranteed_treasure.rank
 
     @property
+    def has_xp(self):
+        return all([f.has_xp and f.rank >= 0 for f in self.formations])
+
+    @property
     def rank(self):
         if any([f.rank < 0 for f in self.formations]):
             return -1
@@ -884,6 +888,10 @@ class FormationObject(TableObject):
     @property
     def metadata(self):
         return FormationMetaObject.get(self.index)
+
+    @property
+    def has_xp(self):
+        return any([e.xp > 0 and e.rank >= 0 for e in self.enemies])
 
     def clear_music(self, force=False):
         self.metadata.clear_music(force=force)
@@ -2615,13 +2623,21 @@ def execute_fanatix_mode():
              and not set(p.formation_ids) & BANNED_FORMATIONS]
     done_packs = set([])
     chosen_packs = []
-    highest_threshold = 0
     boss_ranks = [bp.rank for bp in boss_packs]
     random_ranks = [p.rank for p in packs]
     minboss, maxboss = min(boss_ranks), max(boss_ranks)
     minrandom, maxrandom = min(random_ranks), max(random_ranks)
     lowratio, highratio = (minrandom / minboss), (maxrandom / maxboss)
+
+    exp_packs = sorted([p for p in packs if p.has_xp], key=lambda x: x.rank)
+    chosen = exp_packs[0]
+    chosen_packs.append(chosen)
+    done_packs.add(chosen)
+    highest_threshold = boss_packs[0].rank
+
     for (i, bp) in enumerate(boss_packs):
+        if i == 0:
+            continue
         highest_threshold = max(highest_threshold, bp.rank)
         candidates = [p for p in packs if p.rank <= highest_threshold]
         if not candidates:
