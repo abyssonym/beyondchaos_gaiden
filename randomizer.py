@@ -2467,10 +2467,10 @@ def execute_fanatix_mode():
     add_char_scripts = {}
     for i in xrange(14):
         script = []
-        script += [0x3F, addict[n], 0x01]
+        script += [0x3F, i, 0x01]
         if "BNW" not in get_global_label():
-            script += [0x9C, addict[n]]  # optimum (glitchy)
-        script += [0x3F, addict[n], 0x00]
+            script += [0x9C, i]  # optimum (glitchy)
+        script += [0x3F, i, 0x00]
         script += [0xFE]
         add_char = write_event(script) - 0xA0000
         add_char_scripts[i] = [0xB2] + int_to_bytelist(add_char, 3)
@@ -2738,11 +2738,11 @@ def execute_fanatix_mode():
         to_create = list(fulldict[n])
         assert len(to_create) in [5, 6]
 
-        groupons = groupon_mapping_dict[n]
-        for groupon in groupons:
-            to_create = [c for c in to_create if c not in groupon]
-            script += [0xB2] + int_to_bytelist(
-                groupon_pointer_dict[groupon]-0xa0000, 3)
+        #groupons = groupon_mapping_dict[n]
+        #for groupon in groupons:
+        #    to_create = [c for c in to_create if c not in groupon]
+        #    script += [0xB2] + int_to_bytelist(
+        #        groupon_pointer_dict[groupon]-0xa0000, 3)
 
         for i in to_create:
             script += [0x3D, i]
