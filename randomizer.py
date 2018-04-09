@@ -853,6 +853,8 @@ class FormationMetaObject(TableObject):
 
 
 class FormationObject(TableObject):
+    custom_random_enable = 'f'
+
     def __repr__(self):
         s = "FORMATION %x: %s" % (
             self.index, " ".join(e.name for e in self.enemies))
