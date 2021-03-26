@@ -1880,7 +1880,7 @@ class CharacterObject(TableObject):
             for (i, r) in enumerate(self.relics):
                 if r == 0xFF:
                     continue
-                item = ItemObject.get(index)
+                item = ItemObject.get(r)
                 if not item.equipability & (1 << self.index):
                     self.relics[i] = 0xFF
 
