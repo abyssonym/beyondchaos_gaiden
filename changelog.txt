@@ -1,3 +1,9 @@
+v4
+
+-Upgraded to Python 3
+-Added support for BNW v2.1 (14b)
+-Fixed some minor bugs
+
 v3
 
 -Enemy level randomization is severely dampened

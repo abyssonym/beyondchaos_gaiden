@@ -1,6 +1,6 @@
 Final Fantasy 6 Beyond Chaos Gaiden Randomizer
-Version:    1.2
-Date:       April 2, 2018
+Version:    4
+Date:       March 25, 2021
 URL:        https://abyssonym.wordpress.com/2018/04/02/176/
 Contact:    https://twitter.com/abyssonym
 
@@ -13,13 +13,14 @@ About:
     Beyond Chaos Gaiden is my second FF6 randomizer, developed using my latest tools and experience. It is designed to be portable to many different versions of FF6, such as the Japanese version and Brave New World.
 
 Running the randomizer:
-    Windows users may use the executable file, "beyondchaos_gaiden.exe". Other users, please run "randomizer.py" using Python version 2.7.
+    Windows users may use the executable file, "beyondchaos_gaiden.exe". Other users, please run "randomizer.py" using Python version 3.
 
 Source rom file:
     This randomizer is compatible with the following roms:
         FF3 SNES NA 1.0     e986575b98300f721ce27c180264d890
         FF6 SFC JP          97bf78e916b80f47cf35edf502be34dc
         FF6 BNW 1.9         54427dfadea94ef32acd77be78137ac5
+        FF6 BNW 2.1-14b     180de30b6171dde23ce865eaf0b77324
     Other FF6 SNES mods, such as Beyond Chaos seeds, might also be compatible by selecting "FF6_NA_SAFE_MODE" when prompted.
 
 Seed value:
