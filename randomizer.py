@@ -1,17 +1,16 @@
 from randomtools.tablereader import (
-    TableObject, get_global_label, tblpath, addresses, get_random_degree,
+    TableObject, get_global_label, addresses,
     get_activated_patches, mutate_normal, shuffle_normal, write_patch)
 from randomtools.utils import (
-    classproperty, cached_property, get_snes_palette_transformer,
-    read_multi, write_multi, utilrandom as random)
+    classproperty, cached_property, utilrandom as random)
 from randomtools.interface import (
     get_outfile, get_seed, get_flags, get_activated_codes, activate_code,
     run_interface, rewrite_snes_meta, clean_and_write, finish_interface)
 from collections import defaultdict
-from os import path
-from time import time, sleep, gmtime
+from time import time, gmtime
 from collections import Counter
 from itertools import combinations
+from traceback import format_exc
 
 
 VERSION = 3
@@ -45,12 +44,10 @@ price_message_indexes = {
 
 
 def to_ascii(text):
-    s = ""
+    s = ''
     for c in text:
-        c = ord(c)
         if 0x80 <= c <= 0x99:
             s += chr(ord('A') + c-0x80)
-            pass
         elif 0x9A <= c <= 0xB3:
             s += chr(ord('a') + c-0x9A)
         elif 0xB4 <= c <= 0xBD:
@@ -62,7 +59,7 @@ def to_ascii(text):
 
 def int_to_bytelist(value, length):
     value_list = []
-    for _ in xrange(length):
+    for _ in range(length):
         value_list.append(value & 0xFF)
         value >>= 8
     assert value == 0
@@ -71,7 +68,7 @@ def int_to_bytelist(value, length):
 
 class VanillaObject(TableObject):
     flag = 'v'
-    flag_description = "nothing"
+    flag_description = 'nothing'
 
 
 class OverworldRateObject(TableObject): pass
@@ -98,7 +95,7 @@ class RNGObject(TableObject):
     flag = 'r'
     flag_description = 'RNG'
 
-    intershuffle_attributes = ["value"]
+    intershuffle_attributes = ['value']
 
 
 class CmdMenuPtrObject(TableObject): pass
@@ -138,19 +135,19 @@ class MouldObject(TableObject): pass
 
 class CmdChangeFBObject(TableObject, CmdChangeMixin):
     #flag = 'o'
-    #flag_description = "character commands"
+    #flag_description = 'character commands'
 
     @classmethod
     def randomize_all(cls):
         #for c in CharacterObject.every:
-        #    assert not hasattr(c, "randomized")
-        #    c.reseed("rand_commands")
+        #    assert not hasattr(c, 'randomized')
+        #    c.reseed('rand_commands')
         #    c.randomize_commands()
 
         for o in CmdChangeFBObject.every:
-            if hasattr(o, "randomized") and o.randomized:
+            if hasattr(o, 'randomized') and o.randomized:
                 continue
-            o.reseed(salt="ran")
+            o.reseed(salt='ran')
             o.randomize()
             o.randomized = True
 
@@ -192,13 +189,13 @@ class CmdChangeTBObject(TableObject, CmdChangeMixin):
 
     @classmethod
     def randomize_all(cls):
-        CmdChangeTBObject.class_reseed("ran_order")
+        CmdChangeTBObject.class_reseed('ran_order')
         objs = list(CmdChangeTBObject.every)
         random.shuffle(objs)
         for o in objs:
-            if hasattr(o, "randomized") and o.randomized:
+            if hasattr(o, 'randomized') and o.randomized:
                 continue
-            o.reseed(salt="ran")
+            o.reseed(salt='ran')
             o.randomize()
             o.randomized = True
 
@@ -266,12 +263,12 @@ class NpcObject(TableObject):
 
 class SkillObject(TableObject):
     bit_similarity_attributes = {
-        "targeting": 0xff,
-        "elements": 0xff,
-        "misc1": 0xff,
-        "misc2": 0xff,
-        "misc3": 0xff,
-        "statuses": 0xffffffff,
+        'targeting': 0xff,
+        'elements': 0xff,
+        'misc1': 0xff,
+        'misc2': 0xff,
+        'misc3': 0xff,
+        'statuses': 0xffffffff,
         }
 
 
@@ -280,9 +277,9 @@ class BlitzInputObject(TableObject): pass
 
 class InitialRageObject(TableObject):
     def cleanup(self):
-        if "BNW" in get_global_label():
+        if 'BNW' in get_global_label():
             return
-        if "fanatix" in get_activated_codes():
+        if 'fanatix' in get_activated_codes():
             if self.index == 0:
                 self.initial_rages = 1
             else:
@@ -291,13 +288,13 @@ class InitialRageObject(TableObject):
 
 class ShopObject(TableObject):
     flag = 'p'
-    flag_description = "shops"
+    flag_description = 'shops'
     #custom_random_enable = True
 
     def __repr__(self):
-        s = "%s SHOP %x\n" % (self.shop_type.upper(), self.index)
+        s = '%s SHOP %x\n' % (self.shop_type.upper(), self.index)
         for i in self.items:
-            s += "%s %s\n" % (str(i), i.price)
+            s += '%s %s\n' % (str(i), i.price)
         return s.strip()
 
     @property
@@ -306,19 +303,19 @@ class ShopObject(TableObject):
 
     @property
     def old_items(self):
-        return [ItemObject.get(i) for i in self.old_data["item_ids"]
+        return [ItemObject.get(i) for i in self.old_data['item_ids']
                 if i < 0xFF]
 
     @property
     def shop_type(self):
-        shop_types = {1:"weapons", 2:"armor", 3:"items", 4:"relics", 5:"misc"}
+        shop_types = {1:'weapons', 2:'armor', 3:'items', 4:'relics', 5:'misc'}
         return shop_types[self.misc & 0x7]
 
     @property
     def rank(self):
         if len(self.old_items) <= 0:
             return -1
-        if set(self.old_data["item_ids"]) == {255}:
+        if set(self.old_data['item_ids']) == {255}:
             return -1
         return max(i.price for i in self.old_items)
 
@@ -332,11 +329,11 @@ class ShopObject(TableObject):
 
     @classproperty
     def consumables(cls):
-        if hasattr(ShopObject, "_consumables"):
+        if hasattr(ShopObject, '_consumables'):
             return ShopObject._consumables
         consumables = set([])
         for s in ShopObject.every:
-            if s.shop_type == "items":
+            if s.shop_type == 'items':
                 consumables |= set(s.old_items)
         ShopObject._consumables = sorted(consumables, key=lambda i: i.index)
         return ShopObject.consumables
@@ -348,7 +345,7 @@ class ShopObject(TableObject):
             return
         candidate_shops = [
             s for s in ShopObject.every if s.shop_type == self.shop_type
-            or (self.shop_type == "misc" and s.shop_type == "items")]
+            or (self.shop_type == 'misc' and s.shop_type == 'items')]
         candidate_shops = [c for c in candidate_shops
                            if c.rank >= 0 and len(c.old_items) > 0]
         num_items = len(random.choice(candidate_shops).old_items)
@@ -357,7 +354,7 @@ class ShopObject(TableObject):
 
         candidates = []
         for s in candidate_shops:
-            candidates.extend(s.old_data["item_ids"])
+            candidates.extend(s.old_data['item_ids'])
         candidates = [c for c in candidates if c != 0xff]
 
         new_items = []
@@ -369,7 +366,7 @@ class ShopObject(TableObject):
 
         new_items = sorted(set(new_items))
 
-        if self.index == 0xc and 0xfe in self.old_data["item_ids"]:
+        if self.index == 0xc and 0xfe in self.old_data['item_ids']:
             # dried meat in mobliz
             if len(new_items) == 8:
                 new_items.remove(random.choice(new_items))
@@ -383,8 +380,8 @@ class ShopObject(TableObject):
         self.item_ids = new_items
 
     def cleanup(self):
-        self.reseed("cleanup")
-        if "fanatix" in get_activated_codes() and self.shop_type == "items":
+        self.reseed('cleanup')
+        if 'fanatix' in get_activated_codes() and self.shop_type == 'items':
             for banned_id in [0xF6, 0xF7]:
                 if banned_id not in self.item_ids:
                     continue
@@ -398,9 +395,9 @@ class ShopObject(TableObject):
 
 class MetamorphObject(TableObject):
     def __repr__(self):
-        s = "MORPH %x\n" % self.index
+        s = 'MORPH %x\n' % self.index
         for i in self.items:
-            s += str(i.name) + "\n"
+            s += str(i.name) + '\n'
         return s.strip()
 
     @property
@@ -410,11 +407,11 @@ class MetamorphObject(TableObject):
 
 class MagiciteObject(TableObject):
     flag = 'g'
-    flag_description = "magicite"
+    flag_description = 'magicite'
 
     @classmethod
     def randomize_all(cls):
-        MagiciteObject.class_reseed("ran")
+        MagiciteObject.class_reseed('ran')
         indexes = sorted(set([m.esper_index for m in MagiciteObject.every
                               if m.instruction in [0x86, 0x87]]))
         shuffled = list(indexes)
@@ -431,7 +428,7 @@ class MagiciteObject(TableObject):
             assert self.instruction in [0x86, 0x87]
             assert 0x36 <= self.esper_index <= 0x50
         except AssertionError:
-            if "SAFE_MODE" in get_global_label():
+            if 'SAFE_MODE' in get_global_label():
                 self.assert_unchanged()
             else:
                 raise AssertionError
@@ -439,7 +436,7 @@ class MagiciteObject(TableObject):
 
 class EventSpriteObject(TableObject):
     def cleanup(self):
-        if "SAFE_MODE" in get_global_label():
+        if 'SAFE_MODE' in get_global_label():
             self.assert_unchanged()
         else:
             assert self.thirty_seven == 0x37
@@ -449,25 +446,25 @@ class EventSpriteObject(TableObject):
 class DialoguePtrObject(TableObject):
     @classmethod
     def bring_back_auction_prices(cls):
-        if "BNW" not in get_global_label():
+        if 'BNW' not in get_global_label():
             raise NotImplementedError
 
         indexes = sorted(price_message_indexes.values())
         assert all([i & 0xa00 == 0xa00 for i in indexes])
         pointer = min([DialoguePtrObject.get(i).dialogue_pointer
                        for i in indexes]) | 0xE0000
-        message_head = "\x01\x14\x08"
-        message_tail = "\x7f\x26\x2f\x5e\x00"
+        message_head = b'\x01\x14\x08'
+        message_tail = b'\x7f\x26\x2f\x5e\x00'
         reverse_dict = dict([(v, k) for (k, v)
                              in price_message_indexes.items()])
-        f = open(get_outfile(), "r+b")
+        f = open(get_outfile(), 'r+b')
         for i in indexes:
             dpo = DialoguePtrObject.get(i)
             dpo.dialogue_pointer = pointer & 0xFFFF
             value = str(reverse_dict[i])
-            content = ""
+            content = b''
             for c in value:
-                content += chr(0x54 + int(c))
+                content += bytes([0x54 + int(c)])
             f.seek(pointer)
             s = message_head + content + message_tail
             f.write(s)
@@ -476,42 +473,42 @@ class DialoguePtrObject(TableObject):
 
 class MonsterObject(TableObject):
     flag = 'm'
-    flag_description = "monsters"
+    flag_description = 'monsters'
     custom_random_enable = True
 
     magic_mutate_bit_attributes = {
-        ("statuses", "immunities"): (0xFFFFFFFF, 0xFFFFFF),
-        ("absorb", "null", "weakness"): (0xFF, 0xFF, 0xFF),
+        ('statuses', 'immunities'): (0xFFFFFFFF, 0xFFFFFF),
+        ('absorb', 'null', 'weakness'): (0xFF, 0xFF, 0xFF),
         }
 
     mutate_attributes = {
-        "speed": None,
-        "attack": None,
-        "hit": None,
-        "evade": None,
-        "mblock": None,
-        "def": None,
-        "mdef": None,
-        "mpow": None,
-        "hp": None,
-        "mp": None,
-        "xp": None,
-        "gp": None,
-        "level": None,
+        'speed': None,
+        'attack': None,
+        'hit': None,
+        'evade': None,
+        'mblock': None,
+        'def': None,
+        'mdef': None,
+        'mpow': None,
+        'hp': None,
+        'mp': None,
+        'xp': None,
+        'gp': None,
+        'level': None,
         }
 
     randomselect_attributes = [
-        "speed", "attack", "hit", "evade", "mblock", "def", "mdef", "mpow",
-        "hp", "xp", "gp", "level", "morph_id", "animation", "special",
+        'speed', 'attack', 'hit', 'evade', 'mblock', 'def', 'mdef', 'mpow',
+        'hp', 'xp', 'gp', 'level', 'morph_id', 'animation', 'special',
         ]
 
     @property
     def name(self):
-        if "JP" in get_global_label():
+        if 'JP' in get_global_label():
             if self.index in [0x16e, 0x16f, 0x170, 0x172, 0x173, 0x174, 0x177,
                               0x178, 0x17a, 0x17b, 0x17c, 0x17e, 0x17f]:
-                return "Event %x" % self.index
-            return "%x" % self.index
+                return 'Event %x' % self.index
+            return '%x' % self.index
         return MonsterNameObject.get(self.index).name
 
     @property
@@ -569,19 +566,19 @@ class MonsterObject(TableObject):
 
     @property
     def rank(self):
-        if hasattr(self, "_rank"):
+        if hasattr(self, '_rank'):
             return self._rank
 
-        MonsterObject.class_reseed("ranking")
+        MonsterObject.class_reseed('ranking')
         monsters = list(MonsterObject.every)
-        if "BNW" in get_global_label():
+        if 'BNW' in get_global_label():
             max_hp = 65535
         else:
             max_hp = 65536
 
         monsters = [m for m in monsters if m.old_data['level'] > 0
                     and m.old_data['hp'] < max_hp
-                    and "Event" not in m.name and set(m.name) != {'_'}]
+                    and 'Event' not in m.name and set(m.name) != {'_'}]
 
         score_a = lambda m: (m.old_data['level'], m.true_hp_old,
                              len(m.ai_script), m.signature)
@@ -651,7 +648,7 @@ class MonsterObject(TableObject):
 
         self.statuses ^= (self.statuses & self.immunities)
 
-        if "easymodo" in get_activated_codes():
+        if 'easymodo' in get_activated_codes():
             for attr in self.mutate_attributes:
                 setattr(self, attr, 1)
             self.xp = 65535
@@ -662,7 +659,7 @@ class MonsterLootObject(TableObject):
     flag = 't'
     custom_random_enable = True
 
-    intershuffle_attributes = ["steal_item_ids", "drop_item_ids"]
+    intershuffle_attributes = ['steal_item_ids', 'drop_item_ids']
 
     @property
     def intershuffle_valid(self):
@@ -704,9 +701,9 @@ class MonsterRageObject(TableObject): pass
 
 class PackObject(TableObject):
     def __repr__(self):
-        s = "%s-PACK %x:\n%s" % (
+        s = '%s-PACK %x:\n%s' % (
             len(self.formations), self.index,
-            "\n".join(str(f) for f in self.formations))
+            '\n'.join(str(f) for f in self.formations))
         return s
 
     @cached_property
@@ -751,7 +748,7 @@ class PackObject(TableObject):
     @property
     def formation_ids(self):
         formation_ids = []
-        for attr in ["common", "common1", "common2", "common3", "rare"]:
+        for attr in ['common', 'common1', 'common2', 'common3', 'rare']:
             if hasattr(self, attr):
                 formation_ids.append(getattr(self, attr))
         assert len(formation_ids) in [2, 4]
@@ -765,7 +762,7 @@ class PackObject(TableObject):
     @cached_property
     def old_formation_ids(self):
         formation_ids = []
-        for attr in ["common", "common1", "common2", "common3", "rare"]:
+        for attr in ['common', 'common1', 'common2', 'common3', 'rare']:
             if hasattr(self, attr):
                 formation_ids.append(self.old_data[attr])
         assert len(formation_ids) in [2, 4]
@@ -789,7 +786,7 @@ class FourPackObject(PackObject):
     @cached_property
     def is_random_encounter(self):
         for l in LocationObject.every:
-            if not l.get_bit("enable_encounters"):
+            if not l.get_bit('enable_encounters'):
                 continue
             if self.index == l.area_pack.old_data['pack_id']:
                 return True
@@ -837,7 +834,7 @@ class ZoneRateObject(TableObject):
     # first 128: 64 WoB 4x4 packs 64 WoR 4x4 packs
     # latter 104: 4 locations per zro, 2 bits per location
     def cleanup(self):
-        if "fanatix" in get_activated_codes():
+        if 'fanatix' in get_activated_codes():
             self.encounter_rates = 0
 
 
@@ -848,16 +845,16 @@ class FormationMetaObject(TableObject):
 
     def clear_music(self, force=False):
         if self.music == 0 or force:
-            self.set_bit("disable_fanfare", True)
-            self.set_bit("continue_current_music", True)
+            self.set_bit('disable_fanfare', True)
+            self.set_bit('continue_current_music', True)
 
 
 class FormationObject(TableObject):
     custom_random_enable = 'f'
 
     def __repr__(self):
-        s = "FORMATION %x: %s" % (
-            self.index, " ".join(e.name for e in self.enemies))
+        s = 'FORMATION %x: %s' % (
+            self.index, ' '.join(e.name for e in self.enemies))
         return s
 
     @cached_property
@@ -884,7 +881,7 @@ class FormationObject(TableObject):
     @cached_property
     def is_inescapable(self):
         for e in self.enemies:
-            if e.get_bit("is_inescapable"):
+            if e.get_bit('is_inescapable'):
                 return True
 
     @property
@@ -930,7 +927,7 @@ class FormationObject(TableObject):
 
     @property
     def rank(self):
-        if hasattr(self, "_rank"):
+        if hasattr(self, '_rank'):
             return self._rank
 
         for f in FormationObject.every:
@@ -985,7 +982,7 @@ class MonsterAIObject(TableObject):
                 numargs = self.AICODES[ord(value)]
                 args = f.read(numargs)
             except KeyError:
-                args = ""
+                args = b''
             script.append(map(ord, value + args))
             if ord(value) == 0xFF:
                 if seen:
@@ -1009,11 +1006,11 @@ class MonsterAIObject(TableObject):
 
     @cached_property
     def pretty_ai_script(self):
-        s = ""
+        s = ''
         for line in self.ai_script:
-            s += ("%X : " % line[0]) + " ".join(
-                ["{0:0>2}".format("%X" % v) for v in line[1:]])
-            s = s.strip() + "\n"
+            s += ('%X : ' % line[0]) + ' '.join(
+                ['{0:0>2}'.format('%X' % v) for v in line[1:]])
+            s = s.strip() + '\n'
         return s.strip()
 
 
@@ -1024,17 +1021,17 @@ class MonsterNameObject(TableObject):
 
     @classmethod
     def full_cleanup(cls):
-        if hasattr(addresses, "sort_rages_address"):
+        if hasattr(addresses, 'sort_rages_address'):
             f = open(get_outfile(), 'r+b')
             counter = 0
             for mno in sorted(MonsterNameObject.every, key=lambda n: n.name):
                 if mno.index >= 0x100:
                     continue
                 f.seek(addresses.sort_rages_address + counter)
-                f.write(chr(mno.index))
-                if hasattr(addresses, "myself_rages_address"):
+                f.write(bytes([mno.index]))
+                if hasattr(addresses, 'myself_rages_address'):
                     f.seek(addresses.myself_rages_address + counter)
-                    f.write(chr(mno.index))
+                    f.write(bytes([mno.index]))
                 counter += 1
             assert counter <= 0x100
             f.close()
@@ -1057,17 +1054,17 @@ class AlmostSpriteObject(TableObject): pass
 
 class ItemObject(TableObject):
     flag = 'q'
-    flag_description = "equipment"
+    flag_description = 'equipment'
     custom_random_enable = True
 
     mutate_attributes = {
-        "power": None,
-        "price": None,
+        'power': None,
+        'price': None,
         }
 
     magic_mutate_bit_attributes = {
-        "equipability": 0xBFFF,
-        #("elements", "elemabsorbs", "elemnulls", "elemweaks"): (
+        'equipability': 0xBFFF,
+        #('elements', 'elemabsorbs', 'elemnulls', 'elemweaks'): (
         #    0xFF, 0xFF, 0xFF, 0xFF),
         }
 
@@ -1084,28 +1081,28 @@ class ItemObject(TableObject):
 
     @property
     def is_legit(self):
-        if "BNW" in get_global_label():
+        if 'BNW' in get_global_label():
             return set(self.name) != {'_'}
         return True
 
     @property
     def pretty_type(self):
-        return {0: "tool",
-                1: "weapon",
-                2: "armor",
-                3: "shield",
-                4: "helm",
-                5: "relic",
-                6: "consumable"}[self.itemtype & 0x7]
+        return {0: 'tool',
+                1: 'weapon',
+                2: 'armor',
+                3: 'shield',
+                4: 'helm',
+                5: 'relic',
+                6: 'consumable'}[self.itemtype & 0x7]
 
     @property
     def rank(self):
-        if hasattr(self, "_rank"):
+        if hasattr(self, '_rank'):
             return self._rank
 
-        ItemObject.class_reseed("ranking")
+        ItemObject.class_reseed('ranking')
 
-        if "BNW" in get_global_label():
+        if 'BNW' in get_global_label():
             BANNED_INDEXES = [0x10]  # Narpas
         else:
             BANNED_INDEXES = []
@@ -1127,8 +1124,8 @@ class ItemObject(TableObject):
         tier2 = [i for i in ItemObject.every
                  if i in tier2b and i in tier2c]
         tier2 = sorted(
-            tier2, key=lambda i: min(
-                tier2b.index(i), tier2c.index(i), i.signature))
+            tier2, key=lambda i: (min(tier2b.index(i), tier2c.index(i)),
+                                  i.signature))
         tier3 = [i for i in ItemObject.every
                  if i in tier2b + tier2c and i not in tier2]
 
@@ -1151,7 +1148,9 @@ class ItemObject(TableObject):
             if i.is_colosseum:
                 colosseum_rank = min(i2._rank_no_colosseum
                                      for i2 in i.is_colosseum)
-                colosseum_rank = max(colosseum_rank, max(i2._rank_no_colosseum for i2 in full_list if i2.is_buyable))
+                colosseum_rank = max(
+                    colosseum_rank, max(i2._rank_no_colosseum
+                                        for i2 in full_list if i2.is_buyable))
                 if 0 < colosseum_rank + 0.1 < i._rank_no_colosseum:
                     i._rank = colosseum_rank + 0.1
 
@@ -1160,7 +1159,7 @@ class ItemObject(TableObject):
             i._rank = full_list.index(i)
 
         for i in ItemObject.every:
-            if i.index in BANNED_INDEXES or not hasattr(i, "_rank"):
+            if i.index in BANNED_INDEXES or not hasattr(i, '_rank'):
                 i._rank = -1
 
         return self.rank
@@ -1222,7 +1221,7 @@ class ItemObject(TableObject):
 
     @property
     def is_colosseum(self):
-        if hasattr(self, "_is_colosseum"):
+        if hasattr(self, '_is_colosseum'):
             return self._is_colosseum
 
         for i in ItemObject.every:
@@ -1260,10 +1259,10 @@ class ItemObject(TableObject):
         if not self.mutate_valid:
             return
         super(ItemObject, self).mutate()
-        if self.pretty_type == "weapon":
-            candidates = [o for o in self.every if o.pretty_type == "weapon"]
+        if self.pretty_type == 'weapon':
+            candidates = [o for o in self.every if o.pretty_type == 'weapon']
         else:
-            candidates = [o for o in self.every if o.pretty_type != "weapon"]
+            candidates = [o for o in self.every if o.pretty_type != 'weapon']
         candidates = [o for o in candidates if o.mutate_valid]
         values = [o.hitmdef for o in candidates]
         minval, maxval = min(values), max(values)
@@ -1272,7 +1271,7 @@ class ItemObject(TableObject):
         candidates = [o for o in self.every if o.mutate_valid]
         make_negative = lambda v: -(v & 0x7) if v >= 8 else v
         reverse_negative = lambda v: (0x8 | abs(v)) if v < 0 else v
-        for attribute in ["speedvigor", "magstam"]:
+        for attribute in ['speedvigor', 'magstam']:
             myval = make_negative(getattr(self, attribute) & 0xF)
             myval = mutate_normal(myval, -7, 7,
                                   random_degree=self.random_degree)
@@ -1300,21 +1299,21 @@ class ItemObject(TableObject):
 
     @property
     def is_equipable(self):
-        equiptypes = ["weapon", "armor", "shield", "helm", "relic"]
+        equiptypes = ['weapon', 'armor', 'shield', 'helm', 'relic']
         return (self.pretty_type in equiptypes and self.rank >= 0
-                and self.old_data["equipability"] & 0x3fff)
+                and self.old_data['equipability'] & 0x3fff)
 
     def magic_mutate_bits(self):
         if not self.is_equipable:
             return
 
-        equiptypes = ["weapon", "armor", "shield", "helm", "relic"]
-        if not hasattr(ItemObject, "character_mapping"):
-            self.class_reseed("mut_equips")
+        equiptypes = ['weapon', 'armor', 'shield', 'helm', 'relic']
+        if not hasattr(ItemObject, 'character_mapping'):
+            self.class_reseed('mut_equips')
             ItemObject.character_mapping = {}
             for equiptype in equiptypes:
                 if equiptype not in self.character_mapping:
-                    shuffled = range(14)
+                    shuffled = list(range(14))
                     random.shuffle(shuffled)
                     self.character_mapping[equiptype] = shuffled
 
@@ -1325,16 +1324,16 @@ class ItemObject(TableObject):
             equipables = [i for i in ItemObject.every if i.is_equipable]
             chosen = random.choice(equipables)
             if chosen is not self and (
-                    chosen.old_data["equipability"] & equipability ==
-                    chosen.old_data["equipability"] & 0x3fff):
-                self.equipability = chosen.old_data["equipability"]
+                    chosen.old_data['equipability'] & equipability ==
+                    chosen.old_data['equipability'] & 0x3fff):
+                self.equipability = chosen.old_data['equipability']
 
         super(ItemObject, self).magic_mutate_bits()
         if self.is_equipable and not self.equipability & 0x3fff:
             self.equipability |= self.old_data['equipability'] & 0x3fff
 
         self.equipability = (self.equipability | 0x4000) ^ 0x4000
-        self.equipability |= (self.old_data["equipability"] & 0x4000)
+        self.equipability |= (self.old_data['equipability'] & 0x4000)
 
         if not self.is_equipable or 'c' not in get_flags():
             return
@@ -1346,39 +1345,36 @@ class ItemObject(TableObject):
                 self.equipability |= (1 << c)
 
     def cleanup(self):
-        if self.pretty_type not in ["armor", "shield", "helm", "relic"]:
-            for attribute in ["elements", "elemabsorbs",
-                              "elemnulls", "elemweaks"]:
+        if self.pretty_type not in ['armor', 'shield', 'helm', 'relic']:
+            for attribute in ['elements', 'elemabsorbs',
+                              'elemnulls', 'elemweaks']:
                 setattr(self, attribute, self.old_data[attribute])
             if 'q' in get_flags():
-                self.set_bit("swdtech", True)
-                self.set_bit("runic_percentage", True)
+                self.set_bit('swdtech', True)
+                self.set_bit('runic_percentage', True)
 
         if not self.is_equipable:
             attrs = [a for (a, b, c) in self.specsattrs]
-            assert "price" in attrs
+            assert 'price' in attrs
             for a in attrs:
-                if a != "price":
+                if a != 'price':
                     setattr(self, a, self.old_data[a])
-            #self.power = self.old_data["power"]
-            #self.equipability = self.old_data["equipability"]
-            #self.otherproperties = self.old_data["otherproperties"]
 
         if self.price > 100 and 'q' in get_flags():
             price = self.price * 2
             counter = 0
             while price >= 100:
-                price /= 10
+                price //= 10
                 counter += 1
             price *= (10**counter)
-            self.price = price / 2
+            self.price = price // 2
 
-        if self.price < 10 and self.old_data["price"] <= 2:
-            self.price = self.old_data["price"]
+        if self.price < 10 and self.old_data['price'] <= 2:
+            self.price = self.old_data['price']
 
         if self.is_equipable and 'q' in get_flags():
             assert (self.equipability & 0x4000 ==
-                    self.old_data["equipability"] & 0x4000)
+                    self.old_data['equipability'] & 0x4000)
             if self.command_changes:
                 equip_mask = 0
                 for cc in self.command_changes:
@@ -1392,10 +1388,10 @@ class ItemObject(TableObject):
                 self.equipability ^= 0x8000
 
         if (self.learnrate > 0 and 'a' in get_flags() and 'q' in get_flags()
-                and self.is_equipable and self.pretty_type != "weapon"):
+                and self.is_equipable and self.pretty_type != 'weapon'):
             equipability = self.equipability & 0xfff
             learnability = 0
-            for i in xrange(14):
+            for i in range(14):
                 spells = CharEsperObject.get_character_spells(i)
                 if self.learnspell in spells:
                     learnability |= (1 << i)
@@ -1407,7 +1403,7 @@ class ItemObject(TableObject):
                 self.equipability &= 0xf000
                 self.equipability |= learnability
 
-        if "fanatix" in get_activated_codes():
+        if 'fanatix' in get_activated_codes():
             if self.index in [0xF6, 0xF7]:
                 self.price = 0
                 self.otherproperties = 0
@@ -1416,16 +1412,16 @@ class ItemObject(TableObject):
 
 class EsperObject(TableObject):
     flag = 'e'
-    flag_description = "espers"
+    flag_description = 'espers'
     custom_random_enable = True
 
-    randomize_attributes = ["bonus"]
+    randomize_attributes = ['bonus']
 
     def __repr__(self):
-        s = "ESPER %x\n" % self.index
-        for i in xrange(1, 6):
-            s += "{0:0>2}".format("%x" % getattr(self, "spell%s" % i))
-            s += " x%s\n" % getattr(self, "learn%s" % i)
+        s = 'ESPER %x\n' % self.index
+        for i in range(1, 6):
+            s += '{0:0>2}'.format('%x' % getattr(self, 'spell%s' % i))
+            s += ' x%s\n' % getattr(self, 'learn%s' % i)
         return s.strip()
 
     @property
@@ -1443,7 +1439,7 @@ class EsperObject(TableObject):
         return SkillObject.get(0x36 + self.index)
 
     def get_spell_similarity_score(self, spell):
-        if not hasattr(EsperObject, "_spell_similarity_averages"):
+        if not hasattr(EsperObject, '_spell_similarity_averages'):
             EsperObject._spell_similarity_averages = {}
             for s in SkillObject.every[:0x36]:
                 scores = []
@@ -1469,22 +1465,22 @@ class EsperObject(TableObject):
     @cached_property
     def old_spell_learns(self):
         spell_learns = []
-        for i in xrange(1, 6):
+        for i in range(1, 6):
             spell_learns.append(
-                (self.old_data["spell%s" % i], self.old_data["learn%s" % i]))
+                (self.old_data['spell%s' % i], self.old_data['learn%s' % i]))
         return spell_learns
 
     @property
     def spell_learns(self):
         spell_learns = []
-        for i in xrange(1, 6):
+        for i in range(1, 6):
             spell_learns.append(
-                (getattr(self, "spell%s" % i), getattr(self, "learn%s" % i)))
+                (getattr(self, 'spell%s' % i), getattr(self, 'learn%s' % i)))
         return spell_learns
 
     @classproperty
     def spell_freq(cls):
-        if hasattr(EsperObject, "_spell_freq"):
+        if hasattr(EsperObject, '_spell_freq'):
             return EsperObject._spell_freq
 
         num_spells, total = 0, 0
@@ -1510,16 +1506,16 @@ class EsperObject(TableObject):
     @classmethod
     def randomize_all(cls):
         done_spells = set([])
-        for i in xrange(5):
-            EsperObject.class_reseed("esper_spells%s" % i)
+        for i in range(5):
+            EsperObject.class_reseed('esper_spells%s' % i)
             espers = list(EsperObject.every)
             random.shuffle(espers)
             for e in espers:
-                if not hasattr(e, "new_spells"):
+                if not hasattr(e, 'new_spells'):
                     e.new_spells = []
                 if not e.valid:
                     continue
-                e.reseed("esper_spell%s" % i)
+                e.reseed('esper_spell%s' % i)
                 if random.random() > EsperObject.spell_freq:
                     continue
                 candidates = [c.index for c in e.ranked_spell_candidates]
@@ -1534,14 +1530,14 @@ class EsperObject(TableObject):
                 done_spells.add(chosen)
 
         for e in EsperObject.every:
-            e.reseed("esper_learn")
+            e.reseed('esper_learn')
             e.randomize()
             while len(e.new_spells) < 5:
                 e.new_spells.append(0xFF)
             e.new_spells = sorted(e.new_spells)
-            for i in xrange(5):
-                setattr(e, "spell%s" % (i+1), e.new_spells[i])
-                setattr(e, "learn%s" % (i+1),
+            for i in range(5):
+                setattr(e, 'spell%s' % (i+1), e.new_spells[i])
+                setattr(e, 'learn%s' % (i+1),
                         e.make_spell_learn_rate(e.new_spells[i]))
             e.randomized = True
 
@@ -1561,7 +1557,7 @@ class EsperObject(TableObject):
                     old_learn_rates.append(l)
 
         if not old_learn_rates:
-            if "BNW" in get_global_label():
+            if 'BNW' in get_global_label():
                 return highest
             else:
                 return lowest
@@ -1584,14 +1580,14 @@ class FormationAPObject(TableObject): pass
 
 class ColosseumObject(TableObject):
     def __repr__(self):
-        return "%s -> %s : %s" % (
+        return '%s -> %s : %s' % (
             self.item.name, self.trade.name, self.opponent.name)
 
     @property
     def is_legit(self):
-        if "JP" in get_global_label():
+        if 'JP' in get_global_label():
             return self.opponent.index != 0x40
-        return "chupon" not in str(self).lower()
+        return 'chupon' not in str(self).lower()
 
     @property
     def opponent(self):
@@ -1705,7 +1701,7 @@ class BBGPaletteObject(TableObject):
         self.colors[color_index] = val
 
     def shift_blue(self):
-        for i in xrange(len(self.colors)):
+        for i in range(len(self.colors)):
             color = self.colors[i]
             r, g, b = self.color_to_rgb(color)
             r, g, b = b, g, r
@@ -1725,25 +1721,25 @@ class BattlePaletteObject(TableObject): pass
 
 class CharacterObject(TableObject):
     flag = 'c'
-    flag_description = "characters"
+    flag_description = 'characters'
     custom_random_enable = True
 
     randomize_attributes = [
-        "hp", "mp", "vigor", "speed", "stamina", "magpwr",
-        "batpwr", "def", "magdef", "evade", "mblock",
+        'hp', 'mp', 'vigor', 'speed', 'stamina', 'magpwr',
+        'batpwr', 'def', 'magdef', 'evade', 'mblock',
         ]
     mutate_attributes = {
-        "hp": None,
-        "mp": None,
-        "vigor": None,
-        "speed": None,
-        "stamina": None,
-        "magpwr": None,
-        "batpwr": None,
-        "def": None,
-        "magdef": None,
-        "evade": None,
-        "mblock": None,
+        'hp': None,
+        'mp': None,
+        'vigor': None,
+        'speed': None,
+        'stamina': None,
+        'magpwr': None,
+        'batpwr': None,
+        'def': None,
+        'magdef': None,
+        'evade': None,
+        'mblock': None,
         }
 
     @classproperty
@@ -1761,8 +1757,8 @@ class CharacterObject(TableObject):
     @property
     def old_initial_equipment_ids(self):
         return ([self.old_data[attr]
-                 for attr in ["weapon", "shield", "helm", "armor"]]
-                + self.old_data["relics"])
+                 for attr in ['weapon', 'shield', 'helm', 'armor']]
+                + self.old_data['relics'])
 
     @property
     def old_initial_equipment(self):
@@ -1771,7 +1767,7 @@ class CharacterObject(TableObject):
 
     @classproperty
     def valid_commands(cls):
-        if hasattr(CharacterObject, "_valid_commands"):
+        if hasattr(CharacterObject, '_valid_commands'):
             return CharacterObject._valid_commands
 
         valid_commands = set([])
@@ -1782,7 +1778,7 @@ class CharacterObject(TableObject):
                     if char.index < 14:
                         valid_commands.add(c)
                     seen_commands.add(c)
-        for c in CmdChangeFBObject:
+        for c in CmdChangeFBObject.every:
             if c.command in valid_commands:
                 command = CmdChangeTBObject.get(c.index).command
                 valid_commands.add(command)
@@ -1812,8 +1808,8 @@ class CharacterObject(TableObject):
         if 'o' not in get_flags() or self.index in [12, 13]:
             return
 
-        if self.index > 13 or "wildcommands" not in get_activated_codes():
-            commands = [c for c in self.old_data["commands"]
+        if self.index > 13 or 'wildcommands' not in get_activated_codes():
+            commands = [c for c in self.old_data['commands']
                         if c in [0x00, 0x02, 0x17, 0x01]]
         else:
             while True:
@@ -1846,7 +1842,7 @@ class CharacterObject(TableObject):
 
         NO_RAGE_PATCH = True
         for patchfilename in get_activated_patches():
-            if "auto_learn_rage_patch" in patchfilename.lower():
+            if 'auto_learn_rage_patch' in patchfilename.lower():
                 NO_RAGE_PATCH = False
                 break
         if self.index == 0x0b and 0x11 not in commands and NO_RAGE_PATCH:
@@ -1857,16 +1853,16 @@ class CharacterObject(TableObject):
         self.commands = commands
 
     def randomize(self):
-        self.reseed("rand_escape")
+        self.reseed('rand_escape')
         if self.index < 14:
             c = CharacterObject.get(random.randint(0, 14))
-            escape = c.old_data["level_escape"] & 3
+            escape = c.old_data['level_escape'] & 3
             c.level_escape = (c.level_escape & 0xFC) | escape
         super(CharacterObject, self).randomize()
 
     def cleanup(self):
         if self.index < 14:
-            for attr in ["weapon", "shield", "helm", "armor"]:
+            for attr in ['weapon', 'shield', 'helm', 'armor']:
                 index = getattr(self, attr)
                 if index == 0xFF:
                     continue
@@ -1888,14 +1884,14 @@ class CharacterObject(TableObject):
                 if not item.equipability & (1 << self.index):
                     self.relics[i] = 0xFF
 
-        if "fanatix" in get_activated_codes():
+        if 'fanatix' in get_activated_codes():
             self.level_escape &= 0xF3
             if self.index == 0x0E:
-                if get_global_label() not in ["FF6_NA_1.0", "FF6_NA_1.1",
-                                              "FF6_JP"]:
+                if get_global_label() not in ['FF6_NA_1.0', 'FF6_NA_1.1',
+                                              'FF6_JP']:
                     self.level_escape |= 0x08
                 self.relics = [0xFF, 0xFF]
-                for attr in ["weapon", "shield", "helm", "armor"]:
+                for attr in ['weapon', 'shield', 'helm', 'armor']:
                     setattr(self, attr, 0xFF)
 
         if self.index == 0x1b and 't' in get_flags():
@@ -1904,19 +1900,19 @@ class CharacterObject(TableObject):
 
 class ExperienceObject(TableObject):
     def cleanup(self):
-        if "fanatix" in get_activated_codes():
-            self.experience /= 2
+        if 'fanatix' in get_activated_codes():
+            self.experience //= 2
 
 
 class ChestObject(TableObject):
     flag = 't'
-    flag_description = "treasure"
+    flag_description = 'treasure'
     custom_random_enable = True
 
     @property
     def memid(self):
         memid = self.memid_low
-        if self.get_bit("memid_high"):
+        if self.get_bit('memid_high'):
             memid |= 0x100
         return memid
 
@@ -1927,9 +1923,9 @@ class ChestObject(TableObject):
     def set_memid(self, index):
         assert index <= 0x1FF
         if self.index & 0x100:
-            self.set_bit("memid_high", True)
+            self.set_bit('memid_high', True)
         else:
-            self.set_bit("memid_high", False)
+            self.set_bit('memid_high', False)
         self.memid_low = index & 0xFF
 
     @cached_property
@@ -1965,16 +1961,16 @@ class ChestObject(TableObject):
             return 0
 
     def set_contents(self, item):
-        for bitname in ["gold", "treasure", "monster", "empty1", "empty2"]:
+        for bitname in ['gold', 'treasure', 'monster', 'empty1', 'empty2']:
             self.set_bit(bitname, False)
         if isinstance(item, ItemObject):
-            self.set_bit("treasure", True)
+            self.set_bit('treasure', True)
             item = item.index
         elif isinstance(item, TwoPackObject):
-            self.set_bit("monster", True)
+            self.set_bit('monster', True)
             item = item.index
         elif isinstance(item, int):
-            self.set_bit("gold", True)
+            self.set_bit('gold', True)
         else:
             raise NotImplementedError
         self.contents = item
@@ -2071,38 +2067,38 @@ class LongEntranceObject(TableObject): pass
 
 class CharEsperObject(TableObject):
     flag = 'a'
-    flag_description = "esper allocations"
+    flag_description = 'esper allocations'
 
     @classproperty
     def esper_names(cls):
-        return ["Ramuh", "Ifrit", "Shiva", "Siren", "Terrato", "Shoat",
-                "Maduin", "Bismark", "Stray", "Palador", "Tritoch", "Odin",
-                "Raiden", "Bahamut", "Alexandr", "Crusader", "Ragnarok",
-                "Kirin", "ZoneSeek", "Carbunkl", "Phantom", "Sraphim", "Golem",
-                "Unicorn", "Fenrir", "Starlet", "Phoenix"]
+        return ['Ramuh', 'Ifrit', 'Shiva', 'Siren', 'Terrato', 'Shoat',
+                'Maduin', 'Bismark', 'Stray', 'Palador', 'Tritoch', 'Odin',
+                'Raiden', 'Bahamut', 'Alexandr', 'Crusader', 'Ragnarok',
+                'Kirin', 'ZoneSeek', 'Carbunkl', 'Phantom', 'Sraphim', 'Golem',
+                'Unicorn', 'Fenrir', 'Starlet', 'Phoenix']
 
     def __repr__(self):
         if len(CharEsperObject.every) <= 16:
-            s = ""
-            for i in xrange(len(self.esper_names)):
+            s = ''
+            for i in range(len(self.esper_names)):
                 if self.allocations & (1 << i):
-                    s += " " + self.esper_names[i]
-            return "%x: %s" % (self.index, s.strip())
+                    s += ' ' + self.esper_names[i]
+            return '%x: %s' % (self.index, s.strip())
         else:
-            s = "%x %s: " % (self.index, self.esper_names[self.index])
-            for i in xrange(16):
+            s = '%x %s: ' % (self.index, self.esper_names[self.index])
+            for i in range(16):
                 if self.allocations & (1 << i):
-                    s += "%s " % i
+                    s += '%s ' % i
             return s.strip()
 
     def cleanup(self):
-        if "BNW" not in get_global_label() and 'a' not in get_flags():
+        if 'BNW' not in get_global_label() and 'a' not in get_flags():
             if len(CharEsperObject.every) <= 16:
                 self.allocations = 0xFFFFFFFF
             else:
                 self.allocations = 0xFFFF
-        if 'a' in get_flags() and ("BNW" not in get_global_label()
-                or self.old_data["allocations"]):
+        if 'a' in get_flags() and ('BNW' not in get_global_label()
+                or self.old_data['allocations']):
             assert self.allocations > 0
 
     @classproperty
@@ -2115,7 +2111,7 @@ class CharEsperObject(TableObject):
 
         allocations = [0] * 16
         for ceo in CharEsperObject.every:
-            for i in xrange(len(allocations)):
+            for i in range(len(allocations)):
                 if ceo.allocations & (1 << i):
                     allocations[i] |= (1 << ceo.index)
         return allocations
@@ -2124,7 +2120,7 @@ class CharEsperObject(TableObject):
     def get_character_spells(self, charid):
         allocations = self.allocations_by_character[charid]
         spells = set([])
-        for i in xrange(len(CharEsperObject.esper_names)):
+        for i in range(len(CharEsperObject.esper_names)):
             if allocations & (1 << i):
                 e = EsperObject.get(i)
                 for s, l in e.spell_learns:
@@ -2153,43 +2149,27 @@ class CharEsperObject(TableObject):
             for v in values:
                 valid_mask |= v
 
-        for i in xrange(32):
+        for i in range(32):
             if valid_mask & (1 << i):
                 esper_ratios[i] = 0.15
             else:
                 esper_ratios[i] = 0.0
 
-        for i in xrange(12):
+        for i in range(12):
             char_ratios[i] = 0.15
-        for i in xrange(12, 16):
+        for i in range(12, 16):
             char_ratios[i] = 0.0
-
-        '''
-        # I wrote this to better match BNW's distribution
-        # but honestly I think I like the simple 15% approach better
-        for i in xrange(16):
-            allocations = CharEsperObject.allocations_by_character[i]
-            num_espers = bin(allocations).count('1')
-            char_ratios[i] = num_espers / float(
-                bin(valid_mask).count('1'))
-        for i in xrange(32):
-            num_chars = len([
-                a for a in CharEsperObject.allocations_by_character
-                if a & (1 << i)])
-            esper_ratios[i] = num_chars / float(
-                len([v for v in char_ratios.values() if v > 0]))
-        '''
 
         for ceo in CharEsperObject.every:
             ceo.allocations = 0
 
-        for i in xrange(16):
+        for i in range(16):
             char_ratio = char_ratios[i]
             for k, esper_ratio in sorted(esper_ratios.items()):
                 if min(char_ratio, esper_ratio) <= 0:
                     continue
                 avg_ratio = (char_ratio + esper_ratio) / 2.0
-                CharEsperObject.class_reseed("allocate %s %s" % (i, k))
+                CharEsperObject.class_reseed('allocate %s %s' % (i, k))
                 if random.random() < avg_ratio:
                     CharEsperObject.allocate(i, k)
 
@@ -2197,12 +2177,12 @@ class CharEsperObject(TableObject):
         for allocation in CharEsperObject.allocations_by_character:
             new_mask |= allocation
 
-        undone_chars = [i for i in xrange(16) if char_ratios[i]
+        undone_chars = [i for i in range(16) if char_ratios[i]
                         and not CharEsperObject.allocations_by_character[i]]
-        undone_espers = [i for i in xrange(32) if esper_ratios[i]
+        undone_espers = [i for i in range(32) if esper_ratios[i]
                          and (valid_mask ^ new_mask) & (1 << i)]
 
-        CharEsperObject.class_reseed("remaining_allocations")
+        CharEsperObject.class_reseed('remaining_allocations')
         while undone_chars or undone_espers:
             if undone_chars:
                 chosen_char = random.choice(undone_chars)
@@ -2215,27 +2195,27 @@ class CharEsperObject(TableObject):
                 undone_espers.remove(chosen_esper)
             else:
                 chosen_esper = random.choice(
-                    [i for i in xrange(32) if valid_mask & (1 << i)])
+                    [i for i in range(32) if valid_mask & (1 << i)])
             CharEsperObject.allocate(chosen_char, chosen_esper)
 
         super(CharEsperObject, cls).full_randomize()
 
 
 def number_location_names():
-    if "JP" in get_global_label():
+    if 'JP' in get_global_label():
         raise NotImplementedError
     pointer = addresses.location_names
     f = open(get_outfile(), 'r+b')
     f.seek(pointer)
-    f.write('\x00')
-    for i in xrange(1, 101):
+    f.write(b'\x00')
+    for i in range(1, 101):
         pointer = f.tell() - addresses.location_names
         LocNamePtrObject.get(i).name_pointer = pointer
-        s = "{0:0>2}".format(i)
+        s = '{0:0>2}'.format(i)
         for c in s:
             v = int(c)
-            f.write(chr(0x54 + v))
-        f.write('\x00')
+            f.write(bytes([0x54 + v]))
+        f.write(b'\x00')
     assert f.tell() <= addresses.location_names_max
     f.close()
 
@@ -2245,9 +2225,9 @@ fanatix_space_pointer = None
 
 def execute_fanatix_mode():
     if not FOOLS:
-        print "FANATIX MODE ACTIVATED"
+        print('FANATIX MODE ACTIVATED')
 
-    for i in xrange(0x20):
+    for i in range(0x20):
         InitialMembitObject.get(i).membyte = 0xFF
     # bit needs to be unset for saving to work
     InitialMembitObject.set_membit(0xa0, value=False)
@@ -2296,7 +2276,7 @@ def execute_fanatix_mode():
         for e in l.events:
             e.groupindex = -1
 
-    if "JP" not in get_global_label():
+    if 'JP' not in get_global_label():
         number_location_names()
 
     opening_event = [
@@ -2312,7 +2292,7 @@ def execute_fanatix_mode():
         0x3F, 0x0F, 0x00,                   # remove wedge
         0x3E, 0x0F,
         ]
-    for i in xrange(0xE):
+    for i in range(0xE):
         opening_event += [
             0x7F, i, i,     # character name
             0x37, i, i,     # character sprite
@@ -2322,7 +2302,7 @@ def execute_fanatix_mode():
             0xD4, 0xF0+i,
             ]
 
-    #for i in xrange(27):   # espers
+    #for i in range(27):   # espers
     #    opening_event += [0x86, i + 0x36,]
     opening_event += [
         0x80, 0xf0,
@@ -2345,27 +2325,27 @@ def execute_fanatix_mode():
         ]
     fo = open(get_outfile(), 'r+b')
     fo.seek(addresses.opening_crawl_pointer)
-    fo.write("".join(map(chr, [0xFD]*4)))  # no opening crawl
+    fo.write(bytes([0xFD]*4))  # no opening crawl
     opening_jump_pointer = addresses.opening_jump_pointer
     fo.seek(addresses.opening_pointer)
-    fo.write("".join(map(chr,
-        [0xB2] + int_to_bytelist(opening_jump_pointer-0xA0000, 3) + [0xFE])))
+    fo.write(bytes(
+        [0xB2] + int_to_bytelist(opening_jump_pointer-0xA0000, 3) + [0xFE]))
     fo.seek(opening_jump_pointer)
-    fo.write("".join(map(chr, opening_event)))
+    fo.write(bytes(opening_event))
 
     partydict, fulldict = {}, {}
     removedict, addict = {}, {}
     done_parties = set([])
     NUM_FLOORS = 99
     next_membit = 1
-    LocationObject.class_reseed("prefanatix")
-    for n in xrange(NUM_FLOORS):
+    LocationObject.class_reseed('prefanatix')
+    for n in range(NUM_FLOORS):
         if n == 0:
             party = tuple(sorted(random.sample(range(14),5)))
             addict[n] = random.choice(party)
         else:
             party = partydict[n-1]
-            for _ in xrange(1000):
+            for _ in range(1000):
                 newparty = list(party)
                 oldchars = party
                 newchars = [c for c in range(14) if c not in party]
@@ -2416,11 +2396,11 @@ def execute_fanatix_mode():
             assert fanatix_space_pointer >= addresses.fanatix_space_pointer_2
             limit = addresses.fanatix_space_limit_2
             if fanatix_space_pointer + len(script) > limit:
-                raise Exception("Not enough space.")
+                raise Exception('Not enough space.')
 
         old_pointer = fanatix_space_pointer
         fo.seek(fanatix_space_pointer)
-        fo.write("".join(map(chr, script)))
+        fo.write(bytes(script))
         fanatix_space_pointer += len(script)
         assert fanatix_space_pointer <= limit
         return old_pointer
@@ -2432,12 +2412,12 @@ def execute_fanatix_mode():
 
     def get_updated_groupon_dict():
         groupon = []
-        for n in xrange(NUM_FLOORS):
+        for n in range(NUM_FLOORS):
             party = partial_dict[n]
-            for i in xrange(3, 6):
+            for i in range(3, 6):
                 groupon.extend(map(sortuple, combinations(party, i)))
         groupon_dict = Counter(groupon)
-        for k, count in groupon_dict.items():
+        for k, count in sorted(groupon_dict.items()):
             if (count*len(k)*2) <= (1 + (len(k)*2) + (count*4)):
                 del(groupon_dict[k])
         return groupon_dict
@@ -2467,10 +2447,10 @@ def execute_fanatix_mode():
                 groupon_mapping_dict[k].add(chosen)
 
     add_char_scripts = {}
-    for i in xrange(14):
+    for i in range(14):
         script = []
         script += [0x3F, i, 0x01]
-        if "BNW" not in get_global_label():
+        if 'BNW' not in get_global_label():
             script += [0x9C, i]  # optimum (glitchy)
         script += [0x3F, i, 0x00]
         script += [0xFE]
@@ -2484,7 +2464,7 @@ def execute_fanatix_mode():
         0x8D, 0x0E,  # yes, do it even if banon's not supposed to be there
         ]
     clear_party_script += [0x46, 0x01]
-    for i in xrange(15):
+    for i in range(15):
         clear_party_script += [0x3E, i]
         clear_party_script += [0x3F, i, 0x00]
     clear_party_script += [0xFE]
@@ -2522,11 +2502,11 @@ def execute_fanatix_mode():
 
     done_pay_inns = {}
 
-    LocationObject.class_reseed("prefanatix_espers")
+    LocationObject.class_reseed('prefanatix_espers')
     esper_floors = random.sample(range(NUM_FLOORS), min(27, NUM_FLOORS))
     esper_floors = dict((b, a) for (a, b) in enumerate(esper_floors))
 
-    LocationObject.class_reseed("prefanatix_colosseum")
+    LocationObject.class_reseed('prefanatix_colosseum')
     valid_floors = [floor for floor in range(NUM_FLOORS)
                     if floor > 0 and floor in addict and addict[floor] <= 13]
     if NUM_FLOORS >= 99:
@@ -2536,7 +2516,7 @@ def execute_fanatix_mode():
     else:
         colosseum_floors = [random.choice(valid_floors)]
 
-    LocationObject.class_reseed("prefanatix_bbgs")
+    LocationObject.class_reseed('prefanatix_bbgs')
     tower_map = LocationObject.get(0x167)
     tower_base = LocationObject.get(0x16a)
     tower_treasure_room = LocationObject.get(0x16d)
@@ -2555,8 +2535,8 @@ def execute_fanatix_mode():
     random.shuffle(bbgs)
     bbgs = [0x2D] + bbgs
 
-    LocationObject.class_reseed("prefanatix_monsters")
-    if "BNW" in get_global_label():
+    LocationObject.class_reseed('prefanatix_monsters')
+    if 'BNW' in get_global_label():
         TRIAD = [0x162, 0x164, 0x163]
         BANNED_FORMATIONS = TRIAD + [
             0x2f, 0xaf, 0x142, 0x167, 0x178, 0x17d, 0x180, 0x1bd, 0x1d7,
@@ -2596,7 +2576,7 @@ def execute_fanatix_mode():
 
     if len(boss_formations) > NUM_FLOORS:
         candidates = random.sample(boss_formations, NUM_FLOORS)
-        candidates += random.sample(boss_formations, NUM_FLOORS/2)
+        candidates += random.sample(boss_formations, NUM_FLOORS//2)
         boss_formations = [f for f in boss_formations if f in candidates]
         boss_formations = boss_formations[-NUM_FLOORS:]
     assert len(boss_formations) == NUM_FLOORS
@@ -2663,14 +2643,14 @@ def execute_fanatix_mode():
         chosen_packs.append(chosen)
         done_packs.add(chosen)
 
-    LocationObject.class_reseed("prefanatix_chests")
+    LocationObject.class_reseed('prefanatix_chests')
     initial_equipment = [i for c in CharacterObject.every[:14]
                          for i in c.old_initial_equipment]
     items = [i for i in ItemObject.ranked if i.rank > 0]
     special_items = [i for i in items if not i.is_buyable
                      and i not in initial_equipment]
     chosen_items = {}
-    floors = range(NUM_FLOORS)
+    floors = list(range(NUM_FLOORS))
     random.shuffle(floors)
     for f in floors:
         if random.randint(1, 10) == 10:
@@ -2692,19 +2672,19 @@ def execute_fanatix_mode():
     chosen_items = [chosen_items[f] for f in sorted(chosen_items)]
     assert len(chosen_items) == NUM_FLOORS
 
-    LocationObject.class_reseed("prefanatix_music")
+    LocationObject.class_reseed('prefanatix_music')
     valid_songs = [23, 24, 33, 35, 40, 41, 45, 46, 48, 71, 75, 77, 78, 79]
     avg = lambda stuff: (sum(stuff) / float(len(stuff)))
     valid_songs = sorted(valid_songs,
         key=lambda s: (avg([l.pack.rank for l in LocationObject.every
                             if l.attacks and l.music == s
                             and l.pack.index > 0]), l.signature, s))
-    valid_songs.insert(len(valid_songs)/2, 55)
+    valid_songs.insert(len(valid_songs)//2, 55)
     valid_songs = shuffle_normal(valid_songs, wide=True)
-    if FOOLS and "BNW" in get_global_label():
+    if FOOLS and 'BNW' in get_global_label():
         valid_songs = [77]
     chosen_music = {}
-    for f in xrange(NUM_FLOORS):
+    for f in range(NUM_FLOORS):
         ratio = f / float(NUM_FLOORS-1)
         max_index = len(valid_songs)-1
         chosen_music[f] = valid_songs[int(round(max_index*ratio))]
@@ -2716,9 +2696,9 @@ def execute_fanatix_mode():
     next_map = 0
     while next_map in BANNED_MAPS:
         next_map += 1
-    for n in xrange(NUM_FLOORS):
+    for n in range(NUM_FLOORS):
         # outside section
-        LocationObject.get(n).reseed("fanatix")
+        LocationObject.get(n).reseed('fanatix')
         l = LocationObject.get(next_map)
         next_map += 1
         while next_map in BANNED_MAPS:
@@ -2739,12 +2719,6 @@ def execute_fanatix_mode():
         script += clear_party_command
         to_create = list(fulldict[n])
         assert len(to_create) in [5, 6]
-
-        #groupons = groupon_mapping_dict[n]
-        #for groupon in groupons:
-        #    to_create = [c for c in to_create if c not in groupon]
-        #    script += [0xB2] + int_to_bytelist(
-        #        groupon_pointer_dict[groupon]-0xa0000, 3)
 
         for i in to_create:
             script += [0x3D, i]
@@ -2775,15 +2749,13 @@ def execute_fanatix_mode():
                     continue
                 script += [0x3F, i, 0x01]
 
-        for i in xrange(15):
+        for i in range(15):
             if i not in partydict[n]:
                 locked |= (1 << i)
 
         script += [
             0x99, 0x01] + int_to_bytelist(locked, 2) + [        # party select
             0x6B] + int_to_bytelist(l.index | 0x1000, 2) + [9, 27, 0x00,
-            #0xB2] + int_to_bytelist(
-            #    addresses.unequipper_pointer-0xA0000, 3) + [
             ]
 
         if 0x0E in partydict[n]:
@@ -2825,12 +2797,12 @@ def execute_fanatix_mode():
             next_map += 1
         l2.purge_associated_objects()
         l2.copy_data(tower_treasure_room)
-        l2.set_bit("warpable", False)
-        l2.set_bit("enable_encounters", False)
+        l2.set_bit('warpable', False)
+        l2.set_bit('enable_encounters', False)
         l2.music = chosen_music[n]
         x = EntranceObject.create_new()
         x.groupindex, x.dest = l.index, l2.index
-        if "JP" not in get_global_label():
+        if 'JP' not in get_global_label():
             x.dest |= 0x800
         x.x, x.y = 10, 10
         x.destx, x.desty = 7, 12
@@ -2873,21 +2845,21 @@ def execute_fanatix_mode():
         npc.x, npc.y = 4, 8
 
         if n == 0:
-            npc_choice = "inn"
+            npc_choice = 'inn'
         elif n in colosseum_floors:
-            npc_choice = "colosseum"
+            npc_choice = 'colosseum'
         else:
             candidates = [
-                "save_point", "save_point", "inn", "inn", "weapon_shop",
-                "armor_shop", "relic_shop", "item_shop", "item_shop"]
+                'save_point', 'save_point', 'inn', 'inn', 'weapon_shop',
+                'armor_shop', 'relic_shop', 'item_shop', 'item_shop']
             candidates = [c for c in candidates if c != previous_npc]
             npc_choice = random.choice(candidates)
         previous_npc = npc_choice
-        if npc_choice == "save_point":
+        if npc_choice == 'save_point':
             pointer = fanatix_space_pointer - 0xA0000
             npc.become_pay_save(pointer, price, price_message,
                                 pay_save_command, write_event)
-        elif npc_choice == "inn":
+        elif npc_choice == 'inn':
             npc.graphics = 0x1E
             npc.set_palette(3)
             if price in done_pay_inns:
@@ -2907,31 +2879,31 @@ def execute_fanatix_mode():
                 event_addr = write_event(script) - 0xA0000
                 npc.set_event_addr(event_addr)
                 done_pay_inns[price] = npc.event_addr
-        elif npc_choice == "colosseum":
+        elif npc_choice == 'colosseum':
             npc.graphics = 0x3B
             npc.set_palette(2)
             npc.set_event_addr(addresses.colosseum_pointer - 0xA0000)
-        elif "shop" in npc_choice:
-            if npc_choice == "weapon_shop":
+        elif 'shop' in npc_choice:
+            if npc_choice == 'weapon_shop':
                 npc.graphics = 0x0E
                 npc.set_palette(4)
                 shops = [s for s in ShopObject.every
-                         if s.rank > 0 and s.shop_type == "weapons"]
-            elif npc_choice == "armor_shop":
+                         if s.rank > 0 and s.shop_type == 'weapons']
+            elif npc_choice == 'armor_shop':
                 npc.graphics = 0x0E
                 npc.set_palette(3)
                 shops = [s for s in ShopObject.every
-                         if s.rank > 0 and s.shop_type == "armor"]
-            elif npc_choice == "relic_shop":
+                         if s.rank > 0 and s.shop_type == 'armor']
+            elif npc_choice == 'relic_shop':
                 npc.graphics = 0x13
                 npc.set_palette(2)
                 shops = [s for s in ShopObject.every
-                         if s.rank > 0 and s.shop_type == "relics"]
+                         if s.rank > 0 and s.shop_type == 'relics']
             else:
                 npc.graphics = 0x36
                 npc.set_palette(1)
                 shops = [s for s in ShopObject.every
-                         if s.rank > 0 and s.shop_type in ["items", "misc"]]
+                         if s.rank > 0 and s.shop_type in ['items', 'misc']]
             shops = sorted(shops, key=lambda s: s.current_rank)
             temp = [s for s in shops if s not in done_shops]
             if temp:
@@ -2960,11 +2932,11 @@ def execute_fanatix_mode():
         npc.set_event_addr(addresses.unequipper_pointer - 0xA0000)
 
         l.name_id, l2.name_id = n+1, n+1
-        l.set_bit("warpable", False)
-        if "easymodo" in get_activated_codes():
-            l.set_bit("enable_encounters", False)
+        l.set_bit('warpable', False)
+        if 'easymodo' in get_activated_codes():
+            l.set_bit('enable_encounters', False)
         else:
-            l.set_bit("enable_encounters", True)
+            l.set_bit('enable_encounters', True)
         l.set_enemy_pack(chosen_packs[n])
         l.set_palette(16)
         l.battlebg = bbgs[n]
@@ -2972,7 +2944,7 @@ def execute_fanatix_mode():
         prev = l
 
     # top section
-    LocationObject.class_reseed("postfanatix")
+    LocationObject.class_reseed('postfanatix')
     assert next_membit <= 0x100
     x = EntranceObject.create_new()
     x.groupindex = prev.index
@@ -3010,8 +2982,8 @@ def execute_fanatix_mode():
     final_room = LocationObject.get(0x19b)
     for x in final_room.exits:
         x.groupindex = -1
-    final_room.set_bit("enable_encounters", False)
-    final_room.set_bit("warpable", False)
+    final_room.set_bit('enable_encounters', False)
+    final_room.set_bit('warpable', False)
 
     tower_base.music = 0x3a
     tower_roof.music = 0x39
@@ -3024,11 +2996,11 @@ def execute_fanatix_mode():
     script += (
         [0xB2] + int_to_bytelist(addresses.load_all_party_pointer-0xA0000, 3))
     locked = 0
-    not_locked = range(14)
-    for i in xrange(4):
+    not_locked = list(range(14))
+    for i in range(4):
         num_locked = (random.randint(0, 1) + random.randint(0, 1)
                       + random.randint(0, 1))
-        for _ in xrange(num_locked):
+        for _ in range(num_locked):
             c = random.choice(not_locked)
             locked |= (1 << c)
             script += [0x3F, c, i]
@@ -3102,66 +3074,65 @@ def execute_fanatix_mode():
         0xFE,
         ]
     fo.seek(addresses.final_pointer)
-    fo.write("".join(map(chr, script)))
+    fo.write(bytes(script))
 
-    if "BNW" in get_global_label():
+    if 'BNW' in get_global_label():
         DialoguePtrObject.bring_back_auction_prices()
         fo.seek(addresses.cheatproof_addr)
-        fo.write("".join(map(chr,
-            [0xB2] + int_to_bytelist(addresses.final_pointer-0xA0000, 3))))
+        fo.write(bytes(
+            [0xB2] + int_to_bytelist(addresses.final_pointer-0xA0000, 3)))
 
 
-    tower_roof.set_bit("enable_encounters", False)
-    tower_roof.set_bit("warpable", False)
+    tower_roof.set_bit('enable_encounters', False)
+    tower_roof.set_bit('warpable', False)
 
     fo.close()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     try:
-        print ("You are using the Beyond Chaos Gaiden "
-               "randomizer version %s." % VERSION)
-        print
+        print('You are using the Beyond Chaos Gaiden '
+              'randomizer version %s.' % VERSION)
 
         ALL_OBJECTS = [g for g in globals().values()
                        if isinstance(g, type) and issubclass(g, TableObject)
                        and g not in [TableObject]]
 
         codes = {
-            "fanatix": ["fanatix"],
-            #"wildcommands": ["wildcommands"],
-            "easymodo": ["easymodo"],
+            'fanatix': ['fanatix'],
+            #'wildcommands': ['wildcommands'],
+            'easymodo': ['easymodo'],
         }
 
         run_interface(ALL_OBJECTS, snes=True, codes=codes, custom_degree=True)
 
         tm = gmtime(get_seed())
         if tm.tm_mon == 4 and tm.tm_mday == 1:
-            activate_code("fanatix")
+            activate_code('fanatix')
             FOOLS = True
 
-        if "easymodo" in get_activated_codes():
-            "EASY MODE ACTIVATED"
+        if 'easymodo' in get_activated_codes():
+            'EASY MODE ACTIVATED'
 
-        if "fanatix" in get_activated_codes():
-            if get_global_label() in ["FF6_NA_1.0", "FF6_NA_1.1"]:
-                write_patch(get_outfile(), "auto_learn_rage_patch.txt")
-            if "JP" in get_global_label():
-                write_patch(get_outfile(), "let_banon_equip_patch_jp.txt")
-                write_patch(get_outfile(), "auto_learn_rage_patch_jp.txt")
-            elif "SAFE_MODE" not in get_global_label():
-                write_patch(get_outfile(), "let_banon_equip_patch.txt")
+        if 'fanatix' in get_activated_codes():
+            if get_global_label() in ['FF6_NA_1.0', 'FF6_NA_1.1']:
+                write_patch(get_outfile(), 'auto_learn_rage_patch.txt')
+            if 'JP' in get_global_label():
+                write_patch(get_outfile(), 'let_banon_equip_patch_jp.txt')
+                write_patch(get_outfile(), 'auto_learn_rage_patch_jp.txt')
+            elif 'SAFE_MODE' not in get_global_label():
+                write_patch(get_outfile(), 'let_banon_equip_patch.txt')
             execute_fanatix_mode()
 
-        hexify = lambda x: "{0:0>2}".format("%x" % x)
-        numify = lambda x: "{0: >3}".format(x)
+        hexify = lambda x: '{0:0>2}'.format('%x' % x)
+        numify = lambda x: '{0: >3}'.format(x)
         minmax = lambda x: (min(x), max(x))
 
         clean_and_write(ALL_OBJECTS)
-        rewrite_snes_meta("BCG-R", VERSION, lorom=False)
+        rewrite_snes_meta('BCG-R', VERSION, lorom=False)
 
         finish_interface()
 
-    except Exception, e:
-        print "ERROR: %s" % e
-        raw_input("Press Enter to close this program.")
+    except Exception:
+        print('ERROR: %s' % format_exc())
+        input('Press Enter to close this program. ')
