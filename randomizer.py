@@ -1458,7 +1458,16 @@ class ItemObject(TableObject):
                     chosen.old_data['equipability'] & 0x3fff):
                 self.equipability = chosen.old_data['equipability']
 
+        old_equip = self.equipability
         super(ItemObject, self).magic_mutate_bits()
+        if self.pretty_type == 'weapon':
+            for i in range(14):
+                mask = 1 << i
+                xor = old_equip ^ self.equipability
+                if mask & xor and random.random()**2 > self.random_degree:
+                    self.equipability = (self.equipability | mask) ^ mask
+                    self.equipability |= (old_equip & mask)
+
         if self.is_equipable and not self.equipability & 0x3fff:
             self.equipability |= self.old_data['equipability'] & 0x3fff
 
