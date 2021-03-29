@@ -517,6 +517,9 @@ class MonsterObject(TableObject):
 
     @property
     def intershuffle_valid(self):
+        if 'BNW' in get_global_label() and (self.old_data['level'] in [1, 99]
+                                            or self.old_data['hp'] <= 1):
+            return False
         return self.rank >= 0
 
     @property
@@ -524,12 +527,16 @@ class MonsterObject(TableObject):
         return MonsterAIObject.get(self.index)
 
     @property
+    def hp_refills(self):
+        return max(self.old_data['hp'] % 10, 1)
+
+    @property
     def true_hp(self):
-        return self.hp * self.ai.hp_refills
+        return self.hp * self.hp_refills
 
     @property
     def true_hp_old(self):
-        return self.old_data['hp'] * self.ai.hp_refills
+        return self.old_data['hp'] * self.hp_refills
 
     @property
     def ai_script(self):
@@ -587,9 +594,13 @@ class MonsterObject(TableObject):
         by_a = sorted(monsters, key=score_a)
         by_b = sorted(monsters, key=score_b)
 
+        LEVEL_MULTIPLIER = 1.5
+        HP_MULTIPLIER = 1
+
         for m in MonsterObject.every:
             if m in monsters:
-                a, b = (by_a.index(m), by_b.index(m))
+                a, b = (by_a.index(m) * LEVEL_MULTIPLIER,
+                        by_b.index(m) * HP_MULTIPLIER)
                 m._base_rank = max(a, b) * (a+b)
             else:
                 m._base_rank = -1
@@ -609,6 +620,9 @@ class MonsterObject(TableObject):
                 if similarity > 1:
                     similarity = 1 / similarity
                 ratio = similarity / 2
+                if m.is_boss:
+                    m._rank = m._base_rank
+                    continue
                 m._rank = (m._base_rank*(1-ratio)) + (companion_rank*ratio)
             else:
                 m._rank = -1
@@ -619,7 +633,9 @@ class MonsterObject(TableObject):
         if self.rank < 0:
             return
 
-        assert self.random_selected
+        if self.intershuffle_valid:
+            assert self.random_selected
+
         super(MonsterObject, self).mutate()
 
         if not self.is_boss and self.hp > self.old_data['hp']:
