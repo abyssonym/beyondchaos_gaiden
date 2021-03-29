@@ -1068,6 +1068,10 @@ class ItemObject(TableObject):
         #    0xFF, 0xFF, 0xFF, 0xFF),
         }
 
+    bnw_price_correction = {
+            'Bouncy_Ball': 10000,
+        }
+
     def __repr__(self):
         return self.name
 
@@ -1175,6 +1179,11 @@ class ItemObject(TableObject):
             if set(s.old_data['item_ids']) <= {0x00, 0xFF}:
                 continue
             if self.index in s.old_data['item_ids']:
+                if 'BNW' in get_global_label():
+                    for name in sorted(self.bnw_price_correction):
+                        if name in self.name:
+                            self.price = self.bnw_price_correction[name]
+                            break
                 return self.price
         return 0
 
