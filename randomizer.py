@@ -701,7 +701,7 @@ class MonsterObject(TableObject):
 
         for name in self.problematic_enemies:
             if name in self.name:
-                for attr in self.old_data:
+                for attr in sorted(self.mutate_attributes.keys()):
                     newval = getattr(self, attr)
                     oldval = self.old_data[attr]
                     value = ((newval * self.random_degree)
