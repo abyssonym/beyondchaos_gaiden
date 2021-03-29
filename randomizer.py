@@ -1,5 +1,5 @@
 from randomtools.tablereader import (
-    TableObject, get_global_label, addresses,
+    TableObject, get_global_label, addresses, gen_random_normal,
     get_activated_patches, mutate_normal, shuffle_normal, write_patch)
 from randomtools.utils import (
     classproperty, cached_property, utilrandom as random)
@@ -659,7 +659,12 @@ class MonsterLootObject(TableObject):
     flag = 't'
     custom_random_enable = True
 
-    intershuffle_attributes = ['steal_item_ids', 'drop_item_ids']
+    @classproperty
+    def intershuffle_attributes(self):
+        if 'BNW' in get_global_label():
+            return ['drop_item_ids']
+        else:
+            return ['steal_item_ids', 'drop_item_ids']
 
     @property
     def intershuffle_valid(self):
@@ -692,6 +697,16 @@ class MonsterLootObject(TableObject):
             if d < 0xFF:
                 d = ItemObject.get(d).get_similar().index
                 self.drop_item_ids[i] = d
+
+    def cleanup(self):
+        if 'BNW' in get_global_label():
+            for n, i in enumerate(self.steal_item_ids):
+                index = self.old_data['steal_item_ids'][n]
+                if not 0 <= index <= 0xfe:
+                    continue
+                item = ItemObject.get(index)
+                if 'Gum_Pod' in item.name:
+                    self.steal_item_ids[n] = self.old_data['steal_item_ids'][n]
 
 
 class SpecialAnimObject(TableObject): pass
@@ -1128,19 +1143,49 @@ class ItemObject(TableObject):
         tier2 = [i for i in ItemObject.every
                  if i in tier2b and i in tier2c]
         tier2 = sorted(
-            tier2, key=lambda i: (min(tier2b.index(i), tier2c.index(i)),
+            tier2, key=lambda i: ((tier2b.index(i)/(len(tier2b)-1)) +
+                                  (tier2c.index(i)/(len(tier2c)-1)),
                                   i.signature))
         tier3 = [i for i in ItemObject.every
                  if i in tier2b + tier2c and i not in tier2]
 
         def t3_sorter(i):
             mylist = tier2b if i in tier2b else tier2c
-            return (mylist.index(i) / float(len(mylist)-1), i.signature)
+            return (mylist.index(i) / (len(mylist)-1), i.signature)
 
         tier3 = sorted(tier3, key=t3_sorter)
         tier4 = [i for i in ItemObject.every if i.is_legit and
                  i not in tier0 + tier1 + tier2 + tier3]
-        full_list = tier0 + tier1 + tier2 + tier3 + tier4
+        tier4 = sorted(tier4, key=lambda i: i.signature)
+
+        super_rank = {}
+
+        BLEND_RATIO = (random.random() + random.random() + random.random()) / 3
+        BLEND_RATIO = 0.5
+        CURVE_RATIO = 0.25
+
+        def super_ranker(existing, new):
+            for (n, i) in enumerate(new):
+                assert i not in super_rank
+                brr = (BLEND_RATIO * gen_random_normal()) ** 0.5
+                crr = (CURVE_RATIO * gen_random_normal()) ** 0.5
+                index_ratio = (n / (len(new)-1))
+                blender = ((brr * (index_ratio**crr)) + ((1-brr) * 1))
+                super_rank[i] = (len(existing) * blender) + n + 1
+
+            keys = list(super_rank.keys())
+            newper_rank = dict([(i, n) for (n, i) in enumerate(
+                                (sorted(keys, key=lambda i: (
+                                    super_rank[i], i.signature))))])
+            return newper_rank
+
+        super_rank = super_ranker([], tier0)
+        super_rank = super_ranker(tier0, tier1)
+        super_rank = super_ranker(tier0+tier1, tier2)
+        super_rank = super_ranker(tier0+tier1+tier2, tier3)
+
+        tier0123 = sorted(super_rank, key=lambda i: super_rank[i])
+        full_list = tier0123 + tier4
         assert len(full_list) == len(set(full_list))
         full_list = [i for i in full_list if i.is_legit]
 
@@ -1155,8 +1200,8 @@ class ItemObject(TableObject):
                 colosseum_rank = max(
                     colosseum_rank, max(i2._rank_no_colosseum
                                         for i2 in full_list if i2.is_buyable))
-                if 0 < colosseum_rank + 0.1 < i._rank_no_colosseum:
-                    i._rank = colosseum_rank + 0.1
+                if 0 < colosseum_rank < i._rank_no_colosseum:
+                    i._rank = (colosseum_rank + i._rank_no_colosseum) / 2
 
         full_list = sorted(full_list, key=lambda i: (i._rank, i.signature))
         for i in full_list:
@@ -1218,7 +1263,7 @@ class ItemObject(TableObject):
                 cs.append(c)
         for c in CharacterObject.every[:14]:
             if self in c.old_initial_equipment:
-                cs.append(c)
+                return 999
         return len(cs)
 
     @cached_property
