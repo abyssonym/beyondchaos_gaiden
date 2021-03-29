@@ -502,6 +502,26 @@ class MonsterObject(TableObject):
         'hp', 'xp', 'gp', 'level', 'morph_id', 'animation', 'special',
         ]
 
+    @classproperty
+    def special_ranks(self):
+        if hasattr(self, '_special_ranks'):
+            return self._special_ranks
+        summer_dict = defaultdict(set)
+        for m in MonsterObject.every:
+            special = m.special & 0x3f
+            if special & 0x20:
+                continue
+            summer_dict[special].add(m.rank)
+        self._special_ranks = {}
+        for key in summer_dict:
+            self._special_ranks[key] = (sum(summer_dict[key]) /
+                                        len(summer_dict[key]))
+        self._special_ranks = dict(
+            [(k, n) for (n, k) in enumerate(sorted(
+                self._special_ranks.keys(),
+                key=lambda k2: self._special_ranks[k2]))])
+        return self.special_ranks
+
     @property
     def name(self):
         if 'JP' in get_global_label():
@@ -637,6 +657,19 @@ class MonsterObject(TableObject):
             assert self.random_selected
 
         super(MonsterObject, self).mutate()
+
+        special = self.special & 0x3f
+        if special & 0x3f in self.special_ranks:
+            max_index = len(self.special_ranks)-1
+            special_ratio = self.special_ranks[special] / max_index
+            ranked_ratio = self.ranked_ratio or 0
+            assert 0 <= special_ratio <= 1
+            assert 0 <= ranked_ratio <= 1
+            difference = (special_ratio - ranked_ratio) * 2
+            if difference > 0:
+                factor = (difference**2) * ((1-self.random_degree) ** (1/2))
+                if factor >= 1 or random.random() < factor:
+                    self.special = self.old_data['special']
 
         if not self.is_boss and self.hp > self.old_data['hp']:
             self.hp = mutate_normal(
