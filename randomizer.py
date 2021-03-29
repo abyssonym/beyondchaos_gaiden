@@ -508,7 +508,7 @@ class MonsterObject(TableObject):
             return self._special_ranks
         summer_dict = defaultdict(set)
         for m in MonsterObject.every:
-            special = m.special & 0x3f
+            special = m.old_data['special'] & 0x3f
             if special & 0x20:
                 continue
             summer_dict[special].add(m.rank)
@@ -519,7 +519,7 @@ class MonsterObject(TableObject):
         self._special_ranks = dict(
             [(k, n) for (n, k) in enumerate(sorted(
                 self._special_ranks.keys(),
-                key=lambda k2: self._special_ranks[k2]))])
+                key=lambda k2: (self._special_ranks[k2], k2)))])
         return self.special_ranks
 
     @classproperty
