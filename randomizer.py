@@ -522,6 +522,20 @@ class MonsterObject(TableObject):
                 key=lambda k2: self._special_ranks[k2]))])
         return self.special_ranks
 
+    @classproperty
+    def tutorial_banned(self):
+        if 'BNW' in get_global_label():
+            return ['Vargas', 'Hell_Angel', 'Templar', 'Merchant', 'Whelk']
+        else:
+            return []
+
+    @classproperty
+    def problematic_enemies(self):
+        if 'BNW' in get_global_label():
+            return ['Bomb'] + self.tutorial_banned
+        else:
+            return []
+
     @property
     def name(self):
         if 'JP' in get_global_label():
@@ -537,9 +551,9 @@ class MonsterObject(TableObject):
 
     @property
     def intershuffle_valid(self):
-        if 'BNW' in get_global_label() and (self.old_data['level'] in [1, 99]
-                                            or self.old_data['hp'] <= 1):
-            return False
+        if 'BNW' in get_global_label():
+            if self.old_data['level'] in [1, 99] or self.old_data['hp'] <= 1:
+                return False
         return self.rank >= 0
 
     @property
@@ -658,6 +672,10 @@ class MonsterObject(TableObject):
 
         super(MonsterObject, self).mutate()
 
+        for name in self.tutorial_banned:
+            if name in self.name:
+                self.special = self.old_data['special']
+
         special = self.special & 0x3f
         if special & 0x3f in self.special_ranks:
             max_index = len(self.special_ranks)-1
@@ -680,6 +698,15 @@ class MonsterObject(TableObject):
             self.level = mutate_normal(
                 self.old_data['level'], self.old_data['level'], self.level,
                 wide=True, random_degree=self.random_degree)
+
+        for name in self.problematic_enemies:
+            if name in self.name:
+                for attr in self.old_data:
+                    newval = getattr(self, attr)
+                    oldval = self.old_data[attr]
+                    value = ((newval * self.random_degree)
+                             + (oldval * (1-self.random_degree)))
+                    setattr(self, attr, int(round(value)))
 
     def cleanup(self):
         elements, old_elements = (self.absorb | self.null), (
