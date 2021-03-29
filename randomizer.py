@@ -13,7 +13,7 @@ from itertools import combinations
 from traceback import format_exc
 
 
-VERSION = 4
+VERSION = 5
 ALL_OBJECTS = None
 DEBUG_MODE = False
 FOOLS = False
