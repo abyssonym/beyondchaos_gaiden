@@ -70,7 +70,7 @@ ChestObject         chest_table.txt             2d82f4  414 pointed 2d8634  2
 LocationObject      location_table.txt          2d8f00  414
 FieldPaletteObject  field_palette_table.txt     2dc480  48
 LongEntranceObject  long_entrance_table.txt     2df480  414 pointed 2df480  2
-CharEsperObject     char_esper_table.txt        311080  27
+CharEsperObject     char_esper_table.txt        307880  27
 $inn_ask_message            517
 $ask_message                524
 $while_confused_cmd_address 204d0
@@ -119,6 +119,6 @@ $known_lores_address        26f564
 .patch                      myself_menu_rage_patch.txt
 $myself_rages_address       301416
 .patch                      sort_rages_patch.txt
-$sort_rages_address         310100
+$sort_rages_address         307100
 .patch                      esper_allocation_patch.txt
-$char_esper_address         311080
+$char_esper_address         307880

@@ -1,11 +1,11 @@
-# sorted rage indexes go at 310100
-.def sort_rages_indexes 00 01 f1
+# sorted rage indexes go at 307100
+.def sort_rages_indexes 00 71 f0
 
-025847:22 10 00 f1
+025847:22 10 70 f0
 :60
 
 # clear accumulator, y register
-310010:a9 00                # lda #$00
+307010:a9 00                # lda #$00
 :a8                         # tay
 
 # get learned rages byte, store in ee

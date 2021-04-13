@@ -1,3 +1,6 @@
 [submodule "randomtools"]
 	path = randomtools
 	url = https://github.com/abyssonym/randomtools.git
+[submodule "johnnydmad"]
+	path = johnnydmad
+	url = https://github.com/emberling/johnnydmad

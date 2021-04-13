@@ -10,6 +10,7 @@ from collections import defaultdict
 from time import time, gmtime
 from collections import Counter
 from itertools import combinations
+from os import path
 from traceback import format_exc
 
 
@@ -3228,6 +3229,34 @@ def execute_fanatix_mode():
     fo.close()
 
 
+def randomize_music():
+    from johnnydmad.johnnydmad import (
+        BASEPATH,
+        process_music, process_formation_music_by_table, process_map_music,
+        add_music_player, get_music_spoiler, random as music_random)
+
+    music_random.seed(get_seed())
+
+    with open(get_outfile(), 'rb') as f:
+        outrom = f.read()
+
+    subpath = path.join(BASEPATH, 'johnnydmad')
+    metadata = {}
+    outrom = process_music(outrom, playlist_filename='default.txt',
+                           subpath=subpath, meta=metadata)
+    #outrom = process_formation_music_by_table(outrom)
+    #outrom = process_map_music(outrom)
+    #outrom = add_music_player(outrom, metadata=metadata)
+
+    with open(get_outfile(), 'wb') as f:
+        f.write(outrom)
+
+    spoiler = get_music_spoiler()
+    spoiler_filename = 'music.{0}.txt'.format(get_seed())
+    with open(spoiler_filename, 'w+') as f:
+        f.write(spoiler)
+
+
 if __name__ == '__main__':
     try:
         print('You are using the Beyond Chaos Gaiden '
@@ -3244,6 +3273,8 @@ if __name__ == '__main__':
         }
 
         run_interface(ALL_OBJECTS, snes=True, codes=codes, custom_degree=True)
+
+        #randomize_music()
 
         tm = gmtime(get_seed())
         if tm.tm_mon == 4 and tm.tm_mday == 1:
