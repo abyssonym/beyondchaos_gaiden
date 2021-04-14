@@ -1,0 +1,61 @@
+# reverse gradient on dialogue boxes
+342a:   53 8b 53 8b 53 8b 53 8b 5b 8b 63 8b 63 8b 63 8b 63 8b
+
+# reverse gradient on battle menu
+11254:  a9 f4
+#1126d:  c9 04   # make gradient slightly thicker
+11275:  c9 e0
+11279:  c6 10
+
+# top line of battle menu is now affected by gradient
+11287:  bd c2 8b
+        99 31 eb
+        a9 82
+        99 30 eb
+
+# reverse gradient on battle messages
+195de:  a9 ef
+19603:  c6 10
+
+# shift up the lines affected by gradient by one
+2b864:  99 01 ea
+2b867:  99 03 ea
+2b86a:  9d 99 ea
+2b86d:  9d 9b ea
+
+# reverse gradient in main menu
+14ca77: 70 82 70 02
+
+# reverse gradient on save/load screen
+14cab3: 1f 82 10 02
+        1c 82 1c 02
+        1c 82 1c 02
+        1c 82 1c 02
+
+VALIDATION
+342a:   d3 8a e3 8a f3 8a 03 8b 13 8b 23 8b 33 8b 43 8b 53 8b
+
+11254:  a9 e0
+1126d:  c9 03
+11275:  c9 ff
+11279:  e6 10
+
+11287:  bd c6 8b
+        99 33 eb
+        a9 82
+        99 32 eb
+
+195de:  a9 e0
+19603:  e6 10
+
+2b864:  99 01 ea
+2b867:  99 03 ea
+2b86a:  9d 9b ea
+2b86d:  9d 9d ea
+
+14ca77: 70 02 70 82
+
+14cab3: 1f 02 10 82
+        1c 02 1c 82
+        1c 02 1c 82
+        1c 02 1c 82

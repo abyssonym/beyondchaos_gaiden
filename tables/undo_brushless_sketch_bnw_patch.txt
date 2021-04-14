@@ -1,2 +1,7 @@
 02529b: ea ea ea
 035f44: ea ea
+
+VALIDATION
+
+02529b: 20 e8 53
+035f44: b0 04

@@ -1,6 +1,7 @@
 from randomtools.tablereader import (
     TableObject, get_global_label, addresses, gen_random_normal,
-    get_activated_patches, mutate_normal, shuffle_normal, write_patch)
+    get_activated_patches, mutate_normal, shuffle_normal, write_patch,
+    get_random_degree)
 from randomtools.utils import (
     classproperty, cached_property, utilrandom as random)
 from randomtools.interface import (
@@ -14,7 +15,7 @@ from os import path
 from traceback import format_exc
 
 
-VERSION = 5
+VERSION = "5.2"
 ALL_OBJECTS = None
 DEBUG_MODE = False
 FOOLS = False
@@ -56,6 +57,24 @@ def to_ascii(text):
         else:
             s += '_'
     return s
+
+
+def bnw_encode(text):
+    table = {
+        0x80: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        0x9a: 'abcdefghijklmnopqrstuvwxyz',
+        0xb4: '0123456789!?',
+        0xc0: '/:"\'-.,…;#+()%~✓',
+        0xff: ' ',
+        }
+    for row_index, chars in sorted(table.items()):
+        for i, c in enumerate(chars):
+            index = row_index + i
+            assert c not in table
+            assert index not in table.values()
+            table[c] = index
+    text = [table[c] for c in text]
+    return bytes(text)
 
 
 def int_to_bytelist(value, length):
@@ -3222,11 +3241,39 @@ def execute_fanatix_mode():
         fo.write(bytes(
             [0xB2] + int_to_bytelist(addresses.final_pointer-0xA0000, 3)))
 
-
     tower_roof.set_bit('enable_encounters', False)
     tower_roof.set_bit('warpable', False)
 
     fo.close()
+
+
+def write_seed():
+    if not hasattr(addresses, 'aux_seed_address'):
+        return
+
+    address = addresses.aux_seed_address
+    length = addresses.aux_seed_length
+
+    degrees = {ao.random_degree for ao in ALL_OBJECTS
+               if hasattr(ao, 'random_degree')}
+    if degrees == {get_random_degree()}:
+        random_degree = int(round((list(degrees)[0]**0.5) * 100))
+    else:
+        random_degree = '??'
+    s = 'BCG v{0} {1} {2}%'.format(VERSION, get_seed(), random_degree)
+    s = s[:length-1]
+    while len(s) < (length-1):
+        s = ' %s ' % s
+    s = s[-(length-1):]
+    assert 'BNW' in get_global_label()
+    s = bnw_encode(s)
+    s += b'\x00'
+    assert len(s) == length
+
+    f = open(get_outfile(), 'r+b')
+    f.seek(address)
+    f.write(s)
+    f.close()
 
 
 def randomize_music():
@@ -3297,6 +3344,8 @@ if __name__ == '__main__':
         hexify = lambda x: '{0:0>2}'.format('%x' % x)
         numify = lambda x: '{0: >3}'.format(x)
         minmax = lambda x: (min(x), max(x))
+
+        write_seed()
 
         clean_and_write(ALL_OBJECTS)
         rewrite_snes_meta('BCG-R', VERSION, lorom=False)

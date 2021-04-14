@@ -103,6 +103,7 @@ $npc_choco_palette_address  2680e0
 $known_lores_address        26f564
 .patch                      rom_expansion_patch.txt
 .patch                      always_sprint_patch.txt
+.patch                      flip_gradient_patch.txt
 .option                     auto_learn_rage_patch.txt
 .option                     y_equip_patch.bin
 .option                     condensed_spell_list_patch.bin
