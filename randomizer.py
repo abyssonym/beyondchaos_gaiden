@@ -1,7 +1,7 @@
 from randomtools.tablereader import (
     TableObject, get_global_label, addresses, gen_random_normal,
     get_activated_patches, mutate_normal, shuffle_normal, write_patch,
-    get_random_degree)
+    get_random_degree, tblpath, get_open_file)
 from randomtools.utils import (
     classproperty, cached_property, utilrandom as random)
 from randomtools.interface import (
@@ -89,6 +89,54 @@ def int_to_bytelist(value, length):
 class VanillaObject(TableObject):
     flag = 'v'
     flag_description = 'nothing'
+
+
+class MusicObject(TableObject):
+    flag = 'u'
+    flag_description = 'music'
+
+    def randomize(self):
+        from johnnydmad.johnnydmad import (
+            BASEPATH,
+            process_music, process_formation_music_by_table, process_map_music,
+            add_music_player, get_music_spoiler, random as music_random)
+
+        music_random.seed(get_seed())
+
+        with open(get_outfile(), 'rb') as f:
+            outrom = f.read()
+
+        subpath = path.join(BASEPATH, 'johnnydmad')
+        metadata = {}
+        playlist_filename = path.join(tblpath, 'playlist.txt')
+        outrom = process_music(outrom, playlist_filename=playlist_filename,
+                               subpath=subpath, meta=metadata)
+
+        if 'BNW' in get_global_label():
+            outrom = process_formation_music_by_table(
+                outrom, form_music=path.join(tblpath,
+                                             'formationmusic_bnw.txt'))
+        else:
+            outrom = process_formation_music_by_table(
+                outrom, form_music=path.join(tblpath, 'formationmusic.txt'))
+        outrom = process_map_music(outrom, conditional_narshe_mines=False)
+        if 'music_player_patch.txt' in get_activated_patches():
+            outrom = add_music_player(outrom, metadata=metadata)
+
+        with open(get_outfile(), 'wb') as f:
+            f.write(outrom)
+
+        f = get_open_file(get_outfile())
+        f.flush()
+        for fmo in FormationMetaObject.every:
+            fmo.reload_randomized_music()
+        for l in LocationObject.every:
+            l.reload_randomized_music()
+
+        spoiler = get_music_spoiler()
+        spoiler_filename = 'music.{0}.txt'.format(get_seed())
+        with open(spoiler_filename, 'w+') as f:
+            f.write(spoiler)
 
 
 class OverworldRateObject(TableObject): pass
@@ -909,6 +957,8 @@ class FourPackObject(PackObject):
         return False
 
     def cleanup(self):
+        if MusicObject.flag in get_flags():
+            return
         for f in self.formations:
             f.clear_music()
 
@@ -919,6 +969,10 @@ class TwoPackObject(PackObject):
         return [FormationObject.get(self.common),
                 FormationObject.get(self.rare),
                 ]
+
+    @property
+    def is_random(self):
+        return len(set(self.formations)) == 2
 
 
 class ZonePackPackObject(TableObject):
@@ -954,10 +1008,28 @@ class FormationMetaObject(TableObject):
     def music(self):
         return (self.music_misc >> 3) & 0x7
 
+    def set_music(self, music):
+        self.music_misc |= (0x7 << 3)
+        self.music_misc ^= (0x7 << 3)
+        self.music_misc |= (music << 3)
+        assert self.music == music
+
     def clear_music(self, force=False):
         if self.music == 0 or force:
             self.set_bit('disable_fanfare', True)
             self.set_bit('continue_current_music', True)
+
+    def reload_randomized_music(self):
+        new_data = dict(self.old_data)
+        self.read_data()
+        new_music = self.music
+        df = self.get_bit('disable_fanfare')
+        ccm = self.get_bit('continue_current_music')
+        for attr, value in new_data.items():
+            setattr(self, attr, value)
+        self.set_music(new_music)
+        self.set_bit('disable_fanfare', df)
+        self.set_bit('continue_current_music', ccm)
 
 
 class FormationObject(TableObject):
@@ -986,6 +1058,36 @@ class FormationObject(TableObject):
     def is_random_encounter(self):
         for p in FourPackObject.every:
             if (p.is_random_encounter and self in p.old_formations):
+                return True
+        return False
+
+    @cached_property
+    def is_rare_encounter(self):
+        if not self.is_random_encounter:
+            return False
+        for p in FourPackObject.every:
+            if self in p.formations[:3]:
+                return False
+        return True
+
+    @cached_property
+    def is_random_event(self):
+        for p in TwoPackObject.every:
+            if (p.is_random and self in p.old_formations):
+                return True
+        return False
+
+    @cached_property
+    def is_fixed_event(self):
+        for p in TwoPackObject.every:
+            if (self in p.old_formations and not p.is_random):
+                return True
+        return False
+
+    @cached_property
+    def is_chest_encounter(self):
+        for c in ChestObject.every:
+            if c.old_formation and self in c.old_formation.formations:
                 return True
         return False
 
@@ -2220,6 +2322,14 @@ class LocationObject(TableObject):
         self.palette_index ^= 0x3F
         self.palette_index |= value
 
+    def reload_randomized_music(self):
+        new_data = dict(self.old_data)
+        self.read_data()
+        new_music = self.music
+        for attr, value in new_data.items():
+            setattr(self, attr, value)
+        self.music = new_music
+
 
 class FieldPaletteObject(TableObject): pass
 class LongEntranceObject(TableObject): pass
@@ -3276,34 +3386,6 @@ def write_seed():
     f.close()
 
 
-def randomize_music():
-    from johnnydmad.johnnydmad import (
-        BASEPATH,
-        process_music, process_formation_music_by_table, process_map_music,
-        add_music_player, get_music_spoiler, random as music_random)
-
-    music_random.seed(get_seed())
-
-    with open(get_outfile(), 'rb') as f:
-        outrom = f.read()
-
-    subpath = path.join(BASEPATH, 'johnnydmad')
-    metadata = {}
-    outrom = process_music(outrom, playlist_filename='default.txt',
-                           subpath=subpath, meta=metadata)
-    #outrom = process_formation_music_by_table(outrom)
-    #outrom = process_map_music(outrom)
-    #outrom = add_music_player(outrom, metadata=metadata)
-
-    with open(get_outfile(), 'wb') as f:
-        f.write(outrom)
-
-    spoiler = get_music_spoiler()
-    spoiler_filename = 'music.{0}.txt'.format(get_seed())
-    with open(spoiler_filename, 'w+') as f:
-        f.write(spoiler)
-
-
 if __name__ == '__main__':
     try:
         print('You are using the Beyond Chaos Gaiden '
@@ -3320,8 +3402,6 @@ if __name__ == '__main__':
         }
 
         run_interface(ALL_OBJECTS, snes=True, codes=codes, custom_degree=True)
-
-        #randomize_music()
 
         tm = gmtime(get_seed())
         if tm.tm_mon == 4 and tm.tm_mday == 1:

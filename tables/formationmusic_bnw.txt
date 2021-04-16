@@ -1,0 +1,576 @@
+000 0 0  # FORMATION 0: 
+001 0 0  # FORMATION 1: Repo_Man__ Sewer_Rat_ Sewer_Rat_
+002 0 0  # FORMATION 2: Sewer_Rat_ Sewer_Rat_ Sewer_Rat_
+003 0 0  # FORMATION 3: Repo_Man__ Repo_Man__
+004 0 0  # FORMATION 4: 
+005 0 1  # FORMATION 5: Raven_____ Leafer____ Leafer____
+006 0 1  # FORMATION 6: Raven_____ Raven_____ Raven_____
+007 0 1  # FORMATION 7: Leafer____ Leafer____
+008 0 1  # FORMATION 8: Sand_Ray__ Antlion___ Antlion___
+009 0 1  # FORMATION 9: Antlion___ Antlion___ Antlion___
+010 0 1  # FORMATION a: Sand_Ray__ Sand_Ray__
+011 0 0  # FORMATION b: 
+012 0 1  # FORMATION c: Hornet____ Hornet____ Crawler___ Crawler___
+013 0 1  # FORMATION d: Eye_Goo___ Crawler___ Crawler___
+014 0 1  # FORMATION e: Hornet____ Eye_Goo___ Eye_Goo___
+015 0 0  # FORMATION f: 
+016 0 1  # FORMATION 10: Rhyhorn___ Rhyhorn___
+017 0 1  # FORMATION 11: Rhyhorn___ Foamy_____ Foamy_____
+018 0 1  # FORMATION 12: Mechanix__ Mechanix__ Mechanix__ Mechanix__
+019 0 1  # FORMATION 13: Foamy_____ Mechanix__ Mechanix__
+020 0 1  # FORMATION 14: Foamy_____ Foamy_____ Foamy_____ Foamy_____
+021 0 1  # FORMATION 15: Scrapper__ Vaporite__ Vaporite__
+022 0 1  # FORMATION 16: Tusker____ Tusker____
+023 0 1  # FORMATION 17: Scrapper__ Scrapper__
+024 0 1  # FORMATION 18: Condor____ Condor____ Condor____
+025 0 1  # FORMATION 19: Trillium__ Trillium__
+026 0 1  # FORMATION 1a: Tusker____ Trillium__ Condor____
+027 0 1  # FORMATION 1b: Albatross_ Exocite___ Exocite___
+028 4 1  # FORMATION 1c: Albatross_ Exocite___ Nautiloid_
+029 4 1  # FORMATION 1d: Exocite___ Nautiloid_ Nautiloid_
+030 0 1  # FORMATION 1e: Albatross_ Albatross_
+031 0 0  # FORMATION 1f: 
+032 0 0  # FORMATION 20: Officer___ Officer___ Officer___
+033 0 0  # FORMATION 21: Doberman__ Doberman__ Doberman__
+034 0 0  # FORMATION 22: Doberman__ Doberman__ Officer___
+035 0 1  # FORMATION 23: Stray_Cat_ Stray_Cat_ Stray_Cat_
+036 0 1  # FORMATION 24: Trilobite_ Trilobite_ Primordite
+037 0 1  # FORMATION 25: Primordite Primordite
+038 0 1  # FORMATION 26: Bear______ Trilobite_
+039 0 1  # FORMATION 27: Stray_Cat_ Stray_Cat_ Stray_Cat_ Stray_Cat_
+040 0 1  # FORMATION 28: Rabite____ Rabite____ Rabite____ Rabite____ Rabite____
+041 0 1  # FORMATION 29: Beakor____ Rabite____ Rabite____
+042 0 1  # FORMATION 2a: Beakor____ Cricket___ Stray_Cat_
+043 0 1  # FORMATION 2b: Cricket___ Cricket___ Stray_Cat_ Stray_Cat_
+044 0 1  # FORMATION 2c: Cricket___ Cricket___ Cricket___
+045 0 0  # FORMATION 2d: Tek_Armor_ Soldier___ Soldier___
+046 0 0  # FORMATION 2e: Tek_Armor_
+047 0 0  # FORMATION 2f: Tek_Armor_ Tek_Armor_
+048 0 0  # FORMATION 30: Wight_____ Ectoplasm_ Ectoplasm_
+049 0 0  # FORMATION 31: Wight_____ Wight_____ Ectoplasm_ Ectoplasm_ Ectoplasm_
+050 0 0  # FORMATION 32: Spirit____ Spirit____ Spirit____ Spirit____
+051 0 0  # FORMATION 33: 
+052 0 0  # FORMATION 34: Bomb______ Bomb______ Bomb______
+053 0 0  # FORMATION 35: 
+054 0 0  # FORMATION 36: Conjurer__ Bomb______ Bomb______ Conjurer__
+055 0 0  # FORMATION 37: 
+056 0 0  # FORMATION 38: Lich______ Lich______
+057 0 0  # FORMATION 39: Lich______ Zombie____ Zombie____
+058 0 0  # FORMATION 3a: 
+059 0 0  # FORMATION 3b: Zombie____ Conjurer__ Conjurer__
+060 0 0  # FORMATION 3c: Spirit____ Spirit____ Conjurer__
+061 0 0  # FORMATION 3d: Clawglip__ Repo_Man__ Repo_Man__ Repo_Man__
+062 0 0  # FORMATION 3e: Mammoth___ Mammoth___
+063 0 0  # FORMATION 3f: Mammoth___ Repo_Man__ Clawglip__
+064 0 1  # FORMATION 40: Red_Wolf__ Red_Wolf__
+065 0 1  # FORMATION 41: Buzzard___ Buzzard___
+066 0 1  # FORMATION 42: Red_Wolf__ Buzzard___
+067 0 1  # FORMATION 43: Mandrake__ Buzzard___ Fighter___
+068 0 1  # FORMATION 44: Fighter___ Fighter___ Wasp______ Wasp______
+069 0 1  # FORMATION 45: Mandrake__ Mandrake__ Wasp______ Wasp______ Wasp______
+070 0 0  # FORMATION 46: Hobo______ Junkie____ Junkie____
+071 0 0  # FORMATION 47: Junkie____ Junkie____ Junkie____ Junkie____
+072 0 0  # FORMATION 48: Giant_____
+073 0 0  # FORMATION 49: Slamdancer Slamdancer
+074 0 0  # FORMATION 4a: Hobo______ Hobo______ Slamdancer
+075 0 0  # FORMATION 4b: Slamdancer Junkie____ Junkie____ Junkie____
+076 0 1  # FORMATION 4c: Wasp______ Wasp______ Wasp______
+077 0 1  # FORMATION 4d: Fossilfang
+078 0 1  # FORMATION 4e: Wasp______ Wasp______ Wasp______ Wasp______ Wasp______ Wasp______
+079 0 1  # FORMATION 4f: Fossilfang Fossilfang
+080 0 1  # FORMATION 50: Rain_Man__ Doggo_____ Doggo_____
+081 0 1  # FORMATION 51: Dragonfly_ Wyvern____ Rain_Man__
+082 0 1  # FORMATION 52: Wyvern____ Wyvern____ Doggo_____
+083 0 1  # FORMATION 53: Doggo_____ Chickenlip Chickenlip
+084 0 1  # FORMATION 54: Chickenlip Chickenlip Chickenlip Chickenlip Chickenlip
+085 0 1  # FORMATION 55: Dragonfly_ Dragonfly_ Chickenlip Chickenlip
+086 0 1  # FORMATION 56: Dragonfly_ Dragonfly_ Dragonfly_
+087 0 0  # FORMATION 57: 
+088 0 0  # FORMATION 58: Foxhound__ Foxhound__ Commando__
+089 0 0  # FORMATION 59: Templar___ Commando__ Commando__
+090 0 0  # FORMATION 5a: Proto_Man_ Proto_Man_
+091 0 0  # FORMATION 5b: Onion_Kid_ Onion_Kid_ Onion_Kid_ Onion_Kid_ Onion_Kid_
+092 0 0  # FORMATION 5c: Proto_Man_ Onion_Kid_ Onion_Kid_
+093 0 0  # FORMATION 5d: 
+094 0 0  # FORMATION 5e: Templar___ Flan______ Flan______
+095 0 0  # FORMATION 5f: Flan______ Flan______ Flan______ Flan______
+096 0 0  # FORMATION 60: Templar___ Templar___
+097 0 0  # FORMATION 61: 
+098 0 0  # FORMATION 62: 
+099 0 0  # FORMATION 63: Cyborg____ Cyborg____ Cyborg____
+100 0 0  # FORMATION 64: Vulture___ Vulture___ Rhydon____
+101 0 0  # FORMATION 65: Rhydon____ Rhydon____
+102 0 0  # FORMATION 66: Chaser____ Cyborg____ Cyborg____ Cyborg____
+103 0 0  # FORMATION 67: Chaser____ Onion_Kid_ Onion_Kid_ Onion_Kid_
+104 0 0  # FORMATION 68: Specter___ Specter___ Specter___ Specter___
+105 0 0  # FORMATION 69: Specter___ Specter___ Wraith____
+106 0 0  # FORMATION 6a: Wraith____ Scorpion__ Scorpion__
+107 0 0  # FORMATION 6b: Jinn______ Scorpion__ Scorpion__
+108 0 0  # FORMATION 6c: Jinn______ Jinn______ Zombone___
+109 0 0  # FORMATION 6d: 
+110 0 0  # FORMATION 6e: Zombone___ Zombone___
+111 0 0  # FORMATION 6f: 
+112 0 1  # FORMATION 70: Adamantite Adamantite
+113 0 0  # FORMATION 71: 
+114 0 0  # FORMATION 72: 
+115 0 1  # FORMATION 73: Adamantite Cephalid__ Cephalid__
+116 0 0  # FORMATION 74: 
+117 0 0  # FORMATION 75: 
+118 0 1  # FORMATION 76: Chimera___
+119 0 1  # FORMATION 77: Cephalid__ Cephalid__ Cephalid__
+120 0 1  # FORMATION 78: Adamantoid Adamantoid
+121 0 1  # FORMATION 79: Adamantoid Slurm_____ Slurm_____
+122 0 1  # FORMATION 7a: Slurm_____ Slurm_____ Slurm_____ Slurm_____ Slurm_____
+123 0 1  # FORMATION 7b: Locust____ Locust____ Kudzu_____
+124 0 1  # FORMATION 7c: Kudzu_____ Kudzu_____
+125 0 1  # FORMATION 7d: Racer_____ Racer_____
+126 0 1  # FORMATION 7e: Racer_____ Locust____ Slurm_____
+127 0 0  # FORMATION 7f: Behemoth__ Behemoth__
+128 0 0  # FORMATION 80: Gargoyle__ Brainpan__ Brainpan__
+129 0 0  # FORMATION 81: Dactyl____ Gargoyle__ Gargoyle__
+130 0 0  # FORMATION 82: Dactyl____ Dactyl____ Ninja_____
+131 0 0  # FORMATION 83: Behemoth__ Dactyl____ Djinni____
+132 0 0  # FORMATION 84: Ninja_____ Ninja_____
+133 0 0  # FORMATION 85: Ninja_____ Djinni____ Brainpan__
+134 0 0  # FORMATION 86: Djinni____ Djinni____ Djinni____
+135 0 0  # FORMATION 87: 
+136 3 1  # FORMATION 88: Rocky_____ Rocky_____ Rocky_____
+137 0 0  # FORMATION 89: 
+138 3 1  # FORMATION 8a: Lunaris___ Lunaris___
+139 3 1  # FORMATION 8b: Lunaris___ Osprey____
+140 3 1  # FORMATION 8c: Mesosaur__ Mesosaur__ Mesosaur__ Mesosaur__
+141 3 1  # FORMATION 8d: Komodo____ Beetle____ Beetle____
+142 3 1  # FORMATION 8e: Plantpire_ Plantpire_ Komodo____ Komodo____
+143 3 1  # FORMATION 8f: Plantpire_ Osprey____ Beetle____
+144 3 1  # FORMATION 90: Beetle____ Beetle____ Beetle____ Beetle____
+145 3 1  # FORMATION 91: Buffalax__ Beetle____ Beetle____
+146 3 1  # FORMATION 92: Buffalax__ Buffalax__
+147 3 1  # FORMATION 93: Sand_Worm_
+148 3 0  # FORMATION 94: Reaper____
+149 3 0  # FORMATION 95: Werewolf__ Nastidon__
+150 3 0  # FORMATION 96: Werewolf__ Werewolf__
+151 3 0  # FORMATION 97: Nastidon__ Nastidon__
+152 3 1  # FORMATION 98: Latimeria_ Dark_Hare_ Dark_Hare_ Dark_Hare_
+153 3 1  # FORMATION 99: Latimeria_ Latimeria_
+154 3 1  # FORMATION 9a: Chupacabra Chupacabra
+155 3 1  # FORMATION 9b: Chupacabra Puff_Goo__ Puff_Goo__
+156 3 1  # FORMATION 9c: Tofu______ Tofu______ Puff_Goo__ Puff_Goo__
+157 3 1  # FORMATION 9d: Tofu______ Tofu______ Tofu______ Tofu______ Tofu______
+158 3 1  # FORMATION 9e: Leap_Frog_ Leap_Frog_ Leap_Frog_ Leap_Frog_
+159 3 1  # FORMATION 9f: Frogger___ Leap_Frog_ Frogger___ Leap_Frog_
+160 3 1  # FORMATION a0: Frogger___ Frogger___ Frogger___ Frogger___
+161 3 1  # FORMATION a1: Mantodea__ Mantodea__
+162 0 0  # FORMATION a2: 
+163 3 1  # FORMATION a3: Windrunner Mantodea__
+164 0 0  # FORMATION a4: 
+165 3 1  # FORMATION a5: Windrunner Tumbleweed Tumbleweed
+166 0 0  # FORMATION a6: 
+167 3 1  # FORMATION a7: Tumbleweed Tumbleweed Tumbleweed Tumbleweed
+168 3 1  # FORMATION a8: Griffin___
+169 0 0  # FORMATION a9: 
+170 3 1  # FORMATION aa: Griffin___ Troll_____ Troll_____
+171 0 0  # FORMATION ab: 
+172 3 1  # FORMATION ac: Tyrano____ Tyrano____
+173 0 0  # FORMATION ad: 
+174 3 1  # FORMATION ae: Tyrano____ Troll_____ Troll_____ Troll_____
+175 3 1  # FORMATION af: Zone_Eater
+176 3 0  # FORMATION b0: Osteosaur_
+177 3 1  # FORMATION b1: Cave_Stuff Cave_Stuff Drifter___
+178 3 1  # FORMATION b2: Cave_Stuff Humpty____ Humpty____
+179 3 1  # FORMATION b3: Drifter___ Drifter___ Humpty____
+180 3 1  # FORMATION b4: Titan_____
+181 3 1  # FORMATION b5: Humpty____ Humpty____ Humpty____ Humpty____
+182 3 1  # FORMATION b6: Robot_____ Robot_____ Robot_____
+183 0 0  # FORMATION b7: 
+184 3 0  # FORMATION b8: Mudcrab___ Mudcrab___
+185 3 0  # FORMATION b9: Mudcrab___ Mudcrab___ Mudcrab___
+186 0 0  # FORMATION ba: 
+187 3 0  # FORMATION bb: Shokan____ Shokan____
+188 3 0  # FORMATION bc: Powerslave Powerslave
+189 3 0  # FORMATION bd: Powerslave Marlboro__
+190 3 0  # FORMATION be: Powerslave Shokan____ Belladonna
+191 3 0  # FORMATION bf: Marlboro__ Belladonna Belladonna
+192 0 0  # FORMATION c0: 
+193 0 0  # FORMATION c1: 
+194 0 0  # FORMATION c2: 
+195 3 1  # FORMATION c3: Vagrant___ Vagrant___
+196 3 1  # FORMATION c4: Grizzly___ Brawler___ Brawler___
+197 3 1  # FORMATION c5: Vagrant___ Brawler___ Scarab____
+198 0 0  # FORMATION c6: 
+199 3 1  # FORMATION c7: Grizzly___ Scarab____ Scarab____
+200 3 1  # FORMATION c8: Manticore_
+201 3 1  # FORMATION c9: Basilisk__ Cluck_____ Cluck_____ Cluck_____
+202 3 1  # FORMATION ca: Gold_Bear_ Gold_Bear_
+203 3 1  # FORMATION cb: Gold_Bear_ Cluck_____ Cluck_____
+204 3 0  # FORMATION cc: Souldancer Wild_Cat__ Wild_Cat__ Wild_Cat__
+205 3 0  # FORMATION cd: Souldancer Souldancer Cockatrice
+206 3 0  # FORMATION ce: Atlasphere Atlasphere Wild_Cat__ Wild_Cat__
+207 3 0  # FORMATION cf: Atlasphere Atlasphere Cockatrice Cockatrice Cockatrice
+208 3 0  # FORMATION d0: Roc_______
+209 3 0  # FORMATION d1: Witch_____ Mu________ Mu________
+210 3 0  # FORMATION d2: Witch_____ Witch_____ Revenant__ Revenant__
+211 3 0  # FORMATION d3: Umbro_____ Witch_____ Witch_____
+212 3 0  # FORMATION d4: Revenant__ Umbro_____ Mu________
+213 3 0  # FORMATION d5: Weedula___ Anemone___ Anemone___ Anemone___
+214 3 0  # FORMATION d6: Anemone___ Anemone___ Anemone___ Anemone___ Anemone___
+215 3 0  # FORMATION d7: Umbro_____ Weedula___ Weedula___
+216 3 1  # FORMATION d8: Necrosaur_
+217 3 1  # FORMATION d9: Sand_Devil Sand_Devil
+218 3 1  # FORMATION da: Necrosaur_ Sand_Devil
+219 3 1  # FORMATION db: Necrosaur_ Necrosaur_
+220 3 0  # FORMATION dc: Hot_Wheels Low_Rider_ Low_Rider_ Low_Rider_
+221 3 0  # FORMATION dd: Low_Rider_ Low_Rider_ Warlock___ Warlock___
+222 3 0  # FORMATION de: Warlock___ Warlock___ Fuzzy_____ Fuzzy_____ Fuzzy_____
+223 3 0  # FORMATION df: Fuzzy_____ Fuzzy_____ Fuzzy_____ Fuzzy_____ Fuzzy_____ Fuzzy_____
+224 3 0  # FORMATION e0: Hoodwink__ Tiny_Tim__ Tiny_Tim__ Tiny_Tim__
+225 3 0  # FORMATION e1: Hermit____ Hermit____ Nutkin____ Nutkin____
+226 3 0  # FORMATION e2: Rhyperior_ Nutkin____ Nutkin____
+227 3 0  # FORMATION e3: Rhyperior_ Hoodwink__ Tiny_Tim__
+228 3 0  # FORMATION e4: Wart_Puck_ Tarokan___
+229 3 0  # FORMATION e5: Tapdancer_ Tapdancer_ Shinobi___
+230 3 0  # FORMATION e6: O_Bake____ O_Bake____ Wart_Puck_
+231 3 0  # FORMATION e7: Shinobi___ O_Bake____ Tarokan___
+232 3 1  # FORMATION e8: Opinicus__ Sea_Devil_
+233 3 1  # FORMATION e9: Dumpty____ Dumpty____ Wizard____ Wizard____
+234 3 1  # FORMATION ea: Black_Bear Black_Bear
+235 3 1  # FORMATION eb: Opinicus__ Black_Bear Wizard____
+236 3 0  # FORMATION ec: Succubus__ Succubus__
+237 3 0  # FORMATION ed: Pan_Dora__ Pan_Dora__ Eukaryote_ Eukaryote_ Eukaryote_
+238 3 0  # FORMATION ee: Suriander_ Pan_Dora__ Pan_Dora__
+239 3 0  # FORMATION ef: Madam_____ Succubus__ Suriander_
+240 3 0  # FORMATION f0: Samurai___ Parasoul__ Suriander_
+241 3 0  # FORMATION f1: Parasoul__ Parasoul__ Madam_____
+242 3 0  # FORMATION f2: Madam_____ Madam_____ Samurai___
+243 3 0  # FORMATION f3: Europa____ Ganymede__
+244 3 0  # FORMATION f4: Callisto__ Ganymede__
+245 3 0  # FORMATION f5: Io________
+246 3 0  # FORMATION f6: WEAPON____
+247 3 0  # FORMATION f7: Pond_Scum_ Sponge____ Sponge____ Sponge____
+248 3 0  # FORMATION f8: Pond_Scum_ Pond_Scum_ Zorathian_
+249 3 0  # FORMATION f9: Sponge____ Sponge____ Sponge____ Sponge____ Sponge____
+250 3 0  # FORMATION fa: Zorathian_ Zorathian_
+251 3 0  # FORMATION fb: Banshee___ Banshee___
+252 3 0  # FORMATION fc: Mephisto__ Boxxy_____ Boxxy_____ Boxxy_____
+253 3 0  # FORMATION fd: Banshee___ Mephisto__ Mephisto__
+254 3 0  # FORMATION fe: Magic_Pot_ Magic_Pot_
+255 3 0  # FORMATION ff: Magic_Pot_ Magic_Pot_ Magic_Pot_
+256 4 1  # FORMATION 100: Dinosaur__ Ziegfried_
+257 0 1  # FORMATION 101: Guard_____ Guard_____
+258 0 1  # FORMATION 102: Lobo______ Lobo______
+259 0 1  # FORMATION 103: Lobo______ Lobo______ Guard_____ Guard_____
+260 0 1  # FORMATION 104: Mammoth___ Mammoth___ Guard_____ Guard_____
+261 0 0  # FORMATION 105: Lobo______ Mammoth___
+262 7 1  # FORMATION 106: Lobo______ Lobo______ Captain___
+263 4 0  # FORMATION 107: Trooper___ Trooper___ Trooper___ Trooper___
+264 4 0  # FORMATION 108: Pooch_____ Trooper___
+265 0 1  # FORMATION 109: Trooper___ Nude_Dude_
+266 0 1  # FORMATION 10a: Merchant__ Nude_Dude_ Merchant__ Merchant__ Merchant__ Merchant__
+267 7 1  # FORMATION 10b: Mega_Armor
+268 0 0  # FORMATION 10c: 
+269 0 0  # FORMATION 10d: Soldier___ Soldier___ Soldier___ Soldier___
+270 0 0  # FORMATION 10e: Phalanx___ Soldier___ Soldier___
+271 4 0  # FORMATION 10f: Sea_Flower Sea_Flower Sea_Flower Sea_Flower
+272 0 0  # FORMATION 110: 
+273 4 0  # FORMATION 111: Anguiform_ Anguiform_
+274 7 1  # FORMATION 112: Piranha___ Piranha___ Piranha___ Piranha___ Piranha___ Rizopas___
+275 4 0  # FORMATION 113: Anguiform_ Prokaryote Prokaryote
+276 0 0  # FORMATION 114: Anguiform_ Prokaryote Sea_Flower
+277 4 0  # FORMATION 115: Prokaryote Prokaryote Sea_Flower Sea_Flower
+278 4 0  # FORMATION 116: Rottweiler Trooper___ Trooper___
+279 4 0  # FORMATION 117: Mega_Armor Trooper___ Trooper___
+280 7 1  # FORMATION 118: Thanatos__
+281 0 0  # FORMATION 119: 
+282 0 0  # FORMATION 11a: Mega_Armor
+283 0 0  # FORMATION 11b: Commando__
+284 4 0  # FORMATION 11c: Plague_Rat Vermin____ Plague_Rat Vermin____ Plague_Rat
+285 4 0  # FORMATION 11d: Vermin____ Plague_Rat Plague_Rat
+286 0 1  # FORMATION 11e: Templar___ Templar___ Templar___
+287 0 0  # FORMATION 11f: Grenade___ Grenade___ Grenade___
+288 4 1  # FORMATION 120: Telstar___ Soldier___ Soldier___ Soldier___ Soldier___
+289 0 0  # FORMATION 121: Grenade___ Grenade___ Grenade___ Grenade___ Grenade___ Grenade___
+290 4 1  # FORMATION 122: Phantom___
+291 0 0  # FORMATION 123: 
+292 0 0  # FORMATION 124: 
+293 4 1  # FORMATION 125: Colossus__
+294 4 1  # FORMATION 126: Pug_______
+295 0 0  # FORMATION 127: Commando__ Commando__ Commando__ Commando__
+296 0 0  # FORMATION 128: Proto_Man_ Mega_Armor
+297 0 0  # FORMATION 129: Mag_Roader Mag_Roadie
+298 0 1  # FORMATION 12a: Doberman__ Doberman__ Doberman__
+299 0 1  # FORMATION 12b: Soldier___ Soldier___
+300 0 1  # FORMATION 12c: Phalanx___ Phalanx___ Soldier___ Soldier___
+301 0 0  # FORMATION 12d: Grenade___ Grenade___ Grenade___ Grenade___
+302 7 1  # FORMATION 12e: Templar___
+303 0 0  # FORMATION 12f: Wight_____ Wight_____ Wight_____
+304 0 0  # FORMATION 130: Wight_____ Wight_____
+305 0 0  # FORMATION 131: 
+306 0 0  # FORMATION 132: 
+307 0 0  # FORMATION 133: 
+308 0 0  # FORMATION 134: 
+309 0 0  # FORMATION 135: 
+310 0 0  # FORMATION 136: 
+311 0 0  # FORMATION 137: 
+312 0 1  # FORMATION 138: 
+313 6 1  # FORMATION 139: Kefka_____
+314 0 0  # FORMATION 13a: 
+315 0 1  # FORMATION 13b: _Event____
+316 0 1  # FORMATION 13c: _Event____
+317 0 1  # FORMATION 13d: _Event____
+318 0 0  # FORMATION 13e: 
+319 0 0  # FORMATION 13f: 
+320 7 1  # FORMATION 140: Whelk_____ _Whelk____
+321 7 1  # FORMATION 141: Tek_Armor_ Tek_Armor_
+322 7 1  # FORMATION 142: Vargas____ Bear______ Bear______
+323 7 1  # FORMATION 143: Hell_Angel
+324 7 1  # FORMATION 144: Soul_Train
+325 1 1  # FORMATION 145: Dadaluma__ Fighter___ Fighter___
+326 1 1  # FORMATION 146: Ifrit_____ Shiva_____
+327 1 1  # FORMATION 147: Crane_____ Crane_____
+328 1 1  # FORMATION 148: Number_024
+329 1 1  # FORMATION 149: Number_128 _Saber____ _Rapier___
+330 1 1  # FORMATION 14a: Tentacle_A Tentacle_B Tentacle_C Tentacle_D
+331 0 0  # FORMATION 14b: 
+332 0 0  # FORMATION 14c: 
+333 0 0  # FORMATION 14d: Esper_____
+334 0 0  # FORMATION 14e: Esper_____
+335 1 1  # FORMATION 14f: Heartfire_ Grenade___ Grenade___ Grenade___ Grenade___
+336 2 1  # FORMATION 150: Atma______
+337 1 0  # FORMATION 151: Nimufu____
+338 7 1  # FORMATION 152: Intangir__ Intangir__
+339 1 1  # FORMATION 153: Intangir_Z
+340 1 1  # FORMATION 154: Tentacle_A Tentacle_B Tentacle_C Tentacle_D
+341 1 1  # FORMATION 155: Dullahan__
+342 1 1  # FORMATION 156: Lakshmi___ Chadarnook
+343 0 0  # FORMATION 157: 
+344 0 0  # FORMATION 158: 
+345 1 1  # FORMATION 159: IAF_______ _Right_Bay _Left_Bay_
+346 1 1  # FORMATION 15a: Larry_____ Curly_____ Moe_______ Shemp_____
+347 0 0  # FORMATION 15b: 
+348 1 1  # FORMATION 15c: Wrexsoul__ Soulblazer Soulblazer Shemp_____ Soulblazer Soulblazer
+349 0 0  # FORMATION 15d: 
+350 1 1  # FORMATION 15e: Hidon_____ _Blinky___ _Pinky____ _Kinky____ _Clyde____
+351 4 1  # FORMATION 15f: Katanasoul
+352 0 0  # FORMATION 160: 
+353 0 0  # FORMATION 161: _Event____
+354 2 1  # FORMATION 162: Asura_____
+355 2 1  # FORMATION 163: Isis______
+356 2 1  # FORMATION 164: Myria_____
+357 0 0  # FORMATION 165: Dahling___ Dahling___ Nightshade
+358 0 0  # FORMATION 166: 
+359 7 1  # FORMATION 167: Ultros____
+360 0 0  # FORMATION 168: Ultros____ Ultros____ Ultros____ Ultros____
+361 0 0  # FORMATION 169: _Event____
+362 0 0  # FORMATION 16a: 
+363 7 1  # FORMATION 16b: Chupon____ Ultros____ Ultros____
+364 0 0  # FORMATION 16c: 
+365 1 1  # FORMATION 16d: Ziegfried_
+366 0 0  # FORMATION 16e: 
+367 0 0  # FORMATION 16f: 
+368 6 1  # FORMATION 170: Ultima____
+369 4 1  # FORMATION 171: Master_T__
+370 1 1  # FORMATION 172: Inferno___ _Rake_____ _Striker__
+371 0 0  # FORMATION 173: 
+372 4 1  # FORMATION 174: Chesticle_ _Chesticle
+373 1 1  # FORMATION 175: Yeti______
+374 0 0  # FORMATION 176: 
+375 0 0  # FORMATION 177: Esper_____
+376 1 1  # FORMATION 178: Esper_____
+377 0 0  # FORMATION 179: Centurion_ Centurion_ Kefka_____
+378 0 0  # FORMATION 17a: _Event____
+379 0 1  # FORMATION 17b: _Event____
+380 0 1  # FORMATION 17c: _Event____
+381 7 1  # FORMATION 17d: Ultros____ Ultros____ Ultros____ Ultros____
+382 4 1  # FORMATION 17e: Bat_Lady__
+383 0 0  # FORMATION 17f: _Event____
+384 1 1  # FORMATION 180: Phunbaba__
+385 1 1  # FORMATION 181: Phunbaba__
+386 1 1  # FORMATION 182: Phunbaba__
+387 1 1  # FORMATION 183: Phunbaba__
+388 6 1  # FORMATION 184: Silver_D__
+389 6 1  # FORMATION 185: Purple_D__
+390 6 1  # FORMATION 186: Brown_D___
+391 6 1  # FORMATION 187: Gold_D____
+392 6 1  # FORMATION 188: Green_D___
+393 6 1  # FORMATION 189: Blue_D____
+394 6 1  # FORMATION 18a: Red_D_____
+395 6 1  # FORMATION 18b: White_D___
+396 1 1  # FORMATION 18c: Guardian__ Android___ Android___
+397 4 0  # FORMATION 18d: Sky_Armor_ Spitfire__ Spitfire__
+398 4 0  # FORMATION 18e: Sky_Armor_ Sky_Armor_
+399 4 0  # FORMATION 18f: Mag_Roader Mag_Roader
+400 4 0  # FORMATION 190: Mag_Roadie Mag_Roadie Mag_Roadie Mag_Roadie
+401 6 1  # FORMATION 191: MagiMaster
+402 0 0  # FORMATION 192: Dahling___ Dahling___ Dahling___
+403 0 0  # FORMATION 193: Nightshade Nightshade Nightshade
+404 0 0  # FORMATION 194: __________
+405 7 1  # FORMATION 195: Ninja_____
+406 0 0  # FORMATION 196: 
+407 0 0  # FORMATION 197: Dahling___ Nightshade Nightshade
+408 4 1  # FORMATION 198: Tonberry__
+409 4 1  # FORMATION 199: Bonelord__
+410 6 1  # FORMATION 19a: Kaiser____
+411 3 0  # FORMATION 19b: Lv_1_Mage_ Lv_1_Mage_ Lv_1_Mage_
+412 3 0  # FORMATION 19c: Lv_1_Mage_ Lv_1_Mage_ Lv_2_Mage_ Lv_2_Mage_
+413 0 0  # FORMATION 19d: Lv_3_Mage_ Lv_3_Mage_ Lv_2_Mage_ Lv_2_Mage_
+414 3 0  # FORMATION 19e: Lv_4_Mage_ Lv_3_Mage_ Lv_2_Mage_
+415 0 0  # FORMATION 19f: Lv_5_Mage_ Lv_4_Mage_ Lv_4_Mage_
+416 3 0  # FORMATION 1a0: Lv_6_Mage_ Lv_6_Mage_ Lv_5_Mage_
+417 0 0  # FORMATION 1a1: Lv_7_Mage_ Lv_7_Mage_ Lv_6_Mage_ Lv_6_Mage_
+418 3 0  # FORMATION 1a2: Lv_8_Mage_ Lv_7_Mage_ Lv_7_Mage_
+419 0 0  # FORMATION 1a3: Lv_9_Mage_ Lv_8_Mage_
+420 3 0  # FORMATION 1a4: Diablos___ Diablos___
+421 3 0  # FORMATION 1a5: Diablos___ Devil_Weed Raptor____
+422 3 0  # FORMATION 1a6: Brontosaur Devil_Weed
+423 3 0  # FORMATION 1a7: Brontosaur Raptor____ Raptor____ Raptor____
+424 3 0  # FORMATION 1a8: Sphinx____ Sphinx____
+425 3 0  # FORMATION 1a9: Prometheus
+426 3 0  # FORMATION 1aa: Didalos___
+427 3 0  # FORMATION 1ab: Death_____
+428 3 0  # FORMATION 1ac: Ogre_Nix__
+429 3 0  # FORMATION 1ad: Land_Worm_
+430 3 0  # FORMATION 1ae: Fiend_____ Assassin__ Assassin__
+431 3 0  # FORMATION 1af: Maiden____ Maiden____ Retainer__
+432 3 0  # FORMATION 1b0: Gorokan___ Retainer__ Assassin__
+433 3 0  # FORMATION 1b1: Ahriman___ Ahriman___ Maiden____ Maiden____
+434 3 0  # FORMATION 1b2: Fiend_____ Ahriman___ Ahriman___
+435 3 0  # FORMATION 1b3: Arsenal___ Iron_Man__ Iron_Man__ Iron_Man__
+436 3 0  # FORMATION 1b4: Autobot___ Robomech__ Robomech__
+437 3 0  # FORMATION 1b5: Searcher__ Robomech__ Arsenal___ Autobot___
+438 3 0  # FORMATION 1b6: Searcher__ Iron_Man__ Iron_Man__ Android___ Android___ Android___
+439 3 0  # FORMATION 1b7: Warmech___
+440 3 0  # FORMATION 1b8: Cactuar___
+441 0 0  # FORMATION 1b9: 
+442 0 0  # FORMATION 1ba: 
+443 0 0  # FORMATION 1bb: 
+444 0 0  # FORMATION 1bc: 
+445 1 1  # FORMATION 1bd: Guardian__
+446 0 0  # FORMATION 1be: 
+447 0 0  # FORMATION 1bf: 
+448 0 0  # FORMATION 1c0: 
+449 0 0  # FORMATION 1c1: 
+450 0 0  # FORMATION 1c2: 
+451 0 0  # FORMATION 1c3: 
+452 0 0  # FORMATION 1c4: 
+453 0 0  # FORMATION 1c5: 
+454 0 0  # FORMATION 1c6: 
+455 0 0  # FORMATION 1c7: 
+456 0 0  # FORMATION 1c8: 
+457 0 0  # FORMATION 1c9: 
+458 7 1  # FORMATION 1ca: Stray_Cat_
+459 0 0  # FORMATION 1cb: 
+460 0 0  # FORMATION 1cc: 
+461 0 0  # FORMATION 1cd: 
+462 0 0  # FORMATION 1ce: 
+463 6 1  # FORMATION 1cf: Doom_Gaze_
+464 0 0  # FORMATION 1d0: 
+465 0 0  # FORMATION 1d1: 
+466 0 0  # FORMATION 1d2: 
+467 0 0  # FORMATION 1d3: 
+468 0 0  # FORMATION 1d4: 
+469 0 0  # FORMATION 1d5: 
+470 0 0  # FORMATION 1d6: 
+471 5 1  # FORMATION 1d7: _Short_Arm _Long_Arm_ _Face_____
+472 0 0  # FORMATION 1d8: 
+473 0 0  # FORMATION 1d9: 
+474 0 0  # FORMATION 1da: 
+475 0 0  # FORMATION 1db: 
+476 0 0  # FORMATION 1dc: 
+477 0 0  # FORMATION 1dd: 
+478 0 0  # FORMATION 1de: 
+479 0 0  # FORMATION 1df: 
+480 0 0  # FORMATION 1e0: 
+481 0 0  # FORMATION 1e1: 
+482 0 0  # FORMATION 1e2: 
+483 0 0  # FORMATION 1e3: 
+484 0 0  # FORMATION 1e4: 
+485 0 0  # FORMATION 1e5: Recruit___ Recruit___ Recruit___
+486 0 0  # FORMATION 1e6: 
+487 0 0  # FORMATION 1e7: 
+488 0 0  # FORMATION 1e8: 
+489 0 0  # FORMATION 1e9: 
+490 0 0  # FORMATION 1ea: 
+491 0 0  # FORMATION 1eb: 
+492 0 0  # FORMATION 1ec: 
+493 0 0  # FORMATION 1ed: 
+494 0 0  # FORMATION 1ee: 
+495 0 0  # FORMATION 1ef: 
+496 0 0  # FORMATION 1f0: 
+497 0 0  # FORMATION 1f1: 
+498 0 0  # FORMATION 1f2: 
+499 0 0  # FORMATION 1f3: 
+500 0 0  # FORMATION 1f4: Witch_____ Witch_____ Revenant__ Revenant__
+501 0 0  # FORMATION 1f5: 
+502 0 1  # FORMATION 1f6: _Gau______
+503 0 0  # FORMATION 1f7: 
+504 0 0  # FORMATION 1f8: 
+505 0 0  # FORMATION 1f9: 
+506 0 0  # FORMATION 1fa: 
+507 0 0  # FORMATION 1fb: 
+508 0 0  # FORMATION 1fc: 
+509 0 0  # FORMATION 1fd: 
+510 0 0  # FORMATION 1fe: 
+511 0 0  # FORMATION 1ff: 
+512 0 0  # FORMATION 200: _Hit______ _Tiger____ _Tools____ _Magic____
+513 0 0  # FORMATION 201: _Girl_____ _Sleep____
+514 0 0  # FORMATION 202: Kefka_____
+515 0 0  # FORMATION 203: 
+516 0 0  # FORMATION 204: 
+517 0 0  # FORMATION 205: 
+518 0 0  # FORMATION 206: 
+519 0 0  # FORMATION 207: 
+520 0 0  # FORMATION 208: 
+521 0 0  # FORMATION 209: 
+522 0 0  # FORMATION 20a: 
+523 0 0  # FORMATION 20b: 
+524 0 0  # FORMATION 20c: 
+525 0 0  # FORMATION 20d: 
+526 0 0  # FORMATION 20e: 
+527 0 0  # FORMATION 20f: 
+528 0 0  # FORMATION 210: 
+529 0 0  # FORMATION 211: 
+530 0 0  # FORMATION 212: 
+531 0 0  # FORMATION 213: 
+532 0 0  # FORMATION 214: 
+533 0 0  # FORMATION 215: 
+534 0 0  # FORMATION 216: 
+535 0 0  # FORMATION 217: 
+536 0 0  # FORMATION 218: 
+537 0 0  # FORMATION 219: 
+538 0 0  # FORMATION 21a: 
+539 0 0  # FORMATION 21b: 
+540 0 0  # FORMATION 21c: 
+541 0 0  # FORMATION 21d: 
+542 0 0  # FORMATION 21e: 
+543 0 0  # FORMATION 21f: 
+544 0 0  # FORMATION 220: 
+545 0 0  # FORMATION 221: 
+546 0 0  # FORMATION 222: 
+547 0 0  # FORMATION 223: 
+548 0 0  # FORMATION 224: 
+549 0 0  # FORMATION 225: 
+550 0 0  # FORMATION 226: 
+551 0 0  # FORMATION 227: 
+552 0 0  # FORMATION 228: 
+553 0 0  # FORMATION 229: 
+554 0 0  # FORMATION 22a: 
+555 0 0  # FORMATION 22b: 
+556 0 0  # FORMATION 22c: 
+557 0 0  # FORMATION 22d: 
+558 0 0  # FORMATION 22e: 
+559 0 0  # FORMATION 22f: 
+560 0 0  # FORMATION 230: 
+561 0 0  # FORMATION 231: 
+562 0 0  # FORMATION 232: 
+563 0 0  # FORMATION 233: 
+564 0 0  # FORMATION 234: 
+565 0 0  # FORMATION 235: 
+566 0 0  # FORMATION 236: 
+567 0 0  # FORMATION 237: 
+568 0 0  # FORMATION 238: 
+569 0 0  # FORMATION 239: 
+570 0 0  # FORMATION 23a: 
+571 0 0  # FORMATION 23b: 
+572 0 0  # FORMATION 23c: 
+573 0 0  # FORMATION 23d: 
+574 0 1  # FORMATION 23e: 
+575 0 1  # FORMATION 23f: Guard_____

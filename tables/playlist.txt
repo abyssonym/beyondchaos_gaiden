@@ -1,0 +1,668 @@
+[default]
+ff6_prelude:    prelude
+ff10_zanarkand: prelude
+
+ff6_omen3:      omen3
+totr_downfall:  omen3
+
+ff6_awakening:  awakening
+ct_zeal:        awakening, strago
+lu2_peace:      awakening, relm
+
+ff6_balance:    balance
+cc_world2:      balance
+top_world1:     balance
+
+ff6_shadow:     shadow
+ff4_damcyan:    shadow
+    
+ff6_strago:     strago
+ff4_mysidia:    strago
+
+ff6_gau:        gau    
+dc2_garden:     gau
+
+ff6_figaro:     figaro
+lotr_aragorn:   figaro
+
+ff6_coin:       coin
+ff7_aerith:     celes, daryl, coin, omen3
+
+ff6_cyan:       cyan
+ff9_rose:       cyan
+
+ff6_locke:      locke
+ct_ayla:        locke
+
+ff6_rachel:     rachel
+lu1_parting:    rachel
+ff7_5years:     rachel
+
+ff6_relm:       relm
+ff4_rydia:      relm
+
+ff6_setzer:     setzer
+sd1s_courage:   setzer
+sd2_final:      setzer
+
+ff6_daryl:      daryl
+ff4_sorrow:     daryl
+
+ff6_celes:      celes
+ff4_rosa:       celes
+
+ff6_chocobo:    chocobo
+ds4_lyll:       chocobo
+fz_white1:      chocobo
+ff7_electric:   chocobo
+
+ff6_johnny:     johnny
+ffmq_faeria:    johnny
+
+ff6_kefka:      kefka
+ct_trial:       kefka
+
+ff6_narshe:     narshe
+ot_stillsnow:   narshe
+
+ff7_temple:     cave
+iog_larai:      cave
+
+ff6_veldt:      veldt
+ct_bobonga:     veldt
+
+ff9_siege:      savethem
+ff14_forthesky: savethem
+
+ff6_empire:     empire
+ff5_book:       empire
+
+ff6_troops:     troops
+ff5_bal:        troops
+
+ff6_martiallaw: martiallaw
+sth1_spring:    johnny, martiallaw
+
+ff6_metamorphosis: metamorphosis
+ff5_hurry:      metamorphosis
+
+ff6_train:      train
+doom2_doom:     train
+
+ff6_espers:     espers
+lal_labyrinth:  espers
+
+ff6_grandfinale: grandfinale
+ff9_battle:     grandfinale
+ff9_hunt:       grandfinale
+
+ff6_mountain:   mountain
+ff5_mountain:   mountain
+
+ff6_serpent:    serpent    
+lu2_savior:     serpent
+sd2_fortress:   serpent
+
+ff6_zozo:       zozo, martiallaw
+ff6_zozo_orig:  zozo
+cc_dragonia:    zozo
+
+ff6_town:       town
+ff1_end:        town
+
+ff6_what:       what    
+ff9_gargan:     what
+ff7_materia:    what, gau
+
+ff6_gogo:       gogo
+ff3_hyne:       gogo
+ff12_ozmone:    gogo
+
+ff6_returners:  returners
+ff5_pirates:    returners
+
+ff6_umaro:      umaro
+sd3_counterpoint: umaro
+    
+ff6_moogles:    moogles
+ff3_darkworld:  moogles
+
+ff6_unforgiven: unforgiven
+bof2_battle2:   unforgiven
+
+ff6_ruintown:   ruintown
+ff7_sadbar:     ruintown
+
+ff6_blackjack:  blackjack
+ff7_bronco:     blackjack
+lal_boss:       blackjack
+
+ff6_catastrophe: catastrophe
+ff4_fiend:      catastrophe
+
+ff6_owzer:      owzer
+ct_sewer:       owzer
+cv4_chandeliers: owzer
+
+ff6_spinach:    spinach
+ff9_treno:      spinach
+
+ff6_magitek:    magitek
+ff7_mako:       magitek
+met3_plants:    magitek
+
+ff6_floating:   floating
+ff14_azyslla:   floating
+ffmq_final:     floating
+
+ff6_falcon:     falcon
+fz_silence:     falcon
+
+ff6_fanatics:   fanatics
+zaol_temple:    fanatics
+    
+ff6_ktower:     ktower
+ct_undersea:    ktower
+wa2_heimdal:    ktower, gate, phoenix
+ff6_dmad:       ktower, fanatics, floating, catastrophe, grandfinale
+
+ff6_ruin:       ruin
+ff8_world:      ruin
+top_sylph:      ruin, tomb
+
+ff6_forest:     forest
+ct_forest:      forest
+
+ff10_via:       tomb
+
+cc_hydra:       dream
+ct_silent:      dream
+
+blord_ruins:    ancient
+ff1_volcano_psx: ancient
+
+ff12_crystal:   phoenix
+gd3_moai:       phoenix
+
+ff1_volcano:    gate
+ebr_prayer:     gate, phoenix
+
+crys_mountain:  mount2
+crys_tower:     mount2
+
+ff4_moon:       engine
+gd3_desert:     engine
+
+ff9_flamenco:   village, chocobo, johnny
+cc_arni:        village
+ff5_village:    village
+    
+doom_e1m1:      assault
+ct_tension:     assault
+
+#mass importing legacy files for chaos only:
+[Legacy]
+blord_2tower:     chaos
+blord_ruins:      chaos
+bl_fahrenheit:    chaos
+bl_rebels:        chaos
+bof1_dawn:        chaos
+bof2_battle:      chaos
+bof2_dragnier:    chaos
+bof2_town:        chaos
+bof2_wander:      chaos
+cc_arni:          chaos
+cc_dragonia:      chaos
+cc_flame:         chaos
+cc_harle:         chaos
+cc_home:          chaos
+cc_hydra:         chaos
+cc_life:          chaos
+cc_miguel:        chaos
+cc_pyre:          chaos
+cc_valley:        chaos
+cc_world2:        chaos
+crys_fields:      chaos
+crys_mountain:    chaos
+crys_tower:       chaos
+ct_600ad:         chaos
+ct_battle:        chaos
+ct_battle2:       chaos
+ct_bike:          chaos
+ct_bobonga:       chaos
+ct_boss:          chaos
+ct_boss2:         chaos
+ct_epoch:         chaos
+ct_factory:       chaos
+ct_fair:          chaos
+ct_final:         chaos
+ct_forest:        chaos
+ct_frog:          chaos
+ct_keeper:        chaos
+ct_lavos:         chaos
+ct_magus:         chaos
+ct_mountain:      chaos
+ct_night:         chaos
+ct_omen:          chaos
+ct_revolution:    chaos
+ct_rhythm:        chaos
+ct_robo:          chaos
+ct_schala:        chaos
+ct_sewer:         chaos
+ct_silent:        chaos
+ct_spekkio:       chaos
+ct_tension:       chaos
+ct_theme:         chaos
+ct_town:          chaos
+ct_trial:         chaos
+ct_truth:         chaos
+ct_tylair:        chaos
+ct_tyran:         chaos
+ct_undersea:      chaos
+ct_zeal:          chaos
+cv3_aquarius:     chaos
+cv4_beginning:    chaos
+cv4_chandeliers:  chaos
+dc2_garden:       chaos
+doom2_doom:       chaos
+ds4_dungeon:      chaos
+ds4_lyll:         chaos
+ds4_world:        chaos
+eo3_waves:        chaos
+fe15_whatlies:    chaos
+ff12_barheim:     chaos
+ff12_crystal:     chaos
+ff12_estersand:   chaos
+ff12_ozmone:      chaos
+ff12_paramina:    chaos
+ff12_prison:      chaos
+ff14_azyslla:     chaos
+ff14_battlem:     chaos
+ff1_battle:       chaos
+ff1_bossb:        chaos
+ff1_dungeon:      chaos
+ff1_matoya:       chaos
+ff2_battle2:      chaos
+ff2_battleb:      chaos
+ff2_theme:        chaos
+ff3_battle:       chaos
+ff3_darkworld:    chaos
+ff3_eureka:       chaos
+ff3_hyne:         chaos
+ff3_warrior:      chaos
+ff3_world:        chaos
+ff4_airship:      chaos
+ff4_babil:        chaos
+ff4_baron:        chaos
+ff4_battle:       chaos
+ff4_bomb:         chaos
+ff4_boss:         chaos
+ff4_calcobrena:   chaos
+ff4_cave:         chaos
+ff4_damcyan:      chaos
+ff4_giant:        chaos
+ff4_giant_remix:  chaos
+ff4_golbez:       chaos
+ff4_illusion:     chaos
+ff4_longway:      chaos
+ff4_mysidia:      chaos
+ff4_overworld:    chaos
+ff4_prologue:     chaos
+ff4_redwings:     chaos
+ff4_restless:     chaos
+ff4_rosa:         chaos
+ff4_rydia:        chaos
+ff4_somewhere:    chaos
+ff4_sorrow:       chaos
+ff4_town:         chaos
+ff4_troia:        chaos
+ff4_underworld:   chaos
+ff4_whale:        chaos
+ff4_zeromus:      chaos
+ff4_zot:          chaos
+ff5_bal:          chaos
+ff5_battle:       chaos
+ff5_boss:         chaos
+ff5_bridge:       chaos
+ff5_cave:         chaos
+ff5_curse:        chaos
+ff5_curse_tr:     chaos
+ff5_dawn:         chaos
+ff5_excastle:     chaos
+ff5_exdeath:      chaos
+ff5_final:        chaos
+ff5_home:         chaos
+ff5_hurry:        chaos
+ff5_lenna:        chaos
+ff5_library:      chaos
+ff5_mountain:     chaos
+ff5_seal:         chaos
+ff5_ship:         chaos
+ff5_theme:        chaos
+ff5_void:         chaos
+ff5_what:         chaos
+ff5_wings:        chaos
+ff5_world1:       chaos
+ff5_world2:       chaos
+ff5_world3:       chaos
+ff6_forest:       chaos
+ff6_ruin:         chaos
+ff6_town2:        chaos
+ff6_train_ext:    chaos
+ff6_zozo:         chaos
+ff7_5years:       chaos
+ff7_battle:       chaos
+ff7_boss:         chaos
+ff7_corel:        chaos
+ff7_costa:        chaos
+ff7_desert:       chaos
+ff7_gun:          chaos
+ff7_hurry:        chaos
+ff7_hurry2:       chaos
+ff7_judgment:     chaos
+ff7_materia:      chaos
+ff7_pizza:        chaos
+ff7_planet:       chaos
+ff7_rebirth:      chaos
+ff7_reunion:      chaos
+ff7_sadbar:       chaos
+ff7_snow:         chaos
+ff7_temple:       chaos
+ff7_tifa:         chaos
+ff7_weapon:       chaos
+ff8_battle:       chaos
+ff8_boss:         chaos
+ff8_heresy:       chaos
+ff8_horizon:      chaos
+ff8_laguna:       chaos
+ff8_landing:      chaos
+ff8_lion:         chaos
+ff8_mlaw:         chaos
+ff8_oath:         chaos
+ff8_triad:        chaos
+ff8_witches:      chaos
+ff8_world:        chaos
+ff9_battle:       chaos
+ff9_blackmage:    chaos
+ff9_blackwaltz:   chaos
+ff9_dali:         chaos
+ff9_extraction:   chaos
+ff9_flamenco:     chaos
+ff9_gargan:       chaos
+ff9_home:         chaos
+ff9_hunt:         chaos
+ff9_memoria:      chaos
+ff9_messenger:    chaos
+ff9_rose:         chaos
+ff9_siege:        chaos
+ff9_treno:        chaos
+ff9_world:        chaos
+ffmq_battle:      chaos
+ffmq_boss:        chaos
+ffmq_doom:        chaos
+ffmq_final:       chaos
+ffmq_forest:      chaos
+ffmq_fossil:      chaos
+ffmq_gale:        chaos
+ffmq_lava:        chaos
+ffmq_light:       chaos
+ffmq_rock:        chaos
+ffmq_tower:       chaos
+ffmq_tristam:     chaos
+ffmq_victory:     chaos
+fft_apoplexy:     chaos
+fft_apoplexy_vic: chaos
+ffx_ambition:     chaos
+ffx_battle:       chaos
+ffx_calm:         chaos
+ffx_decision:     chaos
+ffx_gagazet:      chaos
+ffx_luca:         chaos
+ffx_seymour:      chaos
+ffx_via:          chaos
+ffx_zanarkand:    chaos
+fz_port:          chaos
+fz_silence:       chaos
+fz_white1:        chaos
+gd3_desert:       chaos
+gd3_moai:         chaos
+gs_tunnel:        chaos
+gs_venus:         chaos
+iog_boss:         chaos
+iog_larai:        chaos
+iog_whispers:     chaos
+iog_womb:         chaos
+jts_stage1:       chaos
+lagoon_spirits:   chaos
+lal_boss:         chaos
+lal_labyrinth:    chaos
+lal_pogo:         chaos
+lal_psycho:       chaos
+lal_theme:        chaos
+lotr_hobbits:     chaos
+lo_battle:        chaos
+lu1_battle:       chaos
+lu1_boss:         chaos
+lu1_final:        chaos
+lu1_spoils:       chaos
+lu1_world:        chaos
+lu2_battle:       chaos
+lu2_battle3:      chaos
+lu2_boss:         chaos
+lu2_mountain:     chaos
+lu2_narvick:      chaos
+lu2_priphea:      chaos
+lu2_world:        chaos
+met3_brain:       chaos
+met3_crateria:    chaos
+met3_surface:     chaos
+mi_scummbar:      chaos
+mmx_prologue:     chaos
+ng3_defeat:       chaos
+ob_battle:        chaos
+ot_cliftlands:    chaos
+ot_oasis:         chaos
+ot_stillsnow:     chaos
+ot_sunshade:      chaos
+rd_summer:        chaos
+rs1_battle:       chaos
+rs2_heroes:       chaos
+rs3_devil2:       chaos
+rs3_getpet:       chaos
+rs3_gwain:        chaos
+rs3_julian:       chaos
+rs3_sarah:        chaos
+rs3_underwater:   chaos
+rsms_battle:      chaos
+sd1s_boss:        chaos
+sd1s_courage:     chaos
+sd1s_decision:    chaos
+sd1s_fate:        chaos
+sd1s_field:       chaos
+sd1s_risingsun:   chaos
+sd2_8bells:       chaos
+sd2_always:       chaos
+sd2_angel:        chaos
+sd2_boss:         chaos
+sd2_city:         chaos
+sd2_desert:       chaos
+sd2_dwarf:        chaos
+sd2_eternal:      chaos
+sd2_flammie:      chaos
+sd2_forest:       chaos
+sd2_forget:       chaos
+sd2_fortress:     chaos
+sd2_hope:         chaos
+sd2_intruder:     chaos
+sd2_jema:         chaos
+sd2_legend:       chaos
+sd2_lofty:        chaos
+sd2_mana:         chaos
+sd2_matango:      chaos
+sd2_memories:     chaos
+sd2_meridian:     chaos
+sd2_morning:      chaos
+sd2_popoi:        chaos
+sd2_prayer:       chaos
+sd2_prophecy:     chaos
+sd2_pureland:     chaos
+sd2_rose:         chaos
+sd2_scorpion:     chaos
+sd2_sea:          chaos
+sd2_spirit:       chaos
+sd2_star:         chaos
+sd2_steel:        chaos
+sd2_tasnica:      chaos
+sd2_thanatos:     chaos
+sd2_thick:        chaos
+sd2_thunder:      chaos
+sd2_town:         chaos
+sd2_wish:         chaos
+sd3_angels:       chaos
+sd3_blackmarket:  chaos
+sd3_charlotte:    chaos
+sd3_counterpoint: chaos
+sd3_faith:        chaos
+sd3_final3:       chaos
+sd3_flight:       chaos
+sd3_intolerance:  chaos
+sd3_mana:         chaos
+sd3_paths:        chaos
+sd3_sea:          chaos
+sd3_tension:      chaos
+sd3_winter:       chaos
+sdlm_bonds:       chaos
+sdlm_nostalgic:   chaos
+sdlm_pain:        chaos
+sdlm_snowfield:   chaos
+sf2_balrog:       chaos
+sf2_guile:        chaos
+sf2_ken:          chaos
+smb2_select:      chaos
+smrpg_battle:     chaos
+smrpg_road:       chaos
+smw_castle:       chaos
+so2_kurik:        chaos
+so2_rescue:       chaos
+so2_victory:      chaos
+so2_world1:       chaos
+so2_world1_a:     chaos
+so2_world1_b:     chaos
+spo_fight:        chaos
+st_dungeon:       chaos
+tn_evergreen:     chaos
+top_cold:         chaos
+top_freeze:       chaos
+top_harmony:      chaos
+top_mint:         chaos
+top_resur:        chaos
+top_spirit:       chaos
+top_treant:       chaos
+top_victory:      chaos
+top_world1:       chaos
+top_world3:       chaos
+totr_arrow:       chaos
+totr_battle:      chaos
+totr_ruins:       chaos
+totr_ship:        chaos
+totr_sion:        chaos
+totr_spirit:      chaos
+totr_underworld:  chaos
+totr_wind:        chaos
+totr_worlds:      chaos
+tyr_theme:        chaos
+wa_zed:           chaos
+wc2_human1:       chaos
+wc2_orc1:         chaos
+xc1_names:        chaos
+xc1_valakn:       chaos
+xc2_morardain:    chaos
+xc2_tantal:       chaos
+xcx_sylvan:       chaos
+xg_boss:          chaos
+xg_chuchu:        chaos
+xg_flight:        chaos
+xg_lahan:         chaos
+xg_mermaid:       chaos
+xg_tears:         chaos
+xg_weltall:       chaos
+ys1_wars:         chaos
+ys3_house:        chaos
+ys3_time:         chaos
+ys3_wings:        chaos
+ys4_danan:        chaos
+ys8_idance:       chaos
+zaol_overworld:   chaos
+zlttp_darkworld:  chaos
+zlttp_dungeon:    chaos
+zoot_storms:      chaos
+
+[victory]
+ff4_fanfare: fanfare
+ff6_fanfare: fanfare
+ff7_fanfare: fanfare
+
+[sleep]
+ff4_inn: sleep
+ff5_inn: sleep
+ff6_inn: sleep
+sd2_ally: sleep
+lu2_sleep: sleep
+
+[death]
+ff5_death: death
+ff6_death: death
+
+[tierboss]
+lb: ff6_tier1, ff6_tier2, ff6_tier3, ff7_final_part1, ff6_falsetier1, ff6_falsetier3
+
+[battle]
+# BATTLE plays in formations through 3 Scenarios / K@N
+# BAT2 plays in formations through the rest of WoB
+# BAT3 plays throughout WoR
+# BAT4 plays in Kefka's Tower and in special event battles and MiBs such as Siegfried, Presenter, KatanaSoul
+ct_battle:      E5,  battle, bat2
+ff1_battle:     E10, battle
+ff6_battle:     E20, battle, bat2, bat3
+top_battle:     E25, battle, bat2, bat3    
+ff7_battle_ff6: E25, battle, bat2
+ff7_battle:     E30, battle, bat2, bat3
+ff9_battle:     E35, battle, bat2
+totr_battle:    E40,         bat2, bat3
+ff8_laguna:     E40,         bat2, bat3, bat4
+doom_e1m1:      E45, battle
+ff14_battlem:   E50,         bat2, bat3, bat4
+gd3_moai:       E60,                     bat4
+bof2_battle2:   E65,         bat2, bat3
+ot_treasure:    E70,                     bat4
+ff9_hunt:       E75,               bat3, bat4
+totr_sboss:     E80,                     bat4
+wa2_heimdal:    E80,                     bat4
+ebr_prayer:     E90,               bat3
+sd2_fortress:   E90,               bat3
+lal_boss:       E90,                     bat4
+lu2_savior:     E95,               bat3, bat4
+ff6_boss:       E99,                     bat4
+
+[boss]
+# mboss (miniboss) plays in event encounters like Marshal, Leader, Rizopas
+# boss plays on most bosses
+# atma plays on Kefka at Narshe, Atma (Weapon), MagiMaster, Goddess/Poltrgeist/Doom, the 8 Dragons, Doom Gaze
+# dmad5 plays on False & Final Kefka
+ct_tension:   I15, mboss
+ff7_battle:   I20, mboss
+zaol_temple:  I30, mboss
+bof2_battle2: I35, mboss
+doom_e1m1:    I40, mboss
+ot_treasure:  I45, mboss, boss
+ff6_boss:     I50,        boss
+ff8_laguna:   I50, mboss,       atma
+lal_boss:     I50, mboss, boss, atma
+totr_sboss:   I55,        boss, atma
+ff5_boss:     I60,        boss, atma
+ff4_fiend:    I80,        boss, atma
+ff6_atma:     I80,        boss, atma, dmad5
+ff7_rebirth:  I90,              atma, dmad5
+ffmq_final:   I90,                    dmad5
+ct_final:     I95,              atma, dmad5
+ff6_final:    I95,              atma, dmad5

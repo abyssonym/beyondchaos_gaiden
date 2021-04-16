@@ -1,4 +1,5 @@
 VanillaObject       empty.txt                   0       1
+MusicObject         empty.txt                   0       1
 OverworldRateObject encounter_rate_table.txt    c1d1    16
 DungeonRateObject   encounter_rate_table.txt    c1f1    16
 InitialMembitObject initial_membit_table.txt    e0a0    128

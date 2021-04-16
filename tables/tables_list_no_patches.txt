@@ -1,4 +1,5 @@
 VanillaObject       empty.txt                   0       1
+MusicObject         empty.txt                   0       1
 OverworldRateObject encounter_rate_table.txt    c29f    16
 DungeonRateObject   encounter_rate_table.txt    c2bf    16
 InitialMembitObject initial_membit_table.txt    e0a0    128
@@ -103,7 +104,8 @@ $npc_choco_palette_address  2680e0
 $known_lores_address        26f564
 .patch                      rom_expansion_patch.txt
 .option                     always_sprint_patch.txt
-.option                     flip_gradient_patch.txt
+.option.no_verify           flip_gradient_patch.txt
+.option.no_verify           music_player_patch.txt
 .option                     auto_learn_rage_patch.txt
 .option                     let_banon_equip_patch.txt
 .option                     y_equip_patch.bin
