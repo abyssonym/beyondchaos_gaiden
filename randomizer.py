@@ -2271,6 +2271,17 @@ class ChestObject(TableObject):
                               random_degree=self.random_degree)
         self.set_contents(candidates[index])
 
+    def cleanup(self):
+        for c in ChestObject.every:
+            if c.index >= self.index:
+                break
+            if (c.memid == self.memid
+                    and c.old_data['misc'] == self.old_data['misc']
+                    and c.old_data['contents'] == self.old_data['contents']):
+                self.misc = c.misc
+                self.contents = c.contents
+                break
+
 
 class LocationObject(TableObject):
     @property
