@@ -1,4 +1,8 @@
 # reverse gradient on dialogue boxes
+33ea:   5b 8b
+33fa:   53 8b 5b 8b 63 8b
+340a:   53 8b 53 8b 5b 8b 63 8b 63 8b
+341a:   53 8b 53 8b 53 8b 5b 8b 63 8b 63 8b 63 8b
 342a:   53 8b 53 8b 53 8b 53 8b 5b 8b 63 8b 63 8b 63 8b 63 8b
 
 # reverse gradient on battle menu
