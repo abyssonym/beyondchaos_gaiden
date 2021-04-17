@@ -103,6 +103,7 @@ $known_lores_address        26f564
 $cheatproof_addr            cff61
 $aux_seed_address           33bba
 $aux_seed_length            19
+.patch                      rom_expansion_patch.txt
 .patch                      undo_brushless_sketch_bnw_patch.txt
 .patch                      flip_gradient_patch.txt
 .patch                      splash_removal_patch.txt
