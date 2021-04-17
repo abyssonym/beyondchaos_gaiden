@@ -892,7 +892,7 @@ ff5_death = death
 ff6_death = death
 
 [tierboss]
-lb = ff6_tier1, ff6_tier2, ff6_tier3, ff7_final_part1, ff6_falsetier1, ff6_falsetier3
+lb = cc_flame_legacy_dm, ct_lavos_legacy_dm, ff3_eureka_legacy_dm, ff6_tier1_legacy_dm, ff6_tier2_legacy_dm, ff6_tier3_legacy_dm, ff8_witches_legacy_dm, ffmq_lava_legacy_dm, xg_weltall_legacy_dm
 
 [battle]
 bof2_battle = E05, battle, bat2, bat3
