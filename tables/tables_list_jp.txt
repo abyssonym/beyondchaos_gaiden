@@ -26,7 +26,7 @@ InitialRageObject   initial_rage_table.txt      47aa0   32
 ShopObject          shop_table.txt              47ac0   86
 MetamorphObject     metamorph_table.txt         47f40   32
 #MagiciteObject      magicite_table.txt          magicite_pointers.txt
-#EventSpriteObject   event_sprite_table.txt      event_sprite_pointers.txt
+EventSpriteObject   event_sprite_table.txt      event_sprite_pointers_jp.txt
 DialoguePtrObject   dialogue_ptr_table.txt      ce602   3327
 MonsterObject       monster_table.txt           f0000   384
 MonsterLootObject   monster_loot_table.txt      f3000   384

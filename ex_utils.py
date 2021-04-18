@@ -4,7 +4,7 @@
 
 from os import path
 from collections import defaultdict
-import random
+from randomtools.utils import utilrandom as random
 import re
 
 try:
@@ -129,7 +129,7 @@ class AutoLearnRageSub(Substitution):
 
         super(AutoLearnRageSub, self).write(fout)
 
-
+'''
 texttable = {}
 f = open(TEXT_TABLE)
 for line in f:
@@ -138,7 +138,7 @@ for line in f:
     texttable[char] = value
 texttable[' '] = 'FE'
 f.close()
-
+'''
 
 def name_to_bytes(name, length):
     name = [hex2int(texttable[c]) for c in name]
@@ -147,7 +147,7 @@ def name_to_bytes(name, length):
         name.append(0xFF)
     return bytes(name)
 
-
+'''
 shorttexttable = {}
 f = open(SHORT_TEXT_TABLE)
 for line in f:
@@ -172,7 +172,7 @@ f.close()
 
 reverse_dialoguetexttable = {v: k for k, v in dialoguetexttable.items()}
 reverse_dialoguetexttable["1104"] = "<wait 60 frames>"
-
+'''
 
 def hex2int(hexstr):
     return int(hexstr, 16)
@@ -284,7 +284,7 @@ def get_dialogue_index(f, address):
             return index - 1
     return -1
 
-
+'''
 battlebg_palettes = {}
 f = open(BATTLE_BG_PALETTE_TABLE)
 for line in f:
@@ -293,7 +293,7 @@ for line in f:
     bg, palette = hex2int(bg), hex2int(palette)
     battlebg_palettes[bg] = palette
 f.close()
-
+'''
 
 def int2bytes(value, length=2, reverse=True):
     # reverse=True means high-order byte first
@@ -338,12 +338,13 @@ def write_multi(f, value, length=2, reverse=True):
 
     f.write(bytes(vals))
 
-
+'''
 utilrandom = random.Random()
 utran = utilrandom
 random = utilrandom
 
 RANDOM_MULTIPLIER = 1
+'''
 
 def set_randomness_multiplier(multiplier):
     global RANDOM_MULTIPLIER

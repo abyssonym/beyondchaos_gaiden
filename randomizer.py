@@ -7,9 +7,9 @@ from randomtools.utils import (
 from randomtools.interface import (
     get_outfile, get_seed, get_flags, get_activated_codes, activate_code,
     run_interface, rewrite_snes_meta, clean_and_write, finish_interface)
-from collections import defaultdict
+from ex_utils import generate_character_palette, shuffle_char_hues
+from collections import Counter, defaultdict
 from time import time, gmtime
-from collections import Counter
 from itertools import combinations
 from os import path
 from traceback import format_exc
@@ -84,6 +84,147 @@ def int_to_bytelist(value, length):
         value >>= 8
     assert value == 0
     return value_list
+
+
+class PaletteObject(TableObject):
+    @classmethod
+    def color_to_rgb(cls, color):
+        r = color & 0b11111
+        g = (color >> 5) & 0b11111
+        b = (color >> 10) & 0b11111
+        return r, g, b
+
+    @classmethod
+    def rgb_to_hsl(cls, r, g, b):
+        r = r / float(0b11111)
+        g = g / float(0b11111)
+        b = b / float(0b11111)
+
+        minval = min(r, g, b)
+        maxval = max(r, g, b)
+        luminance = (maxval + minval) / 2
+        if maxval == minval:
+            saturation = 0
+        elif luminance <= 0.5:
+            saturation = (maxval-minval) / (maxval + minval)
+        else:
+            saturation = (maxval-minval) / (2.0-(maxval + minval))
+
+        if maxval == minval:
+            hue = 0
+        elif r == maxval:
+            hue = (g-b)/(maxval-minval)
+        elif g == maxval:
+            hue = 2.0 + ((b-r)/(maxval-minval))
+        elif b == maxval:
+            hue = 4.0 + ((r-g)/(maxval-minval))
+        hue *= 60
+
+        r = int(round(r * 0b11111))
+        g = int(round(g * 0b11111))
+        b = int(round(b * 0b11111))
+
+        assert (r, g, b) == cls.hsl_to_rgb(hue, saturation, luminance)
+        return hue, saturation, luminance
+
+    @classmethod
+    def hsl_to_rgb(cls, hue, saturation, luminance):
+        if saturation <= 0:
+            r, g, b = luminance, luminance, luminance
+            r = int(round(r*0b11111))
+            g = int(round(g*0b11111))
+            b = int(round(b*0b11111))
+            return r, g, b
+
+        if luminance < 0.5:
+            t1 = luminance * (1.0+saturation)
+        else:
+            t1 = luminance + saturation - (luminance*saturation)
+        t2 = (2*luminance) - t1
+        hue /= 360.0
+        colordict = {}
+        tempdict = {}
+        tempdict['r'] = (hue + 0.333) % 1
+        tempdict['g'] = hue
+        tempdict['b'] = (hue - 0.333) % 1
+
+        for key, value in tempdict.items():
+            if (6*value) < 1:
+                newval = t2 + ((t1-t2) * 6 * value)
+            elif (2*value) < 1:
+                newval = t1
+            elif (3*value) < 2:
+                newval = t2 + ((t1-t2) * ((2/3.0)-value) * 6)
+            else:
+                newval = t2
+            colordict[key] = newval
+
+        r = int(round(colordict['r']*0b11111))
+        g = int(round(colordict['g']*0b11111))
+        b = int(round(colordict['b']*0b11111))
+        return r, g, b
+
+    @classmethod
+    def calculate_hue_distance(self, h1, h2):
+        h1, h2 = sorted((h1, h2))
+        return min(abs(h1-h2), abs((h1+360)-h2))
+
+    def get_color_hsl(self, color_index):
+        color = self.colors[color_index]
+        r, g, b = self.color_to_rgb(color)
+        h, s, l = self.rgb_to_hsl(r, g, b)
+        return h, s, l
+
+    def set_color_hsl(self, color_index, h, s, l):
+        r, g, b = self.hsl_to_rgb(h, s, l)
+        self.set_color(color_index, r, g, b)
+
+    def set_color(self, color_index, r, g, b):
+        val = r
+        val |= (g << 5)
+        val |= (b << 10)
+        self.colors[color_index] = val
+
+    def calculate_clusters(self):
+        hsls = [self.get_color_hsl(i) for i in range(len(self.colors))]
+        max_diff = 0
+        max_indexes = set([])
+        for i, (hi, si, li) in enumerate(hsls):
+            for j, (hj, sj, lj) in enumerate(hsls):
+                if j <= i:
+                    continue
+                diff = self.calculate_hue_distance(hi, hj)
+                diff = diff * min(si, sj)
+                if diff >= max_diff:
+                    if max_diff == diff:
+                        max_indexes.add((i, j))
+                    else:
+                        max_indexes = {(i, j)}
+                    max_diff = diff
+        max_indexes = random.choice(sorted(max_indexes))
+        enumerated_hsls = list(enumerate(hsls))
+        random.shuffle(enumerated_hsls)
+        clusters = [{i: hsls[i]} for i in sorted(max_indexes)]
+        for i, (h, s, l) in enumerated_hsls:
+            scores = {}
+            for cluster in clusters:
+                hues = [ch for (ch, cs, cl) in cluster.values()]
+                score = sum([(self.calculate_hue_distance(ch, h)**2)
+                             for ch in hues]) / len(hues)
+                scores[clusters.index(cluster)] = score
+            best_cluster = min(scores, key=lambda c: scores[c])
+            best_cluster = clusters[best_cluster]
+            if i in best_cluster:
+                assert best_cluster[i] == (h, s, l)
+            else:
+                best_cluster[i] = (h, s, l)
+        clusters = [set(c.keys()) for c in clusters]
+        running_total = set()
+        for c in clusters:
+            assert not (c & running_total)
+            running_total |= c
+        assert len(running_total) == len(self.colors)
+        return clusters
 
 
 class VanillaObject(TableObject):
@@ -198,7 +339,32 @@ class CmdChangeTAObject(TableObject, CmdChangeMixin):
         self.command = CmdChangeTBObject.get(self.index).command
 
 
-class CharPaletteObject(TableObject): pass
+class CharPaletteObject(TableObject):
+    flag = 'l'
+
+    @classmethod
+    def randomize_all(cls):
+        super().randomize_all()
+
+        unique = {0, 1, 4}
+        unique_used = set()
+        candidates = list(range(6)) * 3
+        random.shuffle(candidates)
+        for cpo, p in zip(CharPaletteObject.every, candidates):
+            cpo.palette_index = p
+            if cpo.index in unique:
+                if p in unique_used:
+                    fallback = [i for i in range(6) if i not in unique_used]
+                    cpo.palette_index = random.choice(fallback)
+                unique_used.add(cpo.palette_index)
+
+    def preclean(self):
+        related = {5: 4}
+        if self.index in related:
+            relative = related[self.index]
+            self.palette_index = CharPaletteObject.get(relative).palette_index
+
+
 class MouldObject(TableObject): pass
 
 class CmdChangeFBObject(TableObject, CmdChangeMixin):
@@ -275,6 +441,10 @@ class EventObject(TableObject): pass
 class NpcObject(TableObject):
     done_pay_saves = {}
 
+    @classproperty
+    def after_order(self):
+        return [CharPaletteObject]
+
     @property
     def event_addr(self):
         return self.misc & 0x3FFFF
@@ -327,6 +497,28 @@ class NpcObject(TableObject):
         event_addr = write_event(script) - 0xA0000
         self.set_event_addr(event_addr)
         self.done_pay_saves[price] = event_addr
+
+    def cleanup(self):
+        if self.palette >= 0x6:
+            return
+
+        alternate_costumes = {
+            0x41: 0x06,
+            }
+
+        if self.graphics in alternate_costumes:
+            cpo = CharPaletteObject.get(alternate_costumes[self.graphics])
+            assert self.palette == cpo.old_data['palette_index']
+            self.set_palette(cpo.palette_index)
+
+        if self.graphics <= 0xd:
+            cpo = CharPaletteObject.get(self.graphics)
+            if self.palette == cpo.old_data['palette_index']:
+                self.set_palette(cpo.palette_index)
+            else:
+                new_palettes = list(range(6))
+                new_palettes.remove(cpo.palette_index)
+                self.set_palette(random.choice(new_palettes))
 
 
 class SkillObject(TableObject):
@@ -504,11 +696,22 @@ class MagiciteObject(TableObject):
 
 class EventSpriteObject(TableObject):
     def cleanup(self):
-        if 'SAFE_MODE' in get_global_label():
-            self.assert_unchanged()
-        else:
+        try:
             assert self.thirty_seven == 0x37
             assert self.forty_three == 0x43
+            assert self.actor1 == self.actor2
+            assert self.old_data['actor1'] == self.old_data['actor2']
+
+            if self.sprite <= 0xd:
+                cpo = CharPaletteObject.get(self.sprite)
+                assert (self.old_data['palette'] ==
+                        cpo.old_data['palette_index'])
+                self.palette = cpo.palette_index
+        except AssertionError:
+            if 'SAFE_MODE' in get_global_label():
+                self.assert_unchanged()
+            else:
+                raise Exception('Something wrong with EventSpriteObject.')
 
 
 class DialoguePtrObject(TableObject):
@@ -1864,103 +2067,54 @@ class ColosseumObject(TableObject):
 
 
 class EntranceObject(TableObject): pass
-class NPCPaletteObject(TableObject): pass
+
+
+class NPCPaletteObject(PaletteObject):
+    flag = 'l'
+    flag_description = 'character palettes'
+
+    SKINTONES = [((31, 24, 17), (25, 13, 7)),
+                 ((31, 23, 15), (25, 15, 8)),
+                 ((31, 24, 17), (25, 13, 7)),
+                 ((31, 25, 15), (25, 19, 10)),
+                 ((31, 25, 16), (24, 15, 12)),
+                 ((27, 17, 10), (20, 12, 10)),
+                 ((25, 20, 14), (19, 12, 4)),
+                 ((27, 22, 18), (20, 15, 12)),
+                 ((28, 22, 16), (22, 13, 6)),
+                 ((28, 23, 15), (22, 16, 7)),
+                 ((27, 23, 15), (20, 14, 9))]
+    CHAR_HUES = [0, 10, 20, 30, 45, 60, 75, 90, 120, 150, 180,
+                 200, 220, 240, 270, 300, 330, 345]
+
+    def randomize(self):
+        if 6 <= self.index <= 7:
+            return
+
+        if not hasattr(NPCPaletteObject, '_shuffled'):
+            random.shuffle(NPCPaletteObject.SKINTONES)
+            NPCPaletteObject.CHAR_HUES = shuffle_char_hues(
+                NPCPaletteObject.CHAR_HUES)
+            NPCPaletteObject._shuffled = True
+        before = (len(NPCPaletteObject.SKINTONES),
+                  len(NPCPaletteObject.CHAR_HUES))
+        trance = self.index == 8
+        colors = generate_character_palette(
+            NPCPaletteObject.SKINTONES, NPCPaletteObject.CHAR_HUES, trance)
+        after = (len(NPCPaletteObject.SKINTONES),
+                 len(NPCPaletteObject.CHAR_HUES))
+        if not trance:
+            assert after[0] == before[0] - 1
+            assert after[1] == before[1] - 3
+        self.colors[:12] = colors
+
+    def cleanup(self):
+        assert len(self.colors) == len(self.old_data['colors'])
+
+
 class LocNamePtrObject(TableObject): pass
 
-class BBGPaletteObject(TableObject):
-    @classmethod
-    def color_to_rgb(cls, color):
-        r = color & 0b11111
-        g = (color >> 5) & 0b11111
-        b = (color >> 10) & 0b11111
-        return r, g, b
-
-    @classmethod
-    def rgb_to_hsl(cls, r, g, b):
-        r = r / float(0b11111)
-        g = g / float(0b11111)
-        b = b / float(0b11111)
-
-        minval = min(r, g, b)
-        maxval = max(r, g, b)
-        luminance = (maxval + minval) / 2
-        if maxval == minval:
-            saturation = 0
-        elif luminance <= 0.5:
-            saturation = (maxval-minval) / (maxval + minval)
-        else:
-            saturation = (maxval-minval) / (2.0-(maxval + minval))
-
-        if maxval == minval:
-            hue = 0
-        elif r == maxval:
-            hue = (g-b)/(maxval-minval)
-        elif g == maxval:
-            hue = 2.0 + ((b-r)/(maxval-minval))
-        elif b == maxval:
-            hue = 4.0 + ((r-g)/(maxval-minval))
-        hue *= 60
-
-        r = int(round(r * 0b11111))
-        g = int(round(g * 0b11111))
-        b = int(round(b * 0b11111))
-
-        assert (r, g, b) == cls.hsl_to_rgb(hue, saturation, luminance)
-        return hue, saturation, luminance
-
-    @classmethod
-    def hsl_to_rgb(cls, hue, saturation, luminance):
-        if saturation <= 0:
-            r, g, b = luminance, luminance, luminance
-            r = int(round(r*0b11111))
-            g = int(round(g*0b11111))
-            b = int(round(b*0b11111))
-            return r, g, b
-
-        if luminance < 0.5:
-            t1 = luminance * (1.0+saturation)
-        else:
-            t1 = luminance + saturation - (luminance*saturation)
-        t2 = (2*luminance) - t1
-        hue /= 360.0
-        colordict = {}
-        tempdict = {}
-        tempdict['r'] = (hue + 0.333) % 1
-        tempdict['g'] = hue
-        tempdict['b'] = (hue - 0.333) % 1
-
-        for key, value in tempdict.items():
-            if (6*value) < 1:
-                newval = t2 + ((t1-t2) * 6 * value)
-            elif (2*value) < 1:
-                newval = t1
-            elif (3*value) < 2:
-                newval = t2 + ((t1-t2) * ((2/3.0)-value) * 6)
-            else:
-                newval = t2
-            colordict[key] = newval
-
-        r = int(round(colordict['r']*0b11111))
-        g = int(round(colordict['g']*0b11111))
-        b = int(round(colordict['b']*0b11111))
-        return r, g, b
-
-    def get_color_hsl(self, color_index):
-        color = self.colors[color_index]
-        r, g, b = self.color_to_rgb(color)
-        h, s, l = self.rgb_to_hsl(r, g, b)
-        return h, s, l
-
-    def set_color_hsl(self, color_index, h, s, l):
-        r, g, b = self.hsl_to_rgb(h, s, l)
-        self.set_color(color_index, r, g, b)
-
-    def set_color(self, color_index, r, g, b):
-        val = r
-        val |= (g << 5)
-        val |= (b << 10)
-        self.colors[color_index] = val
-
+class BBGPaletteObject(PaletteObject):
     def shift_blue(self):
         for i in range(len(self.colors)):
             color = self.colors[i]
@@ -1977,7 +2131,23 @@ class CelesNatMagObject(TableObject): pass
 class WeaponAnimObject(TableObject): pass
 class WindowGfxObject(TableObject): pass
 class WindowPaletteObject(TableObject): pass
-class BattlePaletteObject(TableObject): pass
+
+
+class BattlePaletteObject(TableObject):
+    @property
+    def npc_palette(self):
+        if self.index <= 5:
+            return NPCPaletteObject.get(self.index)
+        elif self.index == 6:
+            return NPCPaletteObject.get(8)
+
+    def cleanup(self):
+        battle_colors = self.old_data['colors'][1:12]
+        npc_colors = self.npc_palette.old_data['colors'][1:12]
+        num_same = len([1 for (a, b) in zip(battle_colors, npc_colors)
+                        if a == b])
+        assert num_same >= (len(battle_colors)-1)
+        self.colors[1:12] = self.npc_palette.colors[1:12]
 
 
 class CharacterObject(TableObject):
