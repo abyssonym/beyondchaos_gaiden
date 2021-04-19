@@ -110,6 +110,11 @@ class PaletteObject(TableObject):
         else:
             saturation = (maxval-minval) / (2.0-(maxval + minval))
 
+        saturation = round(saturation, 10)
+        assert 0 <= saturation <= 1
+        luminance = round(luminance, 10)
+        assert 0 <= luminance <= 1
+
         if maxval == minval:
             hue = 0
         elif r == maxval:
@@ -124,7 +129,7 @@ class PaletteObject(TableObject):
         g = int(round(g * 0b11111))
         b = int(round(b * 0b11111))
 
-        assert (r, g, b) == cls.hsl_to_rgb(hue, saturation, luminance)
+        #assert (r, g, b) == cls.hsl_to_rgb(hue, saturation, luminance)
         return hue, saturation, luminance
 
     @classmethod
@@ -186,45 +191,151 @@ class PaletteObject(TableObject):
         self.colors[color_index] = val
 
     def calculate_clusters(self):
-        hsls = [self.get_color_hsl(i) for i in range(len(self.colors))]
-        max_diff = 0
-        max_indexes = set([])
-        for i, (hi, si, li) in enumerate(hsls):
-            for j, (hj, sj, lj) in enumerate(hsls):
-                if j <= i:
-                    continue
-                diff = self.calculate_hue_distance(hi, hj)
-                diff = diff * min(si, sj)
-                if diff >= max_diff:
-                    if max_diff == diff:
-                        max_indexes.add((i, j))
-                    else:
-                        max_indexes = {(i, j)}
-                    max_diff = diff
-        max_indexes = random.choice(sorted(max_indexes))
-        enumerated_hsls = list(enumerate(hsls))
-        random.shuffle(enumerated_hsls)
-        clusters = [{i: hsls[i]} for i in sorted(max_indexes)]
-        for i, (h, s, l) in enumerated_hsls:
-            scores = {}
-            for cluster in clusters:
-                hues = [ch for (ch, cs, cl) in cluster.values()]
-                score = sum([(self.calculate_hue_distance(ch, h)**2)
-                             for ch in hues]) / len(hues)
-                scores[clusters.index(cluster)] = score
-            best_cluster = min(scores, key=lambda c: scores[c])
-            best_cluster = clusters[best_cluster]
-            if i in best_cluster:
-                assert best_cluster[i] == (h, s, l)
+        NUM_TESTS = 8
+        if hasattr(self, 'valid_indexes'):
+            hsls = [self.get_color_hsl(i) for i in self.valid_indexes]
+        else:
+            hsls = [self.get_color_hsl(i) for i in range(len(self.colors))]
+        clusters_candidates = []
+        for _ in range(NUM_TESTS):
+            starters = random.sample(list(range(len(hsls))),
+                                     random.randint(2, 3))
+            enumerated_hsls = list(enumerate(hsls))
+            random.shuffle(enumerated_hsls)
+            clusters = [{i: hsls[i]} for i in sorted(starters)]
+            for i, (h, s, l) in enumerated_hsls:
+                if s > 0:
+                    scores = {}
+                    for cluster in clusters:
+                        hues = [ch for (ch, cs, cl) in cluster.values()]
+                        score = sum([(self.calculate_hue_distance(ch, h)**2)
+                                     for ch in hues]) / len(hues)
+                        scores[clusters.index(cluster)] = score
+                    best_cluster = min(scores, key=lambda c: scores[c])
+                    best_cluster = clusters[best_cluster]
+                else:
+                    best_cluster = random.choice(clusters)
+                if i in best_cluster:
+                    assert best_cluster[i] == (h, s, l)
+                else:
+                    best_cluster[i] = (h, s, l)
+            clusters = [set(c.keys()) for c in clusters]
+            running_total = set()
+            for c in clusters:
+                if c & running_total:
+                    clusters = [{color for c in clusters for color in c}]
+                    break
+                running_total |= c
+            clusters_candidates.append(clusters)
+
+        scores = {}
+        for i, clusters in enumerate(clusters_candidates):
+            if len(clusters) == 1:
+                length_score = 0
             else:
-                best_cluster[i] = (h, s, l)
-        clusters = [set(c.keys()) for c in clusters]
-        running_total = set()
-        for c in clusters:
-            assert not (c & running_total)
-            running_total |= c
-        assert len(running_total) == len(self.colors)
-        return clusters
+                lengths = [len(c) for c in clusters]
+                num_values = sum(lengths)
+                max_difference = num_values + 1 - len(clusters)
+                if num_values / len(clusters) == num_values // len(clusters):
+                    min_difference = 0
+                else:
+                    min_difference = 1
+                minlen, maxlen = min(lengths), max(lengths)
+                length_score = (((maxlen - minlen) - min_difference)
+                                / (max_difference - min_difference))
+                length_score = 1 - length_score
+                if minlen == maxlen:
+                    assert length_score == 1
+                if maxlen - minlen == max_difference:
+                    assert length_score == 0
+            assert 0 <= length_score <= 1
+
+            grouping_score = []
+            for c in clusters:
+                hsls = [self.get_color_hsl(i) for i in c]
+                hues = [h for (h, s, l) in hsls if s > 0]
+                if len(hues) == 0:
+                    continue
+                avg = sum(hues) / len(hues)
+                distances = [self.calculate_hue_distance(avg, h)
+                             for h in hues]
+                avg = sum(distances) / len(distances)
+                assert 0 <= avg / 180 <= 1
+                grouping_score.append(avg / 180)
+            if len(grouping_score) == 0:
+                score = length_score
+            else:
+                grouping_score = sum(grouping_score) / len(grouping_score)
+                score = (length_score + (grouping_score*2)) / 3
+            scores[i] = (score, i)
+
+        index = max(scores, key=lambda i: scores[i])
+        return clusters_candidates[index]
+
+    def recolor_by_cluster(self, clusters=None):
+        if not hasattr(self.__class__, '_hue_options'):
+            self.__class__._hue_options = []
+            for o in self.every:
+                for (i, color) in enumerate(self.colors):
+                    h, s, l = self.get_color_hsl(i)
+                    if s > 0:
+                        self.__class__._hue_options.append(h)
+            self.__class__._hue_options = sorted(self.__class__._hue_options)
+
+        if clusters is None:
+            clusters = self.calculate_clusters()
+
+        done_hues = []
+        for cluster in clusters:
+            for _ in range(100):
+                target_hue = random.choice(self._hue_options)
+                if not done_hues:
+                    break
+                finished = False
+                for done_hue in sorted(done_hues):
+                    diff = self.calculate_hue_distance(done_hue, target_hue)
+                    diff = diff / 180.0
+                    assert 0 <= diff <= 1
+                    if random.random() < diff:
+                        finished = True
+                if finished:
+                    break
+            done_hues.append(target_hue)
+
+            hue_offset = None
+            saturation_factor = mutate_normal(0.5, 0, 1, random_degree=0.5,
+                                              return_float=True)
+            saturation_factor = (saturation_factor * 2) - 1
+            luminance_factor = -(saturation_factor / 2)
+
+            chosen = random.choice(sorted(cluster))
+            h, s, l = self.get_color_hsl(chosen)
+            hue_offset = (target_hue - h) % 360
+            assert (round((h + hue_offset) % 360, 10)
+                    == round(target_hue % 360, 10))
+
+            for index in cluster:
+                h, s, l = self.get_color_hsl(index)
+                h = (h + hue_offset) % 360
+                old_s = s
+                old_l = l
+                if saturation_factor > 0:
+                    s = s ** (1-saturation_factor)
+                    assert s >= old_s
+                else:
+                    s = 1 - s
+                    s = s ** (1-abs(saturation_factor))
+                    s = 1 - s
+                    assert s <= old_s
+                if luminance_factor > 0:
+                    l = l ** (1-luminance_factor)
+                    assert l >= old_l
+                else:
+                    l = 1 - l
+                    l = l ** (1-abs(luminance_factor))
+                    l = 1 - l
+                    assert l <= old_l
+                self.set_color_hsl(index, h, s, old_l)
 
 
 class VanillaObject(TableObject):
@@ -1457,7 +1568,75 @@ class MonsterNameObject(TableObject):
 
 class SpecialNameObject(TableObject): pass
 class DanceObject(TableObject): pass
-class MonsterSpriteObject(TableObject): pass
+
+
+class MonsterSpriteObject(TableObject):
+    @property
+    def monster(self):
+        return MonsterObject.get(self.index)
+
+    @property
+    def name(self):
+        return self.monster.name
+
+    @property
+    def palette_index(self):
+        return ((self.misc_palette_index & 0x3) << 8) | self.low_palette_index
+
+
+class MonsterPaletteObject(PaletteObject):
+    flag = 'k'
+    flag_description = 'monster palettes'
+
+    @property
+    def valid_indexes(self):
+        if self.is_8color:
+            return list(range(8))
+        else:
+            return list(range(16))
+
+    @property
+    def is_8color(self):
+        try:
+            next_pointer = self.get(self.index+1).pointer
+            if next_pointer - self.pointer < 0x20:
+                return True
+        except KeyError:
+            pass
+        return False
+
+    @cached_property
+    def sprite_object(self):
+        for mso in MonsterSpriteObject.every:
+            index = (self.pointer - self.get(0).pointer) / 16
+            if mso.palette_index == index:
+                return mso
+
+    @property
+    def name(self):
+        return self.sprite_object.name
+
+    @property
+    def sprite_index(self):
+        return self.sprite_object.misc_sprite_pointer & 0x7FFF
+
+    @cached_property
+    def comrades(self):
+        return [mpo for mpo in MonsterPaletteObject.every
+                if mpo.sprite_index == self.sprite_index
+                and not mpo.name.startswith('_')]
+
+    def randomize(self):
+        candidates = self.comrades
+        if candidates:
+            chosen = random.choice(candidates)
+            self.colors = chosen.old_data['colors']
+        self.recolor_by_cluster()
+
+    def cleanup(self):
+        if self.is_8color:
+            self.colors[8:] = self.get(self.index+1).colors[:8]
+
 
 class ItemNameObject(TableObject):
     @property
@@ -2130,7 +2309,16 @@ class TerraNatMagObject(TableObject): pass
 class CelesNatMagObject(TableObject): pass
 class WeaponAnimObject(TableObject): pass
 class WindowGfxObject(TableObject): pass
-class WindowPaletteObject(TableObject): pass
+
+
+class WindowPaletteObject(PaletteObject):
+    def randomize(self):
+        self.recolor_by_cluster()
+
+    def cleanup(self):
+        if (MonsterPaletteObject.flag not in get_flags()
+                and NPCPaletteObject.flag not in get_flags()):
+            self.colors = self.old_data['colors']
 
 
 class BattlePaletteObject(TableObject):

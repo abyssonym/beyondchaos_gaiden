@@ -45,6 +45,7 @@ MonsterNameObject   monster_name_table.txt      fc050   384
 SpecialNameObject   special_name_table.txt      fd0d0   384
 DanceObject         dance_table.txt             ffe80   8
 MonsterSpriteObject monster_sprite_table.txt    127000  384
+MonsterPaletteObject    monster_palette_table.txt   monster_palette_pointers_bnw.txt
 ItemNameObject      item_name_table.txt         12b300  255
 FullSpriteObject    full_sprite_table.txt       150000  16
 AlmostSpriteObject  almost_sprite_table.txt     166a00  6

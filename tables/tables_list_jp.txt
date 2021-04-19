@@ -45,6 +45,7 @@ MonsterAIObject     monster_ai_table.txt        f8400   384
 DanceObject         dance_table.txt             ffe80   8
 FormationAPObject   formation_ap_table.txt      10fe00  512
 MonsterSpriteObject monster_sprite_table.txt    127000  384
+MonsterPaletteObject    monster_palette_table.txt   monster_palette_pointers.txt
 FullSpriteObject    full_sprite_table.txt       150000  16
 AlmostSpriteObject  almost_sprite_table.txt     166a00  6
 ItemObject          item_table.txt              185000  255
