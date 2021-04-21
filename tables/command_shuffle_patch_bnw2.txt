@@ -1,0 +1,43 @@
+0fa5ab: fc 01 00 1b  # Nimufu
+0fb2c4: fc 01 00 05  # Merchant
+0fbed1: fc 01 00 05  # Trooper
+0f9e76: fc 01 00 0a  # Vargas
+0faf37: fc 01 00 0d  # Ultros
+
+0236e4: ea ea f4 00 00 f4 00 00  # lore
+025ee8: ea ea                    # dance
+
+02666a: eb 48 eb ea              # swdtech & blitz
+026671: f0 09                    
+026676: d0 04
+02667c: 68 eb ea ea ea ea ea
+026686: ea ea ea ea
+
+00a18a: 4c da a1 60
+00a200: ea
+
+025412: ea ea                    # morph
+025387: a9 15                    # defend hardlock prevention
+
+VALIDATION
+
+0fa5ab: fc 01 1b 1b  # Nimufu
+0fb2c4: fc 01 05 05  # Merchant
+0fbed1: fc 01 05 05  # Trooper
+0f9e76: fc 02 5d 5d  # Vargas
+0faf37: fc 02 86 d0  # Ultros
+
+0236e4: 30 22 f4 c3 b0 f4 10 23  # lore
+025ee8: 30 16                    # dance
+
+02666a: c9 02 d0 15              # swdtech & blitz
+026671: f0 2f
+026676: d0 2a
+02667c: d0 24 a9 42 4c d4 5f
+026686: c9 05 d0 18
+
+00a18a: c9 02 f0 4c
+00a200: 60
+
+025412: f0 22                    # morph
+025387: a9 ff                    # defend hardlock prevention

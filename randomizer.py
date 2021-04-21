@@ -479,27 +479,25 @@ class CharPaletteObject(TableObject):
 class MouldObject(TableObject): pass
 
 class CmdChangeFBObject(TableObject, CmdChangeMixin):
-    #flag = 'o'
-    #flag_description = 'character commands'
+    flag = 'o'
+    flag_description = 'character commands'
+
+    def __repr__(self):
+        return '{0:0>2X} -> {1:0>2X}'.format(
+            self.command, CmdChangeTBObject.get(self.index).command)
 
     @classmethod
     def randomize_all(cls):
-        #for c in CharacterObject.every:
-        #    assert not hasattr(c, 'randomized')
-        #    c.reseed('rand_commands')
-        #    c.randomize_commands()
+        super().randomize_all()
 
-        for o in CmdChangeFBObject.every:
-            if hasattr(o, 'randomized') and o.randomized:
-                continue
-            o.reseed(salt='ran')
-            o.randomize()
-            o.randomized = True
+        cls.class_reseed('rand_commands')
+        for c in CharacterObject.every:
+            assert not hasattr(c, 'randomized')
+            c.randomize_commands()
 
     def randomize(self):
         valid_commands = sorted(CharacterObject.current_initial_commands)
-        if self.command not in valid_commands:
-            self.command = random.choice(valid_commands)
+        self.command = random.choice(valid_commands)
 
 
 class CmdChangeTBObject(TableObject, CmdChangeMixin):
@@ -508,9 +506,17 @@ class CmdChangeTBObject(TableObject, CmdChangeMixin):
         return [CharacterObject, CmdChangeFBObject]
 
     def randomize(self):
+        from_command = CmdChangeFBObject.get(self.index).command
         existing_commands = sorted(CharacterObject.current_initial_commands)
         potential_commands = [c for c in CharacterObject.valid_commands
                               if c not in existing_commands]
+        if from_command in potential_commands:
+            potential_commands.remove(from_command)
+        seen_commands = [tb.command for tb in CmdChangeTBObject.every
+                         if hasattr(tb, 'randomized') and tb.randomized]
+        temp = [c for c in potential_commands if c not in seen_commands]
+        if temp:
+            potential_commands = temp
         companion = CmdChangeFBObject.get(self.index)
         if self.command in existing_commands and (
                 potential_commands or companion.command == self.command
@@ -648,13 +654,9 @@ class BlitzInputObject(TableObject): pass
 
 class InitialRageObject(TableObject):
     def cleanup(self):
-        if 'BNW' in get_global_label():
-            return
-        if 'fanatix' in get_activated_codes():
-            if self.index == 0:
-                self.initial_rages = 1
-            else:
-                self.initial_rages = 0
+        if self.index == 0 and not any(iro.initial_rages
+                                       for iro in InitialRageObject.every):
+            self.initial_rages |= 1
 
 
 class ShopObject(TableObject):
@@ -1510,7 +1512,7 @@ class MonsterAIObject(TableObject):
                 args = f.read(numargs)
             except KeyError:
                 args = b''
-            script.append(map(ord, value + args))
+            script.append(value + args)
             if ord(value) == 0xFF:
                 if seen:
                     break
@@ -1535,8 +1537,8 @@ class MonsterAIObject(TableObject):
     def pretty_ai_script(self):
         s = ''
         for line in self.ai_script:
-            s += ('%X : ' % line[0]) + ' '.join(
-                ['{0:0>2}'.format('%X' % v) for v in line[1:]])
+            s += ('{0:0>2X} : '.format(line[0])) + ' '.join(
+                ['{0:0>2X}'.format(v) for v in line[1:]])
             s = s.strip() + '\n'
         return s.strip()
 
@@ -2405,7 +2407,8 @@ class CharacterObject(TableObject):
         for command in [0x19, 0x1a, 0x1b]:
             if command in seen_commands:
                 valid_commands.add(command)
-        valid_commands.add(0x1d)
+        if 'BNW_2' not in get_global_label():
+            valid_commands.add(0x1d)
         for command in [0x00, 0x01, 0x02, 0x11, 0xff]:
             if command in valid_commands:
                 valid_commands.remove(command)
@@ -2427,9 +2430,15 @@ class CharacterObject(TableObject):
         if 'o' not in get_flags() or self.index in [12, 13]:
             return
 
+        if not hasattr(CharacterObject, '_done_commands'):
+            CharacterObject._done_commands = set([0, 2, 1])
+
         if self.index > 13 or 'wildcommands' not in get_activated_codes():
             commands = [c for c in self.old_data['commands']
-                        if c in [0x00, 0x02, 0x17, 0x01]]
+                        if c in [0x00, 0x02, 0x11, 0x01]]
+            if 0x11 in commands and 0x00 not in commands:
+                commands.remove(0x11)
+                commands.insert(0, 0)
         else:
             while True:
                 commands = []
@@ -2446,30 +2455,36 @@ class CharacterObject(TableObject):
             return
 
         while len(commands) < 4:
-            chosen = random.choice(CharacterObject.valid_commands)
+            valid_commands = CharacterObject.valid_commands
+            if (self.index <= 0xc
+                    and 'wildcommands' not in get_activated_codes()):
+                valid_commands = [c for c in valid_commands
+                                  if c not in CharacterObject._done_commands]
+            chosen = random.choice(valid_commands)
             if chosen not in commands:
                 if commands[0] == 0x00:
                     commands.insert(1, chosen)
                 else:
                     commands.insert(0, chosen)
-        if 0x17 in commands:
-            commands.remove(0x17)
-            if commands[-1] == 0x01:
-                commands.insert(2, 0x17)
-            else:
-                commands.append(0x17)
 
         NO_RAGE_PATCH = True
         for patchfilename in get_activated_patches():
             if 'auto_learn_rage_patch' in patchfilename.lower():
                 NO_RAGE_PATCH = False
                 break
+        else:
+            if 'BNW' in get_global_label():
+                write_patch(get_outfile(), 'auto_learn_rage_patch.txt')
+                NO_RAGE_PATCH = False
+
         if self.index == 0x0b and 0x11 not in commands and NO_RAGE_PATCH:
             replaceable = [c for c in commands if c not in [0x10, 0x00, 0x01]]
             commands.remove(random.choice(replaceable))
             commands.insert(1, 0x11)
 
         self.commands = commands
+        if self.index <= 0xc:
+            CharacterObject._done_commands |= set(self.commands)
 
     def randomize(self):
         self.reseed('rand_escape')
@@ -2630,9 +2645,14 @@ class ChestObject(TableObject):
         self.set_contents(candidates[index])
 
     def cleanup(self):
+        if not hasattr(self, 'old_data'):
+            return
+
         for c in ChestObject.every:
             if c.index >= self.index:
                 break
+            if not hasattr(c, 'old_data'):
+                continue
             if (c.memid == self.memid
                     and c.old_data['misc'] == self.old_data['misc']
                     and c.old_data['contents'] == self.old_data['contents']):
@@ -3312,7 +3332,7 @@ def execute_fanatix_mode():
 
     LocationObject.class_reseed('prefanatix_music')
     valid_songs = [23, 24, 33, 35, 40, 41, 45, 46, 48, 71, 75, 77, 78, 79]
-    avg = lambda stuff: (sum(stuff) / float(len(stuff)))
+    avg = lambda stuff: (sum(stuff) / float(len(stuff))) if stuff else 0
     valid_songs = sorted(valid_songs,
         key=lambda s: (avg([l.pack.rank for l in LocationObject.every
                             if l.attacks and l.music == s
@@ -3766,7 +3786,7 @@ if __name__ == '__main__':
 
         codes = {
             'fanatix': ['fanatix'],
-            #'wildcommands': ['wildcommands'],
+            'wildcommands': ['wildcommands'],
             'easymodo': ['easymodo'],
         }
 
@@ -3776,6 +3796,16 @@ if __name__ == '__main__':
         if tm.tm_mon == 4 and tm.tm_mday == 1:
             activate_code('fanatix')
             FOOLS = True
+
+        if CmdChangeFBObject.flag in get_flags():
+            if get_global_label() in ['FF6_NA_1.0', 'FF6_NA_1.1']:
+                write_patch(get_outfile(), 'command_shuffle_patch.txt')
+            elif 'FF6_JP' in get_global_label():
+                write_patch(get_outfile(), 'command_shuffle_patch_jp.txt')
+            elif 'BNW_1' in get_global_label():
+                write_patch(get_outfile(), 'command_shuffle_patch_bnw1.txt')
+            elif 'BNW_2' in get_global_label():
+                write_patch(get_outfile(), 'command_shuffle_patch_bnw2.txt')
 
         if 'easymodo' in get_activated_codes():
             'EASY MODE ACTIVATED'

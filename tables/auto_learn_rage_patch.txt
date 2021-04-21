@@ -14,3 +14,21 @@
 
 # 024861: shadow stuff after gau
 # 0248ce: gau returning stuff (cutscene)
+
+VALIDATION
+
+024840: ae 0b 30
+        30 1c
+        a9 01
+        1c e4 11
+
+02484a: f0 15
+        20 5a 4b
+        c9 a0
+        b0 0e
+
+024856: 89 02
+        d0 74
+        ad 76 3a
+        c9 02
+        b0 6d

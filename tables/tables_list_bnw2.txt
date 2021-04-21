@@ -109,7 +109,7 @@ $aux_seed_length            19
 .patch                      flip_gradient_patch.txt
 .patch                      splash_removal_patch.txt
 .option                     myself_core_patch.bin
-.option                     myself_menu_dance_patch.txt
+#.option                     myself_menu_dance_patch.txt
 #.option                     myself_menu_gogo_patch.txt
 .option                     myself_menu_item_patch.txt
 #.option                     myself_menu_names_patch.txt

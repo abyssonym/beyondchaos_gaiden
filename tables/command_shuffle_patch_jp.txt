@@ -1,0 +1,39 @@
+0fa0a7: fc 05 00 0a  # Vargas
+0fb3e8: fc 01 00 05  # Merchant
+0fbf37: fc 01 00 05  # Officer
+
+0236df: ea ea f4 00 00 f4 00 00  # lore
+025ed0: ea ea                    # dance
+
+0261af: eb 48 eb ea              # swdtech & blitz
+0261b6: f0 09
+0261bb: d0 04
+0261c1: 68 eb ea ea ea ea ea
+0261cb: ea ea ea ea
+
+00a0bf: 4c da a1 60
+00a135: ea
+
+0253f8: ea ea                    # morph
+02537e: a9 15                    # defend hardlock prevention
+
+VALIDATION
+
+0fa0a7: fc 02 5d 5d  # Vargas
+0fb3e8: fc 01 05 05  # Merchant
+0fbf37: fc 01 05 05  # Officer
+
+0236df: 30 22 f4 c3 b0 f4 10 23  # lore
+025ed0: 30 16                    # dance
+
+0261af: c9 02 d0 15              # swdtech & blitz
+0261b6: f0 51
+0261bb: d0 4c
+0261c1: d0 46 a9 42 4c bc 5f
+0261cb: c9 05 d0 3a
+
+00a0bf: c9 02 f0 4c
+00a135: 60
+
+0253f8: f0 22                    # morph
+02537e: a9 ff                    # defend hardlock prevention

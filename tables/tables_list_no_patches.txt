@@ -108,6 +108,7 @@ $known_lores_address        26f564
 .option.no_verify           flip_gradient_patch.txt
 .option.no_verify           music_player_patch.txt
 .option                     auto_learn_rage_patch.txt
+.option                     command_shuffle_patch.txt
 .option                     let_banon_equip_patch.txt
 .option                     y_equip_patch.bin
 .option                     condensed_spell_list_patch.bin
