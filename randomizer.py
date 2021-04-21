@@ -86,7 +86,7 @@ def int_to_bytelist(value, length):
     return value_list
 
 
-class PaletteObject(TableObject):
+class PaletteMixin(TableObject):
     @classmethod
     def color_to_rgb(cls, color):
         r = color & 0b11111
@@ -1586,7 +1586,7 @@ class MonsterSpriteObject(TableObject):
         return ((self.misc_palette_index & 0x3) << 8) | self.low_palette_index
 
 
-class MonsterPaletteObject(PaletteObject):
+class MonsterPaletteObject(PaletteMixin):
     flag = 'k'
     flag_description = 'monster palettes'
 
@@ -2220,7 +2220,25 @@ class EsperObject(TableObject):
 
 
 class CmdNameObject(TableObject): pass
-class ShopPaletteObject(TableObject): pass
+
+
+class ShopPaletteObject(TableObject):
+    @property
+    def char_palette(self):
+        return CharPaletteObject.get(self.index)
+
+    def cleanup(self):
+        indexes = {getattr(self, 'index%s' % i) for i in range(4)}
+        assert len(indexes) == 1
+        indexes = list(indexes)
+        converted_index = ((indexes[0] & 0xe) >> 1) - 2
+        assert (self.char_palette.old_data['palette_index'] == converted_index)
+        new_converted_index = (self.char_palette.palette_index + 2) << 1
+        new_converted_index |= indexes[0] & 0xF1
+        for i in range(4):
+            setattr(self, 'index%s' % i, new_converted_index)
+
+
 class FormationAPObject(TableObject): pass
 
 class ColosseumObject(TableObject):
@@ -2250,7 +2268,7 @@ class ColosseumObject(TableObject):
 class EntranceObject(TableObject): pass
 
 
-class NPCPaletteObject(PaletteObject):
+class NPCPaletteObject(PaletteMixin):
     flag = 'l'
     flag_description = 'character palettes'
 
@@ -2295,7 +2313,7 @@ class NPCPaletteObject(PaletteObject):
 
 class LocNamePtrObject(TableObject): pass
 
-class BBGPaletteObject(PaletteObject):
+class BBGPaletteObject(PaletteMixin):
     def shift_blue(self):
         for i in range(len(self.colors)):
             color = self.colors[i]
@@ -2313,7 +2331,7 @@ class WeaponAnimObject(TableObject): pass
 class WindowGfxObject(TableObject): pass
 
 
-class WindowPaletteObject(PaletteObject):
+class WindowPaletteObject(PaletteMixin):
     def randomize(self):
         self.recolor_by_cluster()
 

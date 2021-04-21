@@ -52,7 +52,7 @@ AlmostSpriteObject  almost_sprite_table.txt     166a00  6
 ItemObject          item_table.txt              185000  255
 EsperObject         esper_table.txt             186e00  27
 CmdNameObject       cmd_name_table.txt          18cea0  30
-ShopPaletteObject   shop_palette_table.txt      18ea5c  37
+ShopPaletteObject   shop_palette_table.txt      18ea5c  14
 FormationAPObject   formation_ap_table.txt      1fb400  512
 ColosseumObject     colosseum_table.txt         1fb600  255
 EntranceObject      entrance_table.txt          1fbb00  414 pointed 1fbb00  2

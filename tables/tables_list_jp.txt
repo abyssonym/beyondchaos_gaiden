@@ -49,7 +49,7 @@ MonsterPaletteObject    monster_palette_table.txt   monster_palette_pointers.txt
 FullSpriteObject    full_sprite_table.txt       150000  16
 AlmostSpriteObject  almost_sprite_table.txt     166a00  6
 ItemObject          item_table.txt              185000  255
-ShopPaletteObject   shop_palette_table.txt      18eae6  37
+ShopPaletteObject   shop_palette_table.txt      18eae6  14
 ColosseumObject     colosseum_table.txt         10f200  255
 EntranceObject      entrance_table.txt          1fbb00  414 pointed 1fbb00  2
 NPCPaletteObject    npc_palette_table.txt       268000  9
