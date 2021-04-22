@@ -57,6 +57,7 @@ FormationAPObject   formation_ap_table.txt      1fb400  512
 ColosseumObject     colosseum_table.txt         1fb600  255
 EntranceObject      entrance_table.txt          1fbb00  414 pointed 1fbb00  2
 NPCPaletteObject    npc_palette_table.txt       268000  9
+MiscPaletteObject   npc_palette_table.txt       misc_palette_pointers.txt
 LocNamePtrObject    loc_name_ptr_table.txt      268400  448
 BBGPaletteObject    bbg_palette_table.txt       270150  53
 TerraNatMagObject   nat_mag_table.txt           2ce3c0  16

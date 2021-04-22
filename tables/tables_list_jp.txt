@@ -53,6 +53,7 @@ ShopPaletteObject   shop_palette_table.txt      18eae6  14
 ColosseumObject     colosseum_table.txt         10f200  255
 EntranceObject      entrance_table.txt          1fbb00  414 pointed 1fbb00  2
 NPCPaletteObject    npc_palette_table.txt       268000  9
+MiscPaletteObject   npc_palette_table.txt       misc_palette_pointers_jp.txt
 EsperObject         esper_table.txt             26f567  27
 LocNamePtrObject    loc_name_ptr_table.txt      268400  448
 BBGPaletteObject    bbg_palette_table.txt       270150  53

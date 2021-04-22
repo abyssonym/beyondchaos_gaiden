@@ -272,7 +272,12 @@ class PaletteMixin(TableObject):
         index = max(scores, key=lambda i: scores[i])
         return clusters_candidates[index]
 
-    def recolor_by_cluster(self, clusters=None):
+    def recolor_by_cluster(self, clusters=None, hue_randomization='select',
+                           hue_offset=None):
+        if hue_offset is not None:
+            assert hue_randomization == 'offset'
+        if clusters == 'all':
+            clusters = [set(range(len(self.colors)))]
         if not hasattr(self.__class__, '_hue_options'):
             self.__class__._hue_options = []
             for o in self.every:
@@ -287,38 +292,59 @@ class PaletteMixin(TableObject):
 
         done_hues = []
         for cluster in clusters:
+            saturated = [i for i in range(len(cluster))
+                         if self.get_color_hsl(i)[1] > 0]
+            if not saturated:
+                continue
+            old_h, old_s, old_l = self.get_color_hsl(
+                random.choice(saturated))
+            assert old_s > 0
+
             for _ in range(100):
-                target_hue = random.choice(self._hue_options)
-                if not done_hues:
+                if hue_randomization == 'random':
+                    target_hue = random.random() * 360
+                elif hue_randomization == 'select':
+                    target_hue = random.choice(self._hue_options)
+                elif hue_randomization == 'offset':
+                    assert hue_offset is not None
                     break
+                else:
+                    target_hue = hue_randomization
+                    break
+
                 finished = False
-                for done_hue in sorted(done_hues):
-                    diff = self.calculate_hue_distance(done_hue, target_hue)
+                for done_hue in sorted(done_hues) + [old_h]:
+                    diff = self.calculate_hue_distance(done_hue,
+                                                       target_hue)
                     diff = diff / 180.0
                     assert 0 <= diff <= 1
                     if random.random() < diff:
                         finished = True
                 if finished:
                     break
-            done_hues.append(target_hue)
 
-            hue_offset = None
+            if hue_randomization != 'offset':
+                done_hues.append(target_hue)
+                hue_offset = None
+
+                options = [i for i in sorted(cluster)
+                           if self.get_color_hsl(i)[1] > 0]
+                if not options:
+                    options = sorted(cluster)
+
+                chosen = random.choice(options)
+                h, s, l = self.get_color_hsl(chosen)
+                hue_offset = (target_hue - h) % 360
+                assert (round((h + hue_offset) % 360, 10)
+                        == round(target_hue % 360, 10))
+
             saturation_factor = mutate_normal(0.5, 0, 1, random_degree=0.5,
                                               return_float=True)
             saturation_factor = (saturation_factor * 2) - 1
-            luminance_factor = -(saturation_factor / 2)
-
-            chosen = random.choice(sorted(cluster))
-            h, s, l = self.get_color_hsl(chosen)
-            hue_offset = (target_hue - h) % 360
-            assert (round((h + hue_offset) % 360, 10)
-                    == round(target_hue % 360, 10))
-
             for index in cluster:
                 h, s, l = self.get_color_hsl(index)
                 h = (h + hue_offset) % 360
                 old_s = s
-                old_l = l
                 if saturation_factor > 0:
                     s = s ** (1-saturation_factor)
                     assert s >= old_s
@@ -327,15 +353,7 @@ class PaletteMixin(TableObject):
                     s = s ** (1-abs(saturation_factor))
                     s = 1 - s
                     assert s <= old_s
-                if luminance_factor > 0:
-                    l = l ** (1-luminance_factor)
-                    assert l >= old_l
-                else:
-                    l = 1 - l
-                    l = l ** (1-abs(luminance_factor))
-                    l = 1 - l
-                    assert l <= old_l
-                self.set_color_hsl(index, h, s, old_l)
+                self.set_color_hsl(index, h, s, l)
 
 
 class VanillaObject(TableObject):
@@ -2287,6 +2305,17 @@ class NPCPaletteObject(PaletteMixin):
                  200, 220, 240, 270, 300, 330, 345]
 
     def randomize(self):
+        if self.pointer == addresses.npc_choco_palette_address:
+            while True:
+                hue_offset = (random.random() * 360) - 180
+                farness = abs(hue_offset) / 30
+                if farness >= 1 or random.random() < farness:
+                    break
+            self.recolor_by_cluster(
+                'all', hue_randomization='offset', hue_offset=hue_offset)
+            self._choco_offset = hue_offset
+            return
+
         if 6 <= self.index <= 7:
             return
 
@@ -2307,8 +2336,21 @@ class NPCPaletteObject(PaletteMixin):
             assert after[1] == before[1] - 3
         self.colors[:12] = colors
 
+        npc_only_cluster = [n for (n, c) in enumerate(self.colors)][12:]
+        self.recolor_by_cluster(clusters=[npc_only_cluster],
+                                hue_randomization='random')
+
     def cleanup(self):
         assert len(self.colors) == len(self.old_data['colors'])
+
+
+class MiscPaletteObject(PaletteMixin):
+    def cleanup(self):
+        if NPCPaletteObject.flag in get_flags():
+            for npcpo in NPCPaletteObject.every:
+                if hasattr(npcpo, '_choco_offset'):
+                    self.recolor_by_cluster('all', 'offset',
+                                            npcpo._choco_offset)
 
 
 class LocNamePtrObject(TableObject): pass
@@ -2333,7 +2375,7 @@ class WindowGfxObject(TableObject): pass
 
 class WindowPaletteObject(PaletteMixin):
     def randomize(self):
-        self.recolor_by_cluster()
+        self.recolor_by_cluster(hue_randomization='random')
 
     def cleanup(self):
         if (MonsterPaletteObject.flag not in get_flags()
