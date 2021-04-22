@@ -379,8 +379,10 @@ class MusicObject(TableObject):
         subpath = path.join(BASEPATH, 'johnnydmad')
         metadata = {}
         playlist_filename = path.join(tblpath, 'playlist.txt')
+        freespace = ['410000-57FFFF']
         outrom = process_music(outrom, playlist_filename=playlist_filename,
-                               subpath=subpath, meta=metadata)
+                               subpath=subpath, meta=metadata,
+                               freespace=freespace)
 
         if 'BNW' in get_global_label():
             outrom = process_formation_music_by_table(
@@ -3835,6 +3837,17 @@ def write_seed():
     f.close()
 
 
+def handle_exhirom():
+    with open(get_outfile(), 'r+b') as f:
+        f.seek(0x8000)
+        block = f.read(0x8000)
+        f.seek(0x408000)
+        empty = f.read(0x8000)
+        assert empty in [block, b'\x00'*0x8000]
+        f.seek(0x408000)
+        f.write(block)
+
+
 if __name__ == '__main__':
     try:
         print('You are using the Beyond Chaos Gaiden '
@@ -3885,6 +3898,7 @@ if __name__ == '__main__':
         minmax = lambda x: (min(x), max(x))
 
         write_seed()
+        handle_exhirom()
 
         clean_and_write(ALL_OBJECTS)
         rewrite_snes_meta('BCG-R', VERSION, lorom=False)
