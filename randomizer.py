@@ -373,6 +373,10 @@ class MusicObject(TableObject):
 
         music_random.seed(get_seed())
 
+        if ('SAFE_MODE' not in get_global_label()
+                and 'BNW' not in get_global_label()):
+            write_patch(get_outfile(), 'music_player_patch.txt')
+
         with open(get_outfile(), 'rb') as f:
             outrom = f.read()
 
