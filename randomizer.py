@@ -1675,10 +1675,18 @@ class ItemNameObject(TableObject):
 class FullSpriteObject(TableObject): pass
 class AlmostSpriteObject(TableObject): pass
 
-class ItemObject(TableObject):
+class EquipabilityObject(TableObject):
     flag = 'q'
     flag_description = 'equipment'
-    custom_random_enable = True
+    custom_random_enable = 'q'
+
+class EquipmentStatsObject(TableObject):
+    flag = 'i'
+    flag_description = 'equipment stats'
+    custom_random_enable = 'i'
+
+class ItemObject(TableObject):
+    custom_random_enable = 'i'
 
     mutate_attributes = {
         'power': None,
@@ -1700,7 +1708,8 @@ class ItemObject(TableObject):
 
     @property
     def magic_mutate_valid(self):
-        return self.equipability and 1 <= (self.itemtype & 0x7) <= 5
+        return (EquipabilityObject.flag in get_flags() and self.equipability
+                and 1 <= (self.itemtype & 0x7) <= 5)
 
     @property
     def name(self):
@@ -1920,6 +1929,8 @@ class ItemObject(TableObject):
     def mutate(self):
         if not self.mutate_valid:
             return
+        if EquipmentStatsObject.flag not in get_flags():
+            return
         super(ItemObject, self).mutate()
         if self.pretty_type == 'weapon':
             candidates = [o for o in self.every if o.pretty_type == 'weapon']
@@ -1980,8 +1991,9 @@ class ItemObject(TableObject):
                     self.character_mapping[equiptype] = shuffled
 
         equipability = self.equipability & 0x3fff
+        random_degree = EquipabilityObject.random_degree
         if (bin(equipability).count('1') >= 2
-                and random.random() < ((self.random_degree**0.5)
+                and random.random() < ((random_degree**0.5)
                                        *self.ranked_ratio)):
             equipables = [i for i in ItemObject.every if i.is_equipable]
             chosen = random.choice(equipables)
@@ -1996,7 +2008,7 @@ class ItemObject(TableObject):
             for i in range(14):
                 mask = 1 << i
                 xor = old_equip ^ self.equipability
-                if mask & xor and random.random()**2 > self.random_degree:
+                if (mask & xor and random.random()**2 > random_degree):
                     self.equipability = (self.equipability | mask) ^ mask
                     self.equipability |= (old_equip & mask)
 
@@ -2031,7 +2043,7 @@ class ItemObject(TableObject):
                 if a != 'price':
                     setattr(self, a, self.old_data[a])
 
-        if self.price > 100 and 'q' in get_flags():
+        if self.price > 100 and 'i' in get_flags():
             price = self.price * 2
             counter = 0
             while price >= 100:
