@@ -1816,34 +1816,8 @@ class ItemObject(TableObject):
                  i not in tier0 + tier1 + tier2 + tier3]
         tier4 = sorted(tier4, key=lambda i: i.signature)
 
-        super_rank = {}
+        full_list = tier0 + tier1 + tier2 + tier3 + tier4
 
-        BLEND_RATIO = (random.random() + random.random() + random.random()) / 3
-        BLEND_RATIO = 0.5
-        CURVE_RATIO = 0.25
-
-        def super_ranker(existing, new):
-            for (n, i) in enumerate(new):
-                assert i not in super_rank
-                brr = (BLEND_RATIO * gen_random_normal()) ** 0.5
-                crr = (CURVE_RATIO * gen_random_normal()) ** 0.5
-                index_ratio = (n / (len(new)-1))
-                blender = ((brr * (index_ratio**crr)) + ((1-brr) * 1))
-                super_rank[i] = (len(existing) * blender) + n + 1
-
-            keys = list(super_rank.keys())
-            newper_rank = dict([(i, n) for (n, i) in enumerate(
-                                (sorted(keys, key=lambda i: (
-                                    super_rank[i], i.signature))))])
-            return newper_rank
-
-        super_rank = super_ranker([], tier0)
-        super_rank = super_ranker(tier0, tier1)
-        super_rank = super_ranker(tier0+tier1, tier2)
-        super_rank = super_ranker(tier0+tier1+tier2, tier3)
-
-        tier0123 = sorted(super_rank, key=lambda i: super_rank[i])
-        full_list = tier0123 + tier4
         assert len(full_list) == len(set(full_list))
         full_list = [i for i in full_list if i.is_legit]
 
@@ -1862,6 +1836,28 @@ class ItemObject(TableObject):
                     i._rank = (colosseum_rank + i._rank_no_colosseum) / 2
 
         full_list = sorted(full_list, key=lambda i: (i._rank, i.signature))
+
+        if 'BNW_2' in get_global_label():
+            tierlist = path.join(tblpath, 'item_tiers_bnw2.txt')
+            tiers = {}
+            with open(tierlist) as f:
+                for line in f:
+                    tier, index, name, price = line.split()
+                    index = int(index, 0x10)
+                    tier = int(tier)
+                    tiers[index] = tier
+            max_value = max(tiers.values()) + 1
+            for i in ItemObject.every:
+                if i.is_legit and i.index not in tiers:
+                    if i.is_legit:
+                        tiers[i.index] = max_value
+                    else:
+                        tiers[i.index] = -1
+
+            full_list = sorted(
+                full_list, key=lambda i: (tiers[i.index], i._rank,
+                                          i.signature))
+
         for i in full_list:
             i._rank = full_list.index(i)
 
