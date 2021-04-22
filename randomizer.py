@@ -1244,7 +1244,38 @@ class MonsterLootObject(TableObject):
 class SpecialAnimObject(TableObject): pass
 class MonsterCtrlObject(TableObject): pass
 class MonsterSketchObject(TableObject): pass
-class MonsterRageObject(TableObject): pass
+
+
+class MonsterRageObject(TableObject):
+    @property
+    def monster(self):
+        return MonsterObject.get(self.index)
+
+    @property
+    def ailment_special(self):
+        if self.monster.special & 0x20:
+            return None
+        return self.monster.special & 0x1f
+
+    @property
+    def old_ailment_special(self):
+        old_special = self.monster.old_data['special']
+        if old_special & 0x20:
+            return None
+        return old_special & 0x1f
+
+    def cleanup(self):
+        if not hasattr(MonsterRageObject, '_allowed_specials'):
+            MonsterRageObject._allowed_specials = set()
+            for mro in MonsterRageObject.every:
+                if 0xEF in mro.old_data['commands']:
+                    MonsterRageObject._allowed_specials.add(
+                        mro.old_ailment_special)
+
+        special = self.ailment_special
+        if special not in MonsterRageObject._allowed_specials:
+            self.commands = [0xEE if c == 0xEF else c for c in self.commands]
+
 
 class PackObject(TableObject):
     def __repr__(self):
