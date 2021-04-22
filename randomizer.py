@@ -1183,6 +1183,8 @@ class MonsterObject(TableObject):
         if 'BNW' in get_global_label():
             self.hp = (self.hp // 10) * 10
             self.hp += self.old_data['hp'] % 10
+            while self.hp >= 0xFFFE:
+                self.hp -= 10
 
 
 class MonsterLootObject(TableObject):
