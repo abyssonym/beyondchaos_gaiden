@@ -1174,12 +1174,14 @@ class MonsterLootObject(TableObject):
     def mutate(self):
         for i, s in enumerate(self.steal_item_ids):
             if s < 0xFF:
-                s = ItemObject.get(s).get_similar().index
+                s = ItemObject.get(s).get_similar(
+                    random_degree=self.random_degree).index
                 self.steal_item_ids[i] = s
 
         for i, d in enumerate(self.drop_item_ids):
             if d < 0xFF:
-                d = ItemObject.get(d).get_similar().index
+                d = ItemObject.get(d).get_similar(
+                    random_degree=self.random_degree).index
                 self.drop_item_ids[i] = d
 
     def cleanup(self):
