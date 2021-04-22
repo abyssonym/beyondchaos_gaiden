@@ -2676,6 +2676,9 @@ class ChestObject(TableObject):
         self.contents = item
 
     def mutate(self):
+        if not hasattr(ChestObject, '_done_miabs'):
+            ChestObject._done_miabs = set()
+
         candidates = [c for c in ChestObject.every if c.rank > 0]
         chosen_type = random.choice(candidates)
         if chosen_type.old_treasure:
@@ -2686,6 +2689,12 @@ class ChestObject(TableObject):
                               if tp.guaranteed_treasure]
             else:
                 candidates = TwoPackObject.ranked
+            candidates = [c for c in candidates
+                          if c not in ChestObject._done_miabs]
+            if not candidates:
+                chosen_type = [c for c in ChestObject.every
+                               if c.old_treasure][0]
+                candidates = ItemObject.ranked
         else:
             # gold
             candidates = None
@@ -2708,7 +2717,23 @@ class ChestObject(TableObject):
         index = max(index, 0)
         index = mutate_normal(index, 0, max_index, wide=True,
                               random_degree=self.random_degree)
-        self.set_contents(candidates[index])
+        chosen = candidates[index]
+        if isinstance(chosen, TwoPackObject):
+            ChestObject._done_miabs.add(chosen)
+        self.set_contents(chosen)
+
+    @classmethod
+    def mutate_all(cls):
+        ChestObject.class_reseed('chests')
+        ordering = list(ChestObject.every)
+        random.shuffle(ordering)
+        for o in ordering:
+            if hasattr(o, "mutated") and o.mutated:
+                continue
+            o.reseed(salt="mut")
+            if o.mutate_valid:
+                o.mutate()
+            o.mutated = True
 
     def cleanup(self):
         if not hasattr(self, 'old_data'):
