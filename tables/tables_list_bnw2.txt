@@ -2,6 +2,7 @@ VanillaObject       empty.txt                   0       1
 MusicObject         empty.txt                   0       1
 EquipabilityObject  empty.txt                   0       1
 EquipmentStatsObject    empty.txt               0       1
+NatMagCharObject    nat_mag_char_table.txt      nat_mag_char_pointers_bnw.txt
 OverworldRateObject encounter_rate_table.txt    c29f    16
 DungeonRateObject   encounter_rate_table.txt    c2bf    16
 InitialMembitObject initial_membit_table.txt    e0a0    128

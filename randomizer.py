@@ -672,6 +672,10 @@ class SkillObject(TableObject):
         'statuses': 0xffffffff,
         }
 
+    @property
+    def rank(self):
+        return self.mp
+
 
 class CharNameObject(TableObject): pass
 class BlitzInputObject(TableObject): pass
@@ -2424,8 +2428,74 @@ class BBGPaletteObject(PaletteMixin):
             self.set_color_hsl(i, h, s, l)
 
 
-class TerraNatMagObject(TableObject): pass
-class CelesNatMagObject(TableObject): pass
+class NatMagCharObject(TableObject):
+    flag = 'o'
+
+    @classproperty
+    def after_order(self):
+        return [CharacterObject]
+
+    def randomize(self):
+        candidates = [c.index for c in CharacterObject.every
+                      if c.index < 12 and set(c.commands) & {2, 0x17}]
+        if self.index != 0:
+            first = NatMagCharObject.get(0)
+            if first.character_index in candidates:
+                candidates.remove(first.character_index)
+        self.character_index = random.choice(candidates)
+
+    def cleanup(self):
+        assert self.old_data['character_index'] in {0, 6}
+        other = NatMagCharObject.get(self.index ^ 1)
+        assert self.character_index != other.character_index
+        with open(get_outfile(), 'r+b') as f:
+            if 'JP' in get_global_label():
+                pointer = 0xa0b8 + (4 * self.index)
+            else:
+                pointer = 0xa183 + (4 * self.index)
+            f.seek(pointer-1)
+            validate = f.read(2)
+            expected = b'\xc9' + bytes([self.old_data['character_index']])
+            assert validate == expected
+            f.seek(pointer)
+            f.write(bytes([self.character_index]))
+            if 'JP' in get_global_label():
+                pointer = 0xa0e1 + (34 * self.index)
+            else:
+                pointer = 0xa1ac + (34 * self.index)
+            address = 0x1a6e + (54 * self.character_index)
+            f.seek(pointer)
+            old_address = int.from_bytes(f.read(2), byteorder='little')
+            print(hex(old_address), hex(address))
+            f.seek(pointer)
+            f.write(address.to_bytes(2, byteorder='little'))
+
+
+class NaturalMagicMixin(TableObject):
+    flag = 'o'
+    custom_random_enable = True
+
+    def randomize(self):
+        candidates = [s for s in SkillObject.every if s.index <= 0x35]
+        for nmo in self.every:
+            if hasattr(nmo, 'randomized') and nmo.randomized:
+                if (self.level == nmo.level
+                        and self.spell == nmo.old_data['spell']):
+                    self.spell = nmo.spell
+                    return
+                candidates = [s for s in candidates if s.index != nmo.spell]
+        old_spell = SkillObject.get(self.spell)
+        new_spell = old_spell.get_similar(
+            candidates=candidates, override_outsider=True,
+            random_degree=self.random_degree)
+        assert new_spell in candidates
+        self.spell = new_spell.index
+
+
+class TerraNatMagObject(NaturalMagicMixin): pass
+class CelesNatMagObject(NaturalMagicMixin): pass
+
+
 class WeaponAnimObject(TableObject): pass
 class WindowGfxObject(TableObject): pass
 
