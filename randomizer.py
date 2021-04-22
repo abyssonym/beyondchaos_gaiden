@@ -883,6 +883,7 @@ class MonsterObject(TableObject):
     flag = 'm'
     flag_description = 'monsters'
     custom_random_enable = True
+    custom_difficulty_enable = False
 
     magic_mutate_bit_attributes = {
         ('statuses', 'immunities'): (0xFFFFFFFF, 0xFFFFFF),
@@ -1116,6 +1117,42 @@ class MonsterObject(TableObject):
                              + (oldval * (1-self.random_degree)))
                     setattr(self, attr, int(round(value)))
 
+    def difficulty_boost(self):
+        if self.random_difficulty == 1.0 or not self.ranked_ratio:
+            return
+
+        if self.random_difficulty > 1.0:
+            difficulty = self.random_difficulty - 1
+            difficulty = (difficulty * (self.ranked_ratio)) + 1
+        else:
+            difficulty = self.random_difficulty
+
+        negative_attrs = ['speed', 'attack', 'hit', 'evade', 'mblock',
+                          'def', 'mdef', 'mpow', 'hp', 'mp', 'level']
+        positive_attrs = ['xp', 'gp']
+
+        for diffattr in positive_attrs + negative_attrs:
+            value = getattr(self, diffattr)
+            if diffattr in negative_attrs:
+                value = int(round(value * random.uniform(1.0, difficulty)))
+            elif diffattr in positive_attrs:
+                value = int(round(value / random.uniform(1.0, difficulty)))
+            length = [l for (attr, l, _) in self.specsattrs
+                      if attr == diffattr][0]
+            if length == 1:
+                minval, maxval = 0, 0xFE
+            elif length == 2:
+                minval, maxval = 0, 0xFFFE
+            else:
+                minval, maxval = None, None
+            maxval = max(maxval, self.old_data[diffattr])
+            value = max(minval, min(maxval, value))
+            setattr(self, diffattr, value)
+
+    def preclean(self):
+        self.reseed('difficulty')
+        self.difficulty_boost()
+
     def cleanup(self):
         elements, old_elements = (self.absorb | self.null), (
             self.old_data['absorb'] | self.old_data['null'])
@@ -1137,6 +1174,10 @@ class MonsterObject(TableObject):
                 setattr(self, attr, 1)
             self.xp = 65535
             self.gp = 65535
+
+        if 'BNW' in get_global_label():
+            self.hp = (self.hp // 10) * 10
+            self.hp += self.old_data['hp'] % 10
 
 
 class MonsterLootObject(TableObject):
@@ -3906,7 +3947,8 @@ if __name__ == '__main__':
             'easymodo': ['easymodo'],
         }
 
-        run_interface(ALL_OBJECTS, snes=True, codes=codes, custom_degree=True)
+        run_interface(ALL_OBJECTS, snes=True, codes=codes,
+                      custom_degree=True, custom_difficulty=True)
 
         tm = gmtime(get_seed())
         if tm.tm_mon == 4 and tm.tm_mday == 1:
