@@ -374,7 +374,8 @@ class MusicObject(TableObject):
         music_random.seed(get_seed())
 
         if ('SAFE_MODE' not in get_global_label()
-                and 'BNW' not in get_global_label()):
+                and 'BNW' not in get_global_label()
+                and 'JP' not in get_global_label()):
             write_patch(get_outfile(), 'music_player_patch.txt')
 
         with open(get_outfile(), 'rb') as f:
@@ -2464,9 +2465,8 @@ class NatMagCharObject(TableObject):
             else:
                 pointer = 0xa1ac + (34 * self.index)
             address = 0x1a6e + (54 * self.character_index)
-            f.seek(pointer)
-            old_address = int.from_bytes(f.read(2), byteorder='little')
-            print(hex(old_address), hex(address))
+            #f.seek(pointer)
+            #old_address = int.from_bytes(f.read(2), byteorder='little')
             f.seek(pointer)
             f.write(address.to_bytes(2, byteorder='little'))
 
