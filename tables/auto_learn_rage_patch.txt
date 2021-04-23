@@ -1,34 +1,17 @@
-024840: ad 0b 30
-024843: ea ea
-024845: 20 07 4a
-024848: 80 17
+024840: 20 07 4a
+        5c 00 72 f0
 
-02484a: ae 0b 30
-02484d: ea ea
-02484f: a9 01
-024851: 1c e4 11
-024854: f0 0b
-
-024856: ea ea ea ea  ea ea ea ea  ea
-02485f: 80 6d
-
-# 024861: shadow stuff after gau
-# 0248ce: gau returning stuff (cutscene)
+307200: ae 0b 30
+        30 no_gau
+        a9 01
+        5c 47 48 c2
+.label no_gau
+        5c 61 48 c2
 
 VALIDATION
 
 024840: ae 0b 30
         30 1c
         a9 01
-        1c e4 11
-
-02484a: f0 15
-        20 5a 4b
-        c9 a0
-        b0 0e
-
-024856: 89 02
-        d0 74
-        ad 76 3a
-        c9 02
-        b0 6d
+024847: 1c e4 11
+024861: ae 03 30

@@ -15,7 +15,7 @@ from os import path
 from traceback import format_exc
 
 
-VERSION = "6.0"
+VERSION = "6.1"
 ALL_OBJECTS = None
 DEBUG_MODE = False
 FOOLS = False

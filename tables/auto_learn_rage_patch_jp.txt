@@ -1,13 +1,17 @@
-024828: ad 0b 30
-: ea ea
-: 20 ef 49
-: 80 17
+024848: 20 07 4a
+        5c 00 72 f0
 
-024832: ae 0b 30
-: ea ea
-: a9 01
-: 1c e4 11
-: f0 0b
+307200: ae 0b 30
+        30 no_gau
+        a9 01
+        5c 4f 48 c2
+.label no_gau
+        5c 69 48 c2
 
-02483e: ea ea ea ea  ea ea ea ea  ea
-024847: 80 6d
+VALIDATION
+
+024848: ae 0b 30
+        30 1c
+        a9 01
+02484f: 1c e4 11
+024869: ae 03 30
