@@ -513,12 +513,11 @@ class CmdChangeFBObject(TableObject, CmdChangeMixin):
 
     @classmethod
     def randomize_all(cls):
-        super().randomize_all()
-
         cls.class_reseed('rand_commands')
         for c in CharacterObject.every:
             assert not hasattr(c, 'randomized')
             c.randomize_commands()
+        super().randomize_all()
 
     def randomize(self):
         valid_commands = sorted(CharacterObject.current_initial_commands)
@@ -916,6 +915,8 @@ class MonsterObject(TableObject):
         'hp', 'xp', 'gp', 'level', 'morph_id', 'animation', 'special',
         ]
 
+    REFLECT = 0x00800000
+
     @classproperty
     def special_ranks(self):
         if hasattr(self, '_special_ranks'):
@@ -1185,6 +1186,10 @@ class MonsterObject(TableObject):
             self.hp += self.old_data['hp'] % 10
             while self.hp >= 0xFFFE:
                 self.hp -= 10
+
+            if 'Tonberry' in self.name and self.statuses & self.REFLECT:
+                self.statuses ^= self.REFLECT
+                assert not self.statuses & self.REFLECT
 
 
 class MonsterLootObject(TableObject):
