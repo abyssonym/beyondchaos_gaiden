@@ -104,6 +104,7 @@ $known_lores_address        26f564
 .patch                      rom_expansion_patch.txt
 .patch                      always_sprint_patch.txt
 .patch                      flip_gradient_patch_jp.txt
+.patch                      opening_skip_patch_jp.txt
 .patch                      esper_allocation_patch_jp.txt
 #.option                     auto_learn_rage_patch_jp.txt
 $char_esper_address         307880

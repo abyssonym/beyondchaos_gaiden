@@ -111,6 +111,7 @@ $aux_seed_length            19
 .patch                      undo_brushless_sketch_bnw_patch.txt
 .patch                      flip_gradient_patch.txt
 .patch                      splash_removal_patch.txt
+.patch                      opening_skip_patch.txt
 .option                     myself_core_patch.bin
 .option                     myself_menu_dance_patch.txt
 #.option                     myself_menu_gogo_patch.txt
