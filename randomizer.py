@@ -2150,6 +2150,9 @@ class ItemObject(TableObject):
             if self.equipability & 0xbfff == 0xbfff:
                 self.equipability ^= 0x8000
 
+        if 'BNW' in get_global_label() and 'Moogle_Charm' in self.name:
+            self.equipability |= 0x3fff
+
         if (self.learnrate > 0 and 'a' in get_flags() and 'q' in get_flags()
                 and self.is_equipable and self.pretty_type != 'weapon'):
             equipability = self.equipability & 0xfff
