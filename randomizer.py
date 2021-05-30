@@ -1766,7 +1766,21 @@ class ItemNameObject(TableObject):
         return to_ascii(self.name_text)
 
 
-class FullSpriteObject(TableObject): pass
+class FullSpriteObject(TableObject):
+    def cleanup(self):
+        replacement = None
+        if CharPaletteObject.flag in get_flags():
+            if self.index == 0xa:
+                replacement = 'ogmog.bin'
+            elif self.index == 0xd:
+                replacement = 'ogumaro.bin'
+
+        if replacement is not None:
+            with open(path.join(tblpath, replacement), 'rb') as f:
+                data = f.read()
+            self.data = data
+
+
 class AlmostSpriteObject(TableObject): pass
 
 class EquipabilityObject(TableObject):
