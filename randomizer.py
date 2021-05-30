@@ -1238,6 +1238,16 @@ class MonsterLootObject(TableObject):
                 self.drop_item_ids[i] = d
 
     def cleanup(self):
+        old_drops = set(self.old_data['drop_item_ids'])
+        if len(old_drops) == 1 and old_drops != {0xff}:
+            self.drop_item_ids = [self.drop_item_ids[0]] * 2
+            assert len(set(self.drop_item_ids)) == 1
+
+        old_steals = set(self.old_data['steal_item_ids'])
+        if len(old_steals) == 1 and old_steals != {0xff}:
+            self.steal_item_ids = [self.steal_item_ids[0]] * 2
+            assert len(set(self.steal_item_ids)) == 1
+
         if 'BNW' in get_global_label():
             for n, i in enumerate(self.steal_item_ids):
                 index = self.old_data['steal_item_ids'][n]
