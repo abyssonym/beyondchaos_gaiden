@@ -1,8 +1,8 @@
-0fa5ab: fc 01 00 1b  # Nimufu
-0fb2c4: fc 01 00 05  # Merchant
-0fbed1: fc 01 00 05  # Trooper
-0f9e76: fc 01 00 0a  # Vargas
-0faf37: fc 01 00 0d  # Ultros
+0fa5ac: fc 01 00 1b  # Nimufu
+0fb2c5: fc 01 00 05  # Merchant
+0fbed2: fc 01 00 05  # Trooper
+0f9e77: fc 01 00 0a  # Vargas
+0faf38: fc 01 00 0d  # Ultros
 
 0236e4: ea ea f4 00 00 f4 00 00  # lore
 025ee8: ea ea                    # dance
@@ -21,11 +21,11 @@
 
 VALIDATION
 
-0fa5ab: fc 01 1b 1b  # Nimufu
-0fb2c4: fc 01 05 05  # Merchant
-0fbed1: fc 01 05 05  # Trooper
-0f9e76: fc 02 5d 5d  # Vargas
-0faf37: fc 02 86 d0  # Ultros
+0fa5ac: fc 01 1b 1b  # Nimufu
+0fb2c5: fc 01 05 05  # Merchant
+0fbed2: fc 01 05 05  # Trooper
+0f9e77: fc 02 5d 5d  # Vargas
+0faf38: fc 02 86 d0  # Ultros
 
 0236e4: 30 22 f4 c3 b0 f4 10 23  # lore
 025ee8: 30 16                    # dance
