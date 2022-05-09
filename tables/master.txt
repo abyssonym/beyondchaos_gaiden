@@ -4,4 +4,4 @@ FF6_NA_1.0          e986575b98300f721ce27c180264d890    tables_list.txt
 #FF6_NA_1.1          544311e104805e926083acf29ec664da    tables_list.txt
 FF6_JP              97bf78e916b80f47cf35edf502be34dc    tables_list_jp.txt
 FF6_BNW_1.9         54427dfadea94ef32acd77be78137ac5    tables_list_bnw.txt
-FF6_BNW_2.1-14b     180de30b6171dde23ce865eaf0b77324    tables_list_bnw2.txt
+FF6_BNW_2.1         b58f799ee291dbc58c08f3b457e35a22    tables_list_bnw2.txt
