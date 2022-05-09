@@ -20,7 +20,7 @@ Source rom file:
         FF3 SNES NA 1.0     e986575b98300f721ce27c180264d890
         FF6 SFC JP          97bf78e916b80f47cf35edf502be34dc
         FF6 BNW 1.9         54427dfadea94ef32acd77be78137ac5
-        FF6 BNW 2.1-14b     180de30b6171dde23ce865eaf0b77324
+        FF6 BNW 2.1         b58f799ee291dbc58c08f3b457e35a22
     Other FF6 SNES mods, such as Beyond Chaos seeds, might also be compatible by selecting "FF6_NA_SAFE_MODE" when prompted.
 
 Seed value:

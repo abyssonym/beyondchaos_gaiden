@@ -1,0 +1,7 @@
+0b52e4: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+0b7a7c: 42 14 3e 14 
+
+VALIDATION
+
+0b52e4: 42 14 3e 14 c0 a3 00 f2 52 01 81 29 80 02 fe
+0b7a7c: b2 e4 52 01
