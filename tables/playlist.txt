@@ -67,7 +67,6 @@ cv4_chandeliers = dream, fanatics, gogo, kefka, owzer, serpent, tomb
 dc2_garden = coin, daryl, gau, omen3, rachel, relm, ruintown
 doom2_doom = ancient, dream, fanatics, gate, ktower, phoenix, ruin, tomb, train
 doom_e1m1 = assault
-dq1_world_ff4 = balance, cyan
 ds4_dungeon = ancient, dream, engine, gate, ktower, magitek, phoenix
 ds4_lyll = blackjack, chocobo, falcon, mount2, mountain, serpent, setzer
 ds4_world = blackjack, chocobo, moogles, mountain, setzer, strago
