@@ -1,0 +1,256 @@
+.addr   jun-checker                     610000
+.addr   jun-check-whitelist             610100
+.addr   jun-check-equip-whitelist       610180
+.addr   jun-check-blacklist             610200
+.addr   jun-check-equip-blacklist       610280
+.addr   jun-check-equips-lists          610300
+.addr   jun-check-list                  610400
+.addr   jun-mult                        610800
+.addr   jun-rng1                        610820
+.addr   jun-rng2                        610830
+.addr   jun-rng3                        610840
+.addr   jun-always-whitelist            611000
+.addr   jun-character-whitelist         612000
+.addr   jun-esper-whitelist             613000
+.addr   jun-equip-whitelist             614000
+.addr   jun-character-blacklist         612800
+.addr   jun-esper-blacklist             613800
+.addr   jun-equip-blacklist             615000
+
+.def    jun-data-bank       61
+
+# PARAMETERS:   junction index in A, (actor index * 2) in X
+# RETURNS:      1 in A if junction found, else 0
+$jun-checker
+:   08
+:   e2 30
+:   e0 08
+:   b0 not-a-character
+:   c2 30
+:   da
+:   5a
+:   bc 10 30
+:   c0 ff ff
+:   f0 empty-character-slot
+
+:   29 ff 00
+:   aa
+
+# change the data bank register
+:   8b
+:   e2 20
+:   a9 jun-data-bank
+:   48
+:   ab
+:   c2 20
+
+# maybe unnecessary, save the contents of $10-$13 so we can use it for scratch
+:   a5 10
+:   48
+:   a5 12
+:   48
+:   86 10
+:   98
+:   69 00 16
+:   85 12
+
+:   20 $jun-check-whitelist,2
+:   f0 no-whitelist
+:   20 $jun-check-blacklist,2
+:   49 01 00
+
+.label no-whitelist
+:   aa
+:   68
+:   85 12
+:   68
+:   85 10
+:   8a
+:   ab
+.label empty-character-slot-exit
+:   7a
+:   fa
+.label not-a-character-exit
+:   28
+:   6b
+.label not-a-character
+:   a9 00
+:   eb
+:   a9 00
+:   80 not-a-character-exit
+.label empty-character-slot
+:   a9 00 00
+:   80 empty-character-slot-exit
+
+$jun-check-list
+:   e2 20
+.label check-list-loop
+:   bd 00 00
+:   f0 check-list-found-nothing
+:   e8
+:   c5 10
+:   d0 check-list-loop
+:   a9 01
+.label check-list-found-nothing
+:   c2 20
+:   60
+
+$jun-check-whitelist
+:   a9 00 00
+:   a8
+:   be $jun-always-whitelist,2
+:   20 $jun-check-list,2
+:   d0 found-whitelist
+
+:   a0 00 00
+:   b7 12
+:   29 ff 00
+:   0a
+:   a8
+:   be $jun-character-whitelist,2
+:   20 $jun-check-list,2
+:   d0 found-whitelist
+
+:   a0 1e 00
+:   b7 12
+:   29 ff 00
+:   c9 ff 00
+:   f0 jcwl-no-esper
+:   0a
+:   a8
+:   be $jun-esper-whitelist,2
+:   20 $jun-check-list,2
+:   d0 found-whitelist
+.label jcwl-no-esper
+
+:   a0 24 00
+:   20 $jun-check-equip-whitelist,2
+:   d0 found-whitelist
+
+:   a0 23 00
+:   20 $jun-check-equip-whitelist,2
+:   d0 found-whitelist
+
+:   a0 22 00
+:   20 $jun-check-equip-whitelist,2
+:   d0 found-whitelist
+
+:   a0 21 00
+:   20 $jun-check-equip-whitelist,2
+:   d0 found-whitelist
+
+:   a0 20 00
+:   20 $jun-check-equip-whitelist,2
+:   d0 found-whitelist
+
+:   a0 1f 00
+:   20 $jun-check-equip-whitelist,2
+
+.label found-whitelist
+:   60
+
+$jun-check-equip-whitelist
+:   b7 12
+:   29 ff 00
+:   0a
+:   a8
+:   be $jun-equip-whitelist,2
+:   20 $jun-check-list,2
+:   60
+
+$jun-check-blacklist
+:   a0 00 00
+:   b7 12
+:   29 ff 00
+:   0a
+:   a8
+:   be $jun-character-blacklist,2
+:   20 $jun-check-list,2
+:   d0 found-blacklist
+
+:   a0 1e 00
+:   b7 12
+:   29 ff 00
+:   c9 ff 00
+:   f0 jcbl-no-esper
+:   0a
+:   a8
+:   be $jun-esper-blacklist,2
+:   20 $jun-check-list,2
+:   d0 found-blacklist
+.label jcbl-no-esper
+
+:   a0 24 00
+:   20 $jun-check-equip-blacklist,2
+:   d0 found-blacklist
+
+:   a0 23 00
+:   20 $jun-check-equip-blacklist,2
+:   d0 found-blacklist
+
+:   a0 22 00
+:   20 $jun-check-equip-blacklist,2
+:   d0 found-blacklist
+
+:   a0 21 00
+:   20 $jun-check-equip-blacklist,2
+:   d0 found-blacklist
+
+:   a0 20 00
+:   20 $jun-check-equip-blacklist,2
+:   d0 found-blacklist
+
+:   a0 1f 00
+:   20 $jun-check-equip-blacklist,2
+
+.label found-blacklist
+:   60
+
+$jun-check-equip-blacklist
+:   b7 12
+:   29 ff 00
+:   0a
+:   a8
+:   be $jun-equip-blacklist,2
+:   20 $jun-check-list,2
+:   60
+
+$jun-mult
+:   08
+:   c2 20
+:   8f 02 42 00
+:   ea ea ea ea
+:   af 16 42 00
+:   28
+:   6b
+
+$jun-rng1
+:   48
+:   20 5a 4b
+:   4a
+:   68
+:   6b
+
+$jun-rng2
+:   da
+:   e6 be
+:   a6 be
+:   bf 00 fd c0
+:   fa
+:   6b
+
+$jun-rng3
+:   da
+:   08
+:   e2 30
+:   eb
+:   48
+:   e6 be
+:   a6 be
+:   bf 00 fd c0
+:   22 $jun-mult
+:   68
+:   eb
+:   28
+:   fa
+:   6b

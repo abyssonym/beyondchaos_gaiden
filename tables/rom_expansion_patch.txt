@@ -1,3 +1,11 @@
-00ffd5: 35
+00ffd5: 20
 00ffd7: 0d
-5fffff: 00
+
+40ffd5: 20
+40ffd7: 0d
+
+6fffff: 00
+
+# do not use data in this range
+#7e0000: 00
+#7fffff: 00

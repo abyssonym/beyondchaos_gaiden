@@ -1,5 +1,5 @@
 from randomtools.tablereader import (
-    TableObject, get_global_label, addresses, gen_random_normal,
+    TableObject, get_global_label, addresses, names, gen_random_normal,
     get_activated_patches, mutate_normal, shuffle_normal, write_patch,
     get_random_degree, tblpath, get_open_file)
 from randomtools.utils import (
@@ -7,6 +7,8 @@ from randomtools.utils import (
 from randomtools.interface import (
     get_outfile, get_seed, get_flags, get_activated_codes, activate_code,
     run_interface, rewrite_snes_meta, clean_and_write, finish_interface)
+
+from bcg_junction import populate_data
 from ex_utils import generate_character_palette, shuffle_char_hues
 from collections import Counter, defaultdict
 from time import time, gmtime
@@ -676,6 +678,10 @@ class SkillObject(TableObject):
     def rank(self):
         return self.mp
 
+    @property
+    def name(self):
+        return names.skills[self.index]
+
 
 class CharNameObject(TableObject): pass
 class BlitzInputObject(TableObject): pass
@@ -1143,7 +1149,7 @@ class MonsterObject(TableObject):
                 value = int(round(value * random.uniform(1.0, difficulty)))
             elif diffattr in positive_attrs:
                 value = int(round(value / random.uniform(1.0, difficulty)))
-            length = [l for (attr, l, _) in self.specsattrs
+            length = [l for (attr, l, _) in self.specs.attributes
                       if attr == diffattr][0]
             if length == 1:
                 minval, maxval = 0, 0xFE
@@ -2141,7 +2147,7 @@ class ItemObject(TableObject):
                 self.set_bit('runic_percentage', True)
 
         if not self.is_equipable:
-            attrs = [a for (a, b, c) in self.specsattrs]
+            attrs = [a for (a, b, c) in self.specs.attributes]
             assert 'price' in attrs
             for a in attrs:
                 if a != 'price':
@@ -3237,8 +3243,10 @@ def execute_fanatix_mode():
             0xD4, 0xF0+i,
             ]
 
-    #for i in range(27):   # espers
-    #    opening_event += [0x86, i + 0x36,]
+    if 'bonanza' in get_activated_codes():
+        for i in range(27):   # espers
+            opening_event += [0x86, i + 0x36,]
+
     opening_event += [
         0x80, 0xf0,
         0x80, 0xf0,
@@ -4054,13 +4062,31 @@ def write_seed():
 
 def handle_exhirom():
     with open(get_outfile(), 'r+b') as f:
-        f.seek(0x8000)
-        block = f.read(0x8000)
-        f.seek(0x408000)
-        empty = f.read(0x8000)
-        assert empty in [block, b'\x00'*0x8000]
-        f.seek(0x408000)
+        f.seek(0)
+        block = f.read(0x10000)
+        #f.seek(0x400000)
+        #empty = f.read(0x10000)
+        #assert empty in [block, b'\x00'*0x10000]
+        f.seek(0x400000)
         f.write(block)
+
+
+def test():
+    data = {0x00: [1]}
+    populate_data(data, get_outfile(), 0x611000)
+    data = {0x0f: []}
+    populate_data(data, get_outfile(), 0x612000)
+    populate_data(data, get_outfile(), 0x612800)
+    data = {0x1f: []}
+    populate_data(data, get_outfile(), 0x613000)
+    populate_data(data, get_outfile(), 0x613800)
+    #data = {0x25: [1], 0xff: []}
+    data = {0xff: []}
+    populate_data(data, get_outfile(), 0x614000)
+    data = {0xff: []}
+    populate_data(data, get_outfile(), 0x615000)
+    write_patch(get_outfile(), 'patch_junction_core.txt')
+    write_patch(get_outfile(), 'patch_junction_esper_magic_proc.txt')
 
 
 if __name__ == '__main__':
@@ -4076,6 +4102,7 @@ if __name__ == '__main__':
             'fanatix': ['fanatix'],
             'wildcommands': ['wildcommands'],
             'easymodo': ['easymodo'],
+            'bonanza': ['bonanza'],
         }
 
         run_interface(ALL_OBJECTS, snes=True, codes=codes,
@@ -4112,6 +4139,8 @@ if __name__ == '__main__':
         hexify = lambda x: '{0:0>2}'.format('%x' % x)
         numify = lambda x: '{0: >3}'.format(x)
         minmax = lambda x: (min(x), max(x))
+
+        test()
 
         write_seed()
         handle_exhirom()

@@ -107,6 +107,7 @@ $wob_choco_palette_address  12ee20
 $wor_choco_palette_address  12ef20
 $npc_choco_palette_address  2680e0
 $known_lores_address        26f564
+$skills                     names_skills.txt
 .patch                      rom_expansion_patch.txt
 .patch                      always_sprint_patch.txt
 .patch                      flip_gradient_patch.txt
