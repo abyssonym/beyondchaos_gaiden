@@ -8,7 +8,7 @@ from randomtools.interface import (
     get_outfile, get_seed, get_flags, get_activated_codes, activate_code,
     run_interface, rewrite_snes_meta, clean_and_write, finish_interface)
 
-from bcg_junction import populate_data
+from bcg_junction import JunctionManager
 from ex_utils import generate_character_palette, shuffle_char_hues
 from collections import Counter, defaultdict
 from time import time, gmtime
@@ -4072,21 +4072,8 @@ def handle_exhirom():
 
 
 def test():
-    data = {0x00: [1]}
-    populate_data(data, get_outfile(), 0x611000)
-    data = {0x0f: []}
-    populate_data(data, get_outfile(), 0x612000)
-    populate_data(data, get_outfile(), 0x612800)
-    data = {0x1f: []}
-    populate_data(data, get_outfile(), 0x613000)
-    populate_data(data, get_outfile(), 0x613800)
-    #data = {0x25: [1], 0xff: []}
-    data = {0xff: []}
-    populate_data(data, get_outfile(), 0x614000)
-    data = {0xff: []}
-    populate_data(data, get_outfile(), 0x615000)
-    write_patch(get_outfile(), 'patch_junction_core.txt')
-    write_patch(get_outfile(), 'patch_junction_esper_magic_proc.txt')
+    jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json')
+    jm.execute()
 
 
 if __name__ == '__main__':

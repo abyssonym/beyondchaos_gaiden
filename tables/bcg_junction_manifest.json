@@ -1,0 +1,54 @@
+{
+    "always_whitelist_address":     "611000",
+    "character_whitelist_address":  "612000",
+    "character_blacklist_address":  "612800",
+    "esper_whitelist_address":      "613000",
+    "esper_blacklist_address":      "613800",
+    "equip_whitelist_address":      "614000",
+    "equip_blacklist_address":      "615000",
+
+    "junction_indexes": {
+        "junction_esper_magic": "01"
+    },
+
+    "junction_short_names": {
+        "junction_esper_magic": "EspMag-J"
+    },
+
+    "character_names": [
+        "Terra", "Locke", "Cyan", "Shadow", "Edgar", "Sabin", "Celes",
+        "Strago", "Relm", "Setzer", "Mog", "Gau", "Gogo", "Umaro",
+        "Banon", "Leo"
+    ],
+
+    "esper_names": [
+        "Ramuh", "Ifrit", "Shiva", "Siren", "Terrato", "Shoat", "Maduin",
+        "Bismark", "Stray", "Palidor", "Tritoch", "Odin", "Raiden", "Bahamut",
+        "Alexandr", "Crusader", "Ragnarok", "Kirin", "ZoneSeek", "Carbunkl",
+        "Phantom", "Sraphim", "Golem", "Unicorn", "Fenrir", "Starlet",
+        "Phoenix"
+    ],
+
+    "equip_names": [],
+
+    "always_whitelist": [
+        "junction_esper_magic"
+    ],
+
+    "character_whitelist": {},
+    "character_blacklist": {},
+    "esper_whitelist":     {},
+    "esper_blacklist":     {},
+    "equip_whitelist":     {},
+    "equip_blacklist":     {},
+
+    "core_patch_list": [
+        "patch_junction_core.txt"
+    ],
+
+    "patch_list": {
+        "junction_esper_magic": [
+            "patch_junction_esper_magic_proc.txt"
+        ]
+    }
+}

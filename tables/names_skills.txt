@@ -1,0 +1,255 @@
+Fire
+Ice
+Bolt
+Poison
+Drain
+Fire 2
+Ice 2
+Bolt 2
+Bio
+Fire 3
+Ice 3
+Bolt 3
+Break
+Doom
+Pearl
+Flare
+Demi
+Quartr
+X-Zone
+Meteor
+Ultima
+Quake
+W Wind
+Merton
+Scan
+Slow
+Rasp
+Mute
+Safe
+Sleep
+Muddle
+Haste
+Stop
+Bserk
+Float
+Imp
+Rflect
+Shell
+Vanish
+Haste2
+Slow 2
+Osmose
+Warp
+Quick
+Dispel
+Cure
+Cure 2
+Cure 3
+Life
+Life 2
+Antdot
+Remedy
+Regen
+Life 3
+Ramuh
+Ifrit
+Shiva
+Siren
+Terrato
+Shoat
+Maduin
+Bismark
+Stray
+Palidor
+Tritoch
+Odin
+Raiden
+Bahamut
+Alexandr
+Crusader
+Ragnarok
+Kirin
+ZoneSeek
+Carbunkl
+Phantom
+Sraphim
+Golem
+Unicorn
+Fenrir
+Starlet
+Phoenix
+Fire Skean
+Water Edge
+Bolt Edge
+Storm
+Dispatch
+Retort
+Slash
+Quadra Slam
+Empowerer
+Stunner
+Quadra Slice
+Cleave
+Pummel
+AuraBolt
+Suplex
+Fire Dance
+Mantra
+Air Blade
+Spiraler
+Bum Rush
+Wind Slash
+Sun Bath
+Rage
+Harvester
+Sand Storm
+Antlion
+Elf Fire
+Specter
+Land Slide
+Sonic Boom
+El Nino
+Plasma
+Snare
+Cave In
+Snowball
+Surge
+Cokatrice
+Wombat
+Kitty
+Tapir
+Whump
+Wild Bear
+Pois. Frog
+Ice Rabbit
+Bio Blaster
+Flash
+Chocobop
+H-Bomb
+7-Flush
+Megahit
+Fire Beam
+Bolt Beam
+Ice Beam
+Bio Blast
+Heal Force
+Confuser
+X-Fer
+TekMissile
+Condemned
+Roulette
+CleanSweep
+Aqua Rake
+Aero
+Blow Fish
+Big Guard
+Revenge
+Pearl Wind
+L.5 Doom
+L.4 Flare
+L.3 Muddle
+Reflect???
+L.? Pearl
+Step Mine
+ForceField
+Dischord
+Sour Mouth
+Pep Up
+Rippler
+Stone
+Quasar
+GrandTrain
+Exploder
+Imp Song
+Clear
+Virite
+ChokeSmoke
+Schiller
+Lullaby
+Acid Rain
+Confusion
+Megazerk
+Mute
+Net
+Slimer
+Delta Hit
+Entwine
+Blaster
+Cyclonic
+Fire Ball
+Atomic Ray
+Tek Laser
+Diffuser
+WaveCannon
+Mega Volt
+Giga Volt
+Blizzard
+Absolute 0
+Magnitude8
+Raid
+Flash Rain
+TekBarrier
+Fallen One
+WallChange
+Escape
+50 Gs
+Mind Blast
+N. Cross
+Flare Star
+Love Token
+Seize
+R.Polarity
+Targetting
+Sneeze
+S. Cross
+Launcher
+Charm
+Cold Dust
+Tentacle
+HyperDrive
+Train
+Evil Toot
+Grav Bomb
+Engulf
+Disaster
+Shrapnel
+Bomblet
+Heart Burn
+Zinger
+Discard
+Overcast
+Missile
+Goner
+Meteo
+Revenger
+Phantasm
+Dread
+Shock Wave
+Blaze
+Soul Out
+Gale Cut
+Shimsham
+Lode Stone
+Scar Beam
+BabaBreath
+LifeShaver
+Fire Wall
+Slide
+Battle
+Special
+Riot Blade
+Mirager
+Back Blade
+ShadowFang
+RoyalShock
+TigerBreak
+Spin Edge
+Sabre Soul
+Star Prism
+Red Card
+MoogleRush
+X-Meteo
+Takedown
+Wild Fang
+Lagomorph
