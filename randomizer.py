@@ -4078,9 +4078,10 @@ def test():
     jm.remove_junction('edgar', 0x02, 'blacklist')
     jm.add_junction('plumed hat', 0x02, force_category='equip')
     jm.add_junction('edgar', 'junction_half_taunt')
-    jm.add_junction('bismark', 'junction_boost_fire')
-    jm.add_junction('bismark', 'junction_boost_ice')
-    jm.add_junction('bismark', 'junction_boost_bolt')
+    jm.add_junction('bismark', 'junction_pierce_fire')
+    jm.add_junction('bismark', 'junction_pierce_ice')
+    jm.add_junction('bismark', 'junction_pierce_bolt')
+    jm.add_junction('shoat', 'junction_pierce_poison')
     jm.execute()
 
 

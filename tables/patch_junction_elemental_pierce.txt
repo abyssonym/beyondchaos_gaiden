@@ -1,23 +1,30 @@
 .addr   jun-checker                     610000
-.addr   main                            620300
-.addr   check-element                   620340
-.addr   return                          023373
+.addr   main                            620380
+.addr   check-element                   6203c0
+.addr   return                          020bd8
+.addr   return-non-elemental            020c1e
 .addr   bits                            00bafc
 
-.def    jun-index-fire      10
-.def    jun-index-ice       11
-.def    jun-index-bolt      12
-.def    jun-index-poison    13
-.def    jun-index-wind      14
-.def    jun-index-pearl     15
-.def    jun-index-earth     16
-.def    jun-index-water     17
+.def    jun-index-fire      18
+.def    jun-index-ice       19
+.def    jun-index-bolt      1a
+.def    jun-index-poison    1b
+.def    jun-index-wind      1c
+.def    jun-index-pearl     1d
+.def    jun-index-earth     1e
+.def    jun-index-water     1f
 
-02336f: 5c $main
+020bd3: 5c $main
+
+020be5: ea 24 10
+020bf5: ea 24 10
+020c03: ea 24 10
 
 $main
-:       48 5a
+:       ad a1 11
+:       f0 non-elemental
 
+:       85 10
 :       a9 jun-index-fire
 :       20 $check-element,2
 :       a9 jun-index-ice
@@ -35,24 +42,26 @@ $main
 :       a9 jun-index-water
 :       20 $check-element,2
 
-:       7a 68
-:       ad a2 11
-:       4a
 :       5c $return
+.label non-elemental
+:       5c $return-non-elemental
 
 $check-element
 :       48 da
 :       29 07
 :       aa
 :       bf $bits
+:       85 11
 :       fa
-:       2c a1 11
+:       24 10
 :       f0 check-element-pull-exit
 :       68
 :       22 $jun-checker
 :       c9 00
 :       f0 check-element-exit
-:       e6 bc
+:       a5 10
+:       45 11
+:       85 10
 .label check-element-exit
 :       60
 .label check-element-pull-exit
@@ -61,5 +70,9 @@ $check-element
 
 VALIDATION
 
-02336f: ad a2 11
-:       4a
+020bd3: ad a1 11
+:       f0 46
+
+020be5: 2c a1 11
+020bf5: 2c a1 11
+020c03: 2c a1 11

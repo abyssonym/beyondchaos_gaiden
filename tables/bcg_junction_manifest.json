@@ -18,7 +18,15 @@
         "junction_boost_wind":      "14",
         "junction_boost_pearl":     "15",
         "junction_boost_earth":     "16",
-        "junction_boost_water":     "17"
+        "junction_boost_water":     "17",
+        "junction_pierce_fire":     "18",
+        "junction_pierce_ice":      "19",
+        "junction_pierce_bolt":     "1a",
+        "junction_pierce_poison":   "1b",
+        "junction_pierce_wind":     "1c",
+        "junction_pierce_pearl":    "1d",
+        "junction_pierce_earth":    "1e",
+        "junction_pierce_water":    "1f"
     },
 
     "junction_short_names": {
@@ -28,11 +36,19 @@
         "junction_boost_fire":      "Fire Up",
         "junction_boost_ice":       "Ice Up",
         "junction_boost_bolt":      "Bolt Up",
-        "junction_boost_poison":    "Poison Up",
+        "junction_boost_poison":    "Psn. Up",
         "junction_boost_wind":      "Wind Up",
         "junction_boost_pearl":     "Pearl Up",
         "junction_boost_earth":     "Earth Up",
-        "junction_boost_water":     "Water Up"
+        "junction_boost_water":     "Water Up",
+        "junction_pierce_fire":     "Fire Pierce",
+        "junction_pierce_ice":      "Ice Pierce",
+        "junction_pierce_bolt":     "Bolt Pierce",
+        "junction_pierce_poison":   "Psn. Pierce",
+        "junction_pierce_wind":     "Wind Pierce",
+        "junction_pierce_pearl":    "Pearl Pierce",
+        "junction_pierce_earth":    "Earth Pierce",
+        "junction_pierce_water":    "Water Pierce"
     },
 
     "character_names": [
@@ -162,6 +178,30 @@
         ],
         "junction_boost_water": [
             "patch_junction_elemental_boost.txt"
+        ],
+        "junction_pierce_fire": [
+            "patch_junction_elemental_pierce.txt"
+        ],
+        "junction_pierce_ice": [
+            "patch_junction_elemental_pierce.txt"
+        ],
+        "junction_pierce_bolt": [
+            "patch_junction_elemental_pierce.txt"
+        ],
+        "junction_pierce_poison": [
+            "patch_junction_elemental_pierce.txt"
+        ],
+        "junction_pierce_wind": [
+            "patch_junction_elemental_pierce.txt"
+        ],
+        "junction_pierce_pearl": [
+            "patch_junction_elemental_pierce.txt"
+        ],
+        "junction_pierce_earth": [
+            "patch_junction_elemental_pierce.txt"
+        ],
+        "junction_pierce_water": [
+            "patch_junction_elemental_pierce.txt"
         ]
     }
 }
