@@ -118,7 +118,7 @@ class JunctionManager:
         import_data = getattr(self, '%s_%slist' % (category, color))
         category_cleaner = getattr(self, 'get_%s_index' % category)
         for key, junction_items in import_data.items():
-            key = category_cleaner(self, key)
+            key = category_cleaner(key)
             assert key not in data
             junction_items = [self.get_junction_index(junction_item)
                               for junction_item in junction_items]

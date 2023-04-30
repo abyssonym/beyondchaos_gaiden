@@ -83,6 +83,7 @@ $jun-checker
 :   80 empty-character-slot-exit
 
 $jun-check-list
+:   a9 00 00
 :   e2 20
 .label check-list-loop
 :   bd 00 00
@@ -226,7 +227,7 @@ $jun-mult
 
 $jun-rng1
 :   48
-:   20 5a 4b
+:   22 $jun-rng2
 :   4a
 :   68
 :   6b

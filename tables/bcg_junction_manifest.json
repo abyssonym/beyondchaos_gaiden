@@ -8,11 +8,15 @@
     "equip_blacklist_address":      "615000",
 
     "junction_indexes": {
-        "junction_esper_magic": "01"
+        "junction_esper_magic": "01",
+        "junction_taunt":       "02",
+        "junction_half_taunt":  "03"
     },
 
     "junction_short_names": {
-        "junction_esper_magic": "EspMag-J"
+        "junction_esper_magic": "EspMag-J",
+        "junction_taunt":       "Taunt",
+        "junction_half_taunt":  "Half-Taunt"
     },
 
     "character_names": [
@@ -35,11 +39,15 @@
         "junction_esper_magic"
     ],
 
-    "character_whitelist": {},
+    "character_whitelist": {
+        "Edgar": ["junction_half_taunt"]
+    },
     "character_blacklist": {},
     "esper_whitelist":     {},
     "esper_blacklist":     {},
-    "equip_whitelist":     {},
+    "equip_whitelist":     {
+        "6b": ["junction_taunt"]
+    },
     "equip_blacklist":     {},
 
     "core_patch_list": [
@@ -49,6 +57,12 @@
     "patch_list": {
         "junction_esper_magic": [
             "patch_junction_esper_magic_proc.txt"
+        ],
+        "junction_taunt": [
+            "patch_junction_taunt.txt"
+        ],
+        "junction_half_taunt": [
+            "patch_junction_taunt.txt"
         ]
     }
 }
