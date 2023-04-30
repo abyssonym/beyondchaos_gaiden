@@ -142,6 +142,7 @@
     "equip_blacklist":     {},
 
     "core_patch_list": [
+        "patch_rom_expansion.txt",
         "patch_junction_core.txt"
     ],
 

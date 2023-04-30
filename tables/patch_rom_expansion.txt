@@ -1,7 +1,7 @@
-00ffd5: 20
+00ffd5: 35
 00ffd7: 0d
 
-40ffd5: 20
+40ffd5: 35
 40ffd7: 0d
 
 6fffff: 00

@@ -378,7 +378,7 @@ class MusicObject(TableObject):
         if ('SAFE_MODE' not in get_global_label()
                 and 'BNW' not in get_global_label()
                 and 'JP' not in get_global_label()):
-            write_patch(get_outfile(), 'music_player_patch.txt')
+            write_patch(get_outfile(), 'patch_music_player.txt')
 
         with open(get_outfile(), 'rb') as f:
             outrom = f.read()
@@ -399,7 +399,7 @@ class MusicObject(TableObject):
             outrom = process_formation_music_by_table(
                 outrom, form_music=path.join(tblpath, 'formationmusic.txt'))
         outrom = process_map_music(outrom, conditional_narshe_mines=False)
-        if 'music_player_patch.txt' in get_activated_patches():
+        if 'patch_music_player.txt' in get_activated_patches():
             outrom = add_music_player(outrom, metadata=metadata)
 
         with open(get_outfile(), 'wb') as f:
@@ -2732,7 +2732,7 @@ class CharacterObject(TableObject):
                 break
         else:
             if 'BNW' in get_global_label():
-                write_patch(get_outfile(), 'auto_learn_rage_patch.txt')
+                write_patch(get_outfile(), 'patch_auto_learn_rage.txt')
                 NO_RAGE_PATCH = False
 
         if self.index == 0x0b and 0x11 not in commands and NO_RAGE_PATCH:
@@ -4111,32 +4111,33 @@ if __name__ == '__main__':
 
         if CmdChangeFBObject.flag in get_flags():
             if get_global_label() in ['FF6_NA_1.0', 'FF6_NA_1.1']:
-                write_patch(get_outfile(), 'command_shuffle_patch.txt')
+                write_patch(get_outfile(), 'patch_command_shuffle.txt')
             elif 'FF6_JP' in get_global_label():
-                write_patch(get_outfile(), 'command_shuffle_patch_jp.txt')
+                write_patch(get_outfile(), 'patch_command_shuffle_jp.txt')
             elif 'BNW_1' in get_global_label():
-                write_patch(get_outfile(), 'command_shuffle_patch_bnw1.txt')
+                write_patch(get_outfile(), 'patch_command_shuffle_bnw1.txt')
             elif 'BNW_2' in get_global_label():
-                write_patch(get_outfile(), 'command_shuffle_patch_bnw2.txt')
+                write_patch(get_outfile(), 'patch_command_shuffle_bnw2.txt')
 
         if 'easymodo' in get_activated_codes():
             'EASY MODE ACTIVATED'
 
         if 'fanatix' in get_activated_codes():
             if get_global_label() in ['FF6_NA_1.0', 'FF6_NA_1.1']:
-                write_patch(get_outfile(), 'auto_learn_rage_patch.txt')
+                write_patch(get_outfile(), 'patch_auto_learn_rage.txt')
             if 'JP' in get_global_label():
-                write_patch(get_outfile(), 'let_banon_equip_patch_jp.txt')
-                write_patch(get_outfile(), 'auto_learn_rage_patch_jp.txt')
+                write_patch(get_outfile(), 'patch_let_banon_equip_jp.txt')
+                write_patch(get_outfile(), 'patch_auto_learn_rage_jp.txt')
             elif 'SAFE_MODE' not in get_global_label():
-                write_patch(get_outfile(), 'let_banon_equip_patch.txt')
+                write_patch(get_outfile(), 'patch_let_banon_equip.txt')
             execute_fanatix_mode()
 
         hexify = lambda x: '{0:0>2}'.format('%x' % x)
         numify = lambda x: '{0: >3}'.format(x)
         minmax = lambda x: (min(x), max(x))
 
-        test()
+        if DEBUG_MODE:
+            test()
 
         write_seed()
         handle_exhirom()
