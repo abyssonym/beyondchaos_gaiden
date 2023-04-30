@@ -1,0 +1,56 @@
+.addr   jun-checker                     610000
+.addr   main                            620200
+.addr   return                          0258f1
+.addr   bits                            00bafc
+
+.def    jun-index           02
+
+0258ed: 5c $main
+
+$main
+:       c2 20
+:       a5 b8
+:       89 0f 00
+:       f0 no-junction
+:       e2 20
+:       da 5a 48
+:       85 10
+:       a0 00
+.label loop
+:       bb
+:       bf $bits
+:       24 10
+:       f0 skip
+:       8a
+:       0a
+:       aa
+:       a9 jun-index
+:       22 $jun-checker
+:       c9 00
+:       d0 skip
+:       bb
+:       bf $bits
+:       45 10
+:       85 10
+.label skip
+:       c8
+:       c0 04
+:       d0 loop
+:       a5 10
+:       29 0f
+:       f0 found-target
+:       68
+:       a5 10
+.label end-routine
+:       c2 20
+:       7a fa
+.label no-junction
+:       5c $return
+.label found-target
+:       68
+:       80 end-routine
+
+VALIDATION
+
+0258ed: c2 20
+:       a5 b8
