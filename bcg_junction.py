@@ -29,6 +29,7 @@ def populate_data(data, filename, address):
             f.seek(pointer)
             f.write(bytes(values))
             pointers.append(pointer)
+            pointer += len(values)
 
         assert len(pointers) == maxdex + 1
         assert len({map_to_snes(pointer) >> 16 for pointer in pointers}) == 1
@@ -153,8 +154,11 @@ class JunctionManager:
 
     def get_junction_index(self, junction_item):
         if junction_item in self.junction_indexes:
-            return self.clean_number(self.junction_indexes[junction_item])
-        return self.clean_number(junction_item)
+            index = self.clean_number(self.junction_indexes[junction_item])
+        else:
+            index = self.clean_number(junction_item)
+        assert 1 <= index <= 0xff
+        return index
 
     def get_category_index(self, category, key):
         if isinstance(key, int):
