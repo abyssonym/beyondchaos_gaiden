@@ -4073,6 +4073,11 @@ def handle_exhirom():
 
 def test():
     jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json')
+    jm.add_junction(None, 0x01, 'whitelist')
+    jm.add_junction('edgar', 'junction_taunt', 'blacklist')
+    jm.remove_junction('edgar', 0x02, 'blacklist')
+    jm.add_junction('plumed hat', 0x02, force_category='equip')
+    jm.add_junction('edgar', 'junction_half_taunt')
     jm.execute()
 
 

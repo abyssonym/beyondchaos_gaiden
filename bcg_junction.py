@@ -24,6 +24,7 @@ def populate_data(data, filename, address):
                 pointers.append(nothing_pointer)
                 continue
             assert 0 not in values
+            values = sorted(set(values))
             values.append(0)
             f.seek(pointer)
             f.write(bytes(values))
@@ -66,6 +67,30 @@ class JunctionManager:
         for key in full_data:
             assert not hasattr(self, key)
             value = full_data[key]
+            if isinstance(value, dict) and key.endswith('list'):
+                category = key.split('_')[0]
+                if category in ('character', 'esper', 'equip'):
+                    category_cleaner = getattr(self, 'get_%s_index' % category)
+                    new_dict = {}
+                    for k, v in sorted(value.items()):
+                        k = category_cleaner(k)
+                        assert k not in new_dict
+                        new_dict[k] = v
+                    value = new_dict
+                    full_data[key] = value
+
+            if key == 'patch_list':
+                new_dict = {}
+                for k, v in sorted(value.items()):
+                    k = self.get_junction_index(k)
+                    assert k not in new_dict
+                    new_dict[k] = v
+                value = new_dict
+                full_data[key] = value
+
+            if isinstance(value, dict):
+                if key not in ('junction_indexes', 'junction_short_names'):
+                    assert all(isinstance(k, int) for k in value.keys())
             setattr(self, key, full_data[key])
 
         for patch in self.core_patch_list:
@@ -76,39 +101,85 @@ class JunctionManager:
             return value
         return int(value, 0x10)
 
+    def add_junction(self, key, junction_item, list_color='whitelist',
+                     force_category=None, remove=False):
+        junction_index = self.get_junction_index(junction_item)
+        if key is None:
+            assert list_color == 'whitelist'
+            self.always_whitelist = [self.get_junction_index(j)
+                                     for j in self.always_whitelist]
+            if junction_index not in self.always_whitelist:
+                self.always_whitelist.append(junction_index)
+            return
+
+        for category in ['character', 'esper', 'equip']:
+            if force_category and category != force_category:
+                continue
+
+            category_cleaner = getattr(self, 'get_%s_index' % category)
+            try:
+                k = category_cleaner(key)
+            except ValueError:
+                continue
+
+            attr = '%s_%s' % (category, list_color)
+            data = getattr(self, attr)
+            if k not in data:
+                data[k] = []
+            data[k] = [self.get_junction_index(j) for j in data[k]]
+            if junction_index not in data[k] and not remove:
+                data[k].append(junction_index)
+            elif remove and junction_index in data[k]:
+                junction_index = self.get_junction_index(junction_index)
+                items = [ji for ji in data[k] if
+                         self.get_junction_index(ji) != junction_index]
+                data[k] = items
+            setattr(self, attr, data)
+            break
+        else:
+            raise Exception('Could not %s %s for %s.' %
+                            (list_color, junction_item, key))
+
+    def remove_junction(self, key, junction_item, list_color='whitelist',
+                        force_category=None):
+        self.add_junction(key, junction_item, list_color, force_category,
+                          remove=True)
+
     def add_patch(self, junction_item):
-        if junction_item in self.patch_list:
-            for patch in self.patch_list[junction_item]:
+        junction_index = self.get_junction_index(junction_item)
+        if junction_index in self.patch_list:
+            for patch in self.patch_list[junction_index]:
                 self.patches.add(patch)
 
     def get_junction_index(self, junction_item):
-        self.add_patch(junction_item)
         if junction_item in self.junction_indexes:
             return self.clean_number(self.junction_indexes[junction_item])
         return self.clean_number(junction_item)
 
+    def get_category_index(self, category, key):
+        if isinstance(key, int):
+            return key
+        names = [n.lower() for n in getattr(self, '%s_names' % category)]
+        key = key.lower()
+        if key in names:
+            return names.index(key)
+        return self.clean_number(key)
+
     def get_character_index(self, character):
-        names = [n.lower() for n in self.character_names]
-        if character.lower() in names:
-            return names.index(character.lower())
-        return self.clean_number(character)
+        return self.get_category_index('character', character)
 
     def get_esper_index(self, esper):
-        names = [n.lower() for n in self.esper_names]
-        if esper.lower() in names:
-            return names.index(esper.lower())
-        return self.clean_number(esper)
+        return self.get_category_index('esper', esper)
 
     def get_equip_index(self, equip):
-        names = [n.lower() for n in self.equip_names]
-        if equip.lower() in names:
-            return names.index(equip.lower())
-        return self.clean_number(equip)
+        return self.get_category_index('equip', equip)
 
     def populate_always(self):
         data = {0: []}
         for junction_item in self.always_whitelist:
+            self.add_patch(junction_item)
             data[0].append(self.get_junction_index(junction_item))
+        data[0] = sorted(set(data[0]))
 
         address = self.clean_number(self.always_whitelist_address)
         populate_data(data, self.outfile, address)
@@ -119,10 +190,13 @@ class JunctionManager:
         category_cleaner = getattr(self, 'get_%s_index' % category)
         for key, junction_items in import_data.items():
             key = category_cleaner(key)
-            assert key not in data
             junction_items = [self.get_junction_index(junction_item)
                               for junction_item in junction_items]
-            data[key] = junction_items
+            if color != 'black':
+                for ji in junction_items:
+                    self.add_patch(ji)
+            assert key not in data
+            data[key] = sorted(set(junction_items))
 
         if data:
             assert max(data) <= max_index
