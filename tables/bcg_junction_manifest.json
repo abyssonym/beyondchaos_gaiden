@@ -8,15 +8,31 @@
     "equip_blacklist_address":      "615000",
 
     "junction_indexes": {
-        "junction_esper_magic": "01",
-        "junction_taunt":       "02",
-        "junction_half_taunt":  "03"
+        "junction_esper_magic":     "01",
+        "junction_taunt":           "02",
+        "junction_half_taunt":      "03",
+        "junction_boost_fire":      "10",
+        "junction_boost_ice":       "11",
+        "junction_boost_bolt":      "12",
+        "junction_boost_poison":    "13",
+        "junction_boost_wind":      "14",
+        "junction_boost_pearl":     "15",
+        "junction_boost_earth":     "16",
+        "junction_boost_water":     "17"
     },
 
     "junction_short_names": {
-        "junction_esper_magic": "EspMag-J",
-        "junction_taunt":       "Taunt",
-        "junction_half_taunt":  "Half-Taunt"
+        "junction_esper_magic":     "EspMag-J",
+        "junction_taunt":           "Taunt",
+        "junction_half_taunt":      "Half-Taunt",
+        "junction_boost_fire":      "Fire Up",
+        "junction_boost_ice":       "Ice Up",
+        "junction_boost_bolt":      "Bolt Up",
+        "junction_boost_poison":    "Poison Up",
+        "junction_boost_wind":      "Wind Up",
+        "junction_boost_pearl":     "Pearl Up",
+        "junction_boost_earth":     "Earth Up",
+        "junction_boost_water":     "Water Up"
     },
 
     "character_names": [
@@ -122,6 +138,30 @@
         ],
         "junction_half_taunt": [
             "patch_junction_taunt.txt"
+        ],
+        "junction_boost_fire": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "junction_boost_ice": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "junction_boost_bolt": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "junction_boost_poison": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "junction_boost_wind": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "junction_boost_pearl": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "junction_boost_earth": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "junction_boost_water": [
+            "patch_junction_elemental_boost.txt"
         ]
     }
 }
