@@ -1,0 +1,23 @@
+.addr   jun-checker                     610000
+.addr   main                            620480
+.addr   return-not-ready                0211ba
+.addr   return-ready                    0211aa
+
+.def    jun-index           06
+
+0211a5: 5c $main
+
+$main
+:       dd 2c 32
+:       b0 ready
+:       a9 jun-index
+:       22 $jun-checker
+:       d0 ready
+:       5c $return-not-ready
+.label ready
+:       5c $return-ready
+
+VALIDATION
+
+0211a5: dd 2c 32
+:       90 10

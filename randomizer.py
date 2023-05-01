@@ -4085,6 +4085,7 @@ def test():
     jm.add_junction('shoat', 'junction_pierce_poison')
     jm.add_junction('edgar', 'junction_initiative')
     jm.add_junction('edgar', 'junction_instant_run')
+    jm.add_junction('edgar', 'junction_instant_act')
     jm.execute()
 
 
