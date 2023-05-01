@@ -19,7 +19,7 @@ from traceback import format_exc
 
 VERSION = "6.2"
 ALL_OBJECTS = None
-DEBUG_MODE = False
+DEBUG_MODE = True
 FOOLS = False
 
 price_message_indexes = {
@@ -4082,6 +4082,7 @@ def test():
     jm.add_junction('bismark', 'junction_pierce_ice')
     jm.add_junction('bismark', 'junction_pierce_bolt')
     jm.add_junction('shoat', 'junction_pierce_poison')
+    jm.add_junction('shadow', 'junction_initiative')
     jm.execute()
 
 
