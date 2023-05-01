@@ -1,0 +1,52 @@
+.addr   jun-checker                     610000
+.addr   main                            620420
+.addr   check-runner                    620460
+.addr   return-unrunnable               025c34
+.addr   return-runnable                 025c3a
+.addr   return-instant-run              025c4d
+
+.def    jun-index           05
+
+025bdb: 5c $main
+
+$main
+:       da
+
+:       64 10
+:       a2 00
+:       20 $check-runner,2
+:       a2 02
+:       20 $check-runner,2
+:       a2 04
+:       20 $check-runner,2
+:       a2 06
+:       20 $check-runner,2
+:       a5 10
+:       c9 00
+:       d0 found-runners
+
+:       fa
+:       ad 91 3a
+:       29 70
+:       5c e0 5b c2
+.label found-runners
+:       0c 38 3a
+:       fa
+:       5c e2 5b c2
+
+$check-runner
+:       bd a0 3a
+:       4a
+:       90 check-runner-exit
+:       a9 jun-index
+:       22 $jun-checker
+:       f0 check-runner-exit
+:       bd 18 30
+:       04 10
+.label check-runner-exit
+:       60
+
+VALIDATION
+
+025bdb: ad 91 3a
+:       29 70

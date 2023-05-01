@@ -12,6 +12,7 @@
         "junction_taunt":           "02",
         "junction_half_taunt":      "03",
         "junction_initiative":      "04",
+        "junction_instant_run":     "05",
         "junction_boost_fire":      "10",
         "junction_boost_ice":       "11",
         "junction_boost_bolt":      "12",
@@ -35,6 +36,7 @@
         "junction_taunt":           "Taunt",
         "junction_half_taunt":      "Half-Taunt",
         "junction_initiative":      "Initiative",
+        "junction_instant_run":     "Instant Run",
         "junction_boost_fire":      "Fire Up",
         "junction_boost_ice":       "Ice Up",
         "junction_boost_bolt":      "Bolt Up",
@@ -160,6 +162,9 @@
         ],
         "junction_initiative": [
             "patch_junction_initiative.txt"
+        ],
+        "junction_instant_run": [
+            "patch_junction_instant_run.txt"
         ],
         "junction_boost_fire": [
             "patch_junction_elemental_boost.txt"

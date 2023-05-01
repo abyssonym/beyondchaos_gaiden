@@ -38,7 +38,6 @@ $main-full
 :       aa
 :       a9 jun-index-full
 :       22 $jun-checker
-:       c9 00
 :       d0 skip-full
 :       bb
 :       bf $bits
@@ -76,7 +75,6 @@ $main-half
 :       aa
 :       a9 jun-index-half
 :       22 $jun-checker
-:       c9 00
 :       d0 skip-half
 :       bb
 :       bf $bits

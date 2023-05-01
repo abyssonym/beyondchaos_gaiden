@@ -4081,8 +4081,10 @@ def test():
     jm.add_junction('bismark', 'junction_pierce_fire')
     jm.add_junction('bismark', 'junction_pierce_ice')
     jm.add_junction('bismark', 'junction_pierce_bolt')
+    jm.add_junction('bismark', 'junction_boost_water')
     jm.add_junction('shoat', 'junction_pierce_poison')
-    jm.add_junction('shadow', 'junction_initiative')
+    jm.add_junction('edgar', 'junction_initiative')
+    jm.add_junction('edgar', 'junction_instant_run')
     jm.execute()
 
 

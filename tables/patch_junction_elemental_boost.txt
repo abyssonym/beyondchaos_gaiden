@@ -50,7 +50,6 @@ $check-element
 :       f0 check-element-pull-exit
 :       68
 :       22 $jun-checker
-:       c9 00
 :       f0 check-element-exit
 :       e6 bc
 .label check-element-exit

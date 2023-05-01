@@ -57,7 +57,6 @@ $check-element
 :       f0 check-element-pull-exit
 :       68
 :       22 $jun-checker
-:       c9 00
 :       f0 check-element-exit
 :       a5 10
 :       45 11

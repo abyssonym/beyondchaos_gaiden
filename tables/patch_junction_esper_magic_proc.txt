@@ -29,7 +29,6 @@ $main
 # check for junction
 :       a9 jun-index
 :       22 $jun-checker
-:       c9 00
 :       f0 no-junction
 :       22 $esper-magic-selector
 :       c9 ff

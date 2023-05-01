@@ -12,7 +12,6 @@ $main
 :       bb
 :       a9 jun-index
 :       22 $jun-checker
-:       c9 00
 :       f0 main-exit
 :       a9 ff
 :       99 19 32

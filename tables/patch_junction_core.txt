@@ -71,8 +71,10 @@ $jun-checker
 :   7a
 :   fa
 .label not-a-character-exit
-:   28
-:   6b
+:   e2 20
+:   c9 00
+:   f0 final-exit-not-found
+:   80 final-exit-found
 .label not-a-character
 :   a9 00
 :   eb
@@ -81,6 +83,14 @@ $jun-checker
 .label empty-character-slot
 :   a9 00 00
 :   80 empty-character-slot-exit
+.label final-exit-found
+:   28
+:   c2 02
+:   6b
+.label final-exit-not-found
+:   28
+:   e2 02
+:   6b
 
 $jun-check-list
 :   a9 00 00
