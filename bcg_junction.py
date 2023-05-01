@@ -1,14 +1,12 @@
 from randomtools.utils import map_to_snes
-from randomtools.tablereader import tblpath, write_patch, set_addressing_mode
+from randomtools.tablereader import (
+    tblpath, write_patch, set_addressing_mode, get_open_file)
 
 import json
 from os import path
 
 def populate_data(data, filename, address):
-    if isinstance(filename, str):
-        f = open(filename, 'r+b')
-    else:
-        f = filename
+    f = get_open_file(filename)
 
     mindex = min(data)
     maxdex = max(data)
@@ -42,9 +40,6 @@ def populate_data(data, filename, address):
         p = pointer & 0xFFFF
         assert 0 <= p <= 0xFFFF
         f.write(p.to_bytes(2, byteorder='little'))
-
-    if isinstance(filename, str):
-        f.close()
 
 
 class JunctionManager:

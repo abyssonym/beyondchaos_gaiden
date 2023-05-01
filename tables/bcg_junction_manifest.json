@@ -29,7 +29,20 @@
         "junction_pierce_wind":     "1c",
         "junction_pierce_pearl":    "1d",
         "junction_pierce_earth":    "1e",
-        "junction_pierce_water":    "1f"
+        "junction_pierce_water":    "1f",
+        "junction_critical_haste":  "20",
+        "junction_critical_bserk":  "21",
+        "junction_critical_float":  "22",
+        "junction_critical_vanish": "23",
+        "junction_critical_warp":   "24",
+        "junction_critical_quick":  "25",
+        "junction_critical_cure3":  "26",
+        "junction_critical_remedy": "27",
+        "junction_critical_regen":  "28",
+        "junction_critical_life3":  "29",
+        "junction_critical_golem":  "2a",
+        "junction_critical_fenrir": "2b",
+        "junction_critical_rabbit": "2c"
     },
 
     "junction_short_names": {
@@ -54,7 +67,20 @@
         "junction_pierce_wind":     "Wind Pierce",
         "junction_pierce_pearl":    "Pearl Pierce",
         "junction_pierce_earth":    "Earth Pierce",
-        "junction_pierce_water":    "Water Pierce"
+        "junction_pierce_water":    "Water Pierce",
+        "junction_critical_haste":  "Crisis Haste",
+        "junction_critical_bserk":  "Crisis Bserk",
+        "junction_critical_float":  "Crisis Float",
+        "junction_critical_vanish": "Crisis Vanish",
+        "junction_critical_warp":   "Crisis Warp",
+        "junction_critical_quick":  "Crisis Quick",
+        "junction_critical_cure3":  "Crisis Cure 3",
+        "junction_critical_remedy": "Crisis Remedy",
+        "junction_critical_regen":  "Crisis Regen",
+        "junction_critical_life3":  "Crisis Life 3",
+        "junction_critical_golem":  "Crisis Golem",
+        "junction_critical_fenrir": "Crisis Fenrir",
+        "junction_critical_rabbit": "Crisis Rabbit"
     },
 
     "character_names": [
@@ -218,6 +244,45 @@
         ],
         "junction_pierce_water": [
             "patch_junction_elemental_pierce.txt"
+        ],
+        "junction_critical_haste":  [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "junction_critical_bserk": [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "junction_critical_float":  [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "junction_critical_vanish": [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "junction_critical_warp":   [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "junction_critical_quick":  [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "junction_critical_cure3":  [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "junction_critical_remedy": [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "junction_critical_regen":  [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "junction_critical_life3":  [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "junction_critical_golem":  [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "junction_critical_fenrir": [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "junction_critical_rabbit": [
+            "patch_junction_critical_trigger.txt"
         ]
     }
 }

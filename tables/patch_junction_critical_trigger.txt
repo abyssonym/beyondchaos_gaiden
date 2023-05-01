@@ -1,0 +1,72 @@
+.addr   jun-checker                     610000
+.addr   main                            6204a0
+.addr   return-no-trigger               020a90
+.addr   return-normal-trigger           020a5d
+.addr   command-queue-routine           024e91
+.addr   repeat-addr                     020a53
+
+.addr   spell-indexes-address           620500
+.def    spell-indexes           1f 21 22 26 2a 2b 2f 33 34 35 4c 4e fe
+
+.def    jun-index-first-spell   20
+.def    jun-index-final-spell   2c
+.def    repeat-addr-2           52
+.def    repeat-addr-1           0a
+
+020a51: 64 10
+020a53: 5c $main
+:       ea ea ea ea ea ea
+
+$main
+:       a9 02
+:       3c e5 3e
+:       f0 no-trigger
+:       3c 05 32
+:       f0 no-trigger
+
+:       a9 jun-index-first-spell
+.label spell-loop
+:       c5 10
+:       90 skip
+:       22 $jun-checker
+:       d0 success-add-queue
+.label skip
+:       c9 jun-index-final-spell
+:       f0 end-loop
+:       1a
+:       80 spell-loop
+.label end-loop
+:       a9 02
+:       5c $return-normal-trigger
+.label success-add-queue
+:       85 10
+:       a9 repeat-addr-1
+:       48
+:       a9 repeat-addr-2
+:       48
+:       a5 10
+:       29 0f
+:       da
+:       aa
+:       bf $spell-indexes-address
+:       fa
+:       85 b8
+:       e6 10
+:       a9 26
+:       5c $command-queue-routine
+.label no-trigger
+:       5c $return-no-trigger
+
+$spell-indexes-address
+:       spell-indexes
+
+VALIDATION
+
+020a51: a9 02
+:       3c e5 3e
+:       f0 38
+:       3c 05 32
+:       f0 33
+
+0242d2: a9 02
+:       8d 02 34
