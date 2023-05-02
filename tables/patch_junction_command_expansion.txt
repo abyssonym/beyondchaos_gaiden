@@ -1,0 +1,56 @@
+.addr   get-command-subroutine          61f000
+.addr   get-command-jump                61f020
+
+# should reserve 0x200 bytes for the table, up to 61f300
+.addr   jun-command-table-address       61f100
+
+.def    return-addr-1       14
+.def    return-addr-2       00
+
+.def    command-table       C8 15 97 18 41 17 36 19 27 19 91 15 10 16 47 18 8D 18 85 18 9D 15 5B 19 5F 17 1F 15 76 19 26 17 60 15 9D 19 1E 15 7D 17 4C 19 6A 19 F6 17 41 17 07 19 63 17 1E 17 1A 17 E5 17 5F 17 B2 19 1E 15 72 50 D1 50 0B 50 57 4F 97 4F CD 50 5F 4F DD 50 1E 15 61 51 DE 20 2D 64 A8 51 B2 51 FA 1D 1A 1E 5E 1E 1E 15 1E 15 1E 15
+
+0213fc: 5c $get-command-subroutine
+02155b: 5c $get-command-jump
+
+$get-command-subroutine
+:       aa
+:       a9 return-addr-1
+:       48
+:       a9 return-addr-2
+:       48
+:       8a
+:       4c $get-command-jump,2
+
+$get-command-jump
+:       aa
+:       c9 34
+:       b0 new-command
+:       a9 c2
+:       80 main-body
+.label new-command
+:       a9 62
+.label main-body
+:       85 12
+:       8a
+:       0a aa
+:       c2 20
+:       bf $jun-command-table-address
+:       85 10
+:       e2 20
+:       dc 10 00
+
+$jun-command-table-address
+:       command-table
+
+VALIDATION
+
+0213fc: 0a aa
+:       fc c7 19
+
+02155b: 0a aa
+:       7c c7 19
+
+#0219c7: command-table
+0219c7: c8 15
+:       97 18
+:       41 17

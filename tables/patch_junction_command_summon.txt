@@ -1,0 +1,30 @@
+.addr   main                            628000
+.addr   reentry-address                 02175f
+.addr   reentry-no-esper                024f5f
+
+.addr   pointer-address                 61f180
+.def    command-index       40
+
+$main
+:       ae 7b 3a
+:       c2 20
+:       bd 10 30
+:       aa
+:       e2 20
+:       bd 1e 16
+:       c9 ff
+:       f0 no-esper
+:       69 36
+:       85 b6
+:       a9 02
+:       85 b5
+:       64 b8
+:       64 b9
+:       9c 15 34
+:       5c $reentry-address
+.label  no-esper
+:       85 b8
+:       5c $reentry-no-esper
+
+$pointer-address
+:       $main,2

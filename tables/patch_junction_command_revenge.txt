@@ -1,0 +1,31 @@
+.addr   main                            628080
+.addr   reentry-address                 02175f
+
+.addr   pointer-address                 61f184
+.def    command-index       42
+
+.def    revenge-spell-index 92
+
+$main
+:       ae 7b 3a
+:       a9 revenge-spell-index
+:       85 b6
+:       a9 02
+:       85 b5
+
+:       64 b8
+:       64 b9
+:       bb
+:       bc 7c 32
+:       30 no-counter-target
+:       c2 20
+:       b9 18 30
+:       85 b8
+:       e2 20
+.label no-counter-target
+:       9b
+
+:       5c $reentry-address
+
+$pointer-address
+:       $main,2

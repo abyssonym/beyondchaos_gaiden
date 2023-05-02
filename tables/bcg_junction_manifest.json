@@ -8,79 +8,95 @@
     "equip_blacklist_address":      "615000",
 
     "junction_indexes": {
-        "junction_esper_magic":     "01",
-        "junction_taunt":           "02",
-        "junction_half_taunt":      "03",
-        "junction_initiative":      "04",
-        "junction_instant_run":     "05",
-        "junction_instant_act":     "06",
-        "junction_boost_fire":      "10",
-        "junction_boost_ice":       "11",
-        "junction_boost_bolt":      "12",
-        "junction_boost_poison":    "13",
-        "junction_boost_wind":      "14",
-        "junction_boost_pearl":     "15",
-        "junction_boost_earth":     "16",
-        "junction_boost_water":     "17",
-        "junction_pierce_fire":     "18",
-        "junction_pierce_ice":      "19",
-        "junction_pierce_bolt":     "1a",
-        "junction_pierce_poison":   "1b",
-        "junction_pierce_wind":     "1c",
-        "junction_pierce_pearl":    "1d",
-        "junction_pierce_earth":    "1e",
-        "junction_pierce_water":    "1f",
-        "junction_critical_haste":  "20",
-        "junction_critical_bserk":  "21",
-        "junction_critical_float":  "22",
-        "junction_critical_vanish": "23",
-        "junction_critical_warp":   "24",
-        "junction_critical_quick":  "25",
-        "junction_critical_cure3":  "26",
-        "junction_critical_remedy": "27",
-        "junction_critical_regen":  "28",
-        "junction_critical_life3":  "29",
-        "junction_critical_golem":  "2a",
-        "junction_critical_fenrir": "2b",
-        "junction_critical_rabbit": "2c"
+        "esper_magic":          "01",
+        "perfect_taunt":        "02",
+        "taunt":                "03",
+        "initiative":           "04",
+        "instant_run":          "05",
+        "instant_act":          "06",
+        "boost_fire":           "10",
+        "boost_ice":            "11",
+        "boost_bolt":           "12",
+        "boost_poison":         "13",
+        "boost_wind":           "14",
+        "boost_pearl":          "15",
+        "boost_earth":          "16",
+        "boost_water":          "17",
+        "pierce_fire":          "18",
+        "pierce_ice":           "19",
+        "pierce_bolt":          "1a",
+        "pierce_poison":        "1b",
+        "pierce_wind":          "1c",
+        "pierce_pearl":         "1d",
+        "pierce_earth":         "1e",
+        "pierce_water":         "1f",
+        "critical_haste":       "20",
+        "critical_bserk":       "21",
+        "critical_float":       "22",
+        "critical_vanish":      "23",
+        "critical_warp":        "24",
+        "critical_quick":       "25",
+        "critical_cure3":       "26",
+        "critical_remedy":      "27",
+        "critical_regen":       "28",
+        "critical_life3":       "29",
+        "critical_golem":       "2a",
+        "critical_fenrir":      "2b",
+        "critical_rabbit":      "2c",
+        "critical_escape":      "30",
+        "critical_morph":       "31",
+        "critical_runic":       "32",
+        "critical_defend":      "33",
+        "critical_gprain":      "34",
+        "critical_esper":       "35",
+        "critical_jump":        "36",
+        "critical_revenge":     "37"
     },
 
     "junction_short_names": {
-        "junction_esper_magic":     "EspMag-J",
-        "junction_taunt":           "Taunt",
-        "junction_half_taunt":      "Half-Taunt",
-        "junction_initiative":      "Initiative",
-        "junction_instant_run":     "Instant Run",
-        "junction_instant_act":     "Instant Act",
-        "junction_boost_fire":      "Fire Up",
-        "junction_boost_ice":       "Ice Up",
-        "junction_boost_bolt":      "Bolt Up",
-        "junction_boost_poison":    "Psn. Up",
-        "junction_boost_wind":      "Wind Up",
-        "junction_boost_pearl":     "Pearl Up",
-        "junction_boost_earth":     "Earth Up",
-        "junction_boost_water":     "Water Up",
-        "junction_pierce_fire":     "Fire Pierce",
-        "junction_pierce_ice":      "Ice Pierce",
-        "junction_pierce_bolt":     "Bolt Pierce",
-        "junction_pierce_poison":   "Psn. Pierce",
-        "junction_pierce_wind":     "Wind Pierce",
-        "junction_pierce_pearl":    "Pearl Pierce",
-        "junction_pierce_earth":    "Earth Pierce",
-        "junction_pierce_water":    "Water Pierce",
-        "junction_critical_haste":  "Crisis Haste",
-        "junction_critical_bserk":  "Crisis Bserk",
-        "junction_critical_float":  "Crisis Float",
-        "junction_critical_vanish": "Crisis Vanish",
-        "junction_critical_warp":   "Crisis Warp",
-        "junction_critical_quick":  "Crisis Quick",
-        "junction_critical_cure3":  "Crisis Cure 3",
-        "junction_critical_remedy": "Crisis Remedy",
-        "junction_critical_regen":  "Crisis Regen",
-        "junction_critical_life3":  "Crisis Life 3",
-        "junction_critical_golem":  "Crisis Golem",
-        "junction_critical_fenrir": "Crisis Fenrir",
-        "junction_critical_rabbit": "Crisis Rabbit"
+        "esper_magic":          "EspMag-J",
+        "perfect_taunt":        "Perfect Taunt",
+        "taunt":                "Taunt",
+        "initiative":           "Initiative",
+        "instant_run":          "Instant Run",
+        "instant_act":          "Instant Act",
+        "boost_fire":           "Fire Boost",
+        "boost_ice":            "Ice Boost",
+        "boost_bolt":           "Bolt Boost",
+        "boost_poison":         "Psn. Boost",
+        "boost_wind":           "Wind Boost",
+        "boost_pearl":          "Pearl Boost",
+        "boost_earth":          "Earth Boost",
+        "boost_water":          "Water Boost",
+        "pierce_fire":          "Fire Pierce",
+        "pierce_ice":           "Ice Pierce",
+        "pierce_bolt":          "Bolt Pierce",
+        "pierce_poison":        "Psn. Pierce",
+        "pierce_wind":          "Wind Pierce",
+        "pierce_pearl":         "Pearl Pierce",
+        "pierce_earth":         "Earth Pierce",
+        "pierce_water":         "Water Pierce",
+        "critical_haste":       "Crisis Haste",
+        "critical_bserk":       "Crisis Bserk",
+        "critical_float":       "Crisis Float",
+        "critical_vanish":      "Crisis Vanish",
+        "critical_warp":        "Crisis Warp",
+        "critical_quick":       "Crisis Quick",
+        "critical_cure3":       "Crisis Cure 3",
+        "critical_remedy":      "Crisis Remedy",
+        "critical_regen":       "Crisis Regen",
+        "critical_life3":       "Crisis Life 3",
+        "critical_golem":       "Crisis Golem",
+        "critical_fenrir":      "Crisis Fenrir",
+        "critical_rabbit":      "Crisis Rabbit",
+        "critical_escape":      "Crisis Escape",
+        "critical_morph":       "Crisis Morph",
+        "critical_runic":       "Crisis Runic",
+        "critical_defend":      "Crisis Defend",
+        "critical_gprain":      "Crisis GPRain",
+        "critical_esper":       "Crisis Esper",
+        "critical_jump":        "Crisis Jump",
+        "critical_revenge":     "Crisis Venge"
     },
 
     "character_names": [
@@ -179,110 +195,140 @@
     ],
 
     "patch_list": {
-        "junction_esper_magic": [
+        "esper_magic": [
             "patch_junction_esper_magic_proc.txt"
         ],
-        "junction_taunt": [
+        "perfect_taunt": [
             "patch_junction_taunt.txt"
         ],
-        "junction_half_taunt": [
+        "taunt": [
             "patch_junction_taunt.txt"
         ],
-        "junction_initiative": [
+        "initiative": [
             "patch_junction_initiative.txt"
         ],
-        "junction_instant_run": [
+        "instant_run": [
             "patch_junction_instant_run.txt"
         ],
-        "junction_instant_act": [
+        "instant_act": [
             "patch_junction_instant_act.txt"
         ],
-        "junction_boost_fire": [
+        "boost_fire": [
             "patch_junction_elemental_boost.txt"
         ],
-        "junction_boost_ice": [
+        "boost_ice": [
             "patch_junction_elemental_boost.txt"
         ],
-        "junction_boost_bolt": [
+        "boost_bolt": [
             "patch_junction_elemental_boost.txt"
         ],
-        "junction_boost_poison": [
+        "boost_poison": [
             "patch_junction_elemental_boost.txt"
         ],
-        "junction_boost_wind": [
+        "boost_wind": [
             "patch_junction_elemental_boost.txt"
         ],
-        "junction_boost_pearl": [
+        "boost_pearl": [
             "patch_junction_elemental_boost.txt"
         ],
-        "junction_boost_earth": [
+        "boost_earth": [
             "patch_junction_elemental_boost.txt"
         ],
-        "junction_boost_water": [
+        "boost_water": [
             "patch_junction_elemental_boost.txt"
         ],
-        "junction_pierce_fire": [
+        "pierce_fire": [
             "patch_junction_elemental_pierce.txt"
         ],
-        "junction_pierce_ice": [
+        "pierce_ice": [
             "patch_junction_elemental_pierce.txt"
         ],
-        "junction_pierce_bolt": [
+        "pierce_bolt": [
             "patch_junction_elemental_pierce.txt"
         ],
-        "junction_pierce_poison": [
+        "pierce_poison": [
             "patch_junction_elemental_pierce.txt"
         ],
-        "junction_pierce_wind": [
+        "pierce_wind": [
             "patch_junction_elemental_pierce.txt"
         ],
-        "junction_pierce_pearl": [
+        "pierce_pearl": [
             "patch_junction_elemental_pierce.txt"
         ],
-        "junction_pierce_earth": [
+        "pierce_earth": [
             "patch_junction_elemental_pierce.txt"
         ],
-        "junction_pierce_water": [
+        "pierce_water": [
             "patch_junction_elemental_pierce.txt"
         ],
-        "junction_critical_haste":  [
+        "critical_haste":  [
             "patch_junction_critical_trigger.txt"
         ],
-        "junction_critical_bserk": [
+        "critical_bserk": [
             "patch_junction_critical_trigger.txt"
         ],
-        "junction_critical_float":  [
+        "critical_float":  [
             "patch_junction_critical_trigger.txt"
         ],
-        "junction_critical_vanish": [
+        "critical_vanish": [
             "patch_junction_critical_trigger.txt"
         ],
-        "junction_critical_warp":   [
+        "critical_warp":   [
             "patch_junction_critical_trigger.txt"
         ],
-        "junction_critical_quick":  [
+        "critical_quick":  [
             "patch_junction_critical_trigger.txt"
         ],
-        "junction_critical_cure3":  [
+        "critical_cure3":  [
             "patch_junction_critical_trigger.txt"
         ],
-        "junction_critical_remedy": [
+        "critical_remedy": [
             "patch_junction_critical_trigger.txt"
         ],
-        "junction_critical_regen":  [
+        "critical_regen":  [
             "patch_junction_critical_trigger.txt"
         ],
-        "junction_critical_life3":  [
+        "critical_life3":  [
             "patch_junction_critical_trigger.txt"
         ],
-        "junction_critical_golem":  [
+        "critical_golem":  [
             "patch_junction_critical_trigger.txt"
         ],
-        "junction_critical_fenrir": [
+        "critical_fenrir": [
             "patch_junction_critical_trigger.txt"
         ],
-        "junction_critical_rabbit": [
+        "critical_rabbit": [
             "patch_junction_critical_trigger.txt"
+        ],
+        "critical_escape": [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "critical_morph": [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "critical_runic": [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "critical_defend": [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "critical_gprain": [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "critical_esper": [
+            "patch_junction_critical_trigger.txt",
+            "patch_junction_command_expansion.txt",
+            "patch_junction_command_summon.txt"
+        ],
+        "critical_jump": [
+            "patch_junction_critical_trigger.txt",
+            "patch_junction_command_expansion.txt",
+            "patch_junction_command_jump.txt"
+        ],
+        "critical_revenge": [
+            "patch_junction_critical_trigger.txt",
+            "patch_junction_command_expansion.txt",
+            "patch_junction_command_revenge.txt"
         ]
     }
 }
