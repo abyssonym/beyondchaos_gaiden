@@ -7,6 +7,13 @@
     "equip_whitelist_address":      "614000",
     "equip_blacklist_address":      "615000",
 
+    "equip_description_address":    "038308",
+    "equip_free_address":           "61b000",
+    "num_equip_descriptions":       "100",
+    "esper_description_address":    "035c09",
+    "esper_free_address":           "61d000",
+    "num_esper_descriptions":       "1b",
+
     "junction_indexes": {
         "esper_magic":          "01",
         "perfect_taunt":        "02",

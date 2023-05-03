@@ -1,9 +1,36 @@
-from randomtools.utils import map_to_snes
+from randomtools.utils import map_to_snes, map_from_snes
 from randomtools.tablereader import (
     tblpath, write_patch, set_addressing_mode, get_open_file)
 
 import json
 from os import path
+
+
+TEXT_TABLE_FILEPATH = path.join(tblpath, 'shorttext.txt')
+CHARACTER_MAP = {}
+with open(TEXT_TABLE_FILEPATH) as f:
+    for line in f:
+        character, code = line.split()
+        code = int(code, 0x10)
+        CHARACTER_MAP[code] = character
+        CHARACTER_MAP[character] = code
+
+for (a, b) in {
+        ' ': 0xff,
+        '\n': 0x01,
+        }.items():
+    CHARACTER_MAP[a] = b
+    CHARACTER_MAP[b] = a
+
+
+def map_text(text):
+    if isinstance(text, bytes):
+        result = ''.join([CHARACTER_MAP[c] for c in text])
+    else:
+        assert isinstance(text, str)
+        result = bytes([CHARACTER_MAP[c] for c in text])
+    return result
+
 
 def populate_data(data, filename, address):
     f = get_open_file(filename)
@@ -43,8 +70,10 @@ def populate_data(data, filename, address):
 
 
 class JunctionManager:
+    MAX_LINE_LENGTH = 32
+
     def __init__(self, outfile, manifest=None, data=None):
-        self.outfile = outfile
+        self.outfile = get_open_file(outfile)
         self.directory = tblpath
         self.patches = set()
 
@@ -82,7 +111,7 @@ class JunctionManager:
                     value = new_dict
                     full_data[key] = value
 
-            if key == 'patch_list':
+            if key in ('patch_list', 'junction_short_names'):
                 new_dict = {}
                 for k, v in sorted(value.items()):
                     k = self.get_junction_index(k)
@@ -92,8 +121,11 @@ class JunctionManager:
                 full_data[key] = value
 
             if isinstance(value, dict):
-                if key not in ('junction_indexes', 'junction_short_names'):
+                if key !='junction_indexes':
                     assert all(isinstance(k, int) for k in value.keys())
+
+            if key.endswith('_address') or key.startswith('num_'):
+                full_data[key] = self.clean_number(full_data[key])
             setattr(self, key, full_data[key])
 
         for patch in self.core_patch_list:
@@ -227,9 +259,120 @@ class JunctionManager:
         for patch in sorted(self.patches):
             write_patch(self.outfile, patch)
 
+    def read_descriptions(self, address, num_messages):
+        self.outfile.seek(address)
+        address_str = self.outfile.read(18)
+        offsets_low = int.from_bytes(address_str[1:3], byteorder='little')
+        origin_low = int.from_bytes(address_str[6:8], byteorder='little')
+        offsets_high = address_str[0xb]
+        origin_high = address_str[0xf]
+        a = address_str[0:1]
+        b = address_str[3:6]
+        c = address_str[8:0xb]
+        d = address_str[0xc:0xf]
+        e = address_str[0x10:]
+        validation = b'\xa2\x86\xe7\xa2\x86\xeb\xa9\x85\xe9\xa9\x85\xed'
+        assert a + b + c + d + e == validation
+
+        offsets_addr = map_from_snes(offsets_low | (offsets_high << 16))
+        origin_addr = map_from_snes(origin_low | (origin_high << 16))
+
+        self.outfile.seek(offsets_addr)
+        messages = []
+        for i in range(num_messages):
+            self.outfile.seek(offsets_addr + (i*2))
+            offset = int.from_bytes(self.outfile.read(2), byteorder='little')
+            self.outfile.seek(origin_addr + offset)
+            message = b''
+            while True:
+                c = self.outfile.read(1)
+                if c == b'\x00':
+                    break
+                message += c
+            message = map_text(message)
+            messages.append(message)
+
+        return messages
+
+    def write_descriptions(self, address, messages, offsets_addr):
+        offsets_addr = map_to_snes(offsets_addr)
+        origin_addr = offsets_addr
+        a, b, c, d, e = (b'\xa2', b'\x86\xe7\xa2', b'\x86\xeb\xa9',
+                         b'\x85\xe9\xa9', b'\x85\xed')
+        offsets_low = int.to_bytes(offsets_addr & 0xFFFF,
+                                   byteorder='little', length=2)
+        origin_low = int.to_bytes(origin_addr & 0xFFFF,
+                                  byteorder='little', length=2)
+        offsets_high = bytes([offsets_addr >> 16])
+        origin_high = bytes([origin_addr >> 16])
+        address_str = (a + offsets_low + b + origin_low +
+                       c + offsets_high + d + origin_high + e)
+        self.outfile.seek(address)
+        self.outfile.write(address_str)
+
+        message_pointer = offsets_addr + (len(messages) * 2)
+        first_offset = message_pointer
+        offset_cache = {}
+        for i, message in enumerate(messages):
+            assert message.count('\n') <= 1
+            assert all(len(line) <= self.MAX_LINE_LENGTH
+                       for line in message.split('\n'))
+            m = map_text(message) + b'\x00'
+            if m in offset_cache:
+                offset = offset_cache[m]
+            else:
+                assert message_pointer & 0xFFFF >= first_offset & 0xFFFF
+                offset = (message_pointer-offsets_addr) & 0xFFFF
+                self.outfile.seek(map_from_snes(message_pointer))
+                self.outfile.write(m)
+                message_pointer += len(m)
+                offset_cache[m] = offset
+            self.outfile.seek(map_from_snes(offsets_addr + (i*2)))
+            self.outfile.write(offset.to_bytes(byteorder='little', length=2))
+
+    def generate_descriptions(self, category, address=None,
+                              num_messages=None):
+        if address is None and num_messages is None:
+            if category == 'equip':
+                address = self.equip_description_address
+                num_messages = self.num_equip_descriptions
+            elif category == 'esper':
+                address = self.esper_description_address
+                num_messages = self.num_esper_descriptions
+
+        messages = self.read_descriptions(address, num_messages)
+        whitelist = getattr(self, '%s_whitelist' % category)
+        for key, values in sorted(whitelist.items()):
+            if not values:
+                continue
+            s = 'J:'
+            for junction_index in values:
+                append = ' %s,' % self.junction_short_names[junction_index]
+                test = s + append
+                if len(test.split('\n')[-1]) > self.MAX_LINE_LENGTH:
+                    append = '\n' + append[1:]
+                s = s + append
+            message = '\n'.join(s.split('\n')[:2])
+            assert message[-1] == ','
+            if len(message) < len(s):
+                message = message[:-1] + '…'
+            else:
+                message = message[:-1]
+            messages[key] = message
+        return messages
+
+    def rewrite_descriptions(self):
+        messages = self.generate_descriptions('equip')
+        self.write_descriptions(self.equip_description_address, messages,
+                                self.equip_free_address)
+        messages = self.generate_descriptions('esper')
+        self.write_descriptions(self.esper_description_address, messages,
+                                self.esper_free_address)
+
     def execute(self):
         self.populate_everything()
         self.write_patches()
+        self.rewrite_descriptions()
 
 
 if __name__ == '__main__':
