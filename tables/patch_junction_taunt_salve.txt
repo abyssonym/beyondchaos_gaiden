@@ -1,0 +1,193 @@
+.addr   jun-checker                     610000
+.addr   jun-rng1                        610820
+
+.addr   main-target-manipulation        620200
+.addr   main-taunt-full                 620260
+.addr   main-taunt-half                 6202a0
+.addr   salve-target-group              620500
+.addr   salve-check-item-is-consumable  620530
+
+.addr   return                          0258f1
+.addr   return-skip-retarget            0258f4
+.addr   bits                            00bafc
+.addr   item-table-address              185000
+
+.def    jun-index-taunt-full    02
+.def    jun-index-taunt-half    03
+.def    jun-index-salve         07
+
+018925: 22 $salve-target-group
+:       ea ea
+
+0258ed: 5c $main-target-manipulation
+
+$main-target-manipulation
+:       c2 20
+:       a5 b8
+:       89 0f 00
+:       f0 no-taunt
+:       e0 08
+:       90 no-taunt
+:       20 $main-taunt-full,2
+:       22 $jun-rng1
+:       90 no-taunt
+:       20 $main-taunt-half,2
+.label no-taunt
+:       85 b8
+
+:       e2 20
+:       a9 01
+:       c5 b5
+:       d0 just-return
+:       a5 b6
+:       22 $salve-check-item-is-consumable
+:       f0 just-return
+:       a9 jun-index-salve
+:       22 $jun-checker
+:       d0 return-with-salve
+
+.label just-return
+:       c2 20
+:       a5 b8
+:       5c $return
+
+.label return-with-salve
+:       c2 20
+:       a5 b8
+:       5c $return-skip-retarget
+
+
+$main-taunt-full
+:       e2 20
+:       da 5a 48
+:       85 10
+:       a0 00
+.label loop-taunt-full
+:       bb
+:       bf $bits
+:       24 10
+:       f0 skip-taunt-full
+:       8a
+:       0a
+:       aa
+:       a9 jun-index-taunt-full
+:       22 $jun-checker
+:       d0 skip-taunt-full
+:       bb
+:       bf $bits
+:       45 10
+:       85 10
+.label skip-taunt-full
+:       c8
+:       c0 04
+:       d0 loop-taunt-full
+:       a5 10
+:       29 0f
+:       f0 found-target-taunt-full
+:       68
+:       a5 10
+.label end-routine-taunt-full
+:       c2 20
+:       7a fa
+:       60
+.label found-target-taunt-full
+:       68
+:       80 end-routine-taunt-full
+
+$main-taunt-half
+:       e2 20
+:       da 5a 48
+:       85 10
+:       a0 00
+.label loop-taunt-half
+:       bb
+:       bf $bits
+:       24 10
+:       f0 skip-taunt-half
+:       8a
+:       0a
+:       aa
+:       a9 jun-index-taunt-half
+:       22 $jun-checker
+:       d0 skip-taunt-half
+:       bb
+:       bf $bits
+:       45 10
+:       85 10
+.label skip-taunt-half
+:       c8
+:       c0 04
+:       d0 loop-taunt-half
+:       a5 10
+:       29 0f
+:       f0 found-target-taunt-half
+:       68
+:       a5 10
+.label end-routine-taunt-half
+:       c2 20
+:       7a fa
+:       60
+.label found-target-taunt-half
+:       68
+:       80 end-routine-taunt-half
+
+$salve-target-group
+:       22 $salve-check-item-is-consumable
+:       d0 salve-target-group-return-normal
+:       bd 88 26
+:       89 40
+:       d0 salve-target-group-return-normal
+:       ad ca 62
+:       0a
+:       da
+:       aa
+:       a9 jun-index-salve
+:       22 $jun-checker
+:       f0 salve-target-group-return-pull
+:       fa
+:       bd 88 26
+:       09 28
+:       80 salve-target-group-return-new
+
+.label salve-target-group-return-pull
+:       fa
+.label salve-target-group-return-normal
+:       bd 88 26
+.label salve-target-group-return-new
+:       8d 84 7a
+:       6b
+
+$salve-check-item-is-consumable
+:       48
+:       da
+:       c2 20
+:       0a
+:       85 10
+:       0a 0a 0a 0a
+:       38
+:       e5 10
+:       aa
+:       a9 00 00
+:       e2 20
+:       bf $item-table-address
+:       fa
+:       29 07
+:       c9 06
+:       d0 not-consumable
+:       68
+:       e2 02
+:       6b
+.label not-consumable
+:       68
+:       c2 02
+:       6b
+
+VALIDATION
+
+018925: bd 88 26
+:       8d 84 7a
+
+0258ed: c2 20
+:       a5 b8
+:       20 2a 52
+:       85 b8

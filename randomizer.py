@@ -4107,6 +4107,7 @@ def test():
     #jm.add_junction('edgar', 'critical_esper')
     jm.add_junction('edgar', 'critical_jump')
     jm.add_junction('edgar', 'critical_revenge')
+    jm.add_junction('edgar', 'salve')
     jm.execute()
 
 

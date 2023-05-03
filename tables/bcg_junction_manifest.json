@@ -14,6 +14,7 @@
         "initiative":           "04",
         "instant_run":          "05",
         "instant_act":          "06",
+        "salve":                "07",
         "boost_fire":           "10",
         "boost_ice":            "11",
         "boost_bolt":           "12",
@@ -60,6 +61,7 @@
         "initiative":           "Initiative",
         "instant_run":          "Instant Run",
         "instant_act":          "Instant Act",
+        "salve":                "Salve",
         "boost_fire":           "Fire Boost",
         "boost_ice":            "Ice Boost",
         "boost_bolt":           "Bolt Boost",
@@ -199,10 +201,10 @@
             "patch_junction_esper_magic_proc.txt"
         ],
         "perfect_taunt": [
-            "patch_junction_taunt.txt"
+            "patch_junction_taunt_salve.txt"
         ],
         "taunt": [
-            "patch_junction_taunt.txt"
+            "patch_junction_taunt_salve.txt"
         ],
         "initiative": [
             "patch_junction_initiative.txt"
@@ -212,6 +214,9 @@
         ],
         "instant_act": [
             "patch_junction_instant_act.txt"
+        ],
+        "salve": [
+            "patch_junction_taunt_salve.txt"
         ],
         "boost_fire": [
             "patch_junction_elemental_boost.txt"
