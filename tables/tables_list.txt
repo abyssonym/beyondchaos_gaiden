@@ -119,7 +119,7 @@ $skills                     names_skills.txt
 .option                     patch_colosseum_display.bin
 .option                     patch_status_aura_color.bin
 .option                     patch_evade_mblock.txt
-.option                     patch_vanish_doom.txt
+.option.no_verify           patch_vanish_doom.txt
 .patch                      patch_myself_core.bin
 .patch                      patch_myself_menu_dance.txt
 .patch                      patch_myself_menu_gogo.txt

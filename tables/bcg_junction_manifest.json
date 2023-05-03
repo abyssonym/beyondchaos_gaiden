@@ -51,7 +51,15 @@
         "critical_gprain":      "34",
         "critical_esper":       "35",
         "critical_jump":        "36",
-        "critical_revenge":     "37"
+        "critical_revenge":     "37",
+        "repel_fire":           "40",
+        "repel_ice":            "41",
+        "repel_bolt":           "42",
+        "repel_poison":         "43",
+        "repel_wind":           "44",
+        "repel_pearl":          "45",
+        "repel_earth":          "46",
+        "repel_water":          "47"
     },
 
     "junction_short_names": {
@@ -98,7 +106,15 @@
         "critical_gprain":      "Crisis GPRain",
         "critical_esper":       "Crisis Esper",
         "critical_jump":        "Crisis Jump",
-        "critical_revenge":     "Crisis Venge"
+        "critical_revenge":     "Crisis Venge",
+        "repel_fire":           "Repel Fire",
+        "repel_ice":            "Repel Ice",
+        "repel_bolt":           "Repel Bolt",
+        "repel_poison":         "Repel Psn.",
+        "repel_wind":           "Repel Wind",
+        "repel_pearl":          "Repel Pearl",
+        "repel_earth":          "Repel Earth",
+        "repel_water":          "Repel Water"
     },
 
     "character_names": [
@@ -334,6 +350,30 @@
             "patch_junction_critical_trigger.txt",
             "patch_junction_command_expansion.txt",
             "patch_junction_command_revenge.txt"
+        ],
+        "repel_fire": [
+            "patch_junction_elemental_repel.txt"
+        ],
+        "repel_ice": [
+            "patch_junction_elemental_repel.txt"
+        ],
+        "repel_bolt": [
+            "patch_junction_elemental_repel.txt"
+        ],
+        "repel_poison": [
+            "patch_junction_elemental_repel.txt"
+        ],
+        "repel_wind": [
+            "patch_junction_elemental_repel.txt"
+        ],
+        "repel_pearl": [
+            "patch_junction_elemental_repel.txt"
+        ],
+        "repel_earth": [
+            "patch_junction_elemental_repel.txt"
+        ],
+        "repel_water": [
+            "patch_junction_elemental_repel.txt"
         ]
     }
 }
