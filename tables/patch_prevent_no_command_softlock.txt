@@ -1,0 +1,18 @@
+.addr   main                            61f040
+
+02533b: 22 $main
+:       ea
+
+$main
+:       b9 16 16
+:       c9 ff ff
+:       d0 no-softlock
+:       a9 00 ff
+.label no-softlock
+:       85 fc
+:       6b
+
+VALIDATION
+
+02533b: b9 16 16
+        85 fc

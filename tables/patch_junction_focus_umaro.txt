@@ -1,0 +1,23 @@
+.addr   jun-checker                     610000
+.addr   main-umaro                      620850
+.addr   return-umaro                    0208c5
+.addr   return-not-umaro                02092a
+
+.def    jun-index-focus         08
+
+020926: 5c $main-umaro
+
+$main-umaro
+:       c9 0d
+:       d0 not-umaro
+:       a9 jun-index-focus
+:       22 $jun-checker
+:       d0 not-umaro
+:       5c $return-umaro
+.label not-umaro
+:       5c $return-not-umaro
+
+VALIDATION
+
+020926: c9 0d
+:       f0 9b

@@ -26,6 +26,8 @@
         "instant_run":          "05",
         "instant_act":          "06",
         "salve":                "07",
+        "focus":                "08",
+        "lucid_dead":           "09",
         "boost_fire":           "10",
         "boost_ice":            "11",
         "boost_bolt":           "12",
@@ -81,6 +83,8 @@
         "instant_run":          "Instant Run",
         "instant_act":          "Instant Act",
         "salve":                "Salve",
+        "focus":                "Focus",
+        "lucid_dead":           "Lucid Dead",
         "boost_fire":           "Fire Boost",
         "boost_ice":            "Ice Boost",
         "boost_bolt":           "Bolt Boost",
@@ -262,6 +266,14 @@
         ],
         "salve": [
             "patch_junction_taunt_salve.txt"
+        ],
+        "focus": [
+            "patch_junction_focus.txt",
+            "patch_junction_focus_umaro.txt",
+            "patch_prevent_no_command_softlock.txt"
+        ],
+        "lucid_dead": [
+            "patch_junction_focus.txt"
         ],
         "boost_fire": [
             "patch_junction_elemental_boost.txt"

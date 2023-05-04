@@ -1,0 +1,66 @@
+.addr   jun-checker                     610000
+.addr   main-focus                      620800
+.addr   main-lucid-dead                 620840
+.addr   return-focus                    02095c
+
+.def    jun-index-focus         08
+.def    jun-index-lucid-dead    09
+
+020956: 5c $main-focus
+:       ea ea
+
+02597a: 22 $main-lucid-dead
+
+$main-focus
+:       a9 jun-index-focus
+:       22 $jun-checker
+:       d0 has-focus
+
+:       a9 jun-index-lucid-dead
+:       22 $jun-checker
+:       d0 no-focus-has-lucid-dead
+
+.label no-focus-no-lucid-dead
+:       f4 c2 b0
+:       f4 01 21
+:       80 main-focus-exit
+
+.label no-focus-has-lucid-dead
+:       f4 c0 b0
+:       f4 01 21
+:       80 main-focus-exit
+
+.label has-focus
+:       a9 jun-index-lucid-dead
+:       22 $jun-checker
+:       d0 has-focus-has-lucid-dead
+
+.label has-focus-no-lucid-dead
+:       f4 c2 80
+:       f4 00 20
+:       80 main-focus-exit
+
+.label has-focus-has-lucid-dead
+:       f4 c0 80
+:       f4 00 20
+:       80 main-focus-exit
+
+.label main-focus-exit
+:       5c $return-focus
+
+$main-lucid-dead
+:       a9 jun-index-lucid-dead
+:       22 $jun-checker
+:       d0 lucid-dead-active
+:       a9 40
+:       04 b8
+.label lucid-dead-active
+:       6b
+
+VALIDATION
+
+020956: f4 c2 b0
+:       f4 01 21
+
+02597a: a9 40
+:       04 b8
