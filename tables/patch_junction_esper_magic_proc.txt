@@ -19,6 +19,9 @@
 :       ea ea ea
 
 $main
+# do not proc if it is a monster; monsters cannot equip espers
+:       e0 08
+:       b0 no-junction
 # check that command is not Magic or Mimic (Mimic -> regen ticks?)
 # could maybe chain to magic using X-Magic, otherwise creates infinite loop
 :       a5 b5

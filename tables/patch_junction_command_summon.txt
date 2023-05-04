@@ -7,6 +7,8 @@
 
 $main
 :       ae 7b 3a
+:       e0 08
+:       b0 no-esper
 :       c2 20
 :       bd 10 30
 :       aa
