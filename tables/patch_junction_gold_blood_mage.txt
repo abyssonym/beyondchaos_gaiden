@@ -1,0 +1,182 @@
+.addr   jun-checker                     610000
+.addr   menu-load-mp                    620880
+.addr   cast-check-deduct-mp            620980
+.addr   load-mp-routine                 620890
+.addr   blood-to-mp                     6208e0
+.addr   gold-to-mp                      620900
+.addr   deduct-blood                    620920
+.addr   deduct-gold                     620940
+.addr   set-end-battle-mp               6209d0
+.addr   menu-return                     025d45
+.addr   return-no-junction-check-mp     0232ba
+.addr   return-enough-mp                0232e0
+.addr   return-not-enough-mp            0232c2
+
+.def    jun-index-blood         0a
+.def    jun-index-gold          0b
+
+025d39: 5c $menu-load-mp
+
+0232b6: 5c $cast-check-deduct-mp
+
+024973: 22 $set-end-battle-mp
+:       ea ea
+
+$menu-load-mp
+:       da bb
+:       20 $load-mp-routine,2
+:       fa
+:       5c $menu-return
+
+$cast-check-deduct-mp
+:       a9 jun-index-blood 00
+:       22 $jun-checker
+:       d0 blood-mage-check-mp
+
+:       a9 jun-index-gold 00
+:       22 $jun-checker
+:       d0 gold-mage-check-mp
+
+:       80 no-junction-check-mp
+
+.label blood-mage-check-mp
+:       20 $load-mp-routine,2
+:       bd 08 3c
+:       cd 4c 3a
+:       90 not-enough-mp
+:       20 $deduct-blood,2
+:       80 enough-mp
+
+.label gold-mage-check-mp
+:       20 $load-mp-routine,2
+:       bd 08 3c
+:       cd 4c 3a
+:       90 not-enough-mp
+:       20 $deduct-gold,2
+:       80 enough-mp
+
+.label no-junction-check-mp
+:       ad 4c 3a
+:       38
+:       bd 08 3c
+:       5c $return-no-junction-check-mp
+
+.label not-enough-mp
+:       9c 4c 3a
+:       5c $return-not-enough-mp
+
+.label enough-mp
+:       9c 4c 3a
+:       5c $return-enough-mp
+
+$set-end-battle-mp
+:       a9 jun-index-blood 00
+:       22 $jun-checker
+:       d0 skip-set-mp
+
+:       a9 jun-index-gold 00
+:       22 $jun-checker
+:       d0 skip-set-mp
+
+:       bd 08 3c
+:       99 0d 16
+
+.label skip-set-mp
+:       6b
+
+$load-mp-routine
+:       08
+:       c2 20
+
+:       a9 jun-index-blood 00
+:       22 $jun-checker
+:       d0 blood-mage-load-mp
+
+:       a9 jun-index-gold 00
+:       22 $jun-checker
+:       d0 gold-mage-load-mp
+
+:       80 no-junction-load-mp
+
+.label blood-mage-load-mp
+:       20 $blood-to-mp,2
+:       99 08 3c
+:       99 88 2e
+:       a9 e7 03
+:       99 30 3c
+:       99 90 2e
+:       80 exit-load-mp
+
+.label gold-mage-load-mp
+:       20 $gold-to-mp,2
+:       99 08 3c
+:       99 88 2e
+:       a9 e7 03
+:       99 30 3c
+:       99 90 2e
+:       80 exit-load-mp
+
+.label no-junction-load-mp
+:       b9 08 3c
+:       99 88 2e
+:       b9 30 3c
+:       99 90 2e
+
+.label exit-load-mp
+:       28
+:       60
+
+$blood-to-mp
+:       b9 f4 3b
+:       4a 4a 4a 4a
+:       60
+
+$gold-to-mp
+:       ad 62 18
+:       29 ff 00
+:       d0 max-gold
+:       ad 60 18
+:       4a 4a 4a 4a
+:       c9 e7 03
+:       b0 max-gold
+:       60
+.label max-gold
+:       a9 e7 03
+:       60
+
+$deduct-blood
+:       ad 4c 3a
+:       48
+:       0a 0a 0a 0a
+:       8d 4c 3a
+:       bd f4 3b
+:       38
+:       ed 4c 3a
+:       9d f4 3b
+:       68
+:       8d 4c 3a
+:       60
+
+$deduct-gold
+:       ad 4c 3a
+:       48
+:       0a 0a 0a 0a
+:       8d 4c 3a
+:       ad 60 18
+:       38
+:       ed 4c 3a
+:       8d 60 18
+:       e2 20
+:       ad 62 18
+:       e9 00
+:       8d 62 18
+:       c2 20
+:       68
+:       8d 4c 3a
+:       60
+
+VALIDATION
+025d39: b9 08 3c
+:       99 88 2e
+:       b9 30 3c
+:       99 90 2e

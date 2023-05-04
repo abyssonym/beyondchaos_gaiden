@@ -28,6 +28,8 @@
         "salve":                "07",
         "focus":                "08",
         "lucid_dead":           "09",
+        "blood_mage":           "0a",
+        "gold_mage":            "0b",
         "boost_fire":           "10",
         "boost_ice":            "11",
         "boost_bolt":           "12",
@@ -79,7 +81,7 @@
         "esper_magic":          "EspMag-J",
         "perfect_taunt":        "Perfect Taunt",
         "taunt":                "Taunt",
-        "initiative":           "Initiative",
+        "initiative":           "First Strike",
         "instant_run":          "Instant Run",
         "instant_act":          "Instant Act",
         "salve":                "Salve",
@@ -274,6 +276,12 @@
         ],
         "lucid_dead": [
             "patch_junction_focus.txt"
+        ],
+        "gold_mage": [
+            "patch_junction_gold_blood_mage.txt"
+        ],
+        "blood_mage": [
+            "patch_junction_gold_blood_mage.txt"
         ],
         "boost_fire": [
             "patch_junction_elemental_boost.txt"

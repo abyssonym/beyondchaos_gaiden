@@ -4115,6 +4115,7 @@ def test():
     jm.add_junction('edgar', 'focus')
     jm.add_junction('gau', 'focus')
     jm.add_junction('umaro', 'focus')
+    jm.add_junction('edgar', 'gold_mage')
     jm.execute()
     return jm
 
