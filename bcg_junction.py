@@ -1,6 +1,6 @@
 from randomtools.utils import map_to_snes, map_from_snes
 from randomtools.tablereader import (
-    tblpath, write_patch, set_addressing_mode, get_open_file)
+    tblpath, write_patch, set_addressing_mode, get_open_file, verify_patchlist)
 
 import json
 from os import path
@@ -56,13 +56,20 @@ def populate_data(data, filename, address):
         values = sorted(set(values))
         values.append(0)
         f.seek(pointer)
+        verify_free_space = f.read(len(values))
+        assert set(verify_free_space) == {0}
+        f.seek(pointer)
         f.write(bytes(values))
         pointers.append(pointer)
         pointer += len(values)
 
     assert len(pointers) == maxdex + 1
     assert len({map_to_snes(pointer) >> 16 for pointer in pointers}) == 1
+    f.seek(address-1)
+    verify_free_space = f.read(3)
+    assert verify_free_space == b'\x00\x00\x00'
     f.seek(address)
+
     for pointer in pointers:
         p = pointer & 0xFFFF
         assert 0 <= p <= 0xFFFF
@@ -101,8 +108,10 @@ class JunctionManager:
             value = full_data[key]
             if isinstance(value, dict) and key.endswith('list'):
                 category = key.split('_')[0]
-                if category in ('character', 'esper', 'equip'):
-                    category_cleaner = getattr(self, 'get_%s_index' % category)
+                if category in ('character', 'esper', 'equip',
+                                'status', 'monster'):
+                    category_cleaner = lambda index: (
+                        self.get_category_index(category, index))
                     new_dict = {}
                     for k, v in sorted(value.items()):
                         k = category_cleaner(k)
@@ -147,11 +156,13 @@ class JunctionManager:
                 self.always_whitelist.append(junction_index)
             return
 
-        for category in ['character', 'esper', 'equip']:
+        for category in ['character', 'esper', 'equip',
+                         'status', 'monster']:
             if force_category and category != force_category:
                 continue
 
-            category_cleaner = getattr(self, 'get_%s_index' % category)
+            category_cleaner = lambda index: self.get_category_index(category,
+                                                                     index)
             try:
                 k = category_cleaner(key)
             except ValueError:
@@ -203,15 +214,6 @@ class JunctionManager:
             return names.index(key)
         return self.clean_number(key)
 
-    def get_character_index(self, character):
-        return self.get_category_index('character', character)
-
-    def get_esper_index(self, esper):
-        return self.get_category_index('esper', esper)
-
-    def get_equip_index(self, equip):
-        return self.get_category_index('equip', equip)
-
     def populate_always(self):
         data = {0: []}
         for junction_item in self.always_whitelist:
@@ -225,7 +227,8 @@ class JunctionManager:
     def populate_list(self, category, color, max_index):
         data = {}
         import_data = getattr(self, '%s_%slist' % (category, color))
-        category_cleaner = getattr(self, 'get_%s_index' % category)
+        category_cleaner = lambda index: self.get_category_index(category,
+                                                                 index)
         for key, junction_items in import_data.items():
             key = category_cleaner(key)
             junction_items = [self.get_junction_index(junction_item)
@@ -253,6 +256,10 @@ class JunctionManager:
         self.populate_list('esper', 'black', 0x1f)
         self.populate_list('equip', 'white', 0xff)
         self.populate_list('equip', 'black', 0xff)
+        self.populate_list('status', 'white', 0x1f)
+        self.populate_list('status', 'black', 0x1f)
+        self.populate_list('monster', 'white', 0x1ff)
+        self.populate_list('monster', 'black', 0x1ff)
 
     def write_patches(self):
         set_addressing_mode('hirom')
@@ -373,6 +380,9 @@ class JunctionManager:
         self.populate_everything()
         self.write_patches()
         self.rewrite_descriptions()
+
+    def verify_patches(self):
+        verify_patchlist(self.outfile, sorted(self.patches))
 
 
 if __name__ == '__main__':

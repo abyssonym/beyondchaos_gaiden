@@ -1,18 +1,22 @@
 {
     "always_whitelist_address":     "611000",
-    "character_whitelist_address":  "612000",
-    "character_blacklist_address":  "612800",
-    "esper_whitelist_address":      "613000",
-    "esper_blacklist_address":      "613800",
-    "equip_whitelist_address":      "614000",
-    "equip_blacklist_address":      "615000",
+    "character_whitelist_address":  "611800",
+    "character_blacklist_address":  "611c00",
+    "esper_whitelist_address":      "612000",
+    "esper_blacklist_address":      "612400",
+    "status_whitelist_address":     "612800",
+    "status_blacklist_address":     "612c00",
+    "equip_whitelist_address":      "613000",
+    "equip_blacklist_address":      "613800",
+    "monster_whitelist_address":    "614000",
+    "monster_blacklist_address":    "614800",
 
-    "equip_description_address":    "038308",
-    "equip_free_address":           "61b000",
-    "num_equip_descriptions":       "100",
     "esper_description_address":    "035c09",
-    "esper_free_address":           "61d000",
+    "esper_free_address":           "61c000",
     "num_esper_descriptions":       "1b",
+    "equip_description_address":    "038308",
+    "equip_free_address":           "61c800",
+    "num_equip_descriptions":       "100",
 
     "junction_indexes": {
         "esper_magic":          "01",
@@ -205,6 +209,20 @@
         "Smoke Bomb", "Warp Stone", "Dried Meat", "(Empty)"
     ],
 
+    "status_names": [
+        "Blind", "Zombie", "Poison", "Magitek",
+        "Clear", "Imp", "Petrify", "Wound",
+
+        "Condemned", "Near Fatal", "Image", "Mute",
+        "Berserk", "Muddled", "Seizure", "Sleep",
+
+        "Dance", "Regen", "Slow", "Haste",
+        "Stop", "Shell", "Safe", "Reflect",
+
+        "Rage", "Freeze", "Life 3", "Morph",
+        "Control", "Hide", "Interceptor", "Float"
+    ],
+
     "always_whitelist": [],
 
     "character_whitelist": {},
@@ -213,6 +231,10 @@
     "esper_blacklist":     {},
     "equip_whitelist":     {},
     "equip_blacklist":     {},
+    "status_whitelist":    {},
+    "status_blacklist":    {},
+    "monster_whitelist":   {},
+    "monster_blacklist":   {},
 
     "core_patch_list": [
         "patch_rom_expansion.txt",

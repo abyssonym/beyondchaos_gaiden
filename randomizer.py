@@ -4107,9 +4107,12 @@ def test():
     #jm.add_junction('edgar', 'critical_esper')
     jm.add_junction('edgar', 'critical_jump')
     jm.add_junction('edgar', 'critical_revenge')
+    jm.add_junction('haste', 'salve', 'blacklist')
     jm.add_junction('edgar', 'salve')
     jm.add_junction('edgar', 'repel_fire')
+    jm.add_junction(0x4d, 'initiative', force_category='monster')
     jm.execute()
+    return jm
 
 
 if __name__ == '__main__':
@@ -4163,14 +4166,18 @@ if __name__ == '__main__':
         numify = lambda x: '{0: >3}'.format(x)
         minmax = lambda x: (min(x), max(x))
 
+        jm = None
         if DEBUG_MODE:
-            test()
+            jm = test()
 
         write_seed()
         handle_exhirom()
 
         clean_and_write(ALL_OBJECTS)
         rewrite_snes_meta('BCG-R', VERSION, lorom=False)
+
+        if jm is not None:
+            jm.verify_patches()
 
         finish_interface()
 
