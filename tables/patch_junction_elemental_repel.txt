@@ -62,6 +62,8 @@ $main
 :       10 no-reflect
 
 .label yes-reflect
+:       a9 80
+:       14 ba
 :       fa
 :       5c $return-reflect
 
