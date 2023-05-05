@@ -1,0 +1,117 @@
+.addr   jun-checker                     610000
+.addr   jun-rng1                        610820
+.addr   jun-rng2                        610830
+.addr   main                            620a40
+.addr   get-steal-or-drop               620ac0
+.addr   obtain-item                     620ae0
+.addr   return                          020e32
+.addr   monster-indexes                 7e1ff9
+.addr   monster-steals                  0f3000
+.addr   monster-drops                   0f3002
+
+.def    jun-index-poach         0e
+.def    jun-index-imp-harvest   0f
+
+0213a1: 5c $main
+:       ea ea
+
+$main
+:       08
+:       c0 08
+:       90 exit
+:       a5 b5
+:       29 ff 00
+:       d0 exit
+
+# here we get the character index from the stack, then store it in $EE
+# which would have happened anyway, we're just doing it a little sooner
+:       e2 20
+:       a3 05
+:       85 ee
+:       c2 30
+
+:       29 ff 00
+:       c9 08 00
+:       b0 exit
+
+:       da
+:       aa
+
+# check for imp status
+:       b9 e4 3e
+:       89 20 00
+:       f0 check-poach
+
+:       a9 jun-index-imp-harvest 00
+:       22 $jun-checker
+:       d0 imp-harvest
+
+.label check-poach
+:       a9 jun-index-poach 00
+:       22 $jun-checker
+:       d0 poach
+
+.label pull-and-exit
+:       fa
+.label exit
+:       28
+:       a9 80 00
+:       5c $return 
+
+.label imp-harvest
+:       20 $get-steal-or-drop,2
+# always choose rare item
+:       20 $obtain-item,2
+:       80 pull-and-exit
+
+.label poach
+:       20 $get-steal-or-drop,2
+# choose rare item 1/8 of the time
+:       aa
+:       22 $jun-rng2
+:       29 07 00
+:       f0 poach-choose-rare
+:       8a
+:       eb
+:       80 poach-item-chosen
+.label poach-choose-rare
+:       8a
+.label poach-item-chosen
+:       20 $obtain-item,2
+:       80 pull-and-exit
+
+$get-steal-or-drop
+:       b9 $monster-indexes,2
+:       0a 0a
+:       aa
+:       22 $jun-rng1
+:       b0 choose-drop
+:       bf $monster-steals
+:       60
+.label choose-drop
+:       bf $monster-drops
+:       60
+
+$obtain-item
+:       29 ff 00
+:       c9 ff 00
+:       f0 obtain-item-exit
+:       48
+:       e2 20
+:       8d 35 2f
+# use "Stole X" message because it auto-confirms
+:       a9 03
+:       8d 01 34
+:       a5 ee
+:       c2 20
+:       aa
+:       68
+:       9d f4 32
+:       bd 18 30
+:       0c 8c 3a
+.label obtain-item-exit
+:       60
+
+VALIDATION
+0213a1: a9 80 00
+:       4c 32 0e

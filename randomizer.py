@@ -4084,6 +4084,7 @@ def test():
     jm.add_junction('bismark', 'boost_water')
     jm.add_junction('shoat', 'pierce_poison')
     jm.add_junction('edgar', 'initiative')
+    jm.add_junction('shadow', 'initiative')
     jm.add_junction('edgar', 'instant_run')
     #jm.add_junction('edgar', 'instant_act')
     jm.add_junction('edgar', 'critical_haste')
@@ -4110,7 +4111,7 @@ def test():
     jm.add_junction('haste', 'salve', 'blacklist')
     jm.add_junction('edgar', 'salve')
     jm.add_junction('edgar', 'repel_fire')
-    jm.add_junction(0x4d, 'initiative', force_category='monster')
+    #jm.add_junction(0x4d, 'initiative', force_category='monster')
     jm.add_junction(0x4d, 'repel_earth', force_category='monster')
     jm.add_junction(0x4d, 'repel_bolt', force_category='monster')
     jm.add_junction('edgar', 'lucid_dead')
@@ -4121,6 +4122,8 @@ def test():
     jm.add_junction('edgar', 'reflect_boost')
     jm.add_junction('setzer', 'gold_mage')
     jm.add_junction('setzer', 'null_reflect')
+    jm.add_junction('gau', 'poach')
+    jm.add_junction('shadow', 'imp_harvest')
     jm.execute()
     return jm
 
@@ -4172,7 +4175,7 @@ if __name__ == '__main__':
                 write_patch(get_outfile(), 'patch_let_banon_equip.txt')
             execute_fanatix_mode()
 
-        hexify = lambda x: '{0:0>2}'.format('%x' % x)
+        hexify = lambda x: ' '.join(['{0:0>2x}'.format(c) for c in x])
         numify = lambda x: '{0: >3}'.format(x)
         minmax = lambda x: (min(x), max(x))
 

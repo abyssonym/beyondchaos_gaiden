@@ -32,6 +32,8 @@
         "gold_mage":            "0b",
         "reflect_boost":        "0c",
         "null_reflect":         "0d",
+        "poach":                "0e",
+        "imp_harvest":          "0f",
         "boost_fire":           "10",
         "boost_ice":            "11",
         "boost_bolt":           "12",
@@ -93,6 +95,8 @@
         "gold_mage":            "Gold Mage",
         "reflect_boost":        "Rflect Boost",
         "null_reflect":         "Null Reflect",
+        "poach":                "Poach",
+        "imp_harvest":          "Imp Harvest",
         "boost_fire":           "Fire Boost",
         "boost_ice":            "Ice Boost",
         "boost_bolt":           "Bolt Boost",
@@ -294,6 +298,12 @@
         ],
         "null_reflect": [
             "patch_junction_elemental_repel.txt"
+        ],
+        "poach": [
+            "patch_junction_poach.txt"
+        ],
+        "imp_harvest": [
+            "patch_junction_poach.txt"
         ],
         "boost_fire": [
             "patch_junction_elemental_boost.txt"

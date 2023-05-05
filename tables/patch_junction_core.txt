@@ -24,6 +24,9 @@
 .addr   jun-monster-whitelist               614000
 .addr   jun-monster-blacklist               614800
 
+.addr   monster-indexes                     7e1ff9
+.addr   character-info                      7e3010
+
 .def    jun-data-bank       61
 
 # PARAMETERS:   junction index in A, (actor index * 2) in X
@@ -34,14 +37,14 @@ $jun-checker
 :   e0 08
 :   b0 is-monster
 :   c2 30
-:   bc 10 30
+:   bc $character-info,2
 :   c0 ff ff
 :   f0 final-exit-check-failed
 :   80 begin-checking
 
 .label is-monster
 :   c2 30
-:   bc f9 1f
+:   bc $monster-indexes,2
 :   c0 ff ff
 :   f0 final-exit-check-failed
 
@@ -70,7 +73,7 @@ $jun-checker
 :   e0 08 00
 :   b0 is-still-monster
 
-:   bf 10 30 7e
+:   bf $character-info
 :   69 00 16
 :   85 11
 :   20 $jun-check-whitelist,2
@@ -178,7 +181,7 @@ $jun-check-whitelist
 :   60
 
 $jun-check-whitelist-monster-version
-:   bf f9 1f 7e
+:   bf $monster-indexes
 :   0a
 :   a8
 :   be $jun-monster-whitelist,2
@@ -295,7 +298,7 @@ $jun-check-blacklist
 :   60
 
 $jun-check-blacklist-monster-version
-:   bf f9 1f 7e
+:   bf $monster-indexes
 :   0a
 :   a8
 :   be $jun-monster-blacklist,2
@@ -369,6 +372,7 @@ $jun-mult
 :   28
 :   6b
 
+# 0 or 1 (in carry bit)
 $jun-rng1
 :   48
 :   22 $jun-rng2
@@ -376,6 +380,7 @@ $jun-rng1
 :   68
 :   6b
 
+# 0 to 255
 $jun-rng2
 :   da
 :   e6 be
@@ -384,6 +389,7 @@ $jun-rng2
 :   fa
 :   6b
 
+# 0 to A-1
 $jun-rng3
 :   da
 :   08
