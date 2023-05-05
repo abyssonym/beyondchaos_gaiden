@@ -31,6 +31,7 @@
         "blood_mage":           "0a",
         "gold_mage":            "0b",
         "reflect_boost":        "0c",
+        "null_reflect":         "0d",
         "boost_fire":           "10",
         "boost_ice":            "11",
         "boost_bolt":           "12",
@@ -91,6 +92,7 @@
         "blood_mage":           "Blood Mage",
         "gold_mage":            "Gold Mage",
         "reflect_boost":        "Rflect Boost",
+        "null_reflect":         "Null Reflect",
         "boost_fire":           "Fire Boost",
         "boost_ice":            "Ice Boost",
         "boost_bolt":           "Bolt Boost",
@@ -289,6 +291,9 @@
         ],
         "reflect_boost": [
             "patch_junction_reflect_boost.txt"
+        ],
+        "null_reflect": [
+            "patch_junction_elemental_repel.txt"
         ],
         "boost_fire": [
             "patch_junction_elemental_boost.txt"
