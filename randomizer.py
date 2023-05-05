@@ -4111,11 +4111,13 @@ def test():
     jm.add_junction('edgar', 'salve')
     jm.add_junction('edgar', 'repel_fire')
     jm.add_junction(0x4d, 'initiative', force_category='monster')
+    jm.add_junction(0x4d, 'repel_earth', force_category='monster')
     jm.add_junction('edgar', 'lucid_dead')
     jm.add_junction('edgar', 'focus')
     jm.add_junction('gau', 'focus')
     jm.add_junction('umaro', 'focus')
     jm.add_junction('edgar', 'gold_mage')
+    jm.add_junction('edgar', 'reflect_boost')
     jm.execute()
     return jm
 

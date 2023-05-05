@@ -30,6 +30,7 @@
         "lucid_dead":           "09",
         "blood_mage":           "0a",
         "gold_mage":            "0b",
+        "reflect_boost":        "0c",
         "boost_fire":           "10",
         "boost_ice":            "11",
         "boost_bolt":           "12",
@@ -87,6 +88,9 @@
         "salve":                "Salve",
         "focus":                "Focus",
         "lucid_dead":           "Lucid Dead",
+        "blood_mage":           "Blood Mage",
+        "gold_mage":            "Gold Mage",
+        "reflect_boost":        "Rflect Boost",
         "boost_fire":           "Fire Boost",
         "boost_ice":            "Ice Boost",
         "boost_bolt":           "Bolt Boost",
@@ -277,11 +281,14 @@
         "lucid_dead": [
             "patch_junction_focus.txt"
         ],
+        "blood_mage": [
+            "patch_junction_gold_blood_mage.txt"
+        ],
         "gold_mage": [
             "patch_junction_gold_blood_mage.txt"
         ],
-        "blood_mage": [
-            "patch_junction_gold_blood_mage.txt"
+        "reflect_boost": [
+            "patch_junction_reflect_boost.txt"
         ],
         "boost_fire": [
             "patch_junction_elemental_boost.txt"

@@ -1,0 +1,32 @@
+.addr   jun-checker                     610000
+.addr   main                            620a00
+
+.def    jun-index               0c
+
+0234bb: 22 $main
+:       ea
+
+$main
+:       c2 20
+:       9b
+:       a6 ee
+:       a9 jun-index 00
+:       22 $jun-checker
+:       d0 has-reflect-boost
+:       4e b0 11
+:       bb
+:       6b
+.label has-reflect-boost
+:       ad b0 11
+:       4a
+:       6d b0 11
+:       90 no-overflow
+:       a9 ff ff
+.label no-overflow
+:       8d b0 11
+:       bb
+:       6b
+
+VALIDATION
+0234bb: c2 20
+:       4e b0 11
