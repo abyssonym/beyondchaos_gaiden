@@ -5,7 +5,7 @@ misc2,bit:outside_battle unreflectable learnifcast enablerunic m24 retarget_dead
 misc3,bit:healing draining cure_status invert_status uses_stamina unblockable level_spell percentage
 mp,1
 power,1
-accuracy,1
 unknown,1
+accuracy,1
 special,1
 statuses,4
