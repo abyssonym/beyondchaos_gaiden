@@ -4121,12 +4121,14 @@ def test():
     jm.add_junction('edgar', 'blood_mage')
     jm.add_junction('edgar', 'reflect_boost')
     jm.add_junction('setzer', 'gold_mage')
-    jm.add_junction('setzer', 'null_reflect')
+    #jm.add_junction('setzer', 'null_reflect')
     jm.add_junction('gau', 'poach')
     jm.add_junction('shadow', 'imp_harvest')
     jm.add_junction('leather hat', 'miasma')
     jm.add_junction('leatherarmor', 'miasma')
     jm.add_junction('setzer', 'regenerator')
+    jm.add_junction('dragoonboots', 'reverse')
+    jm.add_junction('mirage vest', 'heal_boost')
     jm.execute()
     return jm
 

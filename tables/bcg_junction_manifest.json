@@ -80,7 +80,9 @@
         "repel_earth":          "46",
         "repel_water":          "47",
         "miasma":               "50",
-        "regenerator":          "51"
+        "regenerator":          "51",
+        "reverse":              "52",
+        "heal_boost":           "53"
     },
 
     "junction_short_names": {
@@ -145,7 +147,9 @@
         "repel_earth":          "Repel Earth",
         "repel_water":          "Repel Water",
         "miasma":               "Miasma",
-        "regenerator":          "Regenerator"
+        "regenerator":          "Regenerator",
+        "reverse":              "Reverse",
+        "heal_boost":           "Heal Boost"
     },
 
     "character_names": [
@@ -455,6 +459,12 @@
         ],
         "regenerator": [
             "patch_junction_miasma.txt"
+        ],
+        "reverse": [
+            "patch_junction_heal_boost_reverse.txt"
+        ],
+        "heal_boost": [
+            "patch_junction_heal_boost_reverse.txt"
         ]
     }
 }
