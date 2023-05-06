@@ -1,0 +1,66 @@
+.addr   jun-checker                     610000
+.addr   main                            620c00
+.addr   return-dead                     021390
+.addr   return-alive                    02133c
+
+.def    jun-index-gilgam-heart  54
+
+02134a: 5c $main
+
+$main
+:       f0 exit-dead
+:       da
+:       90 still-alive
+
+:       bb
+:       a9 jun-index-gilgam-heart 00
+:       22 $jun-checker
+:       f0 still-alive
+
+:       ad 01 34
+:       29 ff 00
+:       c9 26 00
+:       f0 running-total
+
+:       e2 20
+:       a9 26
+:       8d 01 34
+:       9c 3a 2f
+:       c2 20
+
+:       a5 ee
+:       1a
+:       8d 38 2f
+:       80 add-gold
+
+.label running-total
+:       a5 ee
+:       1a
+:       18
+:       6d 38 2f
+:       90 no-carry-total
+:       ee 3a 2f
+.label  no-carry-total
+:       8d 38 2f
+:       a5 ee
+:       1a
+
+.label add-gold
+:       18
+:       6d 60 18
+:       8d 60 18
+:       90 no-carry
+:       ee 62 18
+
+.label no-carry
+.label still-alive
+:       fa
+:       b9 f4 3b
+:       5c $return-alive
+.label exit-dead
+:       5c $return-dead
+
+VALIDATION
+02134a: f0 44
+:       b0 ee
+:       80 40

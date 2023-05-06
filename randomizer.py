@@ -4129,6 +4129,7 @@ def test():
     jm.add_junction('setzer', 'regenerator')
     jm.add_junction('dragoonboots', 'reverse')
     jm.add_junction('mirage vest', 'heal_boost')
+    jm.add_junction(None, 'gilgam_heart')
     jm.execute()
     return jm
 

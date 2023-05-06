@@ -82,7 +82,8 @@
         "miasma":               "50",
         "regenerator":          "51",
         "reverse":              "52",
-        "heal_boost":           "53"
+        "heal_boost":           "53",
+        "gilgam_heart":         "54"
     },
 
     "junction_short_names": {
@@ -149,7 +150,8 @@
         "miasma":               "Miasma",
         "regenerator":          "Regenerator",
         "reverse":              "Reverse",
-        "heal_boost":           "Heal Boost"
+        "heal_boost":           "Heal Boost",
+        "gilgam_heart":         "Gilgam Heart"
     },
 
     "character_names": [
@@ -465,6 +467,9 @@
         ],
         "heal_boost": [
             "patch_junction_heal_boost_reverse.txt"
+        ],
+        "gilgam_heart": [
+            "patch_junction_gilgam_heart.txt"
         ]
     }
 }
