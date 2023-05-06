@@ -78,7 +78,9 @@
         "repel_wind":           "44",
         "repel_pearl":          "45",
         "repel_earth":          "46",
-        "repel_water":          "47"
+        "repel_water":          "47",
+        "miasma":               "50",
+        "regenerator":          "51"
     },
 
     "junction_short_names": {
@@ -141,7 +143,9 @@
         "repel_wind":           "Repel Wind",
         "repel_pearl":          "Repel Pearl",
         "repel_earth":          "Repel Earth",
-        "repel_water":          "Repel Water"
+        "repel_water":          "Repel Water",
+        "miasma":               "Miasma",
+        "regenerator":          "Regenerator"
     },
 
     "character_names": [
@@ -445,6 +449,12 @@
         ],
         "repel_water": [
             "patch_junction_elemental_repel.txt"
+        ],
+        "miasma": [
+            "patch_junction_miasma.txt"
+        ],
+        "regenerator": [
+            "patch_junction_miasma.txt"
         ]
     }
 }

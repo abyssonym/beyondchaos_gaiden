@@ -4124,6 +4124,9 @@ def test():
     jm.add_junction('setzer', 'null_reflect')
     jm.add_junction('gau', 'poach')
     jm.add_junction('shadow', 'imp_harvest')
+    jm.add_junction('leather hat', 'miasma')
+    jm.add_junction('leatherarmor', 'miasma')
+    jm.add_junction('setzer', 'regenerator')
     jm.execute()
     return jm
 

@@ -165,7 +165,7 @@ class JunctionManager:
                                                                      index)
             try:
                 k = category_cleaner(key)
-            except ValueError:
+            except (ValueError, AttributeError):
                 continue
 
             attr = '%s_%s' % (category, list_color)
