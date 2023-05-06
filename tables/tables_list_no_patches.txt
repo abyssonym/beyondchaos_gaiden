@@ -116,7 +116,7 @@ $known_lores_address        26f564
 .option                     patch_command_shuffle.txt
 .option                     patch_let_banon_equip.txt
 .option                     patch_y_equip.bin
-.option                     patch_condensed_spell_list.bin
+.option                     patch_condensed_spell_list_fixed.txt
 #.option                     patch_graphics_decensor.bin
 .option                     patch_colosseum_display.bin
 .option                     patch_status_aura_color.bin

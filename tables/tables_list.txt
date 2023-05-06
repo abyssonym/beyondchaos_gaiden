@@ -114,7 +114,7 @@ $skills                     names_skills.txt
 .patch                      patch_opening_skip.txt
 .option                     patch_auto_learn_rage.txt
 .option                     patch_y_equip.bin
-#.option                     patch_condensed_spell_list.bin
+.option                     patch_condensed_spell_list_fixed.txt
 .option                     patch_graphics_decensor.bin
 .option                     patch_colosseum_display.bin
 .option                     patch_status_aura_color.bin

@@ -1,0 +1,34 @@
+.addr   main                    61f200
+.addr   return-is-monster       024f47
+.addr   return-not-monster      02fab0
+
+02256d: 20 5a a6        # jump to new routine in free space
+
+# old version of the patch
+#024f11: c2 10           # rep #$10
+#:       ad 7b 3a        # lda $3a7b
+#:       e0 08 00        # cpx #$0008
+#:       b0 2c           # bcs $4f47
+#:       4c b0 fa        # jmp $fab0
+
+024f24: 5c $main
+
+# occupies free space
+02a65a: da 08 c2 10 a0 04 00 84 f0 a2 4a 00 b1 f2 c9 ff d0 37 c8 c8 c8 c8 c0 dc 00 f0 49 c0 3c 01 f0 3f b1 f2 c9 ff f0 ec da 5a a2 03 00 b1 f2 5a a4 f0 91 f2 7a c8 c2 20 e6 f0 e2 20 ca 10 ee 7a a9 ff 91 f2 a9 00 91 f4 fa 80 0c c2 20 e6 f0 e6 f0 e6 f0 e6 f0 e2 20 a4 f0 c0 d8 00 f0 ed ca 10 ad 28 fa 4c 2c 53 a2 16 00 84 f0 80 a1 84 f0 80 9d f2 5a a4 f0 91 f2 7a c8 c2 20 e6 f0 e2 20 ca 10 ee 7a a9 ff 91 f2 a9 00 91 f4 fa 80 0c c2 20 e6 f0 e6 f0 e6 f0 e6 f0 e2 20 a4 f0 ca 10 b7 80 01 fa 28 fa 4c 2c 53
+
+# occupies free space
+02fab0: c2 10 ad 7a 3a c9 19 f0 4b c9 0c f0 38 c9 02 f0 04 c9 17 d0 4f ad 7b 3a 85 f0 c2 20 a9 04 00 18 7d 2c 30 85 f2 1a 1a 1a 85 f4 e2 20 5a a0 00 00 b1 f2 c5 f0 f0 0a c9 ff f0 2a c8 c8 c8 c8 80 f0 b1 f4 7a 80 1c ad 7b 3a 38 e9 8b 85 f0 c2 20 a9 dc 00 80 cb c2 20 bd 2c 30 aa e2 20 bd 03 00 80 00 4c 54 4f 4c 53 4f
+
+$main
+:       c2 10
+:       ad 7b 3a
+:       e0 08 00
+:       b0 is-monster
+:       5c $return-not-monster
+.label is-monster
+:       5c $return-is-monster
+
+VALIDATION
+02256d: 20 2c 53
+02a65a: ff ff ff ff
+02fab0: ff ff ff ff
