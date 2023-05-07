@@ -9,9 +9,9 @@
 
 $main
 :       f0 exit-dead
-:       da
-:       90 still-alive
+:       90 exit-dead
 
+:       da
 :       bb
 :       a9 jun-index-gilgam-heart 00
 :       22 $jun-checker
