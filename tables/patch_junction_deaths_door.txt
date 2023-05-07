@@ -30,8 +30,10 @@ $main
 :       e2 20
 
 .label exit-miss
+:       28
 :       b9 18 30
 :       14 a4
+:       6b
 .label exit-hit
 :       28
 :       6b
