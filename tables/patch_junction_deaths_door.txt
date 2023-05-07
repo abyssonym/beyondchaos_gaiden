@@ -6,8 +6,10 @@
 0233bd: 22 $main
 
 $main
+:       08
 :       90 exit-hit
 
+:       e2 20
 :       ad a2 11
 :       89 02
 :       f0 exit-miss
@@ -18,16 +20,20 @@ $main
 
 # duplicated Revenge code
 :       9c 14 34
+:       c2 20
 :       48
 :       38
 :       bd 1c 3c
 :       fd f4 3b
 :       99 d0 33
 :       68
+:       e2 20
 
 .label exit-miss
+:       b9 18 30
 :       14 a4
 .label exit-hit
+:       28
 :       6b
 
 VALIDATION
