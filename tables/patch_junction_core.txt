@@ -110,6 +110,9 @@ $jun-checker
 :   6b
 
 $jun-check-list
+#   X   - list address
+#   $10 - junction index
+
 :   a9 00 00
 :   e2 20
 .label check-list-loop
@@ -124,6 +127,12 @@ $jun-check-list
 :   60
 
 $jun-check-whitelist
+#   Y   - list offset
+#   X   - list address
+#   $10 - junction index
+#   $11 - character data address (unused for monsters)
+#   $14 - battle index
+
 :   a9 00 00
 :   a8
 :   be $jun-always-whitelist,2
@@ -181,6 +190,18 @@ $jun-check-whitelist
 :   60
 
 $jun-check-whitelist-monster-version
+#   Y   - list offset
+#   X   - list address
+#   $10 - junction index
+#   $14 - battle index
+
+:   a9 00 00
+:   a8
+:   be $jun-always-whitelist,2
+:   20 $jun-check-list,2
+:   d0 found-whitelist-monster-version
+
+:   a6 14
 :   bf $monster-indexes
 :   0a
 :   a8
