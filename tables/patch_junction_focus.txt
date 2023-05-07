@@ -1,10 +1,16 @@
 .addr   jun-checker                     610000
+.addr   jun-check-entity-living         610600
 .addr   main-focus                      620800
 .addr   main-lucid-dead                 620840
 .addr   return-focus                    02095c
+.addr   check-lucid-dead                620d00
+.addr   check-focus                     620d80
+.addr   check-able-bodied               620d40
 
 .def    jun-index-focus         08
 .def    jun-index-lucid-dead    09
+.def    jun-index-commander     56
+.def    jun-index-necromancer   57
 
 020956: 5c $main-focus
 :       ea ea
@@ -12,12 +18,10 @@
 02597a: 22 $main-lucid-dead
 
 $main-focus
-:       a9 jun-index-focus
-:       22 $jun-checker
+:       20 $check-focus,2
 :       d0 has-focus
 
-:       a9 jun-index-lucid-dead
-:       22 $jun-checker
+:       20 $check-lucid-dead,2
 :       d0 no-focus-has-lucid-dead
 
 .label no-focus-no-lucid-dead
@@ -31,8 +35,7 @@ $main-focus
 :       80 main-focus-exit
 
 .label has-focus
-:       a9 jun-index-lucid-dead
-:       22 $jun-checker
+:       20 $check-lucid-dead,2
 :       d0 has-focus-has-lucid-dead
 
 .label has-focus-no-lucid-dead
@@ -49,13 +52,104 @@ $main-focus
 :       5c $return-focus
 
 $main-lucid-dead
-:       a9 jun-index-lucid-dead
-:       22 $jun-checker
+:       20 $check-lucid-dead,2
 :       d0 lucid-dead-active
 :       a9 40
 :       04 b8
 .label lucid-dead-active
 :       6b
+
+$check-able-bodied
+:       08
+:       22 $jun-check-entity-living
+:       f0 exit-not-able-bodied
+
+:       c2 20
+:       a9 c2 b8
+:       3c e4 3e
+:       d0 exit-not-able-bodied
+:       a9 10 22
+:       3c f8 3e
+:       d0 exit-not-able-bodied
+
+.label exit-able-bodied
+:       28
+:       c2 02
+:       60
+.label exit-not-able-bodied
+:       28
+:       e2 02
+:       60
+
+$check-lucid-dead
+:       e0 08
+:       b0 exit-lucid-no-stack
+:       48
+:       86 10
+
+:       a9 jun-index-lucid-dead
+:       22 $jun-checker
+:       d0 exit-has-lucid-dead
+
+:       a2 06
+.label necromancer-loop
+:       e4 10
+:       f0 necromancer-skip
+:       20 $check-able-bodied,2
+:       f0 necromancer-skip
+:       a9 jun-index-necromancer
+:       22 $jun-checker
+:       d0 exit-has-lucid-dead
+.label necromancer-skip
+:       ca ca
+:       10 necromancer-loop
+
+.label exit-no-lucid-dead
+:       a6 10
+:       68
+.label exit-lucid-no-stack
+:       e2 02
+:       60
+.label exit-has-lucid-dead
+:       a6 10
+:       68
+:       c2 02
+:       60
+
+$check-focus
+:       e0 08
+:       b0 exit-focus-no-stack
+:       48
+:       86 10
+
+:       a9 jun-index-focus
+:       22 $jun-checker
+:       d0 exit-has-focus
+
+:       a2 06
+.label commander-loop
+:       e4 10
+:       f0 commander-skip
+:       20 $check-able-bodied,2
+:       f0 commander-skip
+:       a9 jun-index-commander
+:       22 $jun-checker
+:       d0 exit-has-focus
+.label commander-skip
+:       ca ca
+:       10 commander-loop
+
+.label exit-no-focus
+:       a6 10
+:       68
+.label exit-focus-no-stack
+:       e2 02
+:       60
+.label exit-has-focus
+:       a6 10
+:       68
+:       c2 02
+:       60
 
 VALIDATION
 
