@@ -83,7 +83,8 @@
         "regenerator":          "51",
         "reverse":              "52",
         "heal_boost":           "53",
-        "gilgam_heart":         "54"
+        "gilgam_heart":         "54",
+        "deaths_door":          "55"
     },
 
     "junction_short_names": {
@@ -151,7 +152,8 @@
         "regenerator":          "Regenerator",
         "reverse":              "Reverse",
         "heal_boost":           "Heal Boost",
-        "gilgam_heart":         "Gilgam Heart"
+        "gilgam_heart":         "Gilgam Heart",
+        "deaths_door":          "Death's Door"
     },
 
     "character_names": [
@@ -470,6 +472,9 @@
         ],
         "gilgam_heart": [
             "patch_junction_gilgam_heart.txt"
+        ],
+        "deaths_door": [
+            "patch_junction_deaths_door.txt"
         ]
     }
 }
