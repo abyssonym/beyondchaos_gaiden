@@ -8,6 +8,8 @@
 .addr   jun-check-equip-blacklist           610280
 .addr   jun-check-status-blacklist          610580
 .addr   jun-check-list                      610300
+.addr   jun-check-entity-living             610600
+.addr   jun-check-entity-present            610620
 .addr   jun-mult                            610800
 .addr   jun-rng1                            610820
 .addr   jun-rng2                            610830
@@ -23,9 +25,16 @@
 .addr   jun-equip-blacklist                 613800
 .addr   jun-monster-whitelist               614000
 .addr   jun-monster-blacklist               614800
+.addr   bits                                00bafc
+.addr   wide-bits                           00b4f3
+.addr   wide-bits-monster                   00b4eb
 
 .addr   monster-indexes                     7e1ff9
 .addr   character-info                      7e3010
+.addr   living-characters                   7e3a74
+.addr   living-enemies                      7e3a75
+.addr   present-characters                  7e3a78
+.addr   present-enemies                     7e3a79
 
 .def    jun-data-bank       61
 
@@ -425,4 +434,32 @@ $jun-rng3
 :   eb
 :   28
 :   fa
+:   6b
+
+$jun-check-entity-living
+#   X - battle index
+:   8a
+:   c9 08
+:   b0 check-living-is-monster
+:   bd 18 30
+:   2c $living-characters,2
+:   6b
+.label check-living-is-monster
+:   38
+:   bf $wide-bits-monster
+:   2c $living-enemies,2
+:   6b
+
+$jun-check-entity-present
+#   X - battle index
+:   8a
+:   c9 08
+:   b0 check-present-is-monster
+:   bd 18 30
+:   2c $present-characters,2
+:   6b
+.label check-present-is-monster
+:   38
+:   bf $wide-bits-monster
+:   2c $present-enemies,2
 :   6b

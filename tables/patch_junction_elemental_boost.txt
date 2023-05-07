@@ -1,22 +1,41 @@
 .addr   jun-checker                     610000
+.addr   jun-check-entity-living         610600
 .addr   main                            620300
 .addr   check-element                   620340
+.addr   boost-damage-quarter            620cc0
+.addr   reduce-damage-quarter           620ce0
 .addr   return                          023373
 .addr   bits                            00bafc
 
-.def    jun-index-fire      10
-.def    jun-index-ice       11
-.def    jun-index-bolt      12
-.def    jun-index-poison    13
-.def    jun-index-wind      14
-.def    jun-index-pearl     15
-.def    jun-index-earth     16
-.def    jun-index-water     17
+.def    jun-index-fire          10
+.def    jun-index-ice           11
+.def    jun-index-bolt          12
+.def    jun-index-poison        13
+.def    jun-index-wind          14
+.def    jun-index-pearl         15
+.def    jun-index-earth         16
+.def    jun-index-water         17
+.def    jun-index-fire-font     60
+.def    jun-index-ice-font      61
+.def    jun-index-bolt-font     62
+.def    jun-index-poison-font   63
+.def    jun-index-wind-font     64
+.def    jun-index-pearl-font    65
+.def    jun-index-earth-font    66
+.def    jun-index-water-font    67
+.def    jun-index-fire-sink     68
+.def    jun-index-ice-sink      69
+.def    jun-index-bolt-sink     6a
+.def    jun-index-poison-sink   6b
+.def    jun-index-wind-sink     6c
+.def    jun-index-pearl-sink    6d
+.def    jun-index-earth-sink    6e
+.def    jun-index-water-sink    6f
 
 02336f: 5c $main
 
 $main
-:       48 5a
+:       48 da 5a
 
 :       a9 jun-index-fire
 :       20 $check-element,2
@@ -35,7 +54,7 @@ $main
 :       a9 jun-index-water
 :       20 $check-element,2
 
-:       7a 68
+:       7a fa 68
 :       ad a2 11
 :       4a
 :       5c $return
@@ -50,12 +69,63 @@ $check-element
 :       f0 check-element-pull-exit
 :       68
 :       22 $jun-checker
-:       f0 check-element-exit
+:       f0 no-boost
 :       e6 bc
+.label  no-boost
+
+:       29 07
+:       85 10
+:       a2 12
+.label font-sink-loop
+:       22 $jun-check-entity-living
+:       f0 no-sink
+:       a5 10
+:       18
+:       69 jun-index-fire-font
+:       22 $jun-checker
+:       f0 no-font
+:       20 $boost-damage-quarter,2
+.label no-font
+:       a5 10
+:       18
+:       69 jun-index-fire-sink
+:       22 $jun-checker
+:       f0 no-sink
+:       20 $reduce-damage-quarter,2
+.label no-sink
+
+:       ca ca
+:       10 font-sink-loop
+
 .label check-element-exit
 :       60
 .label check-element-pull-exit
 :       68
+:       60
+
+$boost-damage-quarter
+:       c2 20
+:       ad b0 11
+:       4a 4a
+:       18
+:       6d b0 11
+:       90 no-overflow
+:       a9 ff ff
+.label no-overflow
+:       8d b0 11
+:       e2 20
+:       60
+
+$reduce-damage-quarter
+:       c2 20
+:       ad b0 11
+:       4a
+:       8d b0 11
+:       4a
+:       18
+:       6d b0 11
+:       8d b0 11
+:       e2 20
 :       60
 
 VALIDATION

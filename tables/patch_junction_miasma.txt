@@ -1,4 +1,5 @@
 .addr   jun-checker                     610000
+.addr   jun-check-entity-living         610600
 .addr   jun-rng1                        610820
 .addr   jun-rng2                        610830
 .addr   main                            620b40
@@ -17,6 +18,8 @@ $main
 :       a2 14
 .label poison-loop
 :       ca ca
+:       22 $jun-check-entity-living
+:       f0 miasma-fail-rng
 :       22 $jun-rng2
 :       29 03
 :       d0 miasma-fail-rng

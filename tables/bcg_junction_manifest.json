@@ -84,7 +84,23 @@
         "reverse":              "52",
         "heal_boost":           "53",
         "gilgam_heart":         "54",
-        "deaths_door":          "55"
+        "deaths_door":          "55",
+        "fire_font":            "60",
+        "ice_font":             "61",
+        "bolt_font":            "62",
+        "poison_font":          "63",
+        "wind_font":            "64",
+        "pearl_font":           "65",
+        "earth_font":           "66",
+        "water_font":           "67",
+        "fire_sink":            "68",
+        "ice_sink":             "69",
+        "bolt_sink":            "6a",
+        "poison_sink":          "6b",
+        "wind_sink":            "6c",
+        "pearl_sink":           "6d",
+        "earth_sink":           "6e",
+        "water_sink":           "6f"
     },
 
     "junction_short_names": {
@@ -106,7 +122,7 @@
         "boost_fire":           "Fire Boost",
         "boost_ice":            "Ice Boost",
         "boost_bolt":           "Bolt Boost",
-        "boost_poison":         "Psn. Boost",
+        "boost_poison":         "Bio Boost",
         "boost_wind":           "Wind Boost",
         "boost_pearl":          "Pearl Boost",
         "boost_earth":          "Earth Boost",
@@ -114,7 +130,7 @@
         "pierce_fire":          "Fire Pierce",
         "pierce_ice":           "Ice Pierce",
         "pierce_bolt":          "Bolt Pierce",
-        "pierce_poison":        "Psn. Pierce",
+        "pierce_poison":        "Bio Pierce",
         "pierce_wind":          "Wind Pierce",
         "pierce_pearl":         "Pearl Pierce",
         "pierce_earth":         "Earth Pierce",
@@ -143,7 +159,7 @@
         "repel_fire":           "Repel Fire",
         "repel_ice":            "Repel Ice",
         "repel_bolt":           "Repel Bolt",
-        "repel_poison":         "Repel Psn.",
+        "repel_poison":         "Repel Bio",
         "repel_wind":           "Repel Wind",
         "repel_pearl":          "Repel Pearl",
         "repel_earth":          "Repel Earth",
@@ -153,7 +169,23 @@
         "reverse":              "Reverse",
         "heal_boost":           "Heal Boost",
         "gilgam_heart":         "Gilgam Heart",
-        "deaths_door":          "Death's Door"
+        "deaths_door":          "Death's Door",
+        "fire_font":            "Fire Font",
+        "ice_font":             "Ice Font",
+        "bolt_font":            "Bolt Font",
+        "poison_font":          "Bio Font",
+        "wind_font":            "Wind Font",
+        "pearl_font":           "Pearl Font",
+        "earth_font":           "Earth Font",
+        "water_font":           "Water Font",
+        "fire_sink":            "Fire Sink",
+        "ice_sink":             "Ice Sink",
+        "bolt_sink":            "Bolt Sink",
+        "poison_sink":          "Bio Sink",
+        "wind_sink":            "Wind Sink",
+        "pearl_sink":           "Pearl Sink",
+        "earth_sink":           "Earth Sink",
+        "water_sink":           "Water Sink"
     },
 
     "character_names": [
@@ -475,6 +507,54 @@
         ],
         "deaths_door": [
             "patch_junction_deaths_door.txt"
+        ],
+        "fire_font": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "ice_font": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "bolt_font": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "poison_font": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "wind_font": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "pearl_font": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "earth_font": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "water_font": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "fire_sink": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "ice_sink": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "bolt_sink": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "poison_sink": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "wind_sink": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "pearl_sink": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "earth_sink": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "water_sink": [
+            "patch_junction_elemental_boost.txt"
         ]
     }
 }

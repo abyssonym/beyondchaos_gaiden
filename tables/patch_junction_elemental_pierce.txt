@@ -1,6 +1,6 @@
 .addr   jun-checker                     610000
-.addr   main                            620380
-.addr   check-element                   6203c0
+.addr   main                            6203a0
+.addr   check-element                   6203e0
 .addr   return                          020bd8
 .addr   return-non-elemental            020c1e
 .addr   bits                            00bafc

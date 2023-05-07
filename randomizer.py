@@ -4131,6 +4131,8 @@ def test():
     jm.add_junction('mirage vest', 'heal_boost')
     jm.add_junction(None, 'gilgam_heart')
     jm.add_junction('setzer', 'deaths_door')
+    jm.add_junction(None, 'fire_font')
+    jm.add_junction(None, 'ice_sink')
     jm.execute()
     return jm
 
