@@ -4114,6 +4114,7 @@ def test():
     #jm.add_junction(0x4d, 'initiative', force_category='monster')
     jm.add_junction(0x4d, 'repel_earth', force_category='monster')
     jm.add_junction(0x4d, 'repel_bolt', force_category='monster')
+    jm.add_junction(0x4d, 'repel_nuke', force_category='monster')
     #jm.add_junction('edgar', 'lucid_dead')
     #jm.add_junction('edgar', 'focus')
     jm.add_junction('gau', 'focus')

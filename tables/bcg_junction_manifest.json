@@ -92,6 +92,7 @@
         "boost_nuke":           "5a",
         "nuke_font":            "5b",
         "nuke_sink":            "5c",
+        "repel_nuke":           "5d",
         "fire_font":            "60",
         "ice_font":             "61",
         "bolt_font":            "62",
@@ -184,6 +185,7 @@
         "boost_nuke":           "Boost Nuke",
         "nuke_font":            "Nuke Font",
         "nuke_sink":            "Nuke Sink",
+        "repel_nuke":           "Repel Nuke",
         "fire_font":            "Fire Font",
         "ice_font":             "Ice Font",
         "bolt_font":            "Bolt Font",
@@ -544,6 +546,9 @@
         ],
         "nuke_sink": [
             "patch_junction_elemental_boost.txt"
+        ],
+        "repel_nuke": [
+            "patch_junction_elemental_repel.txt"
         ],
         "ice_font": [
             "patch_junction_elemental_boost.txt"

@@ -19,6 +19,7 @@
 .def    jun-index-pearl         45
 .def    jun-index-earth         46
 .def    jun-index-water         47
+.def    jun-index-nuke          5d
 
 022243: 5c $main
 :       ea
@@ -30,10 +31,10 @@ $main
 :       22 $jun-checker
 :       d0 no-reflect
 
-:       ad a1 11
-:       f0 normal-reflect-check
-
 :       bb
+:       ad a1 11
+:       f0 non-elemental
+
 :       85 10
 :       a9 jun-index-fire
 :       20 $check-element,2
@@ -77,6 +78,19 @@ $main
 :       fa
 :       5c $return-no-reflect
 
+.label non-elemental
+:       ad a2 11
+:       89 01
+:       d0 normal-reflect-check
+:       ad a4 11
+:       89 81
+:       d0 normal-reflect-check
+:       ad a6 11
+:       f0 normal-reflect-check
+:       a9 jun-index-nuke
+:       22 $jun-checker
+:       f0 normal-reflect-check
+:       80 yes-reflect
 
 $check-element
 :       48 da
