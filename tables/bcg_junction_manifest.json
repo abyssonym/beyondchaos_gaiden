@@ -87,6 +87,7 @@
         "deaths_door":          "55",
         "commander":            "56",
         "necromancer":          "57",
+        "potent_venom":         "58",
         "fire_font":            "60",
         "ice_font":             "61",
         "bolt_font":            "62",
@@ -174,6 +175,7 @@
         "deaths_door":          "Death's Door",
         "commander":            "Commander",
         "necromancer":          "Necromancer",
+        "potent_venom":         "Potent Venom",
         "fire_font":            "Fire Font",
         "ice_font":             "Ice Font",
         "bolt_font":            "Bolt Font",
@@ -519,6 +521,9 @@
         ],
         "necromancer": [
             "patch_junction_focus.txt"
+        ],
+        "potent_venom": [
+            "patch_junction_potent_venom.txt"
         ],
         "fire_font": [
             "patch_junction_elemental_boost.txt"

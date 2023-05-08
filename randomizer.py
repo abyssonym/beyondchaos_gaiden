@@ -4106,8 +4106,8 @@ def test():
     #jm.add_junction('edgar', 'critical_defend')
     #jm.add_junction('edgar', 'critical_gprain')
     #jm.add_junction('edgar', 'critical_esper')
-    jm.add_junction('edgar', 'critical_jump')
-    jm.add_junction('edgar', 'critical_revenge')
+    #jm.add_junction('edgar', 'critical_jump')
+    #jm.add_junction('edgar', 'critical_revenge')
     jm.add_junction('haste', 'salve', 'blacklist')
     jm.add_junction('edgar', 'salve')
     jm.add_junction('edgar', 'repel_fire')
@@ -4135,6 +4135,7 @@ def test():
     jm.add_junction(None, 'ice_sink')
     jm.add_junction('edgar', 'necromancer')
     jm.add_junction('edgar', 'commander')
+    jm.add_junction('setzer', 'potent_venom')
     jm.execute()
     return jm
 

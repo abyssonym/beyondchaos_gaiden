@@ -1,0 +1,52 @@
+.addr   jun-checker                     610000
+.addr   jun-rng1                        610820
+
+.addr   main                            620dc0
+.addr   return-normal                   024460
+.addr   return-poisoned                 02447d
+
+.def    jun-index-potent-venom  58
+.def    poison-bit              04 00
+
+02445c: 5c $main
+
+$main
+# check already poisoned
+:       a9 poison-bit
+:       24 f8
+:       d0 already-poisoned
+
+# check intent to poison
+:       24 fc
+:       f0 exit-normal
+
+:       22 $jun-rng1
+:       b0 exit-normal
+
+:       a9 jun-index-potent-venom 00
+:       22 $jun-checker
+:       f0 exit-normal
+
+:       b9 e4 3e
+:       09 poison-bit
+:       99 e4 3e
+:       5c $return-poisoned
+
+.label exit-normal
+:       ad a7 11
+:       4a
+:       5c $return-normal
+
+.label already-poisoned
+:       ad 7a 3a
+:       29 ff 00
+:       c9 22 00
+:       d0 exit-normal
+:       5c $return-poisoned
+
+VALIDATION
+02445c: ad a7 11
+:       4a
+
+024462: a5 fc
+:       05 f4
