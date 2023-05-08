@@ -36,10 +36,10 @@
 .def    jun-index-earth-sink    6e
 .def    jun-index-water-sink    6f
 
-.def    jun-index-esper         59
-.def    jun-index-nuke          5a
-.def    jun-index-nuke-font     5b
-.def    jun-index-nuke-sink     5c
+.def    jun-index-esper         49
+.def    jun-index-nuke          4a
+.def    jun-index-nuke-font     4b
+.def    jun-index-nuke-sink     4c
 
 .def    ramuh-index             36
 .def    phoenix-index-plus-one  51

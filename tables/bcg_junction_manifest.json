@@ -79,6 +79,11 @@
         "repel_pearl":          "45",
         "repel_earth":          "46",
         "repel_water":          "47",
+        "repel_nuke":           "48",
+        "boost_esper":          "49",
+        "boost_nuke":           "4a",
+        "nuke_font":            "4b",
+        "nuke_sink":            "4c",
         "miasma":               "50",
         "regenerator":          "51",
         "reverse":              "52",
@@ -88,12 +93,8 @@
         "commander":            "56",
         "necromancer":          "57",
         "potent_venom":         "58",
-        "boost_esper":          "59",
-        "boost_nuke":           "5a",
-        "nuke_font":            "5b",
-        "nuke_sink":            "5c",
-        "repel_nuke":           "5d",
         "chemist":              "5e",
+        "nihopalaoa":           "5f",
         "fire_font":            "60",
         "ice_font":             "61",
         "bolt_font":            "62",
@@ -188,6 +189,7 @@
         "nuke_sink":            "Nuke Sink",
         "repel_nuke":           "Repel Nuke",
         "chemist":              "Chemist",
+        "nihopalaoa":           "Nihopalaoa",
         "fire_font":            "Fire Font",
         "ice_font":             "Ice Font",
         "bolt_font":            "Bolt Font",
@@ -553,6 +555,9 @@
             "patch_junction_elemental_repel.txt"
         ],
         "chemist": [
+            "patch_junction_heal_boost_reverse.txt"
+        ],
+        "nihopalaoa": [
             "patch_junction_heal_boost_reverse.txt"
         ],
         "ice_font": [

@@ -19,7 +19,7 @@
 .def    jun-index-pearl         45
 .def    jun-index-earth         46
 .def    jun-index-water         47
-.def    jun-index-nuke          5d
+.def    jun-index-nuke          48
 
 022243: 5c $main
 :       ea

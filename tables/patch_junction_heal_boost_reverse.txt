@@ -1,27 +1,27 @@
 .addr   jun-checker                     610000
 .addr   main                            620c00
+.addr   main-nihopalaoa                 620c40
+.addr   reverse-damage                  620c60
+.addr   check-nihopalaoa                620e80
+.addr   boost-healing-half              620ea0
+.addr   boost-healing-double            620ec0
+.addr   boost-damage-double             620ee0
 
 .def    jun-index-reverse       52
 .def    jun-index-heal-boost    53
 .def    jun-index-chemist       5e
+.def    jun-index-nihopalaoa    5f
+
+022af2: 22 $main-nihopalaoa
 
 0262f7: 22 $main
 :       ea ea
 
 $main
-:       b9 e4 33
-:       c9 ff ff
-:       f0 no-chemist
 :       a9 jun-index-heal-boost 00
 :       22 $jun-checker
 :       f0 no-heal-boost
-:       b9 e4 33
-:       4a
-:       79 e4 33
-:       90 heal-boost-no-overflow
-:       a9 ff ff
-.label heal-boost-no-overflow
-:       99 e4 33
+:       20 $boost-healing-half,2
 
 .label no-heal-boost
 :       a5 b5
@@ -31,30 +31,101 @@ $main
 :       a9 jun-index-chemist 00
 :       22 $jun-checker
 :       f0 no-chemist
-:       b9 e4 33
-:       0a
-:       90 chemist-no-overflow
-:       a9 ff ff
-.label chemist-no-overflow
-:       99 e4 33
+:       20 $boost-healing-double,2
+:       20 $boost-damage-double,2
 
 .label no-chemist
 :       a9 jun-index-reverse 00
 :       22 $jun-checker
 :       f0 no-junction
-
-:       b9 d0 33
-:       48
-:       b9 e4 33
-:       99 d0 33
-:       68
-:       99 e4 33
+:       20 $reverse-damage,2
 
 .label no-junction
 :       b9 d0 33
 :       d9 e4 33
 :       6b
 
+$main-nihopalaoa
+:       da
+:       bb
+:       20 $check-nihopalaoa,2
+:       f0 exit-no-nihopalaoa
+:       a9 05
+:       1c a4 11
+:       a9 04
+:       1c a2 11
+.label exit-no-nihopalaoa
+:       fa
+:       bf 00 50 d8
+:       6b
+
+$check-nihopalaoa
+:       48 08
+:       e2 20
+:       a5 b5
+:       c9 01
+:       d0 not-nihopalaoa
+:       a9 jun-index-nihopalaoa
+:       22 $jun-checker
+:       f0 not-nihopalaoa
+:       28 68
+:       c2 02
+:       60
+.label not-nihopalaoa
+:       28 68
+:       e2 02
+:       60
+
+$reverse-damage
+:       b9 d0 33
+:       48
+:       b9 e4 33
+:       99 d0 33
+:       68
+:       99 e4 33
+:       60
+
+$boost-healing-half
+:       b9 e4 33
+:       c9 ff ff
+:       f0 exit-healing-half
+:       4a
+:       18
+:       79 e4 33
+:       90 healing-half-no-overflow
+:       a9 fe ff
+.label healing-half-no-overflow
+:       99 e4 33
+.label exit-healing-half
+:       60
+
+$boost-healing-double
+:       b9 e4 33
+:       c9 ff ff
+:       f0 exit-healing-double
+:       0a
+:       90 healing-double-no-overflow
+:       a9 fe ff
+.label healing-double-no-overflow
+:       99 e4 33
+.label exit-healing-double
+:       60
+
+$boost-damage-double
+:       b9 d0 33
+:       c9 ff ff
+:       f0 exit-damage-double
+:       0a
+:       90 damage-double-no-overflow
+:       a9 fe ff
+.label damage-double-no-overflow
+:       99 d0 33
+.label exit-damage-double
+:       60
+
 VALIDATION
+
+022af2: bf 00 50 d8
+
 0262f7: b9 d0 33
 :       d9 e4 33
