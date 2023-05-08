@@ -1,27 +1,44 @@
 .addr   jun-checker                     610000
-.addr   main                            620bc0
+.addr   main                            620c00
 
 .def    jun-index-reverse       52
 .def    jun-index-heal-boost    53
+.def    jun-index-chemist       5e
 
 0262f7: 22 $main
 :       ea ea
 
 $main
+:       b9 e4 33
+:       c9 ff ff
+:       f0 no-chemist
 :       a9 jun-index-heal-boost 00
 :       22 $jun-checker
 :       f0 no-heal-boost
 :       b9 e4 33
-:       c9 ff ff
-:       f0 no-heal-boost
 :       4a
 :       79 e4 33
-:       90 no-overflow
+:       90 heal-boost-no-overflow
 :       a9 ff ff
-.label no-overflow
+.label heal-boost-no-overflow
 :       99 e4 33
 
 .label no-heal-boost
+:       a5 b5
+:       29 ff 00
+:       c9 01 00
+:       d0 no-chemist
+:       a9 jun-index-chemist 00
+:       22 $jun-checker
+:       f0 no-chemist
+:       b9 e4 33
+:       0a
+:       90 chemist-no-overflow
+:       a9 ff ff
+.label chemist-no-overflow
+:       99 e4 33
+
+.label no-chemist
 :       a9 jun-index-reverse 00
 :       22 $jun-checker
 :       f0 no-junction

@@ -93,6 +93,7 @@
         "nuke_font":            "5b",
         "nuke_sink":            "5c",
         "repel_nuke":           "5d",
+        "chemist":              "5e",
         "fire_font":            "60",
         "ice_font":             "61",
         "bolt_font":            "62",
@@ -186,6 +187,7 @@
         "nuke_font":            "Nuke Font",
         "nuke_sink":            "Nuke Sink",
         "repel_nuke":           "Repel Nuke",
+        "chemist":              "Chemist",
         "fire_font":            "Fire Font",
         "ice_font":             "Ice Font",
         "bolt_font":            "Bolt Font",
@@ -549,6 +551,9 @@
         ],
         "repel_nuke": [
             "patch_junction_elemental_repel.txt"
+        ],
+        "chemist": [
+            "patch_junction_heal_boost_reverse.txt"
         ],
         "ice_font": [
             "patch_junction_elemental_boost.txt"

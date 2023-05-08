@@ -1,5 +1,5 @@
 .addr   jun-checker                     610000
-.addr   main                            620c00
+.addr   main                            620680
 .addr   return-dead                     021390
 .addr   return-alive                    02133c
 

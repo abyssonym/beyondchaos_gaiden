@@ -4139,6 +4139,7 @@ def test():
     jm.add_junction('setzer', 'potent_venom')
     jm.add_junction('ifrit', 'boost_esper')
     jm.add_junction('cards', 'boost_nuke')
+    jm.add_junction('buckler', 'chemist')
     #jm.add_junction(None, 'nuke_sink')
     jm.execute()
     return jm
