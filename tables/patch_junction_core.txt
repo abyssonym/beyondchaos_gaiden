@@ -9,7 +9,8 @@
 .addr   jun-check-status-blacklist          610580
 .addr   jun-check-list                      610300
 .addr   jun-check-entity-living             610600
-.addr   jun-check-entity-present            610620
+.addr   jun-check-entity-present            610640
+.addr   jun-check-count-all-living          610680
 .addr   jun-mult                            610800
 .addr   jun-rng1                            610820
 .addr   jun-rng2                            610830
@@ -438,28 +439,69 @@ $jun-rng3
 
 $jun-check-entity-living
 #   X - battle index
+:   48
 :   8a
 :   c9 08
 :   b0 check-living-is-monster
 :   bd 18 30
 :   2c $living-characters,2
-:   6b
+:   d0 check-living-yes
+:   80 check-living-no
 .label check-living-is-monster
-:   38
 :   bf $wide-bits-monster
 :   2c $living-enemies,2
+:   d0 check-living-yes
+.label check-living-no
+:   68
+:   e2 02
+:   6b
+.label check-living-yes
+:   68
+:   c2 02
 :   6b
 
 $jun-check-entity-present
 #   X - battle index
+:   48
 :   8a
 :   c9 08
 :   b0 check-present-is-monster
 :   bd 18 30
 :   2c $present-characters,2
-:   6b
+:   d0 check-present-yes
+:   80 check-present-no
 .label check-present-is-monster
-:   38
 :   bf $wide-bits-monster
 :   2c $present-enemies,2
+:   d0 check-present-yes
+.label check-present-no
+:   68
+:   e2 02
+:   6b
+.label check-present-yes
+:   68
+:   c2 02
+:   6b
+
+$jun-check-count-all-living
+#   A - junction index
+:   08 da 5a
+:   e2 30
+
+:   a0 00
+:   a2 12
+.label all-living-loop
+:   22 $jun-check-entity-living
+:   f0 all-living-skip
+:   22 $jun-checker
+:   f0 all-living-skip
+:   c8
+.label all-living-skip
+:   ca ca
+:   10 all-living-loop
+
+:   a9 00
+:   eb
+:   98
+:   7a fa 28
 :   6b

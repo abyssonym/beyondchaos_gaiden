@@ -1,7 +1,11 @@
 .addr   jun-checker                     610000
 .addr   jun-check-entity-living         610600
+.addr   jun-check-count-all-living      610680
 .addr   main                            620300
 .addr   check-element                   620340
+.addr   check-esper                     620e20
+.addr   check-nuke                      620e40
+.addr   boost-damage-half               620e00
 .addr   boost-damage-quarter            620cc0
 .addr   reduce-damage-quarter           620ce0
 .addr   return                          023373
@@ -32,6 +36,14 @@
 .def    jun-index-earth-sink    6e
 .def    jun-index-water-sink    6f
 
+.def    jun-index-esper         59
+.def    jun-index-nuke          5a
+.def    jun-index-nuke-font     5b
+.def    jun-index-nuke-sink     5c
+
+.def    ramuh-index             36
+.def    phoenix-index-plus-one  51
+
 02336f: 5c $main
 
 $main
@@ -54,6 +66,9 @@ $main
 :       a9 jun-index-water
 :       20 $check-element,2
 
+:       20 $check-esper,2
+:       20 $check-nuke,2
+
 :       7a fa 68
 :       ad a2 11
 :       4a
@@ -61,6 +76,7 @@ $main
 
 $check-element
 :       48 da
+:       86 10
 :       29 07
 :       aa
 :       bf $bits
@@ -70,53 +86,126 @@ $check-element
 :       68
 :       22 $jun-checker
 :       f0 no-boost
-:       e6 bc
+:       20 $boost-damage-half,2
 .label  no-boost
 
 :       29 07
-:       85 10
-:       a2 12
-.label font-sink-loop
-:       22 $jun-check-entity-living
-:       f0 no-sink
-:       a5 10
-:       18
+:       aa
 :       69 jun-index-fire-font
-:       22 $jun-checker
-:       f0 no-font
+:       22 $jun-check-count-all-living
+.label font-loop
+:       3a
+:       30 end-font-loop
 :       20 $boost-damage-quarter,2
-.label no-font
-:       a5 10
-:       18
-:       69 jun-index-fire-sink
-:       22 $jun-checker
-:       f0 no-sink
-:       20 $reduce-damage-quarter,2
-.label no-sink
+:       80 font-loop
+.label end-font-loop
 
-:       ca ca
-:       10 font-sink-loop
+:       8a
+:       69 jun-index-fire-sink
+:       22 $jun-check-count-all-living
+.label sink-loop
+:       3a
+:       30 end-sink-loop
+:       20 $reduce-damage-quarter,2
+:       80 sink-loop
+.label end-sink-loop
 
 .label check-element-exit
+:       a6 10
 :       60
 .label check-element-pull-exit
+:       a6 10
+:       68
+:       60
+
+$check-esper
+:       a5 b5
+:       c9 19
+:       f0 is-esper
+:       c9 02
+:       d0 not-esper
+:       a5 b6
+:       c9 ramuh-index
+:       90 not-esper
+:       c9 phoenix-index-plus-one
+:       b0 not-esper
+.label is-esper
+:       a9 jun-index-esper
+:       22 $jun-checker
+:       f0 not-esper
+:       20 $boost-damage-half,2
+.label not-esper
+:       60
+
+$check-nuke
+:       ad a1 11
+:       d0 not-nuke
+:       ad a2 11
+:       89 01
+:       d0 not-nuke
+:       ad a4 11
+:       89 81
+:       d0 not-nuke
+
+:       a9 jun-index-nuke
+:       22 $jun-checker
+:       f0 no-nuke-boost
+:       20 $boost-damage-half,2
+.label no-nuke-boost
+
+:       a9 jun-index-nuke-font
+:       22 $jun-check-count-all-living
+.label nuke-font-loop
+:       3a
+:       30 end-nuke-font-loop
+:       20 $boost-damage-quarter,2
+:       80 nuke-font-loop
+.label end-nuke-font-loop
+
+:       a9 jun-index-nuke-sink
+:       22 $jun-check-count-all-living
+.label nuke-sink-loop
+:       3a
+:       30 end-nuke-sink-loop
+:       20 $reduce-damage-quarter,2
+:       80 nuke-sink-loop
+.label end-nuke-sink-loop
+
+.label not-nuke
+:       60
+
+$boost-damage-half
+:       48
+:       c2 20
+:       ad b0 11
+:       4a
+:       18
+:       6d b0 11
+:       90 no-overflow-half
+:       a9 ff ff
+.label no-overflow-half
+:       8d b0 11
+:       e2 20
 :       68
 :       60
 
 $boost-damage-quarter
+:       48
 :       c2 20
 :       ad b0 11
 :       4a 4a
 :       18
 :       6d b0 11
-:       90 no-overflow
+:       90 no-overflow-quarter
 :       a9 ff ff
-.label no-overflow
+.label no-overflow-quarter
 :       8d b0 11
 :       e2 20
+:       68
 :       60
 
 $reduce-damage-quarter
+:       48
 :       c2 20
 :       ad b0 11
 :       4a
@@ -126,6 +215,7 @@ $reduce-damage-quarter
 :       6d b0 11
 :       8d b0 11
 :       e2 20
+:       68
 :       60
 
 VALIDATION

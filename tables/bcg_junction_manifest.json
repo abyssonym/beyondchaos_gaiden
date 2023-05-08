@@ -88,6 +88,10 @@
         "commander":            "56",
         "necromancer":          "57",
         "potent_venom":         "58",
+        "boost_esper":          "59",
+        "boost_nuke":           "5a",
+        "nuke_font":            "5b",
+        "nuke_sink":            "5c",
         "fire_font":            "60",
         "ice_font":             "61",
         "bolt_font":            "62",
@@ -176,6 +180,10 @@
         "commander":            "Commander",
         "necromancer":          "Necromancer",
         "potent_venom":         "Potent Venom",
+        "boost_esper":          "Boost Esper",
+        "boost_nuke":           "Boost Nuke",
+        "nuke_font":            "Nuke Font",
+        "nuke_sink":            "Nuke Sink",
         "fire_font":            "Fire Font",
         "ice_font":             "Ice Font",
         "bolt_font":            "Bolt Font",
@@ -525,7 +533,16 @@
         "potent_venom": [
             "patch_junction_potent_venom.txt"
         ],
-        "fire_font": [
+        "boost_esper": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "boost_nuke": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "nuke_font": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "nuke_sink": [
             "patch_junction_elemental_boost.txt"
         ],
         "ice_font": [

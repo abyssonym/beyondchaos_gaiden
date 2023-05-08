@@ -4136,6 +4136,9 @@ def test():
     jm.add_junction('edgar', 'necromancer')
     jm.add_junction('edgar', 'commander')
     jm.add_junction('setzer', 'potent_venom')
+    jm.add_junction('ifrit', 'boost_esper')
+    jm.add_junction('cards', 'boost_nuke')
+    #jm.add_junction(None, 'nuke_sink')
     jm.execute()
     return jm
 
@@ -4203,6 +4206,10 @@ if __name__ == '__main__':
 
         if jm is not None:
             jm.verify_patches()
+
+        for s in SkillObject.every:
+            if s.get_bit('ignore_defense'):
+                print(s)
 
         finish_interface()
 
