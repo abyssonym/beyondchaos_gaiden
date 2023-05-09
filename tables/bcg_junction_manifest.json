@@ -94,6 +94,7 @@
         "necromancer":          "57",
         "potent_venom":         "58",
         "innate_runic":         "59",
+        "freebie":              "5d",
         "chemist":              "5e",
         "nihopalaoa":           "5f",
         "fire_font":            "60",
@@ -190,6 +191,7 @@
         "nuke_font":            "Nuke Font",
         "nuke_sink":            "Nuke Sink",
         "repel_nuke":           "Repel Nuke",
+        "freebie":              "Freebie",
         "chemist":              "Chemist",
         "nihopalaoa":           "Nihopalaoa",
         "fire_font":            "Fire Font",
@@ -304,6 +306,11 @@
         "Rage", "Freeze", "Life 3", "Morph",
         "Control", "Hide", "Interceptor", "Float"
     ],
+
+    "battle_messages": {
+        "b0": "Got <12><01> <d7> 1 !",
+        "b1": "Get a freebie!"
+    },
 
     "always_whitelist": [],
 
@@ -558,6 +565,9 @@
         ],
         "repel_nuke": [
             "patch_junction_elemental_repel.txt"
+        ],
+        "freebie": [
+            "patch_junction_freebie.txt"
         ],
         "chemist": [
             "patch_junction_heal_boost_reverse.txt"

@@ -23,12 +23,34 @@ for (a, b) in {
     CHARACTER_MAP[b] = a
 
 
+def map_character(c):
+    old_c = c
+    try:
+        c = CHARACTER_MAP[c]
+    except KeyError:
+        c = '<{0:0>2x}>'.format(c)
+    if c == '\n':
+        c = '<01>'
+    if isinstance(c, int):
+        c = bytes([c])
+    return c
+
 def map_text(text):
     if isinstance(text, bytes):
-        result = ''.join([CHARACTER_MAP[c] for c in text])
+        result = ''
     else:
         assert isinstance(text, str)
-        result = bytes([CHARACTER_MAP[c] for c in text])
+        result = b''
+    while text:
+        if text[0] == '<':
+            assert text[3] == '>'
+            c = bytes([int(text[1:3], 0x10)])
+            result += c
+            text = text[4:]
+        else:
+            c = map_character(text[0])
+            text = text[1:]
+            result += c
     return result
 
 
@@ -119,6 +141,10 @@ class JunctionManager:
                         new_dict[k] = v
                     value = new_dict
                     full_data[key] = value
+
+            if key == 'battle_messages':
+                value = {int(k, 0x10): v for (k, v) in value.items()}
+                full_data[key] = value
 
             if key in ('patch_list', 'junction_short_names'):
                 new_dict = {}
@@ -321,6 +347,7 @@ class JunctionManager:
         first_offset = message_pointer
         offset_cache = {}
         for i, message in enumerate(messages):
+            message = message.replace('<01>', '\n')
             assert message.count('\n') <= 1
             assert all(len(line) <= self.MAX_LINE_LENGTH
                        for line in message.split('\n'))
@@ -376,10 +403,55 @@ class JunctionManager:
         self.write_descriptions(self.esper_description_address, messages,
                                 self.esper_free_address)
 
+    def read_battle_messages(self, num_messages=256, address=0x11f7a0):
+        self.outfile.seek(address)
+        pointers = []
+        for _ in range(num_messages):
+            pointer = int.from_bytes(self.outfile.read(2), byteorder='little')
+            pointers.append(pointer)
+        messages = []
+        for p in pointers:
+            self.outfile.seek((address & 0xFF8000) | p)
+            message = b''
+            while True:
+                c = self.outfile.read(1)
+                if c == b'\x00':
+                    break
+                message += c
+            messages.append(map_text(message))
+        return messages
+
+    def write_battle_messages(self, messages, pointers_address=0x11f7a0,
+                              messages_address=0x11f000):
+        self.outfile.seek(messages_address)
+        self.outfile.write(b'\x00')
+        message_cache = {'': messages_address}
+        next_free_space = messages_address + 1
+        for i, m in enumerate(messages):
+            if m in message_cache:
+                pointer = message_cache[m]
+            else:
+                pointer = next_free_space
+                self.outfile.seek(pointer)
+                self.outfile.write(map_text(m) + b'\x00')
+                next_free_space += len(m) + 1
+                assert next_free_space <= pointers_address
+                message_cache[m] = pointer
+            self.outfile.seek(pointers_address + (i*2))
+            self.outfile.write((pointer & 0xFFFF).to_bytes(length=2,
+                                                           byteorder='little'))
+
+    def rewrite_battle_messages(self):
+        messages = self.read_battle_messages()
+        for index, message in sorted(self.battle_messages.items()):
+            messages[index] = message
+        self.write_battle_messages(messages)
+
     def execute(self):
         self.populate_everything()
         self.write_patches()
         self.rewrite_descriptions()
+        self.rewrite_battle_messages()
 
     def verify_patches(self):
         verify_patchlist(self.outfile, sorted(self.patches))

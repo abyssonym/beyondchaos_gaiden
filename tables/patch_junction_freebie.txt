@@ -1,0 +1,32 @@
+.addr   jun-checker                     610000
+.addr   jun-rng1                        610820
+
+.addr   main                            620f00
+
+.def    jun-index-freebie       5d
+
+
+0218b0: 22 $main
+:       ea
+
+$main
+:       08
+:       22 $jun-rng1
+:       90 exit-no-freebie
+:       a9 jun-index-freebie
+:       22 $jun-checker
+:       f0 exit-no-freebie
+:       a9 b1
+:       8d 01 34
+:       28
+:       6b
+.label exit-no-freebie
+:       28
+:       a9 ff
+:       9d f4 32
+:       6b
+
+VALIDATION
+
+0218b0: a9 ff
+:       9d f4 32

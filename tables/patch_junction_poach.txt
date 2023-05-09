@@ -99,8 +99,7 @@ $obtain-item
 :       48
 :       e2 20
 :       8d 35 2f
-# use "Stole X" message because it auto-confirms
-:       a9 03
+:       a9 b0
 :       8d 01 34
 :       a5 ee
 :       c2 20

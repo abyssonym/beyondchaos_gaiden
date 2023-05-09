@@ -1,5 +1,5 @@
 .addr   jun-checker                     610000
-.addr   main                            620f00
+.addr   main                            6205c0
 .addr   return-normal                   023543
 .addr   return-runic                    023545
 
