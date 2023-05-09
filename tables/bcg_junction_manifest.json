@@ -112,7 +112,9 @@
         "wind_sink":            "6c",
         "pearl_sink":           "6d",
         "earth_sink":           "6e",
-        "water_sink":           "6f"
+        "water_sink":           "6f",
+        "heal_font":            "70",
+        "heal_sink":            "71"
     },
 
     "junction_short_names": {
@@ -619,6 +621,12 @@
         ],
         "water_sink": [
             "patch_junction_elemental_boost.txt"
+        ],
+        "heal_font": [
+            "patch_junction_heal_boost_reverse.txt"
+        ],
+        "heal_sink": [
+            "patch_junction_heal_boost_reverse.txt"
         ]
     }
 }

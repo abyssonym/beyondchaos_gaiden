@@ -4144,6 +4144,8 @@ def test():
     jm.add_junction('imperial', 'innate_runic')
     #jm.add_junction(None, 'nuke_sink')
     jm.add_junction(None, 'freebie')
+    jm.add_junction(None, 'heal_font')
+    #jm.add_junction(None, 'heal_sink')
     jm.execute()
     return jm
 

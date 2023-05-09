@@ -1,14 +1,20 @@
 .addr   jun-checker                     610000
+.addr   jun-check-count-all-living      610680
 .addr   main                            620c00
-.addr   main-nihopalaoa                 620c40
-.addr   reverse-damage                  620c60
+.addr   main-nihopalaoa                 620c60
 .addr   check-nihopalaoa                620e80
+.addr   check-heal                      620f20
 .addr   boost-healing-half              620ea0
 .addr   boost-healing-double            620ec0
 .addr   boost-damage-double             620ee0
+.addr   boost-healing-quarter           620f60
+.addr   reduce-healing-quarter          620f80
+.addr   reverse-damage                  620fa0
 
-.def    jun-index-reverse       52
 .def    jun-index-heal-boost    53
+.def    jun-index-heal-font     70
+.def    jun-index-heal-sink     71
+.def    jun-index-reverse       52
 .def    jun-index-chemist       5e
 .def    jun-index-nihopalaoa    5f
 
@@ -18,12 +24,18 @@
 :       ea ea
 
 $main
-:       a9 jun-index-heal-boost 00
-:       22 $jun-checker
-:       f0 no-heal-boost
-:       20 $boost-healing-half,2
+:       b9 e4 33
+:       c9 ff ff
+:       f0 no-check-heal
+:       20 $check-heal,2
+:       80 heal-or-damage
 
-.label no-heal-boost
+.label no-check-heal
+:       b9 d0 33
+:       c9 ff ff
+:       f0 no-junction
+
+.label heal-or-damage
 :       a5 b5
 :       29 ff 00
 :       c9 01 00
@@ -58,6 +70,34 @@ $main-nihopalaoa
 :       fa
 :       bf 00 50 d8
 :       6b
+
+$check-heal
+:       a9 jun-index-heal-boost 00
+:       22 $jun-checker
+:       f0 no-heal-boost
+:       20 $boost-healing-half,2
+.label no-heal-boost
+
+:       a9 jun-index-heal-font 00
+:       22 $jun-check-count-all-living
+.label heal-font-loop
+:       3a
+:       30 end-heal-font-loop
+:       20 $boost-healing-quarter,2
+:       80 heal-font-loop
+.label end-heal-font-loop
+
+:       a9 jun-index-heal-sink 00
+:       22 $jun-check-count-all-living
+.label heal-sink-loop
+:       3a
+:       30 end-heal-sink-loop
+:       20 $reduce-healing-quarter,2
+:       80 heal-sink-loop
+.label end-heal-sink-loop
+
+.label not-heal
+:       60
 
 $check-nihopalaoa
 :       48 08
@@ -97,6 +137,37 @@ $boost-healing-half
 .label healing-half-no-overflow
 :       99 e4 33
 .label exit-healing-half
+:       60
+
+$boost-healing-quarter
+:       48
+:       b9 e4 33
+:       c9 ff ff
+:       f0 exit-healing-quarter
+:       4a 4a
+:       18
+:       79 e4 33
+:       90 healing-quarter-no-overflow
+:       a9 fe ff
+.label healing-quarter-no-overflow
+:       99 e4 33
+.label exit-healing-quarter
+:       68
+:       60
+
+$reduce-healing-quarter
+:       48
+:       b9 e4 33
+:       c9 ff ff
+:       f0 exit-healing-reduce
+:       4a
+:       99 e4 33
+:       4a
+:       18
+:       79 e4 33
+:       99 e4 33
+.label exit-healing-reduce
+:       68
 :       60
 
 $boost-healing-double
