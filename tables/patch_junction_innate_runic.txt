@@ -1,0 +1,31 @@
+.addr   jun-checker                     610000
+.addr   main                            620f00
+.addr   return-normal                   023543
+.addr   return-runic                    023545
+
+.def    jun-index-runic         59
+
+
+02353e: 5c $main
+
+$main
+:       da
+:       bb
+:       a9 jun-index-runic
+:       22 $jun-checker
+:       f0 no-junction
+
+:       fa
+:       5c $return-runic
+
+.label no-junction
+:       fa
+:       b9 4c 3e
+:       89 06
+:       5c $return-normal
+
+VALIDATION
+
+02353e: b9 4c 3e
+:       89 06
+:       f0 19

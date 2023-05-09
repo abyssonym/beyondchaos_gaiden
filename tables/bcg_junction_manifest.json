@@ -93,6 +93,7 @@
         "commander":            "56",
         "necromancer":          "57",
         "potent_venom":         "58",
+        "innate_runic":         "59",
         "chemist":              "5e",
         "nihopalaoa":           "5f",
         "fire_font":            "60",
@@ -183,6 +184,7 @@
         "commander":            "Commander",
         "necromancer":          "Necromancer",
         "potent_venom":         "Potent Venom",
+        "innate_runic":         "Innate Runic",
         "boost_esper":          "Boost Esper",
         "boost_nuke":           "Boost Nuke",
         "nuke_font":            "Nuke Font",
@@ -538,6 +540,9 @@
         ],
         "potent_venom": [
             "patch_junction_potent_venom.txt"
+        ],
+        "innate_runic": [
+            "patch_junction_innate_runic.txt"
         ],
         "boost_esper": [
             "patch_junction_elemental_boost.txt"
