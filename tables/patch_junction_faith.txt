@@ -1,0 +1,36 @@
+.addr   jun-checker                     610000
+
+.addr   main                            621020
+.addr   return-check-level              0222ec
+.addr   return-normal                   0222ac
+.addr   return-hit                      0222e8
+
+.def    jun-index-faith             5c
+
+0222a8: 5c $main
+
+$main
+:       ad a4 11
+:       89 40
+:       d0 exit-check-level
+
+:       da
+:       a9 jun-index-faith
+:       22 $jun-checker
+:       d0 exit-faith
+:       bb
+:       22 $jun-checker
+:       d0 exit-faith
+
+:       fa
+:       5c $return-normal
+.label exit-check-level
+:       5c $return-check-level
+.label exit-faith
+:       fa
+:       5c $return-hit
+
+VALIDATION
+
+0222a8: 89 40
+:       d0 40

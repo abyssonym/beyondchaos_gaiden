@@ -94,6 +94,9 @@
         "necromancer":          "57",
         "potent_venom":         "58",
         "innate_runic":         "59",
+        "null_freeze":          "5a",
+        "precision":            "5b",
+        "faith":                "5c",
         "freebie":              "5d",
         "chemist":              "5e",
         "nihopalaoa":           "5f",
@@ -188,6 +191,9 @@
         "necromancer":          "Necromancer",
         "potent_venom":         "Potent Venom",
         "innate_runic":         "Innate Runic",
+        "null_freeze":          "Null Freeze?",
+        "precision":            "Precision",
+        "faith":                "Faith",
         "boost_esper":          "Boost Esper",
         "boost_nuke":           "Boost Nuke",
         "nuke_font":            "Nuke Font",
@@ -552,6 +558,15 @@
         ],
         "innate_runic": [
             "patch_junction_innate_runic.txt"
+        ],
+        "null_freeze": [
+            "patch_junction_null_freeze.txt"
+        ],
+        "precision": [
+            "patch_junction_heal_boost_reverse.txt"
+        ],
+        "faith": [
+            "patch_junction_faith.txt"
         ],
         "boost_esper": [
             "patch_junction_elemental_boost.txt"

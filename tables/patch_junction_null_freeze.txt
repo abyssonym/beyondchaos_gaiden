@@ -1,0 +1,36 @@
+.addr   jun-checker                     610000
+
+.addr   main                            621000
+.addr   return-normal                   022215
+.addr   return-miss                     0222d1
+
+.def    jun-index-null-freeze       5a
+
+
+022211: 5c $main
+
+$main
+:       e2 20
+:       64 fe
+:       da
+
+:       b9 f9 3e
+:       29 02
+:       f0 no-freeze
+:       bb
+:       a9 jun-index-null-freeze
+:       22 $jun-checker
+:       d0 exit-miss
+
+.label no-freeze
+:       fa
+:       5c $return-normal
+
+.label exit-miss
+:       fa
+:       5c $return-miss
+
+VALIDATION
+
+022211: e2 20
+:       64 fe

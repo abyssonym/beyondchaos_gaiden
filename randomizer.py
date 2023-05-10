@@ -4076,7 +4076,7 @@ def test():
     jm.add_junction(None, 0x01, 'whitelist')
     jm.add_junction('edgar', 'perfect_taunt', 'blacklist')
     jm.remove_junction('edgar', 0x02, 'blacklist')
-    jm.add_junction('plumed hat', 0x02, force_category='equip')
+    #jm.add_junction('plumed hat', 0x02, force_category='equip')
     jm.add_junction('edgar', 'taunt')
     jm.add_junction('bismark', 'pierce_fire')
     jm.add_junction('bismark', 'pierce_ice')
@@ -4131,7 +4131,7 @@ def test():
     jm.add_junction('dragoonboots', 'reverse')
     jm.add_junction('mirage vest', 'heal_boost')
     jm.add_junction(None, 'gilgam_heart')
-    jm.add_junction('setzer', 'deaths_door')
+    #jm.add_junction('setzer', 'deaths_door')
     jm.add_junction(None, 'fire_font')
     jm.add_junction(None, 'ice_sink')
     jm.add_junction('edgar', 'necromancer')
@@ -4145,7 +4145,10 @@ def test():
     #jm.add_junction(None, 'nuke_sink')
     jm.add_junction(None, 'freebie')
     jm.add_junction(None, 'heal_font')
+    jm.add_junction('gau', 'null_freeze')
     #jm.add_junction(None, 'heal_sink')
+    jm.add_junction('setzer', 'precision')
+    jm.add_junction('setzer', 'faith')
     jm.execute()
     return jm
 
