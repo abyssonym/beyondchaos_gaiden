@@ -4076,7 +4076,7 @@ def test():
     jm.add_junction(None, 0x01, 'whitelist')
     jm.add_junction('edgar', 'perfect_taunt', 'blacklist')
     jm.remove_junction('edgar', 0x02, 'blacklist')
-    #jm.add_junction('plumed hat', 0x02, force_category='equip')
+    jm.add_junction('plumed hat', 0x02, force_category='equip')
     jm.add_junction('edgar', 'taunt')
     jm.add_junction('bismark', 'pierce_fire')
     jm.add_junction('bismark', 'pierce_ice')
@@ -4151,6 +4151,7 @@ def test():
     jm.add_junction('setzer', 'faith')
     jm.add_junction('setzer', 'vampire')
     jm.add_junction('edgar', 'victory_cry')
+    jm.add_junction(None, 'auto_potion')
     jm.execute()
     return jm
 

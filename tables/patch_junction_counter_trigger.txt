@@ -1,0 +1,119 @@
+.addr   jun-checker                     610000
+.addr   main                            621100
+.addr   do-auto-potion                  621140
+
+.addr   return-normal                   024cb8
+.addr   return-is-monster               024cbe
+.addr   return-continue                 024cb3
+.addr   reentry-address                 024cbd
+.addr   command-queue-routine           024eb2
+.addr   wide-bits                       00b4f3
+
+.addr   inventory-address               7e2686
+.addr   inventory-quantity-address      7e2689
+
+.def    jun-index-auto-potion       80
+.def    jun-index-salve             07
+
+.def    potion-index                e9
+
+024cb1: 64 10
+:       5c $main
+
+$main
+:       c0 13
+:       b0 exit-normal
+
+:       a9 jun-index-auto-potion
+:       c5 10
+:       90 no-auto-potion
+:       85 10
+:       e6 10
+:       22 $jun-checker
+:       f0 no-auto-potion
+:       4c $do-auto-potion,2
+
+.label no-auto-potion
+.label exit-normal
+:       e0 08
+:       b0 exit-is-monster
+:       ad a2 11
+:       5c $return-normal
+.label exit-is-monster
+:       5c $return-is-monster
+
+$do-auto-potion
+:       a9 00
+:       eb
+:       e0 08
+:       b0 auto-potion-is-monster
+:       c2 10
+:       da 5a
+:       a2 00 00
+.label auto-potion-loop
+:       c2 20
+:       8a
+:       85 11
+:       0a 0a
+:       65 11
+:       a8
+:       e2 20
+:       b9 $inventory-address,2
+:       c9 potion-index
+:       f0 auto-potion-found
+:       e8
+:       e0 00 01
+:       d0 auto-potion-loop
+:       80 auto-potion-fail
+
+.label auto-potion-found
+:       b9 $inventory-quantity-address,2
+:       f0 auto-potion-fail
+:       3a
+:       d0 not-last-potion
+:       99 $inventory-quantity-address,2
+:       a9 ff
+:       99 $inventory-address,2
+:       80 auto-potion-inventory-conclude
+.label not-last-potion
+:       99 $inventory-quantity-address,2
+.label auto-potion-inventory-conclude
+:       7a fa
+:       e2 30
+:       a9 potion-index
+:       9d f4 32
+
+.label auto-potion-is-monster
+:       a9 01
+:       8d 7a 3a
+:       a9 potion-index
+:       8d 7b 3a
+:       c2 20
+:       bf $wide-bits
+:       85 b8
+:       e2 20
+:       a9 jun-index-salve
+:       22 $jun-checker
+:       f0 no-salve
+:       a5 b8
+:       f0 salve-monster-check
+:       a9 0f
+:       85 b8
+.label salve-monster-check
+:       a5 b9
+:       f0 no-salve
+:       a9 3f
+:       85 b9
+.label no-salve
+:       f4 $reentry-address,2
+:       5c $command-queue-routine
+.label auto-potion-fail
+:       7a fa
+:       e2 30
+:       5c $return-continue
+
+VALIDATION
+
+024cb1: e0 08
+:       b0 09
+:       ad a2 11

@@ -119,7 +119,8 @@
         "heal_font":            "70",
         "heal_sink":            "71",
         "vampire":              "72",
-        "victory_cry":          "73"
+        "victory_cry":          "73",
+        "auto_potion":          "80"
     },
 
     "junction_short_names": {
@@ -223,7 +224,8 @@
         "heal_font":            "Heal Font",
         "heal_sink":            "Heal Sink",
         "vampire":              "Vampire",
-        "victory_cry":          "Victory Cry"
+        "victory_cry":          "Victory Cry",
+        "auto_potion":          "Auto-Potion"
     },
 
     "character_names": [
@@ -654,6 +656,9 @@
         ],
         "victory_cry": [
             "patch_junction_victory_cry.txt"
+        ],
+        "auto_potion": [
+            "patch_junction_counter_trigger.txt"
         ]
     }
 }
