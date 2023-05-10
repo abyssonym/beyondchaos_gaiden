@@ -117,7 +117,8 @@
         "earth_sink":           "6e",
         "water_sink":           "6f",
         "heal_font":            "70",
-        "heal_sink":            "71"
+        "heal_sink":            "71",
+        "vampire":              "72"
     },
 
     "junction_short_names": {
@@ -217,7 +218,10 @@
         "wind_sink":            "Wind Sink",
         "pearl_sink":           "Pearl Sink",
         "earth_sink":           "Earth Sink",
-        "water_sink":           "Water Sink"
+        "water_sink":           "Water Sink",
+        "heal_font":            "Heal Font",
+        "heal_sink":            "Heal Sink",
+        "vampire":              "Vampire"
     },
 
     "character_names": [
@@ -642,6 +646,9 @@
         ],
         "heal_sink": [
             "patch_junction_heal_boost_reverse.txt"
+        ],
+        "vampire": [
+            "patch_junction_vampire.txt"
         ]
     }
 }

@@ -4149,6 +4149,7 @@ def test():
     #jm.add_junction(None, 'heal_sink')
     jm.add_junction('setzer', 'precision')
     jm.add_junction('setzer', 'faith')
+    jm.add_junction('setzer', 'vampire')
     jm.execute()
     return jm
 
