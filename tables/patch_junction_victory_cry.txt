@@ -1,0 +1,34 @@
+.addr   jun-checker                     610000
+.addr   main                            6210a0
+
+.def    jun-index-victory-cry       73
+
+026236: 22 $main
+:       ea
+
+$main
+:       c2 21
+:       da
+:       bb
+
+:       a9 jun-index-victory-cry 00
+:       22 $jun-checker
+:       f0 no-victory-cry
+:       bd e4 3e
+:       29 30 00
+:       9d e4 3e
+
+:       bd 1c 3c
+:       9d f4 3b
+:       bd 30 3c
+:       9d 08 3c
+
+.label no-victory-cry
+:       fa
+:       ad 35 2f
+:       6b
+
+VALIDATION
+
+026236: c2 21
+:       ad 35 2f

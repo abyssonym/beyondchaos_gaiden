@@ -118,7 +118,8 @@
         "water_sink":           "6f",
         "heal_font":            "70",
         "heal_sink":            "71",
-        "vampire":              "72"
+        "vampire":              "72",
+        "victory_cry":          "73"
     },
 
     "junction_short_names": {
@@ -221,7 +222,8 @@
         "water_sink":           "Water Sink",
         "heal_font":            "Heal Font",
         "heal_sink":            "Heal Sink",
-        "vampire":              "Vampire"
+        "vampire":              "Vampire",
+        "victory_cry":          "Victory Cry"
     },
 
     "character_names": [
@@ -649,6 +651,9 @@
         ],
         "vampire": [
             "patch_junction_vampire.txt"
+        ],
+        "victory_cry": [
+            "patch_junction_victory_cry.txt"
         ]
     }
 }

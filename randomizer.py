@@ -4150,6 +4150,7 @@ def test():
     jm.add_junction('setzer', 'precision')
     jm.add_junction('setzer', 'faith')
     jm.add_junction('setzer', 'vampire')
+    jm.add_junction('edgar', 'victory_cry')
     jm.execute()
     return jm
 
