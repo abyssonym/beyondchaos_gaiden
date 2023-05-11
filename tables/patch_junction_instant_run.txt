@@ -1,5 +1,5 @@
 .addr   jun-checker                     610000
-.addr   main                            620420
+.addr   main                            620430
 .addr   check-runner                    620460
 .addr   return-unrunnable               025c34
 .addr   return-runnable                 025c3a

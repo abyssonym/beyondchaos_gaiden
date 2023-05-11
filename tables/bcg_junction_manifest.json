@@ -121,6 +121,7 @@
         "vampire":              "72",
         "victory_cry":          "73",
         "firestarter":          "74",
+        "auto_reraise":         "75",
         "auto_potion":          "80"
     },
 
@@ -227,6 +228,7 @@
         "vampire":              "Vampire",
         "victory_cry":          "Victory Cry",
         "firestarter":          "Firestarter",
+        "auto_reraise":         "Auto-Life 3",
         "auto_potion":          "Auto-Potion"
     },
 
@@ -663,6 +665,9 @@
             "patch_junction_null_freeze.txt",
             "patch_junction_command_expansion.txt",
             "patch_junction_command_firestarter.txt"
+        ],
+        "auto_reraise": [
+            "patch_junction_initiative.txt"
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"

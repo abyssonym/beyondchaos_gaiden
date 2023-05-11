@@ -4154,6 +4154,7 @@ def test():
     #jm.add_junction(None, 'auto_potion')
     jm.add_junction(None, 'firestarter')
     jm.add_junction('edgar', 'null_freeze')
+    jm.add_junction(None, 'auto_reraise')
     jm.execute()
     return jm
 
