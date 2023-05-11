@@ -4156,6 +4156,7 @@ def test():
     jm.add_junction('edgar', 'null_freeze')
     jm.add_junction(None, 'auto_reraise')
     jm.add_junction(0x13, 'repel_ice', force_category='monster')
+    jm.add_junction('gau', 'immortal')
     jm.execute()
     return jm
 

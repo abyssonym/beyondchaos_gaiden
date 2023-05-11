@@ -1,0 +1,57 @@
+.addr   jun-checker                     610000
+
+.addr   main                            621280
+.addr   return-finish                   024607
+.addr   return-continue                 024603
+.addr   reentry-continue                024602
+.addr   command-queue-routine           024eb2
+.addr   self-spell-queue-routine        024e91
+
+.def    jun-index-immortal          90
+
+024600: da
+:       64 10
+:       5c $main
+$return-finish
+:       ea ea ea ea
+
+$main
+:       e2 20
+:       a9 jun-index-immortal
+:       c5 10
+:       90 no-immortal
+:       85 10
+:       e6 10
+:       bb
+:       22 $jun-checker
+:       f0 no-immortal
+
+:       a9 a6
+:       85 b8
+:       a9 26
+:       f4 $reentry-continue,2
+:       5c $self-spell-queue-routine
+
+.label no-immortal
+
+.label main-finish
+# duplicated code from c2/4598
+:       c2 20
+:       a9 40 01
+:       48
+:       a5 f8
+:       05 fc
+:       23 01
+:       04 f4
+:       68
+:       a9 80 00
+:       14 f4
+:       fa
+:       5c $return-finish
+
+VALIDATION
+
+024600: a9 40 01
+:       20 98 45
+:       a9 80 00
+:       14 f4

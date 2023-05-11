@@ -122,7 +122,8 @@
         "victory_cry":          "73",
         "firestarter":          "74",
         "auto_reraise":         "75",
-        "auto_potion":          "80"
+        "auto_potion":          "80",
+        "immortal":             "90"
     },
 
     "junction_short_names": {
@@ -229,7 +230,8 @@
         "victory_cry":          "Victory Cry",
         "firestarter":          "Firestarter",
         "auto_reraise":         "Auto-Life 3",
-        "auto_potion":          "Auto-Potion"
+        "auto_potion":          "Auto-Potion",
+        "immortal":             "Immortal"
     },
 
     "character_names": [
@@ -671,6 +673,9 @@
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"
+        ],
+        "immortal": [
+            "patch_junction_death_trigger.txt"
         ]
     }
 }
