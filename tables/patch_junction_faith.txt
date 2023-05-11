@@ -1,6 +1,6 @@
 .addr   jun-checker                     610000
 
-.addr   main                            621020
+.addr   main                            620bc0
 .addr   return-check-level              0222ec
 .addr   return-normal                   0222ac
 .addr   return-hit                      0222e8

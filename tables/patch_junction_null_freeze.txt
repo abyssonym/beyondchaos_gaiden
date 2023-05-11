@@ -26,6 +26,8 @@ $main-null-freeze
 :       64 fe
 :       da
 
+:       b9 0d 3f
+:       f0 no-freeze
 :       b9 f9 3e
 :       29 02
 :       f0 no-freeze
