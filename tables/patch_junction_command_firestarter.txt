@@ -1,0 +1,20 @@
+.addr   main                            6280c0
+.addr   reentry-address                 02175f
+
+.addr   pointer-address                 61f186
+.def    command-index       43
+
+.def    firestarter-spell-index 00
+
+$main
+:       ae 7b 3a
+:       a9 firestarter-spell-index
+:       85 b6
+:       a9 02
+:       85 b5
+:       9c a5 11
+
+:       5c $reentry-address
+
+$pointer-address
+:       $main,2

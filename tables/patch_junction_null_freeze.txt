@@ -1,15 +1,27 @@
 .addr   jun-checker                     610000
+.addr   jun-check-entity-living         610600
 
-.addr   main                            621000
+.addr   main-null-freeze                621000
+.addr   main-firestarter                621200
 .addr   return-normal                   022215
 .addr   return-miss                     0222d1
 
+.addr   reentry-firestarter             024693
+.addr   return-continue                 024694
+.addr   return-firestarter-normal       024699
+.addr   command-queue-routine           024eb2
+
 .def    jun-index-null-freeze       5a
+.def    jun-index-firestarter       74
+.def    firestarter-command         43
 
+022211: 5c $main-null-freeze
 
-022211: 5c $main
+024692: 64 10
+:       5c $main-firestarter
+:       ea
 
-$main
+$main-null-freeze
 :       e2 20
 :       64 fe
 :       da
@@ -30,7 +42,63 @@ $main
 :       fa
 :       5c $return-miss
 
+$main-firestarter
+:       e2 20
+
+:       a5 10
+:       d0 firestarter-initialized
+:       a9 14
+:       85 10
+:       da
+.label firestarter-initialized
+
+:       c6 10
+:       c6 10
+:       f0 exit-normal
+:       a6 10
+:       22 $jun-check-entity-living
+:       f0 exit-continue
+:       c0 08
+:       b0 monsters-only
+:       e0 08
+:       b0 exit-continue
+:       a9 jun-index-firestarter
+:       22 $jun-checker
+:       f0 exit-continue
+:       64 b9
+:       a9 0f
+:       85 b8
+:       80 execute-firestarter
+
+.label monsters-only
+:       e0 08
+:       90 exit-continue
+:       a9 jun-index-firestarter
+:       22 $jun-checker
+:       f0 exit-continue
+:       64 b8
+:       a9 3f
+:       85 b9
+
+.label execute-firestarter
+:       a9 firestarter-command
+:       8d 7a 3a
+:       9c 7b 3a
+:       f4 $reentry-firestarter,2
+:       5c $command-queue-routine
+
+.label exit-continue
+:       5c $return-continue
+.label exit-normal
+:       fa
+:       a9 22
+:       99 0d 3f
+:       5c $return-firestarter-normal
+
 VALIDATION
 
 022211: e2 20
 :       64 fe
+
+024692: e2 20
+:       a9 22

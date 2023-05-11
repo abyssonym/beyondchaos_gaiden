@@ -120,6 +120,7 @@
         "heal_sink":            "71",
         "vampire":              "72",
         "victory_cry":          "73",
+        "firestarter":          "74",
         "auto_potion":          "80"
     },
 
@@ -225,6 +226,7 @@
         "heal_sink":            "Heal Sink",
         "vampire":              "Vampire",
         "victory_cry":          "Victory Cry",
+        "firestarter":          "Firestarter",
         "auto_potion":          "Auto-Potion"
     },
 
@@ -656,6 +658,11 @@
         ],
         "victory_cry": [
             "patch_junction_victory_cry.txt"
+        ],
+        "firestarter": [
+            "patch_junction_null_freeze.txt",
+            "patch_junction_command_expansion.txt",
+            "patch_junction_command_firestarter.txt"
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"
