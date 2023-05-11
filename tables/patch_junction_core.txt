@@ -1,6 +1,7 @@
 .addr   jun-checker                         610000
 .addr   jun-check-whitelist                 610100
 .addr   jun-check-whitelist-monster-version 610400
+.addr   jun-check-rage                      6106c0
 .addr   jun-check-equip-whitelist           610180
 .addr   jun-check-status-whitelist          610500
 .addr   jun-check-blacklist                 610200
@@ -36,6 +37,7 @@
 .addr   living-enemies                      7e3a75
 .addr   present-characters                  7e3a78
 .addr   present-enemies                     7e3a79
+.addr   rage-indexes                        7e33a8
 
 .def    jun-data-bank       61
 
@@ -195,6 +197,9 @@ $jun-check-whitelist
 :   d0 found-whitelist
 
 :   20 $jun-check-status-whitelist,2
+:   d0 found-whitelist
+
+:   20 $jun-check-rage,2
 
 .label found-whitelist
 :   60
@@ -220,6 +225,23 @@ $jun-check-whitelist-monster-version
 :   d0 found-whitelist-monster-version
 :   20 $jun-check-status-whitelist,2
 .label found-whitelist-monster-version
+:   60
+
+$jun-check-rage
+:   a6 14
+:   bf f9 3e 7e
+:   89 01 00
+:   f0 no-rage
+:   bf $rage-indexes
+:   c9 ff ff
+:   f0 no-rage
+:   0a
+:   a8
+:   be $jun-monster-whitelist,2
+:   20 $jun-check-list,2
+:   60
+.label no-rage
+:   a9 00 00
 :   60
 
 $jun-check-equip-whitelist
