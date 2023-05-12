@@ -8,6 +8,7 @@
 .addr   self-spell-queue-routine        024e91
 
 .def    jun-index-immortal          90
+.def    chokesmoke-index            a6
 
 024600: da
 :       64 10
@@ -26,7 +27,7 @@ $main
 :       22 $jun-checker
 :       f0 no-immortal
 
-:       a9 a6
+:       a9 chokesmoke-index
 :       85 b8
 :       a9 26
 :       f4 $reentry-continue,2

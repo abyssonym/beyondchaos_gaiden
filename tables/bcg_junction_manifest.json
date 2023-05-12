@@ -122,6 +122,7 @@
         "victory_cry":          "73",
         "firestarter":          "74",
         "auto_reraise":         "75",
+        "camouflage":           "76",
         "auto_potion":          "80",
         "immortal":             "90"
     },
@@ -178,7 +179,7 @@
         "critical_gprain":      "SOS GP Rain",
         "critical_esper":       "SOS Esper",
         "critical_jump":        "SOS Jump",
-        "critical_revenge":     "SOS Revenge",
+        "critical_revenge":     "Meatbone Cut",
         "repel_fire":           "Repel Fire",
         "repel_ice":            "Repel Ice",
         "repel_bolt":           "Repel Bolt",
@@ -230,6 +231,7 @@
         "victory_cry":          "Victory Cry",
         "firestarter":          "Firestarter",
         "auto_reraise":         "Auto-Life 3",
+        "camouflage":           "Camouflage",
         "auto_potion":          "Auto-Potion",
         "immortal":             "Immortal"
     },
@@ -670,6 +672,9 @@
         ],
         "auto_reraise": [
             "patch_junction_initiative.txt"
+        ],
+        "camouflage": [
+            "patch_junction_taunt_salve.txt"
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"

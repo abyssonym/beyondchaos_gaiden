@@ -4,6 +4,7 @@
 .addr   main-target-manipulation        620200
 .addr   main-taunt-full                 620260
 .addr   main-taunt-half                 6202a0
+.addr   main-camouflage                 6212c0
 .addr   salve-target-group              620500
 .addr   salve-check-item-is-consumable  620530
 
@@ -14,6 +15,7 @@
 
 .def    jun-index-taunt-full    02
 .def    jun-index-taunt-half    03
+.def    jun-index-camouflage    76
 .def    jun-index-salve         07
 
 018925: 22 $salve-target-group
@@ -22,20 +24,19 @@
 0258ed: 5c $main-target-manipulation
 
 $main-target-manipulation
-:       c2 20
 :       a5 b8
-:       89 0f 00
+:       89 0f
 :       f0 no-taunt
 :       e0 08
 :       90 no-taunt
 :       20 $main-taunt-full,2
+:       20 $main-camouflage,2
 :       22 $jun-rng1
 :       90 no-taunt
 :       20 $main-taunt-half,2
 .label no-taunt
 :       85 b8
 
-:       e2 20
 :       a9 01
 :       c5 b5
 :       d0 just-return
@@ -47,18 +48,15 @@ $main-target-manipulation
 :       d0 return-with-salve
 
 .label just-return
-:       c2 20
 :       a5 b8
 :       5c $return
 
 .label return-with-salve
-:       c2 20
 :       a5 b8
 :       5c $return-skip-retarget
 
 
 $main-taunt-full
-:       e2 20
 :       da 5a 48
 :       85 10
 :       a0 00
@@ -87,15 +85,43 @@ $main-taunt-full
 :       68
 :       a5 10
 .label end-routine-taunt-full
-:       c2 20
 :       7a fa
 :       60
 .label found-target-taunt-full
 :       68
 :       80 end-routine-taunt-full
 
+$main-camouflage
+:       da 5a 48
+:       85 10
+:       a0 00
+.label loop-camouflage
+:       bb
+:       bf $bits
+:       24 10
+:       f0 skip-camouflage
+:       8a
+:       0a
+:       aa
+:       a9 jun-index-camouflage
+:       22 $jun-checker
+:       f0 skip-camouflage
+:       bb
+:       bf $bits
+:       14 10
+.label skip-camouflage
+:       c8
+:       c0 04
+:       d0 loop-camouflage
+:       a5 10
+:       d0 yes-camouflage
+:       68 7a fa
+:       60
+.label yes-camouflage
+:       7a 7a fa
+:       60
+
 $main-taunt-half
-:       e2 20
 :       da 5a 48
 :       85 10
 :       a0 00
@@ -124,7 +150,6 @@ $main-taunt-half
 :       68
 :       a5 10
 .label end-routine-taunt-half
-:       c2 20
 :       7a fa
 :       60
 .label found-target-taunt-half
