@@ -1,9 +1,11 @@
 .addr   jun-checker                     610000
+.addr   jun-rng1                        610820
 .addr   jun-check-count-all-living      610680
 .addr   main                            620c00
 .addr   main-nihopalaoa                 620c60
 .addr   check-nihopalaoa                620e80
 .addr   check-heal                      620f20
+.addr   check-catch                     621300
 .addr   boost-healing-half              620ea0
 .addr   boost-healing-double            620ec0
 .addr   boost-damage-double             620ee0
@@ -19,6 +21,8 @@
 .def    jun-index-chemist       5e
 .def    jun-index-nihopalaoa    5f
 .def    jun-index-precision     5b
+.def    jun-index-catch         77
+.def    throw-index             08
 
 022af2: 22 $main-nihopalaoa
 
@@ -38,6 +42,8 @@ $main
 :       f0 no-junction
 
 .label heal-or-damage
+:       20 $check-catch,2
+
 :       a5 b5
 :       29 ff 00
 :       c9 01 00
@@ -159,6 +165,37 @@ $check-precision
 
 .label no-precision
 :       c2 20
+:       60
+
+$check-catch
+:       da
+:       a5 b5
+:       29 ff 00
+:       c9 throw-index 00
+:       d0 catch-exit
+:       bb
+:       a9 jun-index-catch 00
+:       22 $jun-checker
+:       f0 catch-exit
+:       9e d0 33
+:       e0 08
+:       b0 catch-exit
+
+:       22 $jun-rng1
+:       b0 catch-exit
+
+:       e2 20
+:       a9 b0
+:       8d 01 34
+:       a5 b6
+:       8d 35 2f
+:       9d f4 32
+:       bd 18 30
+:       0c 8c 3a
+:       c2 20
+
+.label catch-exit
+:       fa
 :       60
 
 $boost-healing-half

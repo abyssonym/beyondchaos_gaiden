@@ -1,5 +1,5 @@
 .addr   jun-checker                     610000
-.addr   jun-rng1                        610820
+.addr   jun-rng2                        610830
 
 .addr   main                            620f00
 
@@ -11,8 +11,9 @@
 
 $main
 :       08
-:       22 $jun-rng1
-:       90 exit-no-freebie
+:       22 $jun-rng2
+:       29 03
+:       d0 exit-no-freebie
 :       a9 jun-index-freebie
 :       22 $jun-checker
 :       f0 exit-no-freebie

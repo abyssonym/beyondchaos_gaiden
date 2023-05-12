@@ -48,10 +48,12 @@ $main-target-manipulation
 :       d0 return-with-salve
 
 .label just-return
+:       c2 20
 :       a5 b8
 :       5c $return
 
 .label return-with-salve
+:       c2 20
 :       a5 b8
 :       5c $return-skip-retarget
 
