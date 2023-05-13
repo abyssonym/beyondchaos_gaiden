@@ -1,0 +1,76 @@
+.addr   jun-checker                     610000
+.addr   jun-mult                        610800
+.addr   main                            620040
+
+.def    jun-index           78
+
+02293d: 22 $main
+:       ea
+
+$main
+:       48 da 5a
+:       c2 10
+:       e0 08 00
+:       b0 no-junction
+:       9b
+
+:       a9 jun-index 00
+:       22 $jun-checker
+:       f0 no-junction
+:       b9 10 30
+:       18
+:       69 1e 16
+:       aa
+:       bd 00 00
+:       29 ff 00
+:       c9 ff 00
+:       f0 no-junction
+:       18
+:       69 36 00
+:       09 00 0e
+:       22 $jun-mult
+:       69 c0 6a
+:       aa
+
+:       e2 20
+:       bf 01 00 c4
+:       19 cd 3b
+:       99 cd 3b
+:       c2 20
+
+:       bf 00 00 c4
+:       89 40 00
+:       d0 target-enemy
+# check whether the esper restores instead of inflicts status
+:       bf 04 00 c4
+:       89 04 00
+:       d0 target-enemy
+
+:       bf 0a 00 c4
+:       19 e4 3e
+:       99 e4 3e
+:       bf 0c 00 c4
+:       19 f8 3e
+:       99 f8 3e
+# comment this line out to make beneficial status permanent
+:       80 no-junction
+
+.label target-enemy
+:       bf 0a 00 c4
+:       39 1c 33
+:       59 1c 33
+:       99 1c 33
+:       bf 0c 00 c4
+:       39 30 33
+:       59 30 33
+:       99 30 33
+
+.label no-junction
+:       e2 10
+:       7a fa 68
+:       6b
+
+VALIDATION
+
+02293d: a5 d8
+:       9d 58 3c

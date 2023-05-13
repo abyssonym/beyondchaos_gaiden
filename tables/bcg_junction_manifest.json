@@ -124,6 +124,7 @@
         "auto_reraise":         "75",
         "camouflage":           "76",
         "catch":                "77",
+        "esper_defense":        "78",
         "auto_potion":          "80",
         "immortal":             "90"
     },
@@ -234,6 +235,7 @@
         "auto_reraise":         "Auto-Life 3",
         "camouflage":           "Camouflage",
         "catch":                "Catch",
+        "esper_defense":        "EspDef-J",
         "auto_potion":          "Auto-Potion",
         "immortal":             "Immortal"
     },
@@ -680,6 +682,9 @@
         ],
         "catch": [
             "patch_junction_heal_boost_reverse.txt"
+        ],
+        "esper_defense": [
+            "patch_junction_esper_defense.txt"
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"

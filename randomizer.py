@@ -4159,6 +4159,7 @@ def test():
     jm.add_junction(0x13, 'repel_ice', force_category='monster')
     jm.add_junction('gau', 'immortal')
     jm.add_junction(None, 'catch')
+    jm.add_junction(None, 'esper_defense', 'whitelist')
     jm.execute()
     return jm
 
