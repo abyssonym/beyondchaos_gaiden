@@ -1,29 +1,39 @@
 .addr   jun-checker                     610000
-.addr   main                            6203a0
+.addr   jun-rng2                        610830
+.addr   main                            621340
+.addr   fix-force-field                 6203a0
 .addr   check-element                   6203e0
+.addr   check-prism                     6213c0
 .addr   return                          020bd8
 .addr   return-non-elemental            020c1e
+.addr   return-force-field-no-nullify   020be2
+.addr   return-force-field-nullify      020bfa
 .addr   bits                            00bafc
 
-.def    jun-index-fire      18
-.def    jun-index-ice       19
-.def    jun-index-bolt      1a
-.def    jun-index-poison    1b
-.def    jun-index-wind      1c
-.def    jun-index-pearl     1d
-.def    jun-index-earth     1e
-.def    jun-index-water     1f
+.def    jun-index-fire          18
+.def    jun-index-ice           19
+.def    jun-index-bolt          1a
+.def    jun-index-poison        1b
+.def    jun-index-wind          1c
+.def    jun-index-pearl         1d
+.def    jun-index-earth         1e
+.def    jun-index-water         1f
+.def    jun-index-prism-wall    79
 
 020bd3: 5c $main
+020bd8: 5c $fix-force-field
 
 020be5: ea 24 10
 020bf5: ea 24 10
 020c03: ea 24 10
 
 $main
-:       ad a1 11
+:       da
+:       20 $check-prism,2
 :       f0 non-elemental
 
+.label elemental
+:       fa da
 :       85 10
 :       a9 jun-index-fire
 :       20 $check-element,2
@@ -42,9 +52,47 @@ $main
 :       a9 jun-index-water
 :       20 $check-element,2
 
+:       fa
 :       5c $return
 .label non-elemental
+:       fa
+:       a9 00
+:       64 10
 :       5c $return-non-elemental
+
+$fix-force-field
+:       ad a1 11
+:       05 10
+:       f0 force-field-not-nullified
+:       0d c8 3e
+:       4d c8 3e
+:       f0 force-field-nullified
+.label force-field-not-nullified
+:       5c $return-force-field-no-nullify
+.label force-field-nullified
+:       5c $return-force-field-nullify
+
+$check-prism
+:       ad a1 11
+:       d0 exit-no-prism
+:       ad a2 11
+:       89 20
+:       f0 exit-no-prism
+:       a9 jun-index-prism-wall
+:       22 $jun-checker
+:       d0 prism-wall
+:       bb
+:       22 $jun-checker
+:       d0 prism-wall
+.label exit-no-prism
+:       ad a1 11
+:       60
+.label prism-wall
+:       22 $jun-rng2
+:       29 07
+:       aa
+:       bf $bits
+:       60
 
 $check-element
 :       48 da
@@ -71,6 +119,10 @@ VALIDATION
 
 020bd3: ad a1 11
 :       f0 46
+
+020bd8: ad c8 3e
+:       49 ff
+:       2d a1 11
 
 020be5: 2c a1 11
 020bf5: 2c a1 11

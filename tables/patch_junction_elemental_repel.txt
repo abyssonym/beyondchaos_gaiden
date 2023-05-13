@@ -1,6 +1,7 @@
 .addr   jun-checker                     610000
 .addr   main                            620700
 .addr   check-element                   620780
+.addr   check-prism                     6213c0
 .addr   bits                            00bafc
 
 # 022241 -> 02224f
@@ -31,10 +32,10 @@ $main
 :       22 $jun-checker
 :       d0 no-reflect
 
-:       bb
-:       ad a1 11
+:       20 $check-prism,2
 :       f0 non-elemental
 
+:       bb
 :       85 10
 :       a9 jun-index-fire
 :       20 $check-element,2

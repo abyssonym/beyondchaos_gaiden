@@ -125,6 +125,7 @@
         "camouflage":           "76",
         "catch":                "77",
         "esper_defense":        "78",
+        "prism_wall":           "79",
         "auto_potion":          "80",
         "immortal":             "90"
     },
@@ -236,6 +237,7 @@
         "camouflage":           "Camouflage",
         "catch":                "Catch",
         "esper_defense":        "EspDef-J",
+        "prism_wall":           "Prism Wall",
         "auto_potion":          "Auto-Potion",
         "immortal":             "Immortal"
     },
@@ -685,6 +687,9 @@
         ],
         "esper_defense": [
             "patch_junction_esper_defense.txt"
+        ],
+        "prism_wall": [
+            "patch_junction_elemental_pierce.txt"
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"
