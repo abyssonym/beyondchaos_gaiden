@@ -1,5 +1,6 @@
 .addr   jun-checker                     610000
-.addr   main                            620400
+.addr   main                            6207a0
+.addr   check-esper-defense             6200c0
 .addr   return-loop                     022594
 .addr   return-terminate                022600
 
@@ -19,6 +20,27 @@ $main
 :       9d f9 3e
 
 .label no-auto-reraise
+:       da
+:       20 $check-esper-defense,2
+:       f0 no-esper-defense
+:       aa
+:       bf 00 00 c4
+:       89 40 00
+:       d0 no-esper-defense
+# check whether the esper restores instead of inflicts status
+:       bf 04 00 c4
+:       89 04 00
+:       d0 no-esper-defense
+:       bf 0a 00 c4
+:       19 e4 3e
+:       99 e4 3e
+:       bf 0c 00 c4
+:       19 f8 3e
+:       99 f8 3e
+
+.label no-esper-defense
+:       e2 30
+:       fa
 :       a9 jun-index-initiative
 :       22 $jun-checker
 :       f0 main-exit

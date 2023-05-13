@@ -686,10 +686,12 @@
             "patch_junction_heal_boost_reverse.txt"
         ],
         "esper_defense": [
+            "patch_junction_initiative.txt",
             "patch_junction_esper_defense.txt"
         ],
         "prism_wall": [
-            "patch_junction_elemental_pierce.txt"
+            "patch_junction_elemental_pierce.txt",
+            "patch_junction_elemental_repel.txt"
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"

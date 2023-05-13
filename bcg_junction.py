@@ -223,6 +223,11 @@ class JunctionManager:
             for patch in self.patch_list[junction_index]:
                 self.patches.add(patch)
 
+    def enable_all_patches(self):
+        for junction_index in self.patch_list:
+            for patch in self.patch_list[junction_index]:
+                self.patches.add(patch)
+
     def get_junction_index(self, junction_item):
         if junction_item in self.junction_indexes:
             index = self.clean_number(self.junction_indexes[junction_item])
@@ -449,6 +454,7 @@ class JunctionManager:
 
     def execute(self):
         self.populate_everything()
+        self.enable_all_patches()
         self.write_patches()
         self.rewrite_descriptions()
         self.rewrite_battle_messages()

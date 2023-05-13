@@ -1,5 +1,5 @@
 .addr   jun-checker                     610000
-.addr   main                            620480
+.addr   main                            620400
 .addr   return-not-ready                0211ba
 .addr   return-ready                    0211aa
 
