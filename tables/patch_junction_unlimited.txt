@@ -1,0 +1,41 @@
+.addr   jun-checker                     610000
+.addr   jun-rng2                        610830
+.addr   main                            621400
+
+.def    jun-index           7a
+
+0215e9: 22 $main
+:       ea
+
+$main
+:       da
+:       bb
+:       a9 jun-index
+:       22 $jun-checker
+:       f0 no-junction
+:       b9 18 30
+:       2c 2f 3f
+:       d0 desperation-repeat
+:       22 $jun-rng2
+:       29 01
+:       80 exit
+.label desperation-repeat
+:       22 $jun-rng2
+:       29 03
+:       d0 exit
+:       b9 18 30
+:       1c 2f 3f
+:       a9 00
+:       80 exit
+.label no-junction
+:       22 $jun-rng2
+.label exit
+:       fa
+:       29 0f
+:       6b
+
+VALIDATION
+
+0215e9: 20 5a 4b
+:       29 0f
+:       d0 20

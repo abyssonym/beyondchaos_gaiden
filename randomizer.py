@@ -4161,6 +4161,7 @@ def test():
     jm.add_junction(None, 'catch')
     jm.add_junction(None, 'esper_defense')
     jm.add_junction('setzer', 'prism_wall')
+    jm.add_junction(None, 'unlimited')
     jm.execute()
     return jm
 

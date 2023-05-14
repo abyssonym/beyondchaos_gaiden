@@ -126,6 +126,7 @@
         "catch":                "77",
         "esper_defense":        "78",
         "prism_wall":           "79",
+        "unlimited":            "7a",
         "auto_potion":          "80",
         "immortal":             "90"
     },
@@ -238,6 +239,7 @@
         "catch":                "Catch",
         "esper_defense":        "EspDef-J",
         "prism_wall":           "Prism Wall",
+        "unlimited":            "Unlimited",
         "auto_potion":          "Auto-Potion",
         "immortal":             "Immortal"
     },
@@ -692,6 +694,9 @@
         "prism_wall": [
             "patch_junction_elemental_pierce.txt",
             "patch_junction_elemental_repel.txt"
+        ],
+        "unlimited": [
+            "patch_junction_unlimited.txt"
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"
