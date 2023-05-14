@@ -4169,6 +4169,7 @@ def test():
     jm.add_junction('setzer', 'boost_phys')
     #jm.add_junction(None, 'phys_sink')
     jm.add_junction(None, 'phys_font')
+    jm.add_junction('gau', 'vip')
     jm.execute()
     return jm
 

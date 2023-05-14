@@ -135,7 +135,8 @@
         "astral":               "7d",
         "vorpal":               "7e",
         "auto_potion":          "80",
-        "immortal":             "90"
+        "immortal":             "90",
+        "vip":                  "e0"
     },
 
     "junction_short_names": {
@@ -255,7 +256,8 @@
         "astral":               "Astral",
         "vorpal":               "Vorpal",
         "auto_potion":          "Auto-Potion",
-        "immortal":             "Immortal"
+        "immortal":             "Immortal",
+        "vip":                  "VIP"
     },
 
     "character_names": [
@@ -354,6 +356,7 @@
     ],
 
     "battle_messages": {
+        "36": "VIP fell…",
         "b0": "Got <12><01> <d7> 1 !",
         "b1": "Get a freebie!"
     },
@@ -729,6 +732,9 @@
         ],
         "immortal": [
             "patch_junction_death_trigger.txt"
+        ],
+        "vip": [
+            "patch_junction_vip.txt"
         ]
     }
 }

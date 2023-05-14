@@ -1,0 +1,23 @@
+.addr   jun-checker                     610000
+.addr   main                            6215c0
+.addr   return-normal                   0206e4
+.addr   return-vip-fell                 0206df
+
+.def    jun-index           e0
+
+0206db: 5c $main
+
+$main
+:       c9 05
+:       f0 vip-fell
+:       a9 jun-index
+:       22 $jun-checker
+:       d0 vip-fell
+:       5c $return-normal
+.label vip-fell
+:       5c $return-vip-fell
+
+VALIDATION
+
+0206db: c9 0e
+:       d0 05
