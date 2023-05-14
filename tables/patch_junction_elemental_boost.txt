@@ -6,8 +6,8 @@
 .addr   check-esper                     620e20
 .addr   check-nuke                      620e40
 .addr   boost-damage-half               620e00
-.addr   boost-damage-quarter            620cc0
-.addr   reduce-damage-quarter           620ce0
+.addr   boost-damage-quarter            621440
+.addr   reduce-damage-quarter           621460
 .addr   return                          023373
 .addr   bits                            00bafc
 
