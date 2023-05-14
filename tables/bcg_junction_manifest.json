@@ -134,6 +134,7 @@
         "mp_regen":             "7c",
         "astral":               "7d",
         "vorpal":               "7e",
+        "brace":                "7f",
         "auto_potion":          "80",
         "immortal":             "90",
         "vip":                  "e0"
@@ -255,6 +256,7 @@
         "mp_regen":             "MP Regen",
         "astral":               "Astral",
         "vorpal":               "Vorpal",
+        "brace":                "Brace",
         "auto_potion":          "Auto-Potion",
         "immortal":             "Immortal",
         "vip":                  "VIP"
@@ -726,6 +728,9 @@
         ],
         "vorpal": [
             "patch_junction_hit_trigger.txt"
+        ],
+        "brace": [
+            "patch_junction_heal_boost_reverse.txt"
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"

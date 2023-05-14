@@ -5,12 +5,14 @@
 .addr   main-nihopalaoa                 620c60
 .addr   check-nihopalaoa                620e80
 .addr   check-heal                      620f20
+.addr   check-brace                     6213a0
 .addr   check-catch                     621300
 .addr   boost-healing-half              620ea0
 .addr   boost-healing-double            620ec0
 .addr   boost-damage-double             620ee0
 .addr   boost-healing-quarter           620f60
 .addr   reduce-healing-quarter          620f80
+.addr   reduce-damage-half              620ce0
 .addr   reverse-damage                  620fa0
 .addr   check-precision                 620fc0
 
@@ -22,6 +24,7 @@
 .def    jun-index-nihopalaoa    5f
 .def    jun-index-precision     5b
 .def    jun-index-catch         77
+.def    jun-index-brace         7f
 .def    throw-index             08
 
 022af2: 22 $main-nihopalaoa
@@ -42,6 +45,7 @@ $main
 :       f0 no-junction
 
 .label heal-or-damage
+:       20 $check-brace,2
 :       20 $check-catch,2
 
 :       a5 b5
@@ -108,6 +112,20 @@ $check-heal
 .label end-heal-sink-loop
 
 .label not-heal
+:       60
+
+$check-brace
+:       da
+:       bb
+:       b9 a1 3a
+:       89 02 00
+:       f0 no-brace
+:       a9 jun-index-brace 00
+:       22 $jun-checker
+:       f0 no-brace
+:       20 $reduce-damage-half,2
+.label no-brace
+:       fa
 :       60
 
 $check-nihopalaoa
@@ -265,6 +283,15 @@ $boost-damage-double
 .label damage-double-no-overflow
 :       99 d0 33
 .label exit-damage-double
+:       60
+
+$reduce-damage-half
+:       b9 d0 33
+:       c9 ff ff
+:       f0 exit-damage-half
+:       4a
+:       99 d0 33
+.label exit-damage-half
 :       60
 
 VALIDATION
