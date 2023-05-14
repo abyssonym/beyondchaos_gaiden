@@ -128,6 +128,7 @@
         "prism_wall":           "79",
         "unlimited":            "7a",
         "mp_switch":            "7b",
+        "mp_regen":             "7c",
         "auto_potion":          "80",
         "immortal":             "90"
     },
@@ -242,6 +243,7 @@
         "prism_wall":           "Prism Wall",
         "unlimited":            "Unlimited",
         "mp_switch":            "MP Switch",
+        "mp_regen":             "MP Regen",
         "auto_potion":          "Auto-Potion",
         "immortal":             "Immortal"
     },
@@ -702,6 +704,9 @@
         ],
         "mp_switch": [
             "patch_junction_mp_switch.txt"
+        ],
+        "mp_regen": [
+            "patch_junction_mp_regen.txt"
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"

@@ -4163,6 +4163,7 @@ def test():
     jm.add_junction('setzer', 'prism_wall')
     jm.add_junction(None, 'unlimited')
     jm.add_junction(None, 'mp_switch')
+    jm.add_junction('buckler', 'mp_regen')
     jm.execute()
     return jm
 

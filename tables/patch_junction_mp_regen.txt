@@ -1,0 +1,34 @@
+.addr   jun-checker                     610000
+.addr   main                            621500
+
+.def    jun-index           7c
+
+025056: 22 $main
+:       ea
+
+$main
+:       da
+:       bb
+:       ad a1 11
+:       d0 normal-regen
+:       a9 jun-index
+:       22 $jun-checker
+:       d0 mp-regen
+
+.label normal-regen
+:       fa
+:       c2 20
+:       b9 1c 3c
+:       6b
+.label mp-regen
+:       a9 80
+:       0c a3 11
+:       fa
+:       c2 20
+:       b9 30 3c
+:       6b
+
+VALIDATION
+
+025056: c2 20
+:       b9 1c 3c
