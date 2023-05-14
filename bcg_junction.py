@@ -418,11 +418,13 @@ class JunctionManager:
         for p in pointers:
             self.outfile.seek((address & 0xFF8000) | p)
             message = b''
+            prev_c = None
             while True:
                 c = self.outfile.read(1)
-                if c == b'\x00':
+                if c == b'\x00' and prev_c != b'\x12':
                     break
                 message += c
+                prev_c = c
             messages.append(map_text(message))
         return messages
 
