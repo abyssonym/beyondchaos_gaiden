@@ -4164,6 +4164,9 @@ def test():
     jm.add_junction(None, 'unlimited')
     jm.add_junction(None, 'mp_switch')
     jm.add_junction('buckler', 'mp_regen')
+    jm.add_junction('setzer', 'boost_phys')
+    #jm.add_junction(None, 'phys_sink')
+    jm.add_junction(None, 'phys_font')
     jm.execute()
     return jm
 

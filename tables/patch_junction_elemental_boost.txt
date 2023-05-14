@@ -5,6 +5,7 @@
 .addr   check-element                   620340
 .addr   check-esper                     620e20
 .addr   check-nuke                      620e40
+.addr   check-phys                      621540
 .addr   boost-damage-half               620e00
 .addr   boost-damage-quarter            621440
 .addr   reduce-damage-quarter           621460
@@ -40,6 +41,9 @@
 .def    jun-index-nuke          4a
 .def    jun-index-nuke-font     4b
 .def    jun-index-nuke-sink     4c
+.def    jun-index-phys          4d
+.def    jun-index-phys-font     4e
+.def    jun-index-phys-sink     4f
 
 .def    ramuh-index             36
 .def    phoenix-index-plus-one  51
@@ -68,6 +72,7 @@ $main
 
 :       20 $check-esper,2
 :       20 $check-nuke,2
+:       20 $check-phys,2
 
 :       7a fa 68
 :       ad a2 11
@@ -172,6 +177,38 @@ $check-nuke
 .label end-nuke-sink-loop
 
 .label not-nuke
+:       60
+
+$check-phys
+:       ad a2 11
+:       89 01
+:       f0 not-phys
+
+:       a9 jun-index-phys
+:       22 $jun-checker
+:       f0 no-phys-boost
+:       20 $boost-damage-half,2
+.label no-phys-boost
+
+:       a9 jun-index-phys-font
+:       22 $jun-check-count-all-living
+.label phys-font-loop
+:       3a
+:       30 end-phys-font-loop
+:       20 $boost-damage-quarter,2
+:       80 phys-font-loop
+.label end-phys-font-loop
+
+:       a9 jun-index-phys-sink
+:       22 $jun-check-count-all-living
+.label phys-sink-loop
+:       3a
+:       30 end-phys-sink-loop
+:       20 $reduce-damage-quarter,2
+:       80 phys-sink-loop
+.label end-phys-sink-loop
+
+.label not-phys
 :       60
 
 $boost-damage-half
