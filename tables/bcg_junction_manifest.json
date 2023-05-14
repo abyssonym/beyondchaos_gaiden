@@ -132,6 +132,8 @@
         "unlimited":            "7a",
         "mp_switch":            "7b",
         "mp_regen":             "7c",
+        "astral":               "7d",
+        "vorpal":               "7e",
         "auto_potion":          "80",
         "immortal":             "90"
     },
@@ -250,6 +252,8 @@
         "unlimited":            "Unlimited",
         "mp_switch":            "MP Switch",
         "mp_regen":             "MP Regen",
+        "astral":               "Astral",
+        "vorpal":               "Vorpal",
         "auto_potion":          "Auto-Potion",
         "immortal":             "Immortal"
     },
@@ -713,6 +717,12 @@
         ],
         "mp_regen": [
             "patch_junction_mp_regen.txt"
+        ],
+        "astral": [
+            "patch_junction_hit_trigger.txt"
+        ],
+        "vorpal": [
+            "patch_junction_hit_trigger.txt"
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"
