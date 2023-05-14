@@ -127,6 +127,7 @@
         "esper_defense":        "78",
         "prism_wall":           "79",
         "unlimited":            "7a",
+        "mp_switch":            "7b",
         "auto_potion":          "80",
         "immortal":             "90"
     },
@@ -240,6 +241,7 @@
         "esper_defense":        "EspDef-J",
         "prism_wall":           "Prism Wall",
         "unlimited":            "Unlimited",
+        "mp_switch":            "MP Switch",
         "auto_potion":          "Auto-Potion",
         "immortal":             "Immortal"
     },
@@ -697,6 +699,9 @@
         ],
         "unlimited": [
             "patch_junction_unlimited.txt"
+        ],
+        "mp_switch": [
+            "patch_junction_mp_switch.txt"
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"

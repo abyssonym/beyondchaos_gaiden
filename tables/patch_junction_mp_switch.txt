@@ -1,0 +1,50 @@
+.addr   jun-checker                     610000
+.addr   jun-rng1                        610820
+.addr   main                            621480
+.addr   return-no-damage                02133b
+.addr   return-healing                  02132a
+.addr   return-damage                   02133d
+.addr   return-mp-damage                02136b
+
+.def    jun-index-mp-switch     7b
+.def    jun-index-blood         0a
+.def    jun-index-gold          0b
+
+021326: 5c $main
+
+$main
+:       f0 exit-no-damage
+:       b0 exit-healing
+:       48 da
+:       b9 08 3c
+:       f0 exit-damage
+:       22 $jun-rng1
+:       90 exit-damage
+:       bb
+
+:       a9 jun-index-mp-switch 00
+:       22 $jun-checker
+:       f0 exit-damage
+
+:       a9 jun-index-blood 00
+:       22 $jun-checker
+:       d0 exit-damage
+
+:       a9 jun-index-gold 00
+:       22 $jun-checker
+:       d0 exit-damage
+
+:       fa 68
+:       5c $return-mp-damage
+.label exit-no-damage
+:       5c $return-no-damage
+.label exit-healing
+:       5c $return-healing
+.label exit-damage
+:       fa 68
+:       5c $return-damage
+
+VALIDATION
+
+021326: f0 13
+:       90 13
