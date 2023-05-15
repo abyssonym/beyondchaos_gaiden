@@ -4,7 +4,7 @@
 .addr   main-target-manipulation        620200
 .addr   main-taunt-full                 620260
 .addr   main-taunt-half                 6202a0
-.addr   main-camouflage                 6212c0
+.addr   main-camouflage                 6207c0
 .addr   salve-target-group              620500
 .addr   salve-check-item-is-consumable  620530
 

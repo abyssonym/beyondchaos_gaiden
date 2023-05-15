@@ -137,6 +137,7 @@
         "brace":                "7f",
         "auto_potion":          "80",
         "immortal":             "90",
+        "spiraler":             "91",
         "final_fenix":          "98",
         "vip":                  "e0"
     },
@@ -260,6 +261,7 @@
         "brace":                "Brace",
         "auto_potion":          "Auto-Potion",
         "immortal":             "Immortal",
+        "spiraler":             "Final Spiral",
         "final_fenix":          "Final Fenix",
         "vip":                  "VIP"
     },
@@ -735,6 +737,9 @@
             "patch_junction_counter_trigger.txt"
         ],
         "immortal": [
+            "patch_junction_death_trigger.txt"
+        ],
+        "spiraler": [
             "patch_junction_death_trigger.txt"
         ],
         "final_fenix": [

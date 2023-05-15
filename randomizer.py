@@ -4171,7 +4171,8 @@ def test():
     jm.add_junction(None, 'phys_font')
     #jm.add_junction('gau', 'vip')
     jm.add_junction('edgar', 'brace')
-    jm.add_junction('shadow', 'final_fenix')
+    #jm.add_junction('shadow', 'final_fenix')
+    jm.add_junction('shadow', 'spiraler')
     jm.execute()
     return jm
 
