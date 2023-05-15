@@ -1,9 +1,9 @@
-.addr   main                            6280c0
+.addr   main                            628100
 .addr   reentry-address                 02175f
 
-.addr   pointer-address                 61f186
-.def    command-index               43
-.def    firestarter-spell-index     00
+.addr   pointer-address                 61f188
+.def    command-index               44
+.def    phoenix-spell-index         50
 
 $main
 :       c0 08
@@ -19,11 +19,13 @@ $main
 :       64 b8
 
 .label cast
-:       a9 firestarter-spell-index
+:       a9 phoenix-spell-index
 :       85 b6
 :       a9 02
 :       85 b5
 :       9c a5 11
+:       a9 10
+:       14 b0
 :       5c $reentry-address
 
 $pointer-address

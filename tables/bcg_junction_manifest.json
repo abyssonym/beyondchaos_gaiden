@@ -137,6 +137,7 @@
         "brace":                "7f",
         "auto_potion":          "80",
         "immortal":             "90",
+        "final_fenix":          "98",
         "vip":                  "e0"
     },
 
@@ -259,6 +260,7 @@
         "brace":                "Brace",
         "auto_potion":          "Auto-Potion",
         "immortal":             "Immortal",
+        "final_fenix":          "Final Fenix",
         "vip":                  "VIP"
     },
 
@@ -378,7 +380,8 @@
 
     "core_patch_list": [
         "patch_rom_expansion.txt",
-        "patch_junction_core.txt"
+        "patch_junction_core.txt",
+        "patch_junction_command_expansion.txt"
     ],
 
     "patch_list": {
@@ -533,17 +536,14 @@
         ],
         "critical_esper": [
             "patch_junction_critical_trigger.txt",
-            "patch_junction_command_expansion.txt",
             "patch_junction_command_summon.txt"
         ],
         "critical_jump": [
             "patch_junction_critical_trigger.txt",
-            "patch_junction_command_expansion.txt",
             "patch_junction_command_jump.txt"
         ],
         "critical_revenge": [
             "patch_junction_critical_trigger.txt",
-            "patch_junction_command_expansion.txt",
             "patch_junction_command_revenge.txt"
         ],
         "repel_fire": [
@@ -694,7 +694,6 @@
         ],
         "firestarter": [
             "patch_junction_null_freeze.txt",
-            "patch_junction_command_expansion.txt",
             "patch_junction_command_firestarter.txt"
         ],
         "auto_reraise": [
@@ -737,6 +736,11 @@
         ],
         "immortal": [
             "patch_junction_death_trigger.txt"
+        ],
+        "final_fenix": [
+            "patch_junction_initiative.txt",
+            "patch_junction_command_phoenix.txt",
+            "patch_junction_final_fenix.txt"
         ],
         "vip": [
             "patch_junction_vip.txt"

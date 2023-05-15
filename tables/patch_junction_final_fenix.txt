@@ -1,0 +1,27 @@
+.addr   jun-checker                     610000
+.addr   main                            6207a0
+.addr   return-normal                   0207a8
+.addr   return-fenix                    024e91
+.addr   command-queue-routine           024eb2
+
+.def    jun-index           98
+
+0207a4: 5c $main
+
+$main
+:       a9 jun-index
+:       22 $jun-checker
+:       f0 exit-normal
+:       a9 44
+:       8d 7a 3a
+:       9c 7b 3a
+:       5c $command-queue-routine
+.label exit-normal
+:       a9 30
+:       85 b8
+:       5c $return-normal
+
+VALIDATION
+
+0207a4: a9 30
+:       85 b8

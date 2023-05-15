@@ -1,20 +1,25 @@
 .addr   jun-checker                     610000
-.addr   main                            6207a0
+.addr   main                            621600
 .addr   check-esper-defense             6200c0
 .addr   return-loop                     022594
 .addr   return-terminate                022600
 
 .def    jun-index-initiative    04
 .def    jun-index-auto-reraise  75
+.def    jun-index-final-fenix   98
 
 0225fa: 5c $main
 :       ea ea
 
 $main
 :       bb
+:       a9 jun-index-final-fenix
+:       22 $jun-checker
+:       d0 yes-auto-reraise
 :       a9 jun-index-auto-reraise
 :       22 $jun-checker
 :       f0 no-auto-reraise
+.label yes-auto-reraise
 :       bd f9 3e
 :       09 04
 :       9d f9 3e
