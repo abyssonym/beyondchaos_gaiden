@@ -137,7 +137,8 @@
         "brace":                "7f",
         "auto_potion":          "80",
         "immortal":             "90",
-        "spiraler":             "91",
+        "final_spiral":         "91",
+        "final_esper":          "92",
         "final_fenix":          "98",
         "vip":                  "e0"
     },
@@ -192,7 +193,7 @@
         "critical_runic":       "SOS Runic",
         "critical_defend":      "SOS Defend",
         "critical_gprain":      "SOS GP Rain",
-        "critical_esper":       "SOS Esper",
+        "critical_esper":       "SOS Summon",
         "critical_jump":        "SOS Jump",
         "critical_revenge":     "Meatbone Cut",
         "repel_fire":           "Repel Fire",
@@ -216,7 +217,7 @@
         "null_freeze":          "Null Freeze?",
         "precision":            "Precision",
         "faith":                "Faith",
-        "boost_esper":          "Boost Esper",
+        "boost_esper":          "Boost Summon",
         "boost_nuke":           "Boost Nuke",
         "nuke_font":            "Nuke Font",
         "nuke_sink":            "Nuke Sink",
@@ -261,7 +262,8 @@
         "brace":                "Brace",
         "auto_potion":          "Auto-Potion",
         "immortal":             "Immortal",
-        "spiraler":             "Final Spiral",
+        "final_spiral":         "Final Spiral",
+        "final_esper":          "Final Summon",
         "final_fenix":          "Final Fenix",
         "vip":                  "VIP"
     },
@@ -739,7 +741,10 @@
         "immortal": [
             "patch_junction_death_trigger.txt"
         ],
-        "spiraler": [
+        "final_spiral": [
+            "patch_junction_death_trigger.txt"
+        ],
+        "final_esper": [
             "patch_junction_death_trigger.txt"
         ],
         "final_fenix": [

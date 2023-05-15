@@ -4159,7 +4159,7 @@ def test():
     jm.add_junction(0x13, 'repel_ice', force_category='monster')
     jm.add_junction('gau', 'immortal')
     jm.add_junction('gau', 'catch')
-    jm.add_junction(None, 'esper_defense')
+    #jm.add_junction(None, 'esper_defense')
     jm.add_junction('setzer', 'prism_wall')
     jm.add_junction(None, 'unlimited')
     #jm.add_junction(None, 'mp_switch')
@@ -4172,7 +4172,8 @@ def test():
     #jm.add_junction('gau', 'vip')
     jm.add_junction('edgar', 'brace')
     #jm.add_junction('shadow', 'final_fenix')
-    jm.add_junction('shadow', 'spiraler')
+    jm.add_junction('shadow', 'final_spiral')
+    jm.add_junction('edgar', 'final_esper')
     jm.execute()
     return jm
 

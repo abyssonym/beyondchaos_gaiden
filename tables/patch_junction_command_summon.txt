@@ -1,3 +1,4 @@
+.addr   jun-check-entity-living         610600
 .addr   main                            628000
 .addr   reentry-address                 02175f
 .addr   reentry-no-esper                024f5f
@@ -23,8 +24,14 @@ $main
 :       64 b8
 :       64 b9
 :       9c 15 34
+:       ae 7b 3a
+:       22 $jun-check-entity-living
+:       d0 step-forward
+:       a9 10
+:       14 b0
+.label step-forward
 :       5c $reentry-address
-.label  no-esper
+.label no-esper
 :       85 b8
 :       5c $reentry-no-esper
 

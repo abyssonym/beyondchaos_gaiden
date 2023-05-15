@@ -1,6 +1,6 @@
 .addr   jun-checker                     610000
 
-.addr   main                            621280
+.addr   main                            621700
 .addr   return-finish                   024607
 .addr   return-continue                 024603
 .addr   reentry-continue                024602
@@ -9,8 +9,10 @@
 
 .def    jun-index-immortal          90
 .def    jun-index-spiraler          91
+.def    jun-index-esper             92
 .def    chokesmoke-index            a6
 .def    spiraler-index              63
+.def    summon-command-index        40
 
 024600: da
 :       64 10
@@ -54,6 +56,25 @@ $main
 :       5c $self-spell-queue-routine
 
 .label no-spiraler
+:       a9 jun-index-esper
+:       c5 10
+:       90 no-esper
+:       85 10
+:       e6 10
+:       22 $jun-checker
+:       f0 no-esper
+:       bd 18 30
+:       0c 2e 3f
+:       d0 no-esper
+:       a9 80
+:       1d 04 32
+:       9d 04 32
+:       a9 summon-command-index
+:       8d 7a 3a
+:       f4 $reentry-continue,2
+:       5c $command-queue-routine
+
+.label no-esper
 .label main-finish
 # duplicated code from c2/4598
 :       c2 20
