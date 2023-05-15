@@ -7,12 +7,12 @@
 .addr   repeat-addr                     020a53
 
 .addr   spell-indexes-address           620580
-.def    spell-indexes           1f 21 22 26 2a 2b 2f 33 34 35 4c 4e fe
+.def    spell-indexes           1f 21 22 26 2a 2b 2f 33 34 35 4c 4e fe cf
 .addr   command-indexes-address         620590
 .def    command-indexes         26 03 0b 15 18 40 41 42
 
 .def    jun-index-first-spell   20
-.def    jun-index-final-spell   2c
+.def    jun-index-final-spell   2d
 
 .def    jun-index-escape        30
 .def    jun-index-morph         31

@@ -63,6 +63,7 @@
         "critical_golem":       "2a",
         "critical_fenrir":      "2b",
         "critical_rabbit":      "2c",
+        "critical_freeze":      "2d",
         "critical_escape":      "30",
         "critical_morph":       "31",
         "critical_runic":       "32",
@@ -188,6 +189,7 @@
         "critical_golem":       "SOS Golem",
         "critical_fenrir":      "SOS Fenrir",
         "critical_rabbit":      "SOS Rabbit",
+        "critical_freeze":      "SOS Freeze",
         "critical_escape":      "SOS Escape",
         "critical_morph":       "SOS Morph",
         "critical_runic":       "SOS Runic",
@@ -521,6 +523,9 @@
             "patch_junction_critical_trigger.txt"
         ],
         "critical_rabbit": [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "critical_freeze": [
             "patch_junction_critical_trigger.txt"
         ],
         "critical_escape": [
