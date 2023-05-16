@@ -4073,7 +4073,7 @@ def handle_exhirom():
 
 def test():
     jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json')
-    jm.add_junction(None, 0x01, 'whitelist')
+    #jm.add_junction(None, 0x01, 'whitelist')
     jm.add_junction('edgar', 'perfect_taunt', 'blacklist')
     jm.remove_junction('edgar', 0x02, 'blacklist')
     jm.add_junction('plumed hat', 0x02, force_category='equip')
@@ -4177,9 +4177,10 @@ def test():
     jm.add_junction('gau', 'critical_freeze')
     jm.add_junction('setzer', 'caller')
     jm.add_junction('setzer', 'initiative')
-    jm.add_junction('setzer', 'esper_attack')
+    #jm.add_junction('setzer', 'esper_attack')
     jm.add_junction('edgar', 'esper_defense')
     jm.add_junction('golem', 'barehanded')
+    jm.add_junction('raiden', 'decisive')
     jm.execute()
     return jm
 

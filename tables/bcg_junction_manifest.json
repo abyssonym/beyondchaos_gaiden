@@ -144,6 +144,7 @@
         "caller":               "99",
         "esper_attack":         "9a",
         "barehanded":           "9b",
+        "decisive":             "9c",
         "vip":                  "e0"
     },
 
@@ -273,6 +274,7 @@
         "caller":               "Caller",
         "esper_attack":         "EspAtk-J",
         "barehanded":           "Barehanded",
+        "decisive":             "Decisive",
         "vip":                  "VIP"
     },
 
@@ -772,6 +774,9 @@
         ],
         "barehanded": [
             "patch_junction_barehanded.txt"
+        ],
+        "decisive": [
+            "patch_junction_hit_trigger.txt"
         ],
         "vip": [
             "patch_junction_vip.txt"

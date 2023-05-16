@@ -3,8 +3,9 @@
 
 .def    jun-index-astral        7d
 .def    jun-index-vorpal        7e
+.def    jun-index-decisive      9c
 
-023198: 22 $main
+0231b6: 22 $main
 
 $main
 :       a9 01
@@ -19,16 +20,22 @@ $main
 .label not-physical
 :       a9 jun-index-astral
 :       22 $jun-checker
-:       f0 no-junction
+:       f0 no-astral
 :       a9 80
 :       0c a3 11
 
+.label no-astral
+:       a9 jun-index-decisive
+:       22 $jun-checker
+:       f0 no-junction
+:       9c 1a 34
+
 .label no-junction
-:       ad 70 3a
-:       1a
+:       a9 20
+:       14 b2
 :       6b
 
 VALIDATION
 
-023198: ad 70 3a
-:       1a
+0231b6: a9 20
+:       14 b2
