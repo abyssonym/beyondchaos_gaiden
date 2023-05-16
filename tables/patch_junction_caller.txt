@@ -12,6 +12,7 @@
 .addr           check-esper-available           621900
 .addr               check-esper-owned               6218c0
 .addr               check-can-equip-esper           621a00
+.addr                   esper-allocations-address       307880
 .addr           set-new-esper                   621960
 .addr               get-mp-cost-targeting           6219a0
 .addr                   mp-costs-address                046db4
@@ -26,6 +27,7 @@
 .addr       esper-menu-offsets-address      014b5f
 
 .addr   bits                            00bafc
+.addr   wide-bits                       00b4f3
 
 .def    jun-index           99
 .def    esper-order         0e 0d 07 13 0f 18 16 01 11 06 0b 09 14 1a 10 0c 00 02 05 03 15 19 08 04 0a 17 12 ff
@@ -36,6 +38,9 @@
 0182c1: 5c $main
 
 0182d6: 5c $no-select-disabled-esper
+
+025429: a5 f6
+:       80 18
 
 025789: 22 $main-multicast
 :       ea
@@ -189,7 +194,29 @@ $check-esper-owned
 :       c2 12
 :       60
 
+#.addr                   esper-allocations-address       307880
 $check-can-equip-esper
+:       48 08 48
+:       ad ca 62
+:       0a
+:       aa
+:       bd d8 3e
+:       0a
+:       aa
+:       68
+:       da
+:       0a
+:       aa
+:       c2 20
+:       bf $esper-allocations-address
+:       fa
+:       3f $wide-bits
+:       d0 yes-equip
+:       28 68
+:       e2 02
+:       60
+.label yes-equip
+:       28 68
 :       c2 02
 :       60
 
@@ -198,6 +225,8 @@ $set-new-esper
 :       ad ca 62
 :       0a
 :       aa
+:       68 48
+:       9d 44 33
 :       bc 10 30
 :       68
 :       99 1e 16
@@ -289,6 +318,9 @@ VALIDATION
 
 0182d6: a5 04
 :       10 20
+
+025429: a5 f6
+:       d0 18
 
 025789: bb
 :       38
