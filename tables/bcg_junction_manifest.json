@@ -596,10 +596,10 @@
             "patch_junction_miasma.txt"
         ],
         "reverse": [
-            "patch_junction_heal_boost_reverse.txt"
+            "patch_junction_damage_trigger.txt"
         ],
         "heal_boost": [
-            "patch_junction_heal_boost_reverse.txt"
+            "patch_junction_damage_trigger.txt"
         ],
         "gilgam_heart": [
             "patch_junction_gilgam_heart.txt"
@@ -625,7 +625,7 @@
             "patch_junction_null_freeze.txt"
         ],
         "precision": [
-            "patch_junction_heal_boost_reverse.txt"
+            "patch_junction_damage_trigger.txt"
         ],
         "faith": [
             "patch_junction_faith.txt"
@@ -649,10 +649,10 @@
             "patch_junction_freebie.txt"
         ],
         "chemist": [
-            "patch_junction_heal_boost_reverse.txt"
+            "patch_junction_damage_trigger.txt"
         ],
         "nihopalaoa": [
-            "patch_junction_heal_boost_reverse.txt"
+            "patch_junction_damage_trigger.txt"
         ],
         "ice_font": [
             "patch_junction_elemental_boost.txt"
@@ -700,10 +700,10 @@
             "patch_junction_elemental_boost.txt"
         ],
         "heal_font": [
-            "patch_junction_heal_boost_reverse.txt"
+            "patch_junction_damage_trigger.txt"
         ],
         "heal_sink": [
-            "patch_junction_heal_boost_reverse.txt"
+            "patch_junction_damage_trigger.txt"
         ],
         "vampire": [
             "patch_junction_vampire.txt"
@@ -722,7 +722,7 @@
             "patch_junction_taunt_salve.txt"
         ],
         "catch": [
-            "patch_junction_heal_boost_reverse.txt"
+            "patch_junction_damage_trigger.txt"
         ],
         "esper_defense": [
             "patch_junction_initiative.txt",
@@ -748,7 +748,7 @@
             "patch_junction_hit_trigger.txt"
         ],
         "brace": [
-            "patch_junction_heal_boost_reverse.txt"
+            "patch_junction_damage_trigger.txt"
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"
