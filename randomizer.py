@@ -4166,7 +4166,7 @@ def test():
     jm.add_junction('buckler', 'mp_regen')
     jm.add_junction('buckler', 'vorpal')
     jm.add_junction('imperial', 'astral')
-    jm.add_junction('setzer', 'boost_phys')
+    #jm.add_junction('setzer', 'boost_phys')
     #jm.add_junction(None, 'phys_sink')
     jm.add_junction(None, 'phys_font')
     #jm.add_junction('gau', 'vip')
@@ -4179,6 +4179,7 @@ def test():
     jm.add_junction('setzer', 'initiative')
     jm.add_junction('setzer', 'esper_attack')
     jm.add_junction('edgar', 'esper_defense')
+    jm.add_junction('golem', 'barehanded')
     jm.execute()
     return jm
 

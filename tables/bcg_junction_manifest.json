@@ -143,6 +143,7 @@
         "final_fenix":          "98",
         "caller":               "99",
         "esper_attack":         "9a",
+        "barehanded":           "9b",
         "vip":                  "e0"
     },
 
@@ -271,6 +272,7 @@
         "final_fenix":          "Final Fenix",
         "caller":               "Caller",
         "esper_attack":         "EspAtk-J",
+        "barehanded":           "Barehanded",
         "vip":                  "VIP"
     },
 
@@ -767,6 +769,9 @@
         "esper_attack": [
             "patch_junction_elemental_pierce.txt",
             "patch_junction_potent_venom.txt"
+        ],
+        "barehanded": [
+            "patch_junction_barehanded.txt"
         ],
         "vip": [
             "patch_junction_vip.txt"

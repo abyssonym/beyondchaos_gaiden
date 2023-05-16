@@ -1,0 +1,50 @@
+.addr   jun-checker                     610000
+.addr   jun-mult                        610800
+
+.addr   main                            62f800
+
+.def    jun-index       9b
+
+0228ea: 22 $main
+:       ea
+
+$main
+:       da 08
+:       c2 30
+:       a9 jun-index 00
+:       22 $jun-checker
+:       f0 holding-equipment
+:       bd 10 30
+:       aa
+:       bd 1f 16
+:       c9 ff ff
+:       d0 holding-equipment
+:       bd 08 16
+:       29 ff 00
+:       09 00 05
+:       22 $jun-mult
+:       18
+:       65 ac
+:       89 00 ff
+:       f0 no-overflow
+:       a9 ff 00
+.label no-overflow
+:       28 fa
+:       9d 68 3b
+:       eb
+:       1d 68 3b
+:       9d 68 3b
+:       6b
+.label holding-equipment
+:       28 fa
+:       a5 ac
+:       9d 68 3b
+:       6b
+
+VALIDATION
+
+0210e1: a5 fd
+:       79 ac 11
+
+0228ea: a5 ac
+:       9d 68 3b
