@@ -67,6 +67,7 @@ $check-esper-defense
 :       69 36 00
 :       09 00 0e
 :       22 $jun-mult
+:       18
 :       69 c0 6a
 :       60
 .label check-esper-defense-fail

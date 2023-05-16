@@ -1,14 +1,20 @@
-.addr   jun-checker                     610000
-.addr   jun-rng2                        610830
-.addr   main                            621340
-.addr   fix-force-field                 6203a0
-.addr   check-element                   6203e0
-.addr   check-prism                     6213c0
-.addr   return                          020bd8
-.addr   return-non-elemental            020c1e
-.addr   return-force-field-no-nullify   020be2
-.addr   return-force-field-nullify      020bfa
-.addr   bits                            00bafc
+.addr   jun-checker                             610000
+.addr   jun-rng2                                610830
+.addr   jun-mult                                610800
+.addr   main                                    621340
+.addr   main-esper-attack-misc-effect           621b00
+.addr   fix-force-field                         6203a0
+.addr   check-element                           6203e0
+.addr   check-prism                             6213c0
+.addr   check-has-esper                         621aa0
+.addr   get-esper-data-offset                   621ad0
+.addr   return                                  020bd8
+.addr   return-esper-attack-misc-normal         020b93
+.addr   return-esper-attack-misc-hp-based       020b98
+.addr   return-non-elemental                    020c1e
+.addr   return-force-field-no-nullify           020be2
+.addr   return-force-field-nullify              020bfa
+.addr   bits                                    00bafc
 
 .def    jun-index-fire          18
 .def    jun-index-ice           19
@@ -19,6 +25,10 @@
 .def    jun-index-earth         1e
 .def    jun-index-water         1f
 .def    jun-index-prism-wall    79
+.def    jun-index-esper-attack  9a
+
+020b8e: 5c $main-esper-attack-misc-effect
+:       ea
 
 020bd3: 5c $main
 020bd8: 5c $fix-force-field
@@ -27,14 +37,74 @@
 020bf5: ea 24 10
 020c03: ea 24 10
 
+$main-esper-attack-misc-effect
+:       20 $check-has-esper,2
+:       f0 no-esper-attack-misc-junction
+:       a9 jun-index-esper-attack
+:       22 $jun-checker
+:       f0 no-esper-attack-misc-junction
+:       da
+:       20 $get-esper-data-offset,2
+:       bf 04 00 c4
+:       29 03
+:       0c a4 11
+:       22 $jun-rng2
+:       29 03
+:       d0 esper-attack-misc-cleanup
+
+:       c2 20
+:       bf 04 00 c4
+:       29 04 00
+:       d0 misc-cure-status
+:       bf 0a 00 c4
+:       19 d4 3d
+:       99 d4 3d
+:       bf 0c 00 c4
+:       19 e8 3d
+:       99 e8 3d
+:       80 esper-attack-misc-cleanup
+.label misc-cure-status
+:       bf 0a 00 c4
+:       19 fc 3d
+:       99 fc 3d
+:       bf 0c 00 c4
+:       19 10 3e
+:       99 10 3e
+
+.label esper-attack-misc-cleanup
+:       e2 30
+:       fa
+.label no-esper-attack-misc-junction
+:       ad a4 11
+:       30 hp-based-damage
+:       5c $return-esper-attack-misc-normal
+.label hp-based-damage
+:       5c $return-esper-attack-misc-hp-based
+
 $main
 :       da
+:       ad a1 11
+:       85 10
+
+:       20 $check-has-esper,2
+:       f0 no-esper-main
+:       a9 jun-index-esper-attack
+:       22 $jun-checker
+:       da
+:       20 $get-esper-data-offset,2
+:       bf 01 00 c4
+:       e2 10
+:       0c a1 11
+:       25 10
+:       14 10
+:       fa
+
+.label no-esper-main
 :       20 $check-prism,2
 :       f0 non-elemental
 
 .label elemental
 :       fa da
-:       85 10
 :       a9 jun-index-fire
 :       20 $check-element,2
 :       a9 jun-index-ice
@@ -115,7 +185,44 @@ $check-element
 :       68
 :       60
 
+$check-has-esper
+:       48 5a 08
+:       c2 10
+:       e0 08 00
+:       b0 check-no-esper
+:       bc 10 30
+:       b9 1e 16
+:       c9 ff
+:       f0 check-no-esper
+:       28 7a 68
+:       c2 02
+:       60
+.label check-no-esper
+:       28 7a 68
+:       e2 02
+:       60
+
+$get-esper-data-offset
+:       c2 10
+:       48 5a 08
+:       bc 10 30
+:       b9 1e 16
+:       18
+:       69 36
+:       eb
+:       a9 0e
+:       c2 20
+:       22 $jun-mult
+:       18
+:       69 c0 6a
+:       aa
+:       28 7a 68
+:       60
+
 VALIDATION
+
+020b8e: ad a4 11
+:       30 05
 
 020bd3: ad a1 11
 :       f0 46

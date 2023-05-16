@@ -142,6 +142,7 @@
         "final_esper":          "92",
         "final_fenix":          "98",
         "caller":               "99",
+        "esper_attack":         "9a",
         "vip":                  "e0"
     },
 
@@ -269,6 +270,7 @@
         "final_esper":          "Final Summon",
         "final_fenix":          "Final Fenix",
         "caller":               "Caller",
+        "esper_attack":         "EspAtk-J",
         "vip":                  "VIP"
     },
 
@@ -389,7 +391,6 @@
     "core_patch_list": [
         "patch_rom_expansion.txt",
         "patch_junction_core.txt",
-        "patch_junction_caller.txt",
         "patch_junction_command_expansion.txt"
     ],
 
@@ -762,6 +763,10 @@
         ],
         "caller": [
             "patch_junction_caller.txt"
+        ],
+        "esper_attack": [
+            "patch_junction_elemental_pierce.txt",
+            "patch_junction_potent_venom.txt"
         ],
         "vip": [
             "patch_junction_vip.txt"
