@@ -1,7 +1,7 @@
 .addr   jun-checker                     610000
 .addr   jun-mult                        610800
 
-.addr   main                            62f800
+.addr   main                            621b80
 
 .def    jun-index       9b
 

@@ -145,6 +145,7 @@
         "esper_attack":         "9a",
         "barehanded":           "9b",
         "decisive":             "9c",
+        "maintenance":          "9d",
         "vip":                  "e0"
     },
 
@@ -275,6 +276,7 @@
         "esper_attack":         "EspAtk-J",
         "barehanded":           "Barehanded",
         "decisive":             "Decisive",
+        "maintenance":          "Maintenance",
         "vip":                  "VIP"
     },
 
@@ -777,6 +779,9 @@
         ],
         "decisive": [
             "patch_junction_hit_trigger.txt"
+        ],
+        "maintenance": [
+            "patch_junction_maintenance.txt"
         ],
         "vip": [
             "patch_junction_vip.txt"

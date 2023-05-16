@@ -4181,6 +4181,7 @@ def test():
     jm.add_junction('edgar', 'esper_defense')
     jm.add_junction('golem', 'barehanded')
     jm.add_junction('raiden', 'decisive')
+    jm.add_junction('edgar', 'maintenance')
     jm.execute()
     return jm
 
