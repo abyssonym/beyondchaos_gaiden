@@ -141,6 +141,7 @@
         "final_spiral":         "91",
         "final_esper":          "92",
         "final_fenix":          "98",
+        "caller":               "99",
         "vip":                  "e0"
     },
 
@@ -267,6 +268,7 @@
         "final_spiral":         "Final Spiral",
         "final_esper":          "Final Summon",
         "final_fenix":          "Final Fenix",
+        "caller":               "Caller",
         "vip":                  "VIP"
     },
 
@@ -387,6 +389,7 @@
     "core_patch_list": [
         "patch_rom_expansion.txt",
         "patch_junction_core.txt",
+        "patch_junction_caller.txt",
         "patch_junction_command_expansion.txt"
     ],
 
@@ -756,6 +759,9 @@
             "patch_junction_initiative.txt",
             "patch_junction_command_phoenix.txt",
             "patch_junction_final_fenix.txt"
+        ],
+        "caller": [
+            "patch_junction_caller.txt"
         ],
         "vip": [
             "patch_junction_vip.txt"

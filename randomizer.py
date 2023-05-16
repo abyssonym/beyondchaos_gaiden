@@ -4175,6 +4175,7 @@ def test():
     jm.add_junction('shadow', 'final_spiral')
     jm.add_junction('edgar', 'final_esper')
     jm.add_junction('gau', 'critical_freeze')
+    jm.add_junction('setzer', 'caller')
     jm.execute()
     return jm
 
