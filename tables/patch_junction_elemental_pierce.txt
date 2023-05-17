@@ -90,6 +90,7 @@ $main
 :       f0 no-esper-main
 :       a9 jun-index-esper-attack
 :       22 $jun-checker
+:       f0 no-esper-main
 :       da
 :       20 $get-esper-data-offset,2
 :       bf 01 00 c4

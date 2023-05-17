@@ -11,8 +11,8 @@
 .addr   do-distribute-monsters          621d60
 .addr   check-nihopalaoa                620e80
 .addr   check-heal                      620f20
-.addr   check-brace                     6213a0
-.addr   check-catch                     621300
+.addr   check-brace                     621280
+.addr   check-catch                     6212a0
 .addr   boost-healing-half              620ea0
 .addr   boost-healing-double            620ec0
 .addr   boost-damage-double             620ee0
