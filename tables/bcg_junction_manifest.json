@@ -137,6 +137,8 @@
         "vorpal":               "7e",
         "brace":                "7f",
         "auto_potion":          "80",
+        "damage_split":         "88",
+        "distribute":           "89",
         "immortal":             "90",
         "final_spiral":         "91",
         "final_esper":          "92",
@@ -268,6 +270,8 @@
         "vorpal":               "Vorpal",
         "brace":                "Brace",
         "auto_potion":          "Auto-Potion",
+        "damage_split":         "Damage Split",
+        "distribute":           "Distribute",
         "immortal":             "Immortal",
         "final_spiral":         "Final Spiral",
         "final_esper":          "Final Summon",
@@ -752,6 +756,12 @@
         ],
         "auto_potion": [
             "patch_junction_counter_trigger.txt"
+        ],
+        "damage_split": [
+            "patch_junction_damage_trigger.txt"
+        ],
+        "distribute": [
+            "patch_junction_damage_trigger.txt"
         ],
         "immortal": [
             "patch_junction_death_trigger.txt"

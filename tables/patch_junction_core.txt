@@ -13,6 +13,7 @@
 .addr   jun-check-entity-present            610640
 .addr   jun-check-count-all-living          610680
 .addr   jun-mult                            610800
+.addr   jun-divide                          610860
 .addr   jun-rng1                            610820
 .addr   jun-rng2                            610830
 .addr   jun-rng3                            610840
@@ -423,6 +424,23 @@ $jun-mult
 :   ea ea ea ea
 :   af 16 42 00
 :   28
+:   6b
+
+$jun-divide
+:   5a
+:   08
+:   c2 20
+:   8f 04 42 00
+:   e2 30
+:   8a
+:   8f 06 42 00
+:   ea ea ea ea  ea ea ea ea
+:   af 16 42 00
+:   aa
+:   c2 20
+:   af 14 42 00
+:   28
+:   7a
 :   6b
 
 # 0 or 1 (in carry bit)

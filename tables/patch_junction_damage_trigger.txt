@@ -1,8 +1,14 @@
 .addr   jun-checker                     610000
+.addr   jun-divide                      610860
 .addr   jun-rng1                        610820
+.addr   jun-check-entity-living         610600
 .addr   jun-check-count-all-living      610680
 .addr   main                            620c00
 .addr   main-nihopalaoa                 620c60
+.addr   main-calc                       621dc0
+.addr   check-calc                      621c80
+.addr   do-distribute-characters        621d00
+.addr   do-distribute-monsters          621d60
 .addr   check-nihopalaoa                620e80
 .addr   check-heal                      620f20
 .addr   check-brace                     6213a0
@@ -25,9 +31,13 @@
 .def    jun-index-precision     5b
 .def    jun-index-catch         77
 .def    jun-index-brace         7f
+.def    jun-index-damage-split  88
+.def    jun-index-distribute    89
 .def    throw-index             08
 
 022af2: 22 $main-nihopalaoa
+
+0262f1: 22 $main-calc
 
 0262f7: 22 $main
 :       ea ea
@@ -114,6 +124,16 @@ $check-heal
 .label not-heal
 :       60
 
+$main-calc
+:       64 f0
+:       64 f2
+:       a0 12
+.label main-calc-loop
+:       20 $check-calc,2
+:       88 88
+:       10 main-calc-loop
+:       6b
+
 $check-brace
 :       da
 :       bb
@@ -183,6 +203,173 @@ $check-precision
 
 .label no-precision
 :       c2 20
+:       60
+
+$check-calc
+:       da
+:       b9 d0 33
+:       1a
+:       f0 no-damage-split
+:       3a
+:       d9 f4 3b
+:       b0 no-damage-split
+:       bb
+:       a9 jun-index-damage-split 00
+:       22 $jun-checker
+:       f0 no-damage-split
+:       fa da
+:       fe d0 33
+:       f0 calc-attacker-damage-not-null
+:       de d0 33
+.label  calc-attacker-damage-not-null
+:       b9 d0 33
+:       4a 4a
+:       18
+:       7d d0 33
+:       9d d0 33
+:       b9 d0 33
+:       48
+:       4a 4a
+:       99 d0 33
+:       68
+:       38
+:       f9 d0 33
+:       99 d0 33
+
+.label no-damage-split
+:       b9 e4 33
+:       1a
+:       f0 no-distribute
+:       bb
+:       a9 jun-index-distribute 00
+:       22 $jun-checker
+:       f0 no-distribute
+:       b9 e4 33
+:       18
+:       79 f4 3b
+:       d9 1c 3c
+:       90 no-distribute
+:       38
+:       f9 1c 3c
+:       48
+:       b9 1c 3c
+:       38
+:       f9 f4 3b
+:       99 e4 33
+:       68
+:       c0 08
+:       b0 distribute-is-monster
+:       20 $do-distribute-characters,2
+:       80 no-distribute
+.label distribute-is-monster
+:       20 $do-distribute-monsters,2
+
+.label no-distribute
+:       fa
+:       60
+
+$do-distribute-characters
+:       da 5a 48
+:       a0 00
+:       a2 06
+
+:       e2 20
+.label dist-char-count-loop
+:       8a
+:       c3 03
+:       f0 dist-char-count-skip
+:       22 $jun-check-entity-living
+:       f0 dist-char-count-skip
+:       c8
+.label dist-char-count-skip
+:       ca ca
+:       10 dist-char-count-loop
+:       c2 20
+
+:       c0 00
+:       f0 dist-char-exit
+:       bb
+:       68
+:       22 $jun-divide
+:       48
+
+:       a2 06
+.label dist-char-heal-loop
+:       e2 20
+:       8a
+:       c3 03
+:       f0 dist-char-heal-skip
+:       22 $jun-check-entity-living
+:       f0 dist-char-heal-skip
+:       c2 20
+:       bd e4 33
+:       1a
+:       f0 dist-char-heal-not-null
+:       3a
+.label dist-char-heal-not-null
+:       18
+:       63 01
+:       9d e4 33
+.label dist-char-heal-skip
+:       ca ca
+:       10 dist-char-heal-loop
+
+.label dist-char-exit
+:       c2 20
+:       68 7a fa
+:       60
+
+$do-distribute-monsters
+:       da 5a 48
+:       a0 00
+:       a2 12
+
+:       e2 20
+.label dist-mon-count-loop
+:       8a
+:       c3 03
+:       f0 dist-mon-count-skip
+:       22 $jun-check-entity-living
+:       f0 dist-mon-count-skip
+:       c8
+.label dist-mon-count-skip
+:       ca ca
+:       e0 07
+:       b0 dist-mon-count-loop
+:       c2 20
+
+:       c0 00
+:       f0 dist-mon-exit
+:       bb
+:       68
+:       22 $jun-divide
+:       48
+
+:       a2 12
+.label dist-mon-heal-loop
+:       e2 20
+:       8a
+:       c3 03
+:       f0 dist-mon-heal-skip
+:       22 $jun-check-entity-living
+:       f0 dist-mon-heal-skip
+:       c2 20
+:       bd e4 33
+:       1a
+:       f0 dist-mon-heal-not-null
+:       3a
+.label dist-mon-heal-not-null
+:       18
+:       63 01
+:       9d e4 33
+.label dist-mon-heal-skip
+:       ca ca
+:       e0 07
+:       b0 dist-mon-heal-loop
+
+.label dist-mon-exit
+:       c2 20
+:       68 7a fa
 :       60
 
 $check-catch
@@ -295,6 +482,9 @@ $reduce-damage-half
 :       60
 
 VALIDATION
+
+0262f1: 64 f0
+:       64 f2
 
 022af2: bf 00 50 d8
 

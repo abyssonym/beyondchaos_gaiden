@@ -4130,7 +4130,7 @@ def test():
     jm.add_junction('leatherarmor', 'miasma')
     jm.add_junction('setzer', 'regenerator')
     jm.add_junction('dragoonboots', 'reverse')
-    jm.add_junction('mirage vest', 'heal_boost')
+    #jm.add_junction('mirage vest', 'heal_boost')
     jm.add_junction(None, 'gilgam_heart')
     #jm.add_junction('setzer', 'deaths_door')
     jm.add_junction(None, 'fire_font')
@@ -4145,7 +4145,7 @@ def test():
     jm.add_junction('imperial', 'innate_runic')
     #jm.add_junction(None, 'nuke_sink')
     jm.add_junction(None, 'freebie')
-    jm.add_junction(None, 'heal_font')
+    #jm.add_junction(None, 'heal_font')
     jm.add_junction('gau', 'null_freeze')
     #jm.add_junction(None, 'heal_sink')
     #jm.add_junction('setzer', 'precision')
@@ -4182,6 +4182,9 @@ def test():
     jm.add_junction('golem', 'barehanded')
     jm.add_junction('raiden', 'decisive')
     jm.add_junction('edgar', 'maintenance')
+    jm.add_junction('edgar', 'damage_split')
+    jm.add_junction('edgar', 'distribute')
+    jm.add_junction(0x13, 'distribute', force_category='monster')
     jm.execute()
     return jm
 
