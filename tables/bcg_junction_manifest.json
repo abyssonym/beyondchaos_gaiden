@@ -785,6 +785,7 @@
             "patch_junction_caller.txt"
         ],
         "esper_attack": [
+            "patch_junction_elemental_boost.txt",
             "patch_junction_elemental_pierce.txt",
             "patch_junction_potent_venom.txt"
         ],

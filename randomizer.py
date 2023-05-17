@@ -4177,7 +4177,7 @@ def test():
     jm.add_junction('gau', 'critical_freeze')
     jm.add_junction('setzer', 'caller')
     jm.add_junction('setzer', 'initiative')
-    #jm.add_junction('setzer', 'esper_attack')
+    jm.add_junction('setzer', 'esper_attack')
     jm.add_junction('edgar', 'esper_defense')
     jm.add_junction('golem', 'barehanded')
     jm.add_junction('raiden', 'decisive')

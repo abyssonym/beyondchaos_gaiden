@@ -2,7 +2,7 @@
 .addr   jun-check-entity-living         610600
 .addr   jun-check-count-all-living      610680
 .addr   main                            620300
-.addr   check-element                   620340
+.addr   check-element                   6212e0
 .addr   check-esper                     620e20
 .addr   check-nuke                      620e40
 .addr   check-phys                      621540
@@ -11,6 +11,9 @@
 .addr   reduce-damage-quarter           621460
 .addr   return                          023373
 .addr   bits                            00bafc
+
+.addr   check-has-esper                 621aa0
+.addr   get-esper-data-offset           621ad0
 
 .def    jun-index-fire          10
 .def    jun-index-ice           11
@@ -45,6 +48,8 @@
 .def    jun-index-phys-font     4e
 .def    jun-index-phys-sink     4f
 
+.def    jun-index-esper-attack  9a
+
 .def    ramuh-index             36
 .def    phoenix-index-plus-one  51
 
@@ -53,6 +58,19 @@
 $main
 :       48 da 5a
 
+:       20 $check-has-esper,2
+:       f0 no-esper-main
+:       a9 jun-index-esper-attack
+:       22 $jun-checker
+:       f0 no-esper-main
+:       da
+:       20 $get-esper-data-offset,2
+:       bf 01 00 c4
+:       0c a1 11
+:       e2 10
+:       fa
+
+.label no-esper-main
 :       a9 jun-index-fire
 :       20 $check-element,2
 :       a9 jun-index-ice
@@ -96,6 +114,7 @@ $check-element
 
 :       29 07
 :       aa
+:       18
 :       69 jun-index-fire-font
 :       22 $jun-check-count-all-living
 .label font-loop
@@ -106,6 +125,7 @@ $check-element
 .label end-font-loop
 
 :       8a
+:       18
 :       69 jun-index-fire-sink
 :       22 $jun-check-count-all-living
 .label sink-loop
