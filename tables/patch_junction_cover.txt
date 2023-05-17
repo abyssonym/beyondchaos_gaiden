@@ -1,0 +1,135 @@
+.addr   jun-checker                     610000
+.addr   jun-check-entity-living         610600
+.addr   jun-rng1                        610820
+.addr   jun-select-bit                  6108a0
+.addr   jun-bit-to-index                6108d0
+
+.addr   main                            621e00
+.addr   check-paladins                  621ea0
+.addr   check-popular                   621ee0
+.addr   get-potential-bodyguards        621e40
+.addr   return-love-token               021259
+.addr   return-no-bodyguards            02125f
+.addr   wide-bits                       00b4f3
+
+.def    jun-index-true-paladin  9e
+.def    jun-index-popular       9f
+
+021254: 5c $main
+
+$main
+:       be 6c 33
+:       30 check-junctions
+.label exit-with-bodyguard
+:       5c $return-love-token
+.label check-junctions
+:       20 $check-paladins,2
+:       10 exit-with-bodyguard
+.label no-paladins
+:       bb
+:       a9 jun-index-popular 00
+:       22 $jun-checker
+:       f0 no-bodyguards
+:       20 $check-popular,2
+:       10 exit-with-bodyguard
+.label no-bodyguards
+:       a2 ff
+:       5c $return-no-bodyguards
+
+$check-paladins
+:       20 $get-potential-bodyguards,2
+:       a2 12
+
+.label paladins-loop
+:       48
+:       3f $wide-bits
+:       f0 paladins-skip
+:       a9 jun-index-true-paladin 00
+:       22 $jun-checker
+:       d0 paladins-skip
+:       68
+:       1f $wide-bits
+:       5f $wide-bits
+:       48
+.label paladins-skip
+:       68
+:       ca ca
+:       10 paladins-loop
+
+:       c9 00 00
+:       f0 paladins-fail
+:       22 $jun-select-bit
+:       22 $jun-bit-to-index
+:       8a 0a aa
+:       60
+.label paladins-fail
+:       a2 ff
+:       60
+
+$check-popular
+:       20 $get-potential-bodyguards,2
+:       c9 00 00
+:       f0 popular-fail
+:       22 $jun-select-bit
+:       22 $jun-bit-to-index
+:       8a 0a aa
+:       60
+.label popular-fail
+:       a2 ff
+:       60
+
+$get-potential-bodyguards
+:       a9 00 00
+:       a2 12
+:       48
+.label potential-loop
+:       bd a0 3a
+:       4a
+:       90 potential-skip
+:       bd b8 32
+:       10 potential-skip
+:       bd 58 33
+:       10 potential-skip
+:       bd e4 3e
+:       89 d2 a0
+:       d0 potential-skip
+:       bd f8 3e
+:       89 10 32
+:       d0 potential-skip
+:       22 $jun-check-entity-living
+:       f0 potential-skip
+:       68
+:       1f $wide-bits
+:       48
+.label potential-skip
+:       ca ca
+:       10 potential-loop
+
+:       68
+:       bb
+:       1f $wide-bits
+:       5f $wide-bits
+:       22 $jun-rng1
+:       90 potential-force-allies-only
+:       48
+:       a9 jun-index-popular 00
+:       22 $jun-checker
+:       d0 potential-pull-exit
+:       68
+.label potential-force-allies-only
+:       c0 08
+:       b0 potential-is-monster
+:       29 0f 00
+:       60
+.label potential-is-monster
+:       29 f0 ff
+:       60
+.label potential-pull-exit
+:       68
+:       60
+
+VALIDATION
+
+021253: da
+:       be 6c 33
+:       30 06

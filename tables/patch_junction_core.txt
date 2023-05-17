@@ -17,6 +17,9 @@
 .addr   jun-rng1                            610820
 .addr   jun-rng2                            610830
 .addr   jun-rng3                            610840
+.addr   jun-select-bit                      6108a0
+.addr   jun-bit-to-index                    6108d0
+.addr   jun-count-bits                      6108c0
 .addr   jun-always-whitelist                611000
 .addr   jun-character-whitelist             611800
 .addr   jun-character-blacklist             611c00
@@ -475,6 +478,53 @@ $jun-rng3
 :   eb
 :   28
 :   fa
+:   6b
+
+$jun-bit-to-index
+:   48
+:   22 $jun-count-bits
+:   e0 01
+:   d0 bit-to-index-fail
+:   68
+:   a2 00
+.label bit-to-index-loop
+:   e8
+:   4a
+:   d0 bit-to-index-loop
+:   ca
+:   6b
+.label bit-to-index-fail
+:   68
+:   a2 ff
+:   6b
+
+$jun-count-bits
+:   a2 00
+:   4a
+:   90 01
+:   e8
+:   d0 fa
+:   6b
+
+$jun-select-bit
+:   5a
+:   08
+:   c2 20
+:   85 ee
+:   22 $jun-count-bits
+:   8a
+:   f0 0e
+:   22 $jun-rng3
+:   aa
+:   38
+:   7b
+:   2a
+:   24 ee
+:   f0 fb
+:   ca
+:   10 f8
+:   28
+:   7a
 :   6b
 
 $jun-check-entity-living

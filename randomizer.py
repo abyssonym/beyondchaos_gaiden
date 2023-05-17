@@ -4185,6 +4185,8 @@ def test():
     jm.add_junction('edgar', 'damage_split')
     jm.add_junction('edgar', 'distribute')
     jm.add_junction(0x13, 'distribute', force_category='monster')
+    #jm.add_junction('edgar', 'true_paladin')
+    jm.add_junction('gau', 'popular')
     jm.execute()
     return jm
 

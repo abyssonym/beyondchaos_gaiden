@@ -148,6 +148,8 @@
         "barehanded":           "9b",
         "decisive":             "9c",
         "maintenance":          "9d",
+        "true_paladin":         "9e",
+        "popular":              "9f",
         "vip":                  "e0"
     },
 
@@ -281,6 +283,8 @@
         "barehanded":           "Barehanded",
         "decisive":             "Decisive",
         "maintenance":          "Maintenance",
+        "true_paladin":         "True Paladin",
+        "popular":              "Popular",
         "vip":                  "VIP"
     },
 
@@ -792,6 +796,12 @@
         ],
         "maintenance": [
             "patch_junction_maintenance.txt"
+        ],
+        "true_paladin": [
+            "patch_junction_cover.txt"
+        ],
+        "popular": [
+            "patch_junction_cover.txt"
         ],
         "vip": [
             "patch_junction_vip.txt"
