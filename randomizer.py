@@ -4174,8 +4174,8 @@ def test():
     #jm.add_junction('gau', 'vip')
     jm.add_junction('edgar', 'brace')
     #jm.add_junction('shadow', 'final_fenix')
-    #jm.add_junction('shadow', 'final_spiral')
-    jm.add_junction('edgar', 'final_esper')
+    jm.add_junction('shadow', 'final_spiral')
+    jm.add_junction('setzer', 'final_esper')
     #jm.add_junction('gau', 'critical_freeze')
     jm.add_junction('setzer', 'caller')
     jm.add_junction('setzer', 'initiative')
@@ -4192,6 +4192,7 @@ def test():
     jm.add_junction('gau', 'popular')
     jm.add_junction('shadow', 'final_fenix')
     jm.add_junction(0x13, 'final_fenix', force_category='monster')
+    jm.add_junction(0x4d, 'final_spiral', force_category='monster')
     jm.execute()
     return jm
 

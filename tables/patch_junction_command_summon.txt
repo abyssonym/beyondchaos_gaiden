@@ -10,7 +10,7 @@ $main
 :       ae 7b 3a
 :       e0 08
 :       b0 no-esper
-:       c2 20
+:       c2 30
 :       bd 10 30
 :       aa
 :       e2 20
@@ -24,6 +24,7 @@ $main
 :       64 b8
 :       64 b9
 :       9c 15 34
+:       e2 10
 :       ae 7b 3a
 :       22 $jun-check-entity-living
 :       d0 step-forward

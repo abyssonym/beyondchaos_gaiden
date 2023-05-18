@@ -10,6 +10,9 @@ $main
 # stops character from standing up
 :       a9 10
 :       14 b0
+# prevents attack name from being displayed
+:       a9 01
+:       14 b2
 :       5c $reentry-address
 
 $pointer-address
