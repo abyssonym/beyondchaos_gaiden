@@ -1,9 +1,8 @@
 .addr   jun-checker                     610000
 .addr   main                            620430
 .addr   check-runner                    620460
-.addr   return-unrunnable               025c34
-.addr   return-runnable                 025c3a
-.addr   return-instant-run              025c4d
+.addr   return-found-runners            025be2
+.addr   return-found-no-runners         025be0
 
 .def    jun-index           05
 
@@ -28,11 +27,11 @@ $main
 :       fa
 :       ad 91 3a
 :       29 70
-:       5c e0 5b c2
+:       5c $return-found-no-runners
 .label found-runners
 :       0c 38 3a
 :       fa
-:       5c e2 5b c2
+:       5c $return-found-runners
 
 $check-runner
 :       bd a0 3a

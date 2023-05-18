@@ -10,6 +10,7 @@
 
 .addr   return                          0258f1
 .addr   return-skip-retarget            0258f4
+.addr   old-bit-select                  02522a
 .addr   bits                            00bafc
 .addr   item-table-address              185000
 
@@ -216,5 +217,5 @@ VALIDATION
 
 0258ed: c2 20
 :       a5 b8
-:       20 2a 52
+:       20 $old-bit-select,2
 :       85 b8

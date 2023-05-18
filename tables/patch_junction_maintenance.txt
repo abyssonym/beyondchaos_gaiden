@@ -5,6 +5,9 @@
 .addr   main-enemy-steal                621c00
 .addr   main-ogre-nix                   621c20
 
+.addr   old-rng2                        024b5a
+.addr   old-rng3                        024b65
+
 .def    jun-index       9d
 
 023a0c: 22 $main-enemy-steal
@@ -41,7 +44,7 @@ $main-ogre-nix
 
 VALIDATION
 023a0c: ee 01 34
-:       20 5a 4b
+:       20 $old-rng2,2
 
-023ee4: 20 65 4b
+023ee4: 20 $old-rng3,2
 :       3a

@@ -2,6 +2,8 @@
 .addr   jun-rng2                        610830
 .addr   main                            621400
 
+.addr   old-rng2                        024b5a
+
 .def    jun-index           7a
 
 0215e9: 22 $main
@@ -36,6 +38,6 @@ $main
 
 VALIDATION
 
-0215e9: 20 5a 4b
+0215e9: 20 $old-rng2,2
 :       29 0f
 :       d0 20

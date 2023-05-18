@@ -8,6 +8,7 @@
 
 .addr   return-proc                     023650
 .addr   return-no-proc                  023665
+.addr   return-esper-proc               02365b
 .addr   esper-data-learn                186e00
 .addr   esper-data-spell                186e01
 .addr   spell-data                      046ac0
@@ -36,7 +37,7 @@ $main
 :       22 $esper-magic-selector
 :       c9 ff
 :       f0 no-junction
-:       5c 5b 36 c2
+:       5c $return-esper-proc
 .label no-junction
 :       ad 89 3a
 :       89 40

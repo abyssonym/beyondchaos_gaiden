@@ -8,6 +8,7 @@
 .addr   monster-indexes                 7e1ff9
 .addr   monster-steals                  0f3000
 .addr   monster-drops                   0f3002
+.addr   jump-set-death                  020e32
 
 .def    jun-index-poach         0e
 .def    jun-index-imp-harvest   0f
@@ -113,4 +114,4 @@ $obtain-item
 
 VALIDATION
 0213a1: a9 80 00
-:       4c 32 0e
+:       4c $jump-set-death,2
