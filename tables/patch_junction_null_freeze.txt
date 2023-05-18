@@ -1,25 +1,21 @@
 .addr   jun-checker                     610000
 .addr   jun-check-entity-living         610600
+.addr   jun-check-entity-can-act        6106c0
+.addr   jun-set-target-allies           610780
+.addr   jun-queue-command               610ff0
 
 .addr   main-null-freeze                621000
 .addr   main-firestarter                621200
 .addr   return-normal                   022215
 .addr   return-miss                     0222d1
 
-.addr   reentry-firestarter             024693
-.addr   return-continue                 024694
-.addr   return-firestarter-normal       024699
-.addr   command-queue-routine           024eb2
-
 .def    jun-index-null-freeze       5a
 .def    jun-index-firestarter       74
-.def    firestarter-command         43
 
 022211: 5c $main-null-freeze
 
-024692: 64 10
-:       5c $main-firestarter
-:       ea
+024692: 22 $main-firestarter
+:       ea ea ea
 
 $main-null-freeze
 :       e2 20
@@ -45,57 +41,47 @@ $main-null-freeze
 :       5c $return-miss
 
 $main-firestarter
+:       da 5a
+
 :       e2 20
-
-:       a5 10
-:       d0 firestarter-initialized
-:       a9 14
-:       85 10
-:       da
-.label firestarter-initialized
-
-:       c6 10
-:       c6 10
-:       f0 exit-normal
-:       a6 10
-:       22 $jun-check-entity-living
-:       f0 exit-continue
-:       c0 08
-:       b0 monsters-only
-:       e0 08
-:       b0 exit-continue
-:       a9 jun-index-firestarter
-:       22 $jun-checker
-:       f0 exit-continue
-:       64 b9
-:       a9 0f
+:       a2 12
+.label firestarter-loop
+:       8a
+:       c3 01
+:       f0 firestarter-skip
+:       22 $jun-check-entity-can-act
+:       f0 firestarter-skip
+:       c2 20
+:       bd 18 30
 :       85 b8
-:       80 execute-firestarter
-
-.label monsters-only
-:       e0 08
-:       90 exit-continue
+:       22 $jun-set-target-allies
+:       b9 18 30
+:       25 b8
+:       e2 20
+:       f0 firestarter-skip
 :       a9 jun-index-firestarter
 :       22 $jun-checker
-:       f0 exit-continue
-:       64 b8
-:       a9 3f
-:       85 b9
-
-.label execute-firestarter
-:       a9 firestarter-command
+:       f0 firestarter-skip
+:       a9 02
 :       8d 7a 3a
-:       9c 7b 3a
-:       f4 $reentry-firestarter,2
-:       5c $command-queue-routine
+:       a9 00
+:       8d 7b 3a
+# set mp cost to zero, because it will be wrong if the spell isn't learned
+:       a9 40
+:       04 b1
+:       22 $jun-queue-command
+.label firestarter-skip
+:       ca ca
+:       10 firestarter-loop
 
-.label exit-continue
-:       5c $return-continue
 .label exit-normal
-:       fa
+:       64 b8
+:       64 b9
+:       7a fa
+:       e2 20
 :       a9 22
 :       99 0d 3f
-:       5c $return-firestarter-normal
+:       6b
 
 VALIDATION
 

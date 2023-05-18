@@ -43,6 +43,7 @@
 .addr   jun-check-count-all-living          610680
 .addr   jun-check-inventory                 610700
 .addr   jun-deduct-item-if-possible         610740
+.addr   jun-set-target-allies               610780
 
 .addr   bits                                00bafc
 .addr   wide-bits                           00b4f3
@@ -596,6 +597,26 @@ $jun-check-entity-present
 :   c2 02
 :   6b
 
+$jun-check-entity-can-act
+#   X - battle index
+:   48 08
+:   c2 20
+:   22 $jun-check-entity-living
+:   f0 check-can-act-no
+:   bd e4 3e
+:   89 c2 b0
+:   d0 check-can-act-no
+:   bd f8 3e
+:   89 10 02
+:   d0 check-can-act-no
+:   28 68
+:   c2 02
+:   6b
+.label check-can-act-no
+:   28 68
+:   e2 02
+:   6b
+
 $jun-check-count-all-living
 #   A - junction index
 :   08 da 5a
@@ -655,8 +676,10 @@ $jun-deduct-item-if-possible
 :       da 5a 08
 :       22 $jun-check-inventory
 :       f0 deduct-item-fail
+:       e2 20
 :       48
 :       de $inventory-quantity-address,2
+:       bd $inventory-quantity-address,2
 :       d0 not-last-item
 :       a9 ff
 :       99 $inventory-address,2
@@ -669,6 +692,22 @@ $jun-deduct-item-if-possible
 :       e2 02
 :       6b
 
+$jun-set-target-allies
+:       08
+:       e2 20
+:       a5 b8
+:       f0 enemy-targeting
+:       a9 0f
+:       85 b8
+.label enemy-targeting
+:       a5 b9
+:       f0 exit-set-target-allies
+:       a9 3f
+:       85 b9
+.label exit-set-target-allies
+:       28
+:       6b
+
 $jun-dispatcher-address-c2
 :       ea
 :       5c $jun-dispatcher-return
@@ -677,10 +716,12 @@ $jun-dispatcher-return
 :       60
 
 $jun-queue-command
+:       08
 :       62 queue-command-reentry,2
 :       f4 $jun-dispatcher-address-c2,2
 :       5c $command-queue-routine
 .label queue-command-reentry
+:       28
 :       6b
 
 VALIDATION

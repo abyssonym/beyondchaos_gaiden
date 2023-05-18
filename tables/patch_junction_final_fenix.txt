@@ -1,10 +1,13 @@
 .addr   jun-checker                     610000
-.addr   main                            6207a0
+.addr   jun-set-target-allies           610780
+.addr   jun-queue-command               610ff0
+.addr   main                            6237a0
 .addr   return-normal                   0207a8
-.addr   return-fenix                    024e91
-.addr   command-queue-routine           024eb2
+.addr   return-fenix                    020798
 
-.def    jun-index           98
+.def    jun-index                   98
+.def    phoenix-spell-index         50
+.def    final-attack-command-index  44
 
 0207a4: 5c $main
 
@@ -12,10 +15,20 @@ $main
 :       a9 jun-index
 :       22 $jun-checker
 :       f0 exit-normal
-:       a9 44
+
+:       c2 20
+:       bd 18 30
+:       85 b8
+:       22 $jun-set-target-allies
+:       e2 20
+
+:       a9 final-attack-command-index
 :       8d 7a 3a
-:       9c 7b 3a
-:       5c $command-queue-routine
+:       a9 phoenix-spell-index
+:       8d 7b 3a
+:       22 $jun-queue-command
+:       5c $return-fenix
+
 .label exit-normal
 :       a9 30
 :       85 b8
