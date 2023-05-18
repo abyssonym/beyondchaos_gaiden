@@ -405,6 +405,7 @@
     "core_patch_list": [
         "patch_rom_expansion.txt",
         "patch_junction_core.txt",
+        "patch_junction_free_status_bytes.txt",
         "patch_junction_command_expansion.txt"
     ],
 
@@ -759,7 +760,7 @@
             "patch_junction_damage_trigger.txt"
         ],
         "auto_potion": [
-            "patch_junction_counter_trigger.txt"
+            "patch_junction_damage_trigger.txt"
         ],
         "damage_split": [
             "patch_junction_damage_trigger.txt"

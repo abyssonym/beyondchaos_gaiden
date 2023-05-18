@@ -1,7 +1,8 @@
 .addr   jun-checker                         610000
+.addr   jun-checker-y                       6100a0
 .addr   jun-check-whitelist                 610100
 .addr   jun-check-whitelist-monster-version 610400
-.addr   jun-check-rage                      6106c0
+.addr   jun-check-rage                      6107c0
 .addr   jun-check-equip-whitelist           610180
 .addr   jun-check-status-whitelist          610500
 .addr   jun-check-blacklist                 610200
@@ -9,17 +10,7 @@
 .addr   jun-check-equip-blacklist           610280
 .addr   jun-check-status-blacklist          610580
 .addr   jun-check-list                      610300
-.addr   jun-check-entity-living             610600
-.addr   jun-check-entity-present            610640
-.addr   jun-check-count-all-living          610680
-.addr   jun-mult                            610800
-.addr   jun-divide                          610860
-.addr   jun-rng1                            610820
-.addr   jun-rng2                            610830
-.addr   jun-rng3                            610840
-.addr   jun-select-bit                      6108a0
-.addr   jun-bit-to-index                    6108d0
-.addr   jun-count-bits                      6108c0
+
 .addr   jun-always-whitelist                611000
 .addr   jun-character-whitelist             611800
 .addr   jun-character-blacklist             611c00
@@ -31,11 +22,35 @@
 .addr   jun-equip-blacklist                 613800
 .addr   jun-monster-whitelist               614000
 .addr   jun-monster-blacklist               614800
+
+.addr   jun-mult                            610800
+.addr   jun-divide                          610860
+.addr   jun-rng1                            610820
+.addr   jun-rng2                            610830
+.addr   jun-rng3                            610840
+.addr   jun-select-bit                      6108a0
+.addr   jun-bit-to-index                    6108d0
+.addr   jun-count-bits                      6108c0
+
+.addr   jun-dispatcher-address-c2           02af18
+.addr   jun-dispatcher-return               610fff
+.addr   jun-queue-command                   610ff0
+.addr       command-queue-routine               024eb2
+
+.addr   jun-check-entity-living             610600
+.addr   jun-check-entity-present            610640
+.addr   jun-check-entity-can-act            6106c0
+.addr   jun-check-count-all-living          610680
+.addr   jun-check-inventory                 610700
+.addr   jun-deduct-item-if-possible         610740
+
 .addr   bits                                00bafc
 .addr   wide-bits                           00b4f3
 .addr   wide-bits-monster                   00b4eb
 
 .addr   monster-indexes                     7e1ff9
+.addr   inventory-address                   7e2686
+.addr   inventory-quantity-address          7e2689
 .addr   character-info                      7e3010
 .addr   living-characters                   7e3a74
 .addr   living-enemies                      7e3a75
@@ -141,6 +156,13 @@ $jun-check-list
 .label check-list-found-nothing
 :   c2 20
 :   60
+
+$jun-checker-y
+:   da
+:   bb
+:   22 $jun-checker
+:   fa
+:   6b
 
 $jun-check-whitelist
 #   Y   - list offset
@@ -355,6 +377,7 @@ $jun-check-blacklist
 :   60
 
 $jun-check-blacklist-monster-version
+:   a6 14
 :   bf $monster-indexes
 :   0a
 :   a8
@@ -595,3 +618,72 @@ $jun-check-count-all-living
 :   98
 :   7a fa 28
 :   6b
+
+$jun-check-inventory
+:       c2 10
+:       08
+:       c2 30
+:       29 ff 00
+:       48
+:       a2 00 00
+.label check-inventory-loop
+:       8a
+:       09 00 05
+:       22 $jun-mult
+:       a8
+:       b9 $inventory-address,2
+:       29 ff 00
+:       c3 01
+:       f0 check-inventory-found
+:       e8
+:       e0 00 01
+:       d0 check-inventory-loop
+.label check-inventory-fail
+:       68
+:       28
+:       e2 02
+:       6b
+.label check-inventory-found
+:       b9 $inventory-quantity-address,2
+:       f0 check-inventory-fail
+:       68
+:       28
+:       c2 02
+:       6b
+
+$jun-deduct-item-if-possible
+:       da 5a 08
+:       22 $jun-check-inventory
+:       f0 deduct-item-fail
+:       48
+:       de $inventory-quantity-address,2
+:       d0 not-last-item
+:       a9 ff
+:       99 $inventory-address,2
+.label not-last-item
+:       68 28 7a fa
+:       c2 02
+:       6b
+.label deduct-item-fail
+:       28 7a fa
+:       e2 02
+:       6b
+
+$jun-dispatcher-address-c2
+:       ea
+:       5c $jun-dispatcher-return
+
+$jun-dispatcher-return
+:       60
+
+$jun-queue-command
+:       62 queue-command-reentry,2
+:       f4 $jun-dispatcher-address-c2,2
+:       5c $command-queue-routine
+.label queue-command-reentry
+:       6b
+
+VALIDATION
+
+$jun-dispatcher-address-c2
+:       ff ff ff ff ff

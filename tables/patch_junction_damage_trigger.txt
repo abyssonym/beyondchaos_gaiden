@@ -1,8 +1,10 @@
 .addr   jun-checker                     610000
 .addr   jun-divide                      610860
 .addr   jun-rng1                        610820
+.addr   jun-queue-command               610ff0
 .addr   jun-check-entity-living         610600
 .addr   jun-check-count-all-living      610680
+.addr   jun-deduct-item-if-possible     610740
 .addr   main                            620c00
 .addr   main-nihopalaoa                 620c60
 .addr   main-calc                       621dc0
@@ -21,19 +23,26 @@
 .addr   reduce-damage-half              620ce0
 .addr   reverse-damage                  620fa0
 .addr   check-precision                 620fc0
+.addr   do-auto-potion                  621100
+.addr   check-nonzero-nonlethal-damage  621160
+.addr   retarget-salve                  621180
 
-.def    jun-index-heal-boost    53
-.def    jun-index-heal-font     70
-.def    jun-index-heal-sink     71
-.def    jun-index-reverse       52
-.def    jun-index-chemist       5e
-.def    jun-index-nihopalaoa    5f
-.def    jun-index-precision     5b
-.def    jun-index-catch         77
-.def    jun-index-brace         7f
-.def    jun-index-damage-split  88
-.def    jun-index-distribute    89
-.def    throw-index             08
+.def    jun-index-heal-boost        53
+.def    jun-index-heal-font         70
+.def    jun-index-heal-sink         71
+.def    jun-index-reverse           52
+.def    jun-index-chemist           5e
+.def    jun-index-nihopalaoa        5f
+.def    jun-index-precision         5b
+.def    jun-index-catch             77
+.def        throw-index                 08
+.def    jun-index-brace             7f
+.def    jun-index-damage-split      88
+.def    jun-index-distribute        89
+.def    jun-index-auto-potion       80
+.def        jun-index-salve             07
+.def        potion-index                e9
+
 
 022af2: 22 $main-nihopalaoa
 
@@ -76,6 +85,7 @@ $main
 
 .label no-reverse
 :       20 $check-precision,2
+:       20 $do-auto-potion,2
 
 .label no-junction
 :       b9 d0 33
@@ -207,12 +217,8 @@ $check-precision
 
 $check-calc
 :       da
-:       b9 d0 33
-:       1a
+:       20 $check-nonzero-nonlethal-damage,2
 :       f0 no-damage-split
-:       3a
-:       d9 f4 3b
-:       b0 no-damage-split
 :       bb
 :       a9 jun-index-damage-split 00
 :       22 $jun-checker
@@ -479,6 +485,83 @@ $reduce-damage-half
 :       4a
 :       99 d0 33
 .label exit-damage-half
+:       60
+
+$check-nonzero-nonlethal-damage
+:       48
+:       b9 d0 33
+:       f0 non-non-is-zero
+:       1a
+:       f0 non-non-is-zero
+:       3a
+:       d9 f4 3b
+:       b0 non-non-is-lethal
+:       68
+:       c2 02
+:       60
+.label non-non-is-zero
+.label non-non-is-lethal
+:       68
+:       e2 02
+:       60
+
+$retarget-salve
+:       a9 jun-index-salve
+:       22 $jun-checker
+:       f0 no-salve
+:       a5 b8
+:       f0 enemy-targeting
+:       a9 0f
+:       85 b8
+.label enemy-targeting
+:       a5 b9
+:       f0 no-salve
+:       a9 3f
+:       85 b9
+.label no-salve
+:       60
+
+$do-auto-potion
+:       da
+:       20 $check-nonzero-nonlethal-damage,2
+:       f0 auto-potion-exit
+
+:       bb
+:       a9 jun-index-auto-potion 00
+:       22 $jun-checker
+:       f0 auto-potion-exit
+
+:       a9 00 00
+:       e0 08
+:       90 skip-monster-rng-check
+:       22 $jun-rng1
+:       90 do-not-deduct-item
+:       80 auto-potion-fail
+.label skip-monster-rng-check
+:       a9 potion-index 00
+:       22 $jun-deduct-item-if-possible
+:       f0 auto-potion-fail
+:       e2 20
+:       a9 potion-index
+:       9d f4 32
+:       c2 20
+.label do-not-deduct-item
+
+:       bd 18 30
+:       85 b8
+:       e2 20
+:       20 $retarget-salve,2
+
+:       a9 01
+:       8d 7a 3a
+:       a9 potion-index
+:       8d 7b 3a
+:       22 $jun-queue-command
+:       80 auto-potion-exit
+.label auto-potion-fail
+.label auto-potion-exit
+:       c2 20
+:       fa
 :       60
 
 VALIDATION

@@ -1,0 +1,28 @@
+.addr   main                    617fe0
+.addr   return-normal           016a2f
+.addr   return-terminate        016a37
+
+016a2b: 5c $main
+
+$main
+:       bf e1 ad c2
+:       c9 ff
+:       f0 terminate-string
+:       5c $return-normal
+.label terminate-string
+:       a9 ff
+:       91 4c
+:       91 4a
+:       c8
+:       a5 4e
+:       91 4c
+:       91 4a
+:       c8
+:       e8
+:       c6 10
+:       d0 terminate-string
+:       5c $return-terminate
+
+VALIDATION
+
+016a2b: bf e1 ad c2
