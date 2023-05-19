@@ -23,7 +23,6 @@ $main
 :       d0 main-finish
 
 :       64 b8
-:       64 b9
 :       bd 18 30
 :       85 b8
 :       e2 20

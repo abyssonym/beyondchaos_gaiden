@@ -75,10 +75,10 @@ $main-firestarter
 :       10 firestarter-loop
 
 .label exit-normal
+:       e2 20
 :       64 b8
 :       64 b9
 :       7a fa
-:       e2 20
 :       a9 22
 :       99 0d 3f
 :       6b

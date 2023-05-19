@@ -1,45 +1,33 @@
 .addr   jun-checker                     610000
+.addr   jun-queue-command               610ff0
+.addr   jun-queue-self-spell            610fc0
+.addr   jun-set-target-counter          6107c0
 .addr   main                            620480
-.addr   return-no-trigger               020a90
-.addr   return-normal-trigger           020a5d
-.addr   self-spell-queue-routine        024e91
-.addr   command-queue-routine           024eb2
-.addr   repeat-addr                     020a53
 
 .addr   spell-indexes-address           620580
 .def    spell-indexes           1f 21 22 26 2a 2b 2f 33 34 35 4c 4e fe cf
 .addr   command-indexes-address         620590
-.def    command-indexes         26 03 0b 15 18 40 41 42
+.def    command-indexes         0b 18 40 41 15
 
-.def    jun-index-first-spell   20
-.def    jun-index-final-spell   2d
+.def    first-spell-index           20
+.def    overflow-spell-index        2e
+.def    first-command-index         30
+.def    overflow-command-index      35
 
-.def    jun-index-escape        30
-.def    jun-index-morph         31
-.def    jun-index-runic         32
-.def    jun-index-defend        33
-.def    jun-index-gprain        34
-.def    jun-index-esper         35
-.def    jun-index-jump          36
-.def    jun-index-revenge       37
+.addr   do-self-spell                   625000
+.addr   do-command                      626000
 
-.addr   jun-generic-checker             6205e0
-.addr   jun-generic-command-return      620600
-.addr   jun-generic-command             620620
-.addr   jun-escape                      620640
+.def    jun-index-morph             38
+.def    jun-index-revenge           39
+.def    jun-index-escape            3a
+
 .addr   jun-morph                       620660
-.addr   jun-esper                       620690
-.addr   jun-jump                        6206a0
-.addr   jun-revenge                     6206b0
 
-.def    escape-spell-index      c2
+.def    escape-spell-index          c2
+.def    revenge-spell-index         92
 
-.def    repeat-addr-1           0a
-.def    repeat-addr-2           52
-
-020a51: 64 10
-020a53: 5c $main
-:       ea ea ea ea ea ea
+020a5d: 22 $main
+:       ea ea
 
 $spell-indexes-address
 :       spell-indexes
@@ -48,147 +36,91 @@ $command-indexes-address
 :       command-indexes
 
 $main
-:       a9 02
-:       3c e5 3e
-:       f0 no-trigger
-:       3c 05 32
-:       f0 no-trigger
+:       5d 05 32
+:       9d 05 32
 
-:       a9 jun-index-first-spell
+:       a9 first-spell-index
 .label spell-loop
-:       c5 10
-:       90 skip
 :       22 $jun-checker
-:       d0 success-add-queue
-.label skip
-:       c9 jun-index-final-spell
-:       f0 end-loop
+:       f0 skip-spell
+:       20 $do-self-spell,2
+.label skip-spell
 :       1a
-:       80 spell-loop
-.label end-loop
+:       c9 overflow-spell-index
+:       90 spell-loop
 
-:       20 $jun-escape,2
-:       20 $jun-morph,2
+:       a9 first-command-index
+.label command-loop
+:       22 $jun-checker
+:       f0 skip-command
+:       20 $do-command,2
+.label skip-command
+:       1a
+:       c9 overflow-command-index
+:       90 command-loop
 
-:       a9 jun-index-runic
-:       20 $jun-generic-command,2
-:       a9 jun-index-defend
-:       20 $jun-generic-command,2
-:       64 b8
-:       64 b9
-:       a9 jun-index-gprain
-:       20 $jun-generic-command,2
+:       ad f6 1c
+:       c9 10
+:       90 no-morph
+:       a9 jun-index-morph
+:       22 $jun-checker
+:       f0 no-morph
+:       a9 03
+:       8d 7a 3a
+:       22 $jun-queue-command
 
-:       a9 jun-index-esper
-:       20 $jun-generic-command,2
-
-:       a9 jun-index-jump
-:       20 $jun-generic-command,2
-
+.label no-morph
 :       a9 jun-index-revenge
-:       20 $jun-generic-command,2
+:       22 $jun-checker
+:       f0 no-revenge
+:       22 $jun-set-target-counter
+:       a9 44
+:       8d 7a 3a
+:       a9 revenge-spell-index
+:       8d 7b 3a
+:       22 $jun-queue-command
 
-:       a9 02
-:       5c $return-normal-trigger
+.label no-revenge
+:       a9 06
+:       24 b1
+:       d0 cant-escape
+:       a9 jun-index-escape
+:       22 $jun-checker
+:       f0 cant-escape
+:       a9 escape-spell-index
+:       22 $jun-queue-self-spell
+.label cant-escape
 
-.label success-add-queue
-:       85 10
-:       a9 repeat-addr-1
-:       48
-:       a9 repeat-addr-2
-:       48
-:       a5 10
-:       29 0f
-:       da
+:       6b
+
+$do-self-spell
+:       48 da
+:       38
+:       e9 first-spell-index
 :       aa
 :       bf $spell-indexes-address
 :       fa
-:       85 b8
-:       e6 10
-:       a9 26
-:       5c $self-spell-queue-routine
-.label no-trigger
-:       5c $return-no-trigger
-
-$jun-generic-checker
-:       c5 10
-:       90 generic-exit
-:       22 $jun-checker
-:       d0 generic-success
-.label  generic-exit
-:       e2 02
-:       60
-.label  generic-success
-:       85 10
-:       e6 10
-:       c2 02
-:       60
-
-$jun-generic-command-return
-:       8d 7a 3a
-:       68 68
-:       a9 repeat-addr-1
-:       48
-:       a9 repeat-addr-2
-:       48
-:       5c $command-queue-routine
-
-$jun-generic-command
-:       48
-:       20 $jun-generic-checker,2
-:       d0 jun-generic-command-success
-.label jun-generic-command-exit
+# using command 26 allows us to proc multiple spells without ex. undoing vanish
+:       22 $jun-queue-self-spell
 :       68
 :       60
-.label jun-generic-command-success
-:       68
-:       29 0f
-:       da
+
+$do-command
+:       48 da
+:       38
+:       e9 first-command-index
 :       aa
 :       bf $command-indexes-address
 :       fa
-:       4c $jun-generic-command-return,2
-
-$jun-escape
-:       a9 jun-index-escape
-:       20 $jun-generic-checker,2
-:       d0 jun-escape-success
-.label jun-escape-exit
+:       8d 7a 3a
+:       9c 7b 3a
+:       64 b8
+:       64 b9
+:       22 $jun-queue-command
+:       68
 :       60
-.label jun-escape-success
-:       a9 06
-:       24 b1
-:       d0 jun-escape-exit
-:       68 68
-:       a9 repeat-addr-1
-:       48
-:       a9 repeat-addr-2
-:       48
-:       a9 escape-spell-index
-:       85 b8
-:       a9 26
-:       5c $self-spell-queue-routine
-
-$jun-morph
-:       a9 jun-index-morph
-:       20 $jun-generic-checker,2
-:       d0 jun-morph-success
-.label jun-morph-exit
-:       60
-.label jun-morph-success
-:       ad f6 1c
-:       c9 10
-:       90 jun-morph-exit
-:       a9 03
-:       4c $jun-generic-command-return,2
 
 VALIDATION
 
-020a51: a9 02
-:       3c e5 3e
-:       f0 38
-:       3c 05 32
-:       f0 33
-
-0242d2: a9 02
-:       8d 02 34
+020a5d: 5d 05 32
+:       9d 05 32

@@ -1,0 +1,27 @@
+.addr   main        61e000
+
+023629: 22 $main
+023637: 22 $main
+
+$main
+:       6a
+:       48
+:       29 0f
+:       0a
+:       48
+:       98
+:       c3 01
+:       f0 is-self-so-skip
+:       68 68
+:       99 e0 32
+:       6b
+.label is-self-so-skip
+:       68 68
+:       6b
+
+VALIDATION
+
+023629: 6a
+:       99 e0 32
+023637: 6a
+:       99 e0 32

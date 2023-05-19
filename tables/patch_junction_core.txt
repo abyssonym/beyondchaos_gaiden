@@ -1,15 +1,16 @@
 .addr   jun-checker                         610000
 .addr   jun-checker-y                       6100a0
+
 .addr   jun-check-whitelist                 610100
-.addr   jun-check-whitelist-monster-version 610400
-.addr   jun-check-rage                      6107c0
-.addr   jun-check-equip-whitelist           610180
-.addr   jun-check-status-whitelist          610500
-.addr   jun-check-blacklist                 610200
-.addr   jun-check-blacklist-monster-version 610420
-.addr   jun-check-equip-blacklist           610280
-.addr   jun-check-status-blacklist          610580
-.addr   jun-check-list                      610300
+.addr   jun-check-blacklist                 610180
+.addr   jun-check-list                      6101e0
+.addr   jun-check-equip-whitelist           610200
+.addr   jun-check-equip-blacklist           610210
+.addr   jun-check-whitelist-monster-version 610220
+.addr   jun-check-blacklist-monster-version 610240
+.addr   jun-check-status-whitelist          610260
+.addr   jun-check-status-blacklist          6102b0
+.addr   jun-check-rage                      610300
 
 .addr   jun-always-whitelist                611000
 .addr   jun-character-whitelist             611800
@@ -36,6 +37,8 @@
 .addr   jun-dispatcher-return               610fff
 .addr   jun-queue-command                   610ff0
 .addr       command-queue-routine               024eb2
+.addr   jun-queue-self-spell                610fc0
+.addr       self-spell-queue-routine            024e91
 
 .addr   jun-check-entity-living             610600
 .addr   jun-check-entity-present            610640
@@ -44,6 +47,7 @@
 .addr   jun-check-inventory                 610700
 .addr   jun-deduct-item-if-possible         610740
 .addr   jun-set-target-allies               610780
+.addr   jun-set-target-counter              6107c0
 
 .addr   bits                                00bafc
 .addr   wide-bits                           00b4f3
@@ -708,6 +712,26 @@ $jun-set-target-allies
 :       28
 :       6b
 
+$jun-set-target-counter
+:       48 5a 08 da
+:       e2 20
+:       64 b8
+:       64 b9
+:       b9 e0 32
+:       29 7f
+:       c9 0a
+:       b0 no-counter-target
+:       0a
+:       c3 01
+:       f0 no-counter-target
+:       a8
+:       c2 20
+:       b9 18 30
+:       85 b8
+.label no-counter-target
+:       fa 28 7a 68
+:       6b
+
 $jun-dispatcher-address-c2
 :       ea
 :       5c $jun-dispatcher-return
@@ -721,6 +745,18 @@ $jun-queue-command
 :       f4 $jun-dispatcher-address-c2,2
 :       5c $command-queue-routine
 .label queue-command-reentry
+:       28
+:       6b
+
+$jun-queue-self-spell
+:       08
+:       e2 20
+:       85 b8
+:       a9 26
+:       62 queue-self-spell-reentry,2
+:       f4 $jun-dispatcher-address-c2,2
+:       5c $self-spell-queue-routine
+.label queue-self-spell-reentry
 :       28
 :       6b
 
