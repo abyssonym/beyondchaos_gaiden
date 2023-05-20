@@ -35,6 +35,7 @@ $main
 :       d0 exit-damage
 
 :       fa 68
+:       18
 :       5c $return-mp-damage
 .label exit-no-damage
 :       5c $return-no-damage
@@ -42,6 +43,7 @@ $main
 :       5c $return-healing
 .label exit-damage
 :       fa 68
+:       18
 :       5c $return-damage
 
 VALIDATION
