@@ -429,7 +429,8 @@
             "patch_junction_taunt_salve.txt"
         ],
         "initiative": [
-            "patch_junction_initiative.txt"
+            "patch_junction_initiative.txt",
+            "patch_junction_esper_defense.txt"
         ],
         "instant_run": [
             "patch_junction_instant_run.txt"
@@ -732,7 +733,8 @@
             "patch_junction_null_freeze.txt"
         ],
         "auto_reraise": [
-            "patch_junction_initiative.txt"
+            "patch_junction_initiative.txt",
+            "patch_junction_esper_defense.txt"
         ],
         "camouflage": [
             "patch_junction_taunt_salve.txt"
@@ -801,6 +803,7 @@
         ],
         "final_fenix": [
             "patch_junction_initiative.txt",
+            "patch_junction_esper_defense.txt",
             "patch_junction_command_final_attack.txt",
             "patch_junction_final_fenix.txt"
         ],

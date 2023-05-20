@@ -25,7 +25,6 @@ $main
 :       6b
 .label exit-no-delay
 :       68
-:       aa
 :       a9 00
 :       6b
 

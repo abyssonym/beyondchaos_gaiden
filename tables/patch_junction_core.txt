@@ -72,7 +72,7 @@
 # PARAMETERS:   junction index in A, (actor index * 2) in X
 # RETURNS:      sets zero bit if check passes, otherwise clears zero bit
 $jun-checker
-:   48 da 5a 8b 08
+:   48 eb 48 eb da 5a 8b 08
 :   e2 30
 :   e0 08
 :   b0 is-monster
@@ -141,11 +141,11 @@ $jun-checker
 :   c9 00
 :   d0 final-exit-check-passed
 .label final-exit-check-failed
-:   28 ab 7a fa 68
+:   28 ab 7a fa 68 eb 68
 :   e2 02
 :   6b
 .label final-exit-check-passed
-:   28 ab 7a fa 68
+:   28 ab 7a fa 68 eb 68
 :   c2 02
 :   6b
 
