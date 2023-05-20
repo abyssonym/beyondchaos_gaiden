@@ -139,6 +139,7 @@
         "auto_potion":          "80",
         "damage_split":         "88",
         "distribute":           "89",
+        "highwind":             "8a",
         "immortal":             "90",
         "final_spiral":         "91",
         "final_esper":          "92",
@@ -274,6 +275,7 @@
         "auto_potion":          "Auto-Potion",
         "damage_split":         "Damage Split",
         "distribute":           "Distribute",
+        "highwind":             "Highwind",
         "immortal":             "Immortal",
         "final_spiral":         "Final Spiral",
         "final_esper":          "Final Summon",
@@ -572,8 +574,7 @@
             "patch_junction_command_jump.txt"
         ],
         "critical_revenge": [
-            "patch_junction_critical_trigger.txt",
-            "patch_junction_command_revenge.txt"
+            "patch_junction_critical_trigger.txt"
         ],
         "repel_fire": [
             "patch_junction_elemental_repel.txt"
@@ -767,6 +768,12 @@
         ],
         "distribute": [
             "patch_junction_damage_trigger.txt"
+        ],
+        "highwind": [
+            "patch_junction_highwind.txt",
+            "patch_junction_focus.txt",
+            "patch_junction_instant_act.txt",
+            "patch_junction_vip.txt"
         ],
         "immortal": [
             "patch_junction_death_trigger.txt"

@@ -39,6 +39,9 @@
 .addr       command-queue-routine               024eb2
 .addr   jun-queue-self-spell                610fc0
 .addr       self-spell-queue-routine            024e91
+.addr   jun-reload-character-commands       610f80
+.addr       load-character-commands-routine     02532c
+.addr       command-change-byte-address     18500a
 
 .addr   jun-check-entity-living             610600
 .addr   jun-check-entity-present            610640
@@ -48,6 +51,7 @@
 .addr   jun-deduct-item-if-possible         610740
 .addr   jun-set-target-allies               610780
 .addr   jun-set-target-counter              6107c0
+
 
 .addr   bits                                00bafc
 .addr   wide-bits                           00b4f3
@@ -758,6 +762,38 @@ $jun-queue-self-spell
 :       5c $self-spell-queue-routine
 .label queue-self-spell-reentry
 :       28
+:       6b
+
+$jun-reload-character-commands
+:       da 5a 08
+:       c2 10
+:       e2 20
+:       bc 10 30
+
+:       9c d6 11
+:       da
+:       a2 05 00
+.label command-changer-loop
+:       b9 1f 16
+:       da
+:       eb
+:       a9 1e
+:       22 $jun-mult
+:       aa
+:       bf $command-change-byte-address
+:       0d d6 11
+:       8d d6 11
+:       fa
+:       c8
+:       ca
+:       10 command-changer-loop
+:       fa
+
+:       62 reload-commands-reentry,2
+:       f4 $jun-dispatcher-address-c2,2
+:       5c $load-character-commands-routine
+.label reload-commands-reentry
+:       28 7a fa
 :       6b
 
 VALIDATION

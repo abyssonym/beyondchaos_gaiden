@@ -1,7 +1,7 @@
 .addr   jun-checker                     610000
 .addr   jun-check-entity-living         610600
 .addr   main-focus                      620800
-.addr   main-lucid-dead                 620840
+.addr   main-lucid-dead                 620870
 .addr   return-focus                    02095c
 .addr   check-lucid-dead                620d00
 .addr   check-focus                     620d80
@@ -11,6 +11,7 @@
 .def    jun-index-lucid-dead    09
 .def    jun-index-commander     56
 .def    jun-index-necromancer   57
+.def    jun-index-highwind      8a
 
 020956: 5c $main-focus
 :       ea ea
@@ -18,35 +19,41 @@
 02597a: 22 $main-lucid-dead
 
 $main-focus
-:       20 $check-focus,2
-:       d0 has-focus
-
-:       20 $check-lucid-dead,2
-:       d0 no-focus-has-lucid-dead
-
-.label no-focus-no-lucid-dead
 :       f4 c2 b0
 :       f4 01 21
-:       80 main-focus-exit
 
-.label no-focus-has-lucid-dead
-:       f4 c0 b0
-:       f4 01 21
-:       80 main-focus-exit
+:       20 $check-focus,2
+:       f0 no-focus
+:       c2 20
+:       a9 ff cf
+:       23 03
+:       83 03
+:       a9 fe fe
+:       23 01
+:       83 01
+:       e2 20
 
-.label has-focus
+.label no-focus
 :       20 $check-lucid-dead,2
-:       d0 has-focus-has-lucid-dead
+:       f0 no-lucid-dead
+:       c2 20
+:       a9 fd ff
+:       23 03
+:       83 03
+:       e2 20
 
-.label has-focus-no-lucid-dead
-:       f4 c2 80
-:       f4 00 20
-:       80 main-focus-exit
-
-.label has-focus-has-lucid-dead
-:       f4 c0 80
-:       f4 00 20
-:       80 main-focus-exit
+.label no-lucid-dead
+:       bd 18 30
+:       2c 2c 3f
+:       f0 main-focus-exit
+:       a9 jun-index-highwind
+:       22 $jun-checker
+:       f0 main-focus-exit
+:       c2 20
+:       a9 ff df
+:       23 01
+:       83 01
+:       e2 20
 
 .label main-focus-exit
 :       5c $return-focus

@@ -1,0 +1,103 @@
+.addr   jun-checker                     610000
+.addr   jun-mult                        610800
+.addr   jun-reload-character-commands   610f80
+.addr   main-set-flag                   621f00
+.addr   main-clear-flag                 621f20
+.addr   set-menu-jump                   621f40
+.addr   main-jump-command               621f80
+
+.addr   return-land                     021810
+.addr   return-hang                     0200e3
+.addr   return-highwind-menu-normal     014849
+.addr   return-highwind-menu-highwind   014855
+
+.def    jun-index-highwind      8a
+
+020144: 22 $main-clear-flag
+:       ea ea
+
+02180b: 5c $main-jump-command
+:       ea
+
+0221d3: 22 $main-set-flag
+:       ea ea
+
+$main-set-flag
+:       a9 jun-index-highwind 00
+:       22 $jun-checker
+:       d0 main-set-highwind
+:       bd 18 30
+:       0c 2c 3f
+:       6b
+.label main-set-highwind
+:       bd 18 30
+:       4d 2c 3f
+:       8d 2c 3f
+:       6b
+
+$main-clear-flag
+:       a9 jun-index-highwind 00
+:       22 $jun-checker
+:       d0 main-clear-highwind
+:       bd 18 30
+:       1c 2c 3f
+:       6b
+.label main-clear-highwind
+:       bd 18 30
+:       0c 58 3a
+:       c2 02
+:       6b
+
+$main-jump-command
+:       a9 jun-index-highwind
+:       22 $jun-checker
+:       f0 exit-land
+:       bd 18 30
+:       2c 2c 3f
+:       f0 exit-land-highwind
+:       20 $set-menu-jump,2
+:       bd 4d 3e
+:       09 40
+:       9d 4d 3e
+:       5c $return-hang
+.label exit-land-highwind
+:       bd 4d 3e
+:       29 bf
+:       9d 4d 3e
+:       22 $jun-reload-character-commands
+.label exit-land
+:       a9 20
+:       8d a4 11
+:       5c $return-land
+
+$set-menu-jump
+:       da 08
+:       c2 20
+:       8a
+:       09 00 06
+:       22 $jun-mult
+:       aa
+:       a9 16 0b
+:       9d 2e 20
+:       a9 43 ff
+:       9d 30 20
+:       a9 ff ff
+:       9d 32 20
+:       9d 34 20
+:       9d 36 20
+:       9d 38 20
+:       28 fa
+:       60
+
+VALIDATION
+
+0200e3: 60
+
+020144: bd 18 30
+:       1c 2c 3f
+
+02180b: a9 20
+:       8d a4 11
+
+0221d3: bd 18 30
+:       0c 2c 3f

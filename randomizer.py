@@ -4193,6 +4193,8 @@ def test():
     jm.add_junction('shadow', 'final_fenix')
     jm.add_junction(0x13, 'final_fenix', force_category='monster')
     jm.add_junction(0x4d, 'final_spiral', force_category='monster')
+    jm.add_junction('edgar', 'highwind')
+    jm.add_junction('palidor', 'instant_act')
     jm.execute()
     return jm
 

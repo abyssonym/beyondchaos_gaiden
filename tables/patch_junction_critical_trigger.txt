@@ -21,8 +21,6 @@
 .def    jun-index-revenge           39
 .def    jun-index-escape            3a
 
-.addr   jun-morph                       620660
-
 .def    escape-spell-index          c2
 .def    revenge-spell-index         92
 
