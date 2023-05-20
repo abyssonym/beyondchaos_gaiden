@@ -1,13 +1,16 @@
 .addr   jun-checker                     610000
 .addr   jun-queue-command               610ff0
+.addr   jun-set-target-counter          6107c0
 
 .addr   main                            621700
 
 .def    jun-index-immortal          90
 .def    jun-index-spiraler          91
 .def    jun-index-esper             92
+.def    jun-index-rippler           93
 .def    chokesmoke-index            a6
 .def    spiraler-index              63
+.def    rippler-index               9e
 .def    summon-command-index        40
 .def    final-attack-command-index  44
 
@@ -63,6 +66,20 @@ $main
 :       22 $jun-queue-command
 
 .label no-esper
+:       a9 jun-index-rippler
+:       22 $jun-checker
+:       f0 no-rippler
+:       a9 02
+:       3c 05 32
+:       f0 no-rippler
+:       5d 05 32
+:       9d 05 32
+:       22 $jun-set-target-counter
+:       a9 rippler-index
+:       8d 7b 3a
+:       22 $jun-queue-command
+
+.label no-rippler
 :       c2 20
 .label main-finish
 :       a9 80 00

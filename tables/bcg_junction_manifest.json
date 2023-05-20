@@ -143,6 +143,7 @@
         "immortal":             "90",
         "final_spiral":         "91",
         "final_esper":          "92",
+        "final_ripple":         "93",
         "final_fenix":          "98",
         "caller":               "99",
         "esper_attack":         "9a",
@@ -279,6 +280,7 @@
         "immortal":             "Immortal",
         "final_spiral":         "Final Spiral",
         "final_esper":          "Final Summon",
+        "final_ripple":         "Final Ripple",
         "final_fenix":          "Final Fenix",
         "caller":               "Caller",
         "esper_attack":         "EspAtk-J",
@@ -782,6 +784,9 @@
             "patch_junction_death_trigger.txt"
         ],
         "final_esper": [
+            "patch_junction_death_trigger.txt"
+        ],
+        "final_ripple": [
             "patch_junction_death_trigger.txt"
         ],
         "final_fenix": [

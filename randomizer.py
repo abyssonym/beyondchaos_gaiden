@@ -4195,6 +4195,7 @@ def test():
     jm.add_junction(0x4d, 'final_spiral', force_category='monster')
     jm.add_junction('edgar', 'highwind')
     jm.add_junction('palidor', 'instant_act')
+    jm.add_junction('gau', 'final_ripple')
     jm.execute()
     return jm
 
