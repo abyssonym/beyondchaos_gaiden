@@ -140,6 +140,8 @@
         "damage_split":         "88",
         "distribute":           "89",
         "highwind":             "8a",
+        "time_font":            "8b",
+        "time_sink":            "8c",
         "immortal":             "90",
         "final_spiral":         "91",
         "final_esper":          "92",
@@ -277,6 +279,8 @@
         "damage_split":         "Damage Split",
         "distribute":           "Distribute",
         "highwind":             "Highwind",
+        "time_font":            "Time Font",
+        "time_sink":            "Time Sink",
         "immortal":             "Immortal",
         "final_spiral":         "Final Spiral",
         "final_esper":          "Final Summon",
@@ -776,6 +780,12 @@
             "patch_junction_focus.txt",
             "patch_junction_instant_act.txt",
             "patch_junction_vip.txt"
+        ],
+        "time_font": [
+            "patch_junction_time_font_sink.txt"
+        ],
+        "time_sink": [
+            "patch_junction_time_font_sink.txt"
         ],
         "immortal": [
             "patch_junction_death_trigger.txt"

@@ -4196,6 +4196,8 @@ def test():
     jm.add_junction('edgar', 'highwind')
     jm.add_junction('palidor', 'instant_act')
     jm.add_junction('gau', 'final_ripple')
+    #jm.add_junction(None, 'time_sink')
+    #jm.add_junction(None, 'time_font')
     jm.execute()
     return jm
 
