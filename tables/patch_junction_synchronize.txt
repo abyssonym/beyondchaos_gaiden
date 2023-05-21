@@ -1,0 +1,152 @@
+.addr   jun-checker                     610000
+.addr   jun-check-entity-living         610600
+.addr   jun-check-count-all-living      610680
+.addr   main                            622100
+.addr   get-unprotected-statuses        622060
+
+.def    jun-index-synchronize       8d
+
+024585: 22 $main
+:       ea
+
+$main
+:       da 08
+
+:       a5 fc
+:       05 fe
+:       f0 exit-main
+
+:       e2 30
+:       a9 ff
+:       48
+
+:       a2 12
+.label find-synchronize-loop
+:       a9 jun-index-synchronize
+:       22 $jun-check-entity-living
+:       f0 find-synchronize-skip
+:       22 $jun-checker
+:       f0 find-synchronize-skip
+:       a9 ff
+:       c3 01
+:       d0 no-synchronize
+:       8a
+:       83 01
+.label find-synchronize-skip
+:       ca ca
+:       10 find-synchronize-loop
+
+:       a9 ff
+:       c3 01
+:       f0 no-synchronize
+:       98
+:       c3 01
+:       f0 is-synchronizer
+
+# prevent status changes where preserved by synchronizer
+:       fa
+:       c2 20
+:       a9 ff ff
+:       48 48
+:       20 $get-unprotected-statuses,2
+
+:       a5 fc
+:       23 01
+:       85 fc
+:       a5 fe
+:       23 03
+:       85 fe
+
+:       b9 e4 3e
+:       03 01
+:       43 01
+:       05 fc
+:       85 fc
+:       b9 f8 3e
+:       03 03
+:       43 03
+:       05 fe
+:       85 fe
+:       68 68
+
+.label exit-main
+:       28 fa
+:       a5 fc
+:       89 02 00
+:       6b
+
+.label no-synchronize
+:       68
+:       80 exit-main
+
+.label is-synchronizer
+:       fa
+:       c2 20
+
+:       a5 fc
+:       89 c2 00
+:       d0 exit-main
+:       99 e4 3e
+:       a5 fe
+:       99 f8 3e
+
+:       98
+:       29 ff 00
+:       48
+:       a9 ff ff
+:       48 48
+:       20 $get-unprotected-statuses,2
+:       a2 12
+.label synchronize-loop
+:       8a
+:       29 ff 00
+:       c3 05
+:       f0 synchronize-skip
+:       22 $jun-check-entity-living
+:       f0 synchronize-skip
+:       bd e4 3e
+:       23 01
+:       9d e4 3e
+
+:       bd f8 3e
+:       23 03
+:       9d f8 3e
+
+:       b9 e4 3e
+:       03 01
+:       43 01
+:       1d e4 3e
+:       9d e4 3e
+
+:       b9 f8 3e
+:       03 03
+:       43 03
+:       1d f8 3e
+:       9d f8 3e
+
+.label synchronize-skip
+:       ca ca
+:       10 synchronize-loop
+
+:       68 68 68
+:       80 exit-main
+
+$get-unprotected-statuses
+:       bd 1c 33
+:       49 ff ff
+# wound, petrify, magitek, zombie
+:       09 ca 00
+:       83 03
+
+:       bd 30 33
+:       49 ff ff
+# interceptor, hide, control, rage, dance
+:       09 01 71
+:       83 05
+
+:       60
+
+VALIDATION
+
+024585: a5 fc
+:       89 02 00

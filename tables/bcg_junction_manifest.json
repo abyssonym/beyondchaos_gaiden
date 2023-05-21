@@ -142,6 +142,7 @@
         "highwind":             "8a",
         "time_font":            "8b",
         "time_sink":            "8c",
+        "synchronize":          "8d",
         "immortal":             "90",
         "final_spiral":         "91",
         "final_esper":          "92",
@@ -165,7 +166,7 @@
         "instant_run":          "Instant Run",
         "instant_act":          "Instant Act",
         "salve":                "Salve",
-        "focus":                "Focus",
+        "focus":                "Focused",
         "lucid_dead":           "Lucid Dead",
         "blood_mage":           "Blood Mage",
         "gold_mage":            "Gold Mage",
@@ -281,6 +282,7 @@
         "highwind":             "Highwind",
         "time_font":            "Time Font",
         "time_sink":            "Time Sink",
+        "synchronize":          "Synchronize",
         "immortal":             "Immortal",
         "final_spiral":         "Final Spiral",
         "final_esper":          "Final Summon",
@@ -788,6 +790,9 @@
         ],
         "time_sink": [
             "patch_junction_time_font_sink.txt"
+        ],
+        "synchronize": [
+            "patch_junction_synchronize.txt"
         ],
         "immortal": [
             "patch_junction_death_trigger.txt"

@@ -52,7 +52,6 @@
 .addr   jun-set-target-allies               610780
 .addr   jun-set-target-counter              6107c0
 
-
 .addr   bits                                00bafc
 .addr   wide-bits                           00b4f3
 .addr   wide-bits-monster                   00b4eb
@@ -561,24 +560,28 @@ $jun-select-bit
 
 $jun-check-entity-living
 #   X - battle index
-:   48
+:   48 08
+:   e2 20
 :   8a
 :   c9 08
 :   b0 check-living-is-monster
 :   bd 18 30
 :   2c $living-characters,2
-:   d0 check-living-yes
-:   80 check-living-no
+:   f0 check-living-no
+:   bd f9 3e
+:   89 20
+:   d0 check-living-no
+:   80 check-living-yes
 .label check-living-is-monster
 :   bf $wide-bits-monster
 :   2c $living-enemies,2
 :   d0 check-living-yes
 .label check-living-no
-:   68
+:   28 68
 :   e2 02
 :   6b
 .label check-living-yes
-:   68
+:   28 68
 :   c2 02
 :   6b
 
