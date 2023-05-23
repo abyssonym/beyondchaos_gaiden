@@ -1,7 +1,7 @@
 .addr   jun-checker                     610000
 .addr   jun-rng1                        610820
 
-.addr   main                            620dc0
+.addr   main                            6207a0
 .addr   return-normal                   024460
 .addr   return-poisoned                 02447d
 
@@ -22,6 +22,10 @@ $main
 
 :       22 $jun-rng1
 :       b0 exit-normal
+
+:       b9 1c 33
+:       89 poison-bit
+:       d0 exit-normal
 
 :       a9 jun-index-potent-venom 00
 :       22 $jun-checker

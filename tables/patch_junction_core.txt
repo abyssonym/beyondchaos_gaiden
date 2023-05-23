@@ -1,4 +1,5 @@
 .addr   jun-checker                         610000
+.addr       character-info                      7e3010
 .addr   jun-checker-y                       6100a0
 
 .addr   jun-check-whitelist                 610100
@@ -11,6 +12,7 @@
 .addr   jun-check-status-whitelist          610260
 .addr   jun-check-status-blacklist          6102b0
 .addr   jun-check-rage                      610300
+.addr       rage-indexes                        7e33a8
 
 .addr   jun-always-whitelist                611000
 .addr   jun-character-whitelist             611800
@@ -51,20 +53,19 @@
 .addr       present-enemies                     7e3a79
 .addr   jun-check-entity-can-act            6106c0
 .addr   jun-check-count-all-living          610680
-.addr   jun-check-inventory                 610700
 .addr   jun-deduct-item-if-possible         610740
+.addr       jun-check-inventory                 610700
+.addr           inventory-address                   7e2686
+.addr           inventory-quantity-address          7e2689
 .addr   jun-set-target-allies               610780
 .addr   jun-set-target-counter              6107c0
+.addr   jun-check-are-same-team             6105e0
 
 .addr   bits                                00bafc
 .addr   wide-bits                           00b4f3
 .addr   wide-bits-monster                   00b4eb
 
 .addr   monster-indexes                     7e1ff9
-.addr   inventory-address                   7e2686
-.addr   inventory-quantity-address          7e2689
-.addr   character-info                      7e3010
-.addr   rage-indexes                        7e33a8
 
 .def    jun-data-bank       61
 
@@ -530,11 +531,14 @@ $jun-bit-to-index
 :   6b
 
 $jun-count-bits
+:   08
+:   e2 10
 :   a2 00
 :   4a
 :   90 01
 :   e8
 :   d0 fa
+:   28
 :   6b
 
 $jun-select-bit
@@ -659,16 +663,12 @@ $jun-check-inventory
 :       48
 :       a2 00 00
 .label check-inventory-loop
-:       8a
-:       09 00 05
-:       22 $jun-mult
-:       a8
-:       b9 $inventory-address,2
+:       bd $inventory-address,2
 :       29 ff 00
 :       c3 01
 :       f0 check-inventory-found
-:       e8
-:       e0 00 01
+:       e8 e8 e8 e8 e8
+:       e0 00 05
 :       d0 check-inventory-loop
 .label check-inventory-fail
 :       68
@@ -797,6 +797,27 @@ $jun-reload-character-commands
 :       5c $load-character-commands-routine
 .label reload-commands-reentry
 :       28 7a fa
+:       6b
+
+$jun-check-are-same-team
+:       08
+:       e2 10
+:       e0 08
+:       b0 check-same-team-monster
+:       c0 08
+:       b0 not-same-team
+:       80 yes-same-team
+.label check-same-team-monster
+:       c0 08
+:       b0 yes-same-team
+:       80 not-same-team
+.label not-same-team
+:       28
+:       e2 02
+:       6b
+.label yes-same-team
+:       28
+:       c2 02
 :       6b
 
 VALIDATION

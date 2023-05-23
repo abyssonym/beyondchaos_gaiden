@@ -126,6 +126,8 @@ $main-camouflage
 
 :       a5 b8
 :       f0 main-camouflage-fail
+:       23 01
+:       d0 main-camouflage-fail
 :       68
 :       80 main-camouflage-exit
 

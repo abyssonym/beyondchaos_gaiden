@@ -137,6 +137,9 @@
         "vorpal":               "7e",
         "brace":                "7f",
         "auto_potion":          "80",
+        "auto_down":            "81",
+        "auto_revivify":        "82",
+        "auto_remedy":          "83",
         "damage_split":         "88",
         "distribute":           "89",
         "highwind":             "8a",
@@ -277,6 +280,9 @@
         "vorpal":               "Vorpal",
         "brace":                "Brace",
         "auto_potion":          "Auto-Potion",
+        "auto_down":            "Auto-Down",
+        "auto_revivify":        "Auto-Vivify",
+        "auto_remedy":          "Auto-Remedy",
         "damage_split":         "Damage Split",
         "distribute":           "Distribute",
         "highwind":             "Highwind",
@@ -772,6 +778,15 @@
         ],
         "auto_potion": [
             "patch_junction_damage_trigger.txt"
+        ],
+        "auto_down": [
+            "patch_junction_synchronize.txt"
+        ],
+        "auto_revivify": [
+            "patch_junction_synchronize.txt"
+        ],
+        "auto_remedy": [
+            "patch_junction_synchronize.txt"
         ],
         "damage_split": [
             "patch_junction_damage_trigger.txt"
