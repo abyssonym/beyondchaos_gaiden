@@ -1,10 +1,11 @@
 .addr   jun-checker                     610000
+.addr   jun-check-entity-living         610600
+.addr   jun-set-target-allies           610780
 .addr   jun-rng1                        610820
 
 .addr   main-target-manipulation        620200
-.addr   main-taunt-full                 620260
-.addr   main-taunt-half                 6202a0
-.addr   main-camouflage                 6207c0
+.addr   main-taunt                      620260
+.addr   main-camouflage                 6202b0
 .addr   salve-target-group              620500
 .addr   salve-check-item-is-consumable  620530
 
@@ -25,18 +26,14 @@
 0258ed: 5c $main-target-manipulation
 
 $main-target-manipulation
-:       a5 b8
-:       89 0f
-:       f0 no-taunt
-:       e0 08
-:       90 no-taunt
-:       20 $main-taunt-full,2
+:       a9 jun-index-taunt-full
+:       20 $main-taunt,2
 :       20 $main-camouflage,2
 :       22 $jun-rng1
 :       90 no-taunt
-:       20 $main-taunt-half,2
+:       a9 jun-index-taunt-half
+:       20 $main-taunt,2
 .label no-taunt
-:       85 b8
 
 :       a9 01
 :       c5 b5
@@ -58,106 +55,87 @@ $main-target-manipulation
 :       a5 b8
 :       5c $return-skip-retarget
 
+$main-taunt
+:       48 da 08
+:       c2 20
+:       a5 b8
+:       48
+:       22 $jun-set-target-allies
+:       bd 18 30
+:       24 b8
+:       d0 main-taunt-fail
 
-$main-taunt-full
-:       da 5a 48
-:       85 10
-:       a0 00
-.label loop-taunt-full
-:       bb
-:       bf $bits
-:       24 10
-:       f0 skip-taunt-full
-:       8a
-:       0a
-:       aa
-:       a9 jun-index-taunt-full
+:       a2 12
+.label main-taunt-loop
+:       bd 18 30
+:       22 $jun-check-entity-living
+:       d0 main-taunt-entity-alive
+:       14 b8
+.label main-taunt-entity-alive
+:       24 b8
+:       f0 main-taunt-skip
+:       a3 05
 :       22 $jun-checker
-:       d0 skip-taunt-full
-:       bb
-:       bf $bits
-:       45 10
-:       85 10
-.label skip-taunt-full
-:       c8
-:       c0 04
-:       d0 loop-taunt-full
-:       a5 10
-:       29 0f
-:       f0 found-target-taunt-full
+:       d0 main-taunt-skip
+.label main-taunt-unset
+:       bd 18 30
+:       14 b8
+.label main-taunt-skip
+:       ca ca
+:       10 main-taunt-loop
+
+:       a5 b8
+:       f0 main-taunt-fail
 :       68
-:       a5 10
-.label end-routine-taunt-full
-:       7a fa
+:       80 main-taunt-exit
+
+.label main-taunt-fail
+:       68
+:       85 b8
+.label main-taunt-exit
+:       28 fa 68
 :       60
-.label found-target-taunt-full
-:       68
-:       80 end-routine-taunt-full
 
 $main-camouflage
-:       da 5a 48
-:       85 10
-:       a0 00
-.label loop-camouflage
-:       bb
-:       bf $bits
-:       24 10
-:       f0 skip-camouflage
-:       8a
-:       0a
-:       aa
-:       a9 jun-index-camouflage
+:       da 08
+:       c2 20
+:       a5 b8
+:       48
+:       22 $jun-set-target-allies
+:       bd 18 30
+:       24 b8
+:       d0 main-camouflage-fail
+
+:       a2 12
+.label main-camouflage-loop
+:       bd 18 30
+:       22 $jun-check-entity-living
+:       d0 main-camouflage-entity-alive
+:       14 b8
+.label main-camouflage-entity-alive
+:       24 b8
+:       f0 main-camouflage-skip
+:       a9 jun-index-camouflage 00
 :       22 $jun-checker
-:       f0 skip-camouflage
-:       bb
-:       bf $bits
-:       14 10
-.label skip-camouflage
-:       c8
-:       c0 04
-:       d0 loop-camouflage
-:       a5 10
-:       d0 yes-camouflage
-:       68 7a fa
-:       60
-.label yes-camouflage
-:       7a 7a fa
+:       f0 main-camouflage-skip
+:       bd 18 30
+:       14 b8
+.label main-camouflage-skip
+:       ca ca
+:       10 main-camouflage-loop
+
+:       a5 b8
+:       f0 main-camouflage-fail
+:       68
+:       80 main-camouflage-exit
+
+.label main-camouflage-fail
+:       68
+:       85 b8
+.label main-camouflage-exit
+:       28 fa
 :       60
 
-$main-taunt-half
-:       da 5a 48
-:       85 10
-:       a0 00
-.label loop-taunt-half
-:       bb
-:       bf $bits
-:       24 10
-:       f0 skip-taunt-half
-:       8a
-:       0a
-:       aa
-:       a9 jun-index-taunt-half
-:       22 $jun-checker
-:       d0 skip-taunt-half
-:       bb
-:       bf $bits
-:       45 10
-:       85 10
-.label skip-taunt-half
-:       c8
-:       c0 04
-:       d0 loop-taunt-half
-:       a5 10
-:       29 0f
-:       f0 found-target-taunt-half
-:       68
-:       a5 10
-.label end-routine-taunt-half
-:       7a fa
-:       60
-.label found-target-taunt-half
-:       68
-:       80 end-routine-taunt-half
 
 $salve-target-group
 :       22 $salve-check-item-is-consumable

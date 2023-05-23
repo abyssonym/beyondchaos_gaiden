@@ -4076,7 +4076,7 @@ def test():
     #jm.add_junction(None, 0x01, 'whitelist')
     jm.add_junction('edgar', 'perfect_taunt', 'blacklist')
     jm.remove_junction('edgar', 0x02, 'blacklist')
-    jm.add_junction('plumed hat', 0x02, force_category='equip')
+    jm.add_junction('plumed hat', 'perfect_taunt', force_category='equip')
     jm.add_junction('edgar', 'taunt')
     jm.add_junction('shadow', 'camouflage')
     jm.add_junction('bismark', 'pierce_fire')
@@ -4109,7 +4109,7 @@ def test():
     #jm.add_junction('edgar', 'critical_esper')
     #jm.add_junction('edgar', 'critical_jump')
     #jm.add_junction('edgar', 'critical_revenge')
-    jm.add_junction('haste', 'salve', 'blacklist')
+    #jm.add_junction('haste', 'salve', 'blacklist')
     jm.add_junction('edgar', 'salve')
     #jm.add_junction('edgar', 'repel_fire')
     #jm.add_junction(0x4d, 'initiative', force_category='monster')
@@ -4199,6 +4199,8 @@ def test():
     #jm.add_junction(None, 'time_sink')
     jm.add_junction(None, 'time_font')
     jm.add_junction('edgar', 'synchronize')
+    #jm.add_junction(0x4d, 'perfect_taunt', force_category='monster')
+    #jm.add_junction(0x4d, 'camouflage', force_category='monster')
     jm.execute()
     return jm
 

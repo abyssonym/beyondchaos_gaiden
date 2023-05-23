@@ -44,7 +44,11 @@
 .addr       command-change-byte-address     18500a
 
 .addr   jun-check-entity-living             610600
+.addr       living-characters                   7e3a74
+.addr       living-enemies                      7e3a75
 .addr   jun-check-entity-present            610640
+.addr       present-characters                  7e3a78
+.addr       present-enemies                     7e3a79
 .addr   jun-check-entity-can-act            6106c0
 .addr   jun-check-count-all-living          610680
 .addr   jun-check-inventory                 610700
@@ -60,10 +64,6 @@
 .addr   inventory-address                   7e2686
 .addr   inventory-quantity-address          7e2689
 .addr   character-info                      7e3010
-.addr   living-characters                   7e3a74
-.addr   living-enemies                      7e3a75
-.addr   present-characters                  7e3a78
-.addr   present-enemies                     7e3a79
 .addr   rage-indexes                        7e33a8
 
 .def    jun-data-bank       61
