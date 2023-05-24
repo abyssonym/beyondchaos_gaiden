@@ -486,28 +486,28 @@
             "patch_junction_poach.txt"
         ],
         "boost_fire": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "boost_ice": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "boost_bolt": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "boost_poison": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "boost_wind": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "boost_pearl": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "boost_earth": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "boost_water": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "pierce_fire": [
             "patch_junction_elemental_pierce.txt"
@@ -605,10 +605,10 @@
             "patch_junction_boost_crit.txt"
         ],
         "loner": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "crisis_arm": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "repel_fire": [
             "patch_junction_elemental_repel.txt"
@@ -676,16 +676,16 @@
             "patch_junction_faith.txt"
         ],
         "boost_esper": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "boost_nuke": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "nuke_font": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "nuke_sink": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "repel_nuke": [
             "patch_junction_elemental_repel.txt"
@@ -700,49 +700,49 @@
             "patch_junction_damage_trigger.txt"
         ],
         "ice_font": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "bolt_font": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "poison_font": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "wind_font": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "pearl_font": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "earth_font": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "water_font": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "fire_sink": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "ice_sink": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "bolt_sink": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "poison_sink": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "wind_sink": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "pearl_sink": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "earth_sink": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "water_sink": [
-            "patch_junction_elemental_boost.txt"
+            "patch_junction_damage_modification.txt"
         ],
         "heal_font": [
             "patch_junction_damage_trigger.txt"
@@ -850,7 +850,7 @@
             "patch_junction_caller.txt"
         ],
         "esper_attack": [
-            "patch_junction_elemental_boost.txt",
+            "patch_junction_damage_modification.txt",
             "patch_junction_elemental_pierce.txt",
             "patch_junction_potent_venom.txt"
         ],
