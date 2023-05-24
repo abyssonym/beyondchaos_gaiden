@@ -4206,6 +4206,9 @@ def test():
     jm.add_junction('shadow', 'auto_remedy')
     jm.add_junction(0x4d, 'auto_remedy', force_category='monster')
     jm.add_junction(0x13, 'auto_down', force_category='monster')
+    jm.add_junction('shadow', 'loner')
+    jm.add_junction('edgar', 'crisis_arm')
+    jm.add_junction('bahamut', 'boost_crit')
     jm.execute()
     return jm
 

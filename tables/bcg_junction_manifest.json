@@ -72,6 +72,11 @@
         "critical_morph":       "38",
         "critical_revenge":     "39",
         "critical_escape":      "3a",
+        "boost_crit":           "3b",
+        "loner":                "3c",
+        "crisis_arm":           "3d",
+        "double_ap":            "3e",
+        "dog":                  "3f",
         "repel_fire":           "40",
         "repel_ice":            "41",
         "repel_bolt":           "42",
@@ -215,6 +220,11 @@
         "critical_esper":       "SOS Summon",
         "critical_jump":        "SOS Jump",
         "critical_revenge":     "Meatbone Cut",
+        "boost_crit":           "Crit Boost",
+        "loner":                "Loner",
+        "crisis_arm":           "Crisis Arm",
+        "double_ap":            "Double AP",
+        "dog":                  "Dog",
         "repel_fire":           "Repel Fire",
         "repel_ice":            "Repel Ice",
         "repel_bolt":           "Repel Bolt",
@@ -590,6 +600,15 @@
         ],
         "critical_revenge": [
             "patch_junction_critical_trigger.txt"
+        ],
+        "boost_crit": [
+            "patch_junction_boost_crit.txt"
+        ],
+        "loner": [
+            "patch_junction_elemental_boost.txt"
+        ],
+        "crisis_arm": [
+            "patch_junction_elemental_boost.txt"
         ],
         "repel_fire": [
             "patch_junction_elemental_repel.txt"

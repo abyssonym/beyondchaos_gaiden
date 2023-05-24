@@ -1,0 +1,29 @@
+.addr   jun-checker                 610000
+.addr   main                        6201e0
+
+.def    jun-index           3b
+
+02340c: 22 $main
+
+$main
+:       e6 bc
+:       e6 bc
+:       a9 jun-index
+:       22 $jun-checker
+:       f0 no-junction
+:       c2 20
+:       ad b0 11
+:       4a
+:       6d b0 11
+:       90 no-overflow
+:       a9 ff ff
+.label no-overflow
+:       8d b0 11
+:       e2 20
+.label no-junction
+:       6b
+
+VALIDATION
+
+02340c: e6 bc
+:       e6 bc
