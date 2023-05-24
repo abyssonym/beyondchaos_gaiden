@@ -1,0 +1,24 @@
+.addr   jun-checker-y               6100a0
+.addr   main                        620240
+
+.def    jun-index           3f
+
+022282: 22 $main
+
+$main
+:       a9 jun-index
+:       22 $jun-checker-y
+:       f0 exit-normal
+:       b9 f9 3e
+:       09 40
+:       0a
+:       6b
+.label exit-normal
+:       b9 f9 3e
+:       0a
+:       6b
+
+VALIDATION
+
+022282: b9 f9 3e
+:       0a

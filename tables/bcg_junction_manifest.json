@@ -610,6 +610,12 @@
         "crisis_arm": [
             "patch_junction_damage_modification.txt"
         ],
+        "double_ap": [
+            "patch_junction_double_ap.txt"
+        ],
+        "dog": [
+            "patch_junction_dog.txt"
+        ],
         "repel_fire": [
             "patch_junction_elemental_repel.txt"
         ],

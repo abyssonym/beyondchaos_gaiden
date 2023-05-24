@@ -1,0 +1,39 @@
+.addr   jun-checker-y               6100a0
+.addr   main                        620360
+
+.def    jun-index           3e
+
+025e2f: 22 $main
+:       ea
+
+$main
+:       da
+:       ae d4 3e
+:       e0 00 02
+:       b0 exit-main
+
+:       bf 00 b4 df
+:       48
+:       a9 jun-index
+:       22 $jun-checker-y
+:       f0 no-double
+:       68
+:       0a
+:       85 fb
+:       90 exit-main
+:       a9 ff
+:       85 fb
+:       80 exit-main
+.label no-double
+:       68
+:       85 fb
+.label exit-main
+:       fa
+:       b9 d8 3e
+:       c9 00
+:       6b
+
+VALIDATION
+
+025e2f: b9 d8 3e
+:       c9 00

@@ -170,7 +170,13 @@ $jun-checker-y
 :   da
 :   bb
 :   22 $jun-checker
+:   f0 checker-y-fail
 :   fa
+:   c2 02
+:   6b
+.label checker-y-fail
+:   fa
+:   e2 02
 :   6b
 
 $jun-check-whitelist

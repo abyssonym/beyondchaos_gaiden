@@ -4209,6 +4209,8 @@ def test():
     jm.add_junction('shadow', 'loner')
     jm.add_junction('edgar', 'crisis_arm')
     jm.add_junction('bahamut', 'boost_crit')
+    jm.add_junction('plumed hat', 'dog')
+    jm.add_junction('gau', 'double_ap')
     jm.execute()
     return jm
 
