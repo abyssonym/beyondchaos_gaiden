@@ -1,16 +1,31 @@
 .addr   jun-checker                     610000
+.addr   jun-checker-y                   6100a0
+.addr   jun-check-are-same-team         6105e0
 .addr   jun-check-entity-living         610600
 .addr   jun-check-entity-can-act        6106c0
 .addr   jun-set-target-allies           610780
+.addr   jun-rng1                        610820
+.addr   jun-rng2                        610830
+.addr   jun-queue-self-spell            610fc0
 .addr   jun-queue-command               610ff0
 
 .addr   main-null-freeze                621000
 .addr   main-firestarter                621200
+.addr   main-counter                    622320
+.addr   queue-counter                   622300
 .addr   return-normal                   022215
 .addr   return-miss                     0222d1
 
 .def    jun-index-null-freeze       5a
 .def    jun-index-firestarter       74
+
+.def    jun-index-counter-all       84
+.def    jun-index-hamedo            85
+.def    jun-index-return-magic      86
+.def    jun-index-esper-counter     87
+.def    jun-index-sunken-state      8e
+
+.def    vanish-spell-index          26
 
 022211: 5c $main-null-freeze
 
@@ -30,13 +45,13 @@ $main-null-freeze
 :       bb
 :       a9 jun-index-null-freeze
 :       22 $jun-checker
-:       d0 exit-miss
+:       d0 freeze-exit-miss
 
 .label no-freeze
 :       fa
-:       5c $return-normal
+:       4c $main-counter
 
-.label exit-miss
+.label freeze-exit-miss
 :       fa
 :       5c $return-miss
 
@@ -82,6 +97,82 @@ $main-firestarter
 :       a9 22
 :       99 0d 3f
 :       6b
+
+$main-counter
+:       b9 18 30
+:       3c 18 30
+:       d0 counter-exit-just-exit
+
+:       c2 20
+:       a5 b8
+:       48
+:       e2 20
+
+:       22 $jun-check-are-same-team
+:       d0 no-counter-all
+:       22 $jun-rng2
+:       29 03
+:       d0 no-counter-all
+:       a9 jun-index-counter-all
+:       22 $jun-checker-y
+:       f0 no-counter-all
+:       20 $queue-counter,2
+
+.label no-counter-all
+# check for physical
+:       ad a2 11
+:       4a
+:       90 counter-exit-normal
+
+:       a9 jun-index-sunken-state
+:       22 $jun-checker-y
+:       f0 no-sunken-state
+:       da
+:       bb
+:       a9 vanish-spell-index
+:       22 $jun-queue-self-spell
+:       fa
+
+.label no-sunken-state
+:       a5 b5
+:       d0 no-hamedo
+:       22 $jun-rng1
+:       90 no-hamedo
+:       a9 jun-index-hamedo
+:       22 $jun-checker-y
+:       f0 no-hamedo
+:       20 $queue-counter,2
+
+.label counter-exit-miss
+:       c2 20
+:       68
+:       85 b8
+:       e2 20
+:       5c $return-miss
+
+.label no-hamedo
+.label counter-exit-normal
+:       c2 20
+:       68
+:       85 b8
+:       e2 20
+.label counter-exit-just-exit
+:       5c $return-normal
+
+$queue-counter
+:       da
+:       c2 20
+:       bd 18 30
+:       85 b8
+:       9c 7a 3a
+:       e2 20
+:       bb
+:       22 $jun-check-entity-can-act
+:       f0 exit-queue-counter
+:       22 $jun-queue-command
+.label exit-queue-counter
+:       fa
+:       60
 
 VALIDATION
 

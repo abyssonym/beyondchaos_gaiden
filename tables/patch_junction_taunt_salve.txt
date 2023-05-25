@@ -26,14 +26,14 @@
 0258ed: 5c $main-target-manipulation
 
 $main-target-manipulation
-:       a9 jun-index-taunt-full
-:       20 $main-taunt,2
-:       20 $main-camouflage,2
 :       22 $jun-rng1
 :       90 no-taunt
 :       a9 jun-index-taunt-half
 :       20 $main-taunt,2
 .label no-taunt
+:       a9 jun-index-taunt-full
+:       20 $main-taunt,2
+:       20 $main-camouflage,2
 
 :       a9 01
 :       c5 b5

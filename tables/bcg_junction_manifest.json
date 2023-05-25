@@ -822,6 +822,12 @@
         "auto_remedy": [
             "patch_junction_synchronize.txt"
         ],
+        "counter_all": [
+            "patch_junction_prehit_trigger.txt"
+        ],
+        "hamedo": [
+            "patch_junction_prehit_trigger.txt"
+        ],
         "damage_split": [
             "patch_junction_damage_trigger.txt"
         ],
@@ -842,6 +848,9 @@
         ],
         "synchronize": [
             "patch_junction_synchronize.txt"
+        ],
+        "sunken_state": [
+            "patch_junction_prehit_trigger.txt"
         ],
         "immortal": [
             "patch_junction_death_trigger.txt"
