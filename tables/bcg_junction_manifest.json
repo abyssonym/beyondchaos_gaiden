@@ -145,16 +145,26 @@
         "auto_down":            "81",
         "auto_revivify":        "82",
         "auto_remedy":          "83",
+        "counter_all":          "84",
+        "hamedo":               "85",
+        "return_magic":         "86",
+        "esper_counter":        "87",
         "damage_split":         "88",
         "distribute":           "89",
         "highwind":             "8a",
         "time_font":            "8b",
         "time_sink":            "8c",
         "synchronize":          "8d",
+        "sunken_state":         "8e",
+        "drain_all":            "8f",
         "immortal":             "90",
         "final_spiral":         "91",
         "final_esper":          "92",
         "final_ripple":         "93",
+        "quickening":           "94",
+        "gunblade":             "95",
+        "art_license":          "96",
+        "vip":                  "97",
         "final_fenix":          "98",
         "caller":               "99",
         "esper_attack":         "9a",
@@ -162,8 +172,7 @@
         "decisive":             "9c",
         "maintenance":          "9d",
         "true_paladin":         "9e",
-        "popular":              "9f",
-        "vip":                  "e0"
+        "popular":              "9f"
     },
 
     "junction_short_names": {
@@ -303,6 +312,7 @@
         "final_spiral":         "Final Spiral",
         "final_esper":          "Final Summon",
         "final_ripple":         "Final Ripple",
+        "vip":                  "VIP",
         "final_fenix":          "Final Fenix",
         "caller":               "Caller",
         "esper_attack":         "EspAtk-J",
@@ -310,8 +320,7 @@
         "decisive":             "Decisive",
         "maintenance":          "Maintenance",
         "true_paladin":         "True Paladin",
-        "popular":              "Popular",
-        "vip":                  "VIP"
+        "popular":              "Popularity"
     },
 
     "character_names": [
@@ -673,7 +682,7 @@
             "patch_junction_innate_runic.txt"
         ],
         "null_freeze": [
-            "patch_junction_null_freeze.txt"
+            "patch_junction_prehit_trigger.txt"
         ],
         "precision": [
             "patch_junction_damage_trigger.txt"
@@ -763,7 +772,7 @@
             "patch_junction_victory_cry.txt"
         ],
         "firestarter": [
-            "patch_junction_null_freeze.txt"
+            "patch_junction_prehit_trigger.txt"
         ],
         "auto_reraise": [
             "patch_junction_initiative.txt",
@@ -846,6 +855,9 @@
         "final_ripple": [
             "patch_junction_death_trigger.txt"
         ],
+        "vip": [
+            "patch_junction_vip.txt"
+        ],
         "final_fenix": [
             "patch_junction_initiative.txt",
             "patch_junction_esper_defense.txt",
@@ -874,9 +886,6 @@
         ],
         "popular": [
             "patch_junction_cover.txt"
-        ],
-        "vip": [
-            "patch_junction_vip.txt"
         ]
     }
 }

@@ -4,7 +4,7 @@
 .addr   return-highwind                 0206e7
 .addr   return-vip-fell                 0206df
 
-.def    jun-index-vip       e0
+.def    jun-index-vip       97
 .def    jun-index-highwind  8a
 
 0206db: 5c $main
