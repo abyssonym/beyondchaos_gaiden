@@ -128,7 +128,7 @@ $load-mp-routine
 
 $blood-to-mp
 :       b9 f4 3b
-:       4a 4a 4a 4a
+:       4a 4a 4a
 :       60
 
 $gold-to-mp
@@ -147,7 +147,7 @@ $gold-to-mp
 $deduct-blood
 :       ad 4c 3a
 :       48
-:       0a 0a 0a 0a
+:       0a 0a 0a
 :       8d 4c 3a
 :       bd f4 3b
 :       38

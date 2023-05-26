@@ -138,7 +138,6 @@ $main-camouflage
 :       28 fa
 :       60
 
-
 $salve-target-group
 :       22 $salve-check-item-is-consumable
 :       d0 salve-target-group-return-normal

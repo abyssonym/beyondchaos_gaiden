@@ -101,7 +101,9 @@ $main-firestarter
 $main-counter
 :       b9 18 30
 :       3c 18 30
-:       d0 counter-exit-just-exit
+:       f0 not-targeting-self
+:       82 counter-exit-just-exit,2
+.label not-targeting-self
 
 :       c2 20
 :       a5 b8
@@ -119,6 +121,31 @@ $main-counter
 :       20 $queue-counter,2
 
 .label no-counter-all
+:       ad a5 11
+:       f0 no-return-magic
+:       c0 08
+:       b0 monsters-ignore-mp
+:       3a
+:       d9 08 3c
+:       b0 no-return-magic
+.label monsters-ignore-mp
+:       a9 jun-index-return-magic
+:       22 $jun-checker-y
+:       f0 no-return-magic
+:       c2 20
+:       bd 18 30
+:       85 b8
+:       a5 b5
+:       8d 7a 3a
+:       e2 20
+:       a9 02
+:       8d 7a 3a
+:       da
+:       bb
+:       22 $jun-queue-command
+:       fa
+
+.label no-return-magic
 # check for physical
 :       ad a2 11
 :       4a

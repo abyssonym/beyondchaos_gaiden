@@ -68,7 +68,10 @@
 :       4c 53 4f
 .label condensed_fix_stack
 :       7a
-:       4c 53 4f
+# vanilla code incorrectly determines MP cost of unlearned spells
+# we fix it by jumping to a slightly earlier address
+:       ad 7b 3a
+:       4c 47 4f
 
 $main
 :       c2 10
