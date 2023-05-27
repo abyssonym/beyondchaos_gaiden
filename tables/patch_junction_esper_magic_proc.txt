@@ -1,159 +1,146 @@
 .addr   jun-checker                     610000
-.addr   main                            620000
-.addr   esper-magic-selector            620100
-.addr   get-spell-target-team           620160
-.addr   esper-spell-magic-selector      620180
-
+.addr   jun-check-are-same-team         6105e0
+.addr   jun-mult                        610800
 .addr   jun-rng2                        610830
+.addr   jun-get-equipped-esper          610900
 
-.addr   return-proc                     023650
-.addr   return-no-proc                  023665
-.addr   return-esper-proc               02365b
-.addr   esper-data-learn                186e00
-.addr   esper-data-spell                186e01
-.addr   spell-data                      046ac0
+.addr   main                            6201c0
+.addr       get-esper-spell                 620100
+.addr           check-esper-spell-targeting     620180
+.addr               spell-data                      046ac0
+.addr           esper-data-learn                186e00
+.addr           esper-data-spell                186e01
 
-.def    jun-index           01
-.def    esper-data-bank     d8
+.def    jun-index-esper-magic   01
 
-023649: 5c $main
-:       ea ea ea
+023250: 22 $main
+:       ea
 
 $main
-# do not proc if it is a monster; monsters cannot equip espers
-:       e0 08
-:       b0 no-junction
-# check that command is not Magic or Mimic (Mimic -> regen ticks?)
-# could maybe chain to magic using X-Magic, otherwise creates infinite loop
-:       a5 b5
-:       29 ef
-:       c9 02
-:       f0 no-junction
+:       ad a5 11
+:       d0 is-valid-proc
+:       a9 02
+:       c5 b5
+:       f0 main-esper-proc-exit
+:       bd 18 30
+:       c5 b8
+:       d0 is-valid-proc
+:       a9 12
+:       c5 b5
+:       f0 main-esper-proc-exit
 
-# check for junction
-:       a9 jun-index
+.label is-valid-proc
+:       ad 70 3a
+:       d0 main-esper-proc-exit
+:       a9 jun-index-esper-magic
 :       22 $jun-checker
-:       f0 no-junction
-:       22 $esper-magic-selector
+:       f0 main-esper-proc-exit
+:       20 $get-esper-spell,2
 :       c9 ff
-:       f0 no-junction
-:       5c $return-esper-proc
-.label no-junction
-:       ad 89 3a
-:       89 40
-:       f0 no-weapon-proc
-:       5c $return-proc
-.label no-weapon-proc
-:       5c $return-no-proc
+:       f0 main-esper-proc-exit
+:       8d 00 34
+:       a9 10
+:       14 b2
+:       ee 70 3a
 
-$esper-magic-selector
-:   08 8b
-:   c2 30
-:   bc 10 30
-:   b9 1e 16
-:   29 ff 00
-:   c9 ff 00
-:   f0 esper-magic-selector-fail
-:   85 10
-:   0a 0a 0a
-:   65 10
-:   65 10
-:   65 10
-:   a8
+.label main-esper-proc-exit
+:       ad 01 34
+:       c9 ff
+:       6b
 
-:   e2 20
-:   22 $jun-rng2
-:   4a 4a
-:   85 10
-:   64 11
-:   a9 esper-data-bank
-:   48 ab
-:   c2 20
+$get-esper-spell
+:       22 $jun-get-equipped-esper
+:       c9 ff
+:       f0 get-spell-exit-just-exit
+:       da 08
 
-:   a5 b8
-:   29 0f 00
-:   d0 targeting-allies
-:   20 $esper-spell-magic-selector,2
-:   80 esper-magic-selector-exit
-.label targeting-allies
-:   a5 b8
-:   29 f0 ff
-:   d0 esper-magic-selector-fail
-:   20 $esper-spell-magic-selector,2
-:   80 esper-magic-selector-exit
+# calculate esper spell list offset and save
+:       eb
+:       a9 0b
+:       c2 30
+:       22 $jun-mult
+:       48
 
-.label esper-magic-selector-fail
-:   a9 ff 00
-.label esper-magic-selector-exit
-:   ab 28
-:   6b
+# determine targeting
+:       e2 20
+:       a5 b8
+:       f0 targets-enemy
+:       a9 00
+:       80 targeting-chosen
+.label targets-enemy
+:       a9 40
+.label targeting-chosen
+:       48
 
-$esper-spell-magic-selector
-:   a9 05 00
-:   85 12
-.label spell-loop
-:   c2 20
-:   b9 $esper-data-spell,2
-:   29 ff 00
-:   c9 ff 00
-:   f0 spell-skip
-:   85 14
-:   0a 0a 0a 0a
-:   38
-:   e5 14
-:   e5 14
-:   aa
-:   bf $spell-data,3
-:   20 $get-spell-target-team,2
-:   d0 selector-attack-spell
-:   80 selector-defense-spell
-.label selector-correct-target
-:   a5 10
-:   f9 $esper-data-learn,2
-:   c5 10
-:   90 spell-decrease-threshold
-:   b9 $esper-data-spell,2
-:   80 spell-success
-.label spell-decrease-threshold
-:   85 10
-.label spell-skip
-:   c8 c8
-:   c6 12
-:   f0 spell-fail
-:   80 spell-loop
-.label spell-fail
-:   e2 20
-:   a9 ff
-.label spell-success
-:   60
-.label selector-attack-spell
-:   a5 b8
-:   29 0f
-:   d0 spell-skip
-:   80 selector-correct-target
-.label selector-defense-spell
-:   a5 b8
-:   29 0f
-:   d0 selector-correct-target
-:   80 spell-skip
+# grab random value
+:       22 $jun-rng2
+:       4a 4a
+:       48
 
-$get-spell-target-team
-:   29 ff 00
-:   e2 20
-:   89 02
-:   d0 skip-all-target-check
-:   89 04
-:   d0 exit-target-enemy
-.label skip-all-target-check
-:   29 c0
-:   d0 exit-target-enemy
-:   a9 00
-:   60
-.label exit-target-enemy
-:   a9 01
-:   60
+# start from bottom of list
+:       c2 30
+:       a3 03
+:       18
+:       69 08 00
+:       aa
+:       e2 20
+
+.label esper-spell-loop
+:       bf $esper-data-spell
+:       c9 ff
+:       f0 esper-spell-skip
+:       20 $check-esper-spell-targeting,2
+:       f0 esper-spell-skip
+:       a3 01
+:       38
+:       ff $esper-data-learn
+:       30 esper-spell-found
+:       83 01
+.label esper-spell-skip
+:       ca ca
+:       8a
+:       c3 03
+:       b0 esper-spell-loop
+
+:       a9 ff
+:       80 get-spell-exit
+.label esper-spell-found
+:       bf $esper-data-spell
+.label get-spell-exit
+:       fa fa
+:       28 fa
+.label get-spell-exit-just-exit
+:       60
+
+$check-esper-spell-targeting
+:       da
+:       eb
+:       a9 0e
+:       c2 20
+:       22 $jun-mult
+:       aa
+:       e2 20
+:       bf $spell-data
+:       89 84
+:       f0 no-force-enemy
+:       09 40
+.label no-force-enemy
+:       29 40
+:       c3 06
+:       f0 check-target-pass
+:       fa
+:       e2 02
+:       80 check-target-exit
+.label check-target-pass
+:       fa
+:       c2 02
+.label check-target-exit
+:       60
 
 VALIDATION
+
+023250: ad 01 34
+:       c9 ff
 
 023649: ad 89 3a
 :       89 40

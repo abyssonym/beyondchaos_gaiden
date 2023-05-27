@@ -302,12 +302,17 @@
         "auto_down":            "Auto-Down",
         "auto_revivify":        "Auto-Vivify",
         "auto_remedy":          "Auto-Remedy",
+        "counter_all":          "Counter All",
+        "hamedo":               "Hamedo",
+        "return_magic":         "Return Magic",
+        "esper_counter":        "EspCntr-J",
         "damage_split":         "Damage Split",
         "distribute":           "Distribute",
         "highwind":             "Highwind",
         "time_font":            "Time Font",
         "time_sink":            "Time Sink",
         "synchronize":          "Synchronize",
+        "sunken_state":         "Sunken State",
         "immortal":             "Immortal",
         "final_spiral":         "Final Spiral",
         "final_esper":          "Final Summon",
@@ -827,6 +832,13 @@
         ],
         "hamedo": [
             "patch_junction_prehit_trigger.txt"
+        ],
+        "return_magic": [
+            "patch_junction_prehit_trigger.txt"
+        ],
+        "esper_counter": [
+            "patch_junction_prehit_trigger.txt",
+            "patch_junction_esper_magic_proc.txt"
         ],
         "damage_split": [
             "patch_junction_damage_trigger.txt"

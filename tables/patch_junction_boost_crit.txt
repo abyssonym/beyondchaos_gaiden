@@ -1,5 +1,5 @@
 .addr   jun-checker                 610000
-.addr   main                        6201e0
+.addr   main                        6203c0
 
 .def    jun-index           3b
 

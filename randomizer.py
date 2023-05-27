@@ -4088,7 +4088,7 @@ def test():
     jm.add_junction('shadow', 'initiative')
     jm.add_junction('edgar', 'instant_run')
     #jm.add_junction('edgar', 'instant_act')
-    jm.add_junction('edgar', 'critical_haste')
+    jm.add_junction('setzer', 'critical_haste')
     #jm.add_junction('edgar', 'critical_bserk')
     #jm.add_junction('edgar', 'critical_float')
     #jm.add_junction('edgar', 'critical_vanish')
@@ -4103,7 +4103,7 @@ def test():
     #jm.add_junction('edgar', 'critical_rabbit')
     #jm.add_junction('edgar', 'critical_escape')
     #jm.add_junction('edgar', 'critical_morph')
-    jm.add_junction('edgar', 'critical_runic')
+    #jm.add_junction('edgar', 'critical_runic')
     #jm.add_junction('edgar', 'critical_defend')
     #jm.add_junction('edgar', 'critical_gprain')
     #jm.add_junction('edgar', 'critical_esper')
@@ -4219,7 +4219,9 @@ def test():
     jm.add_junction(0x4d, 'hamedo', force_category='monster')
     jm.add_junction(0x4d, 'return_magic', force_category='monster')
     jm.add_junction(0x5a, 'return_magic', force_category='monster')
-    jm.add_junction('edgar', 'return_magic')
+    jm.add_junction('gau', 'esper_counter')
+    jm.add_junction('gau', 'esper_magic')
+    #jm.add_junction('edgar', 'return_magic')
     jm.execute()
     return jm
 

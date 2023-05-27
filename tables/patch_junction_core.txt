@@ -60,6 +60,7 @@
 .addr   jun-set-target-allies               610780
 .addr   jun-set-target-counter              6107c0
 .addr   jun-check-are-same-team             6105e0
+.addr   jun-get-equipped-esper              610900
 
 .addr   bits                                00bafc
 .addr   wide-bits                           00b4f3
@@ -824,6 +825,23 @@ $jun-check-are-same-team
 .label yes-same-team
 :       28
 :       c2 02
+:       6b
+
+$jun-get-equipped-esper
+:       5a 08
+:       e2 20
+:       c2 10
+:       e0 08 00
+:       b0 equipped-esper-fail
+:       22 $jun-check-entity-present
+:       f0 equipped-esper-fail
+:       bc 10 30
+:       b9 1e 16
+:       28 7a
+:       6b
+.label equipped-esper-fail
+:       a9 ff
+:       28 7a
 :       6b
 
 VALIDATION
