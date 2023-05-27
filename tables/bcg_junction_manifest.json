@@ -127,7 +127,7 @@
         "water_sink":           "6f",
         "heal_font":            "70",
         "heal_sink":            "71",
-        "vampire":              "72",
+        "ravenous":             "72",
         "victory_cry":          "73",
         "firestarter":          "74",
         "auto_reraise":         "75",
@@ -156,7 +156,7 @@
         "time_sink":            "8c",
         "synchronize":          "8d",
         "sunken_state":         "8e",
-        "drain_all":            "8f",
+        "vampire":              "8f",
         "immortal":             "90",
         "final_spiral":         "91",
         "final_esper":          "92",
@@ -284,7 +284,7 @@
         "water_sink":           "Water Sink",
         "heal_font":            "Heal Font",
         "heal_sink":            "Heal Sink",
-        "vampire":              "Vampire",
+        "ravenous":             "Ravenous",
         "victory_cry":          "Victory Cry",
         "firestarter":          "Firestarter",
         "auto_reraise":         "Auto-Life 3",
@@ -313,6 +313,7 @@
         "time_sink":            "Time Sink",
         "synchronize":          "Synchronize",
         "sunken_state":         "Sunken State",
+        "vampire":              "Vampire",
         "immortal":             "Immortal",
         "final_spiral":         "Final Spiral",
         "final_esper":          "Final Summon",
@@ -770,8 +771,8 @@
         "heal_sink": [
             "patch_junction_damage_trigger.txt"
         ],
-        "vampire": [
-            "patch_junction_vampire.txt"
+        "ravenous": [
+            "patch_junction_ravenous.txt"
         ],
         "victory_cry": [
             "patch_junction_victory_cry.txt"
@@ -863,6 +864,9 @@
         ],
         "sunken_state": [
             "patch_junction_prehit_trigger.txt"
+        ],
+        "vampire": [
+            "patch_junction_hit_trigger.txt"
         ],
         "immortal": [
             "patch_junction_death_trigger.txt"

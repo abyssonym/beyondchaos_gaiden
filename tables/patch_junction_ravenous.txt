@@ -1,28 +1,31 @@
 .addr   jun-checker                     610000
 .addr   main                            621060
 .addr   return-normal                   020e07
-.addr   return-vampire                  020e1d
+.addr   return-ravenous                 020e1d
 
-.def    jun-index-vampire           72
+.def    jun-index-ravenous          72
 
 020e02: 5c $main
 
 $main
-:       a9 jun-index-vampire 00
+:       a9 jun-index-ravenous 00
 :       22 $jun-checker
 :       f0 exit-normal
 
-:       06 f0
+:       a5 f0
+:       4a
+:       18
+:       65 f0
 :       90 no-overflow
 :       a9 fe ff
-:       85 f0
 .label no-overflow
+:       85 f0
 :       b9 f4 3b
 :       c5 f0
 :       b0 enough_hp
 :       85 f0
 .label enough_hp
-:       5c $return-vampire
+:       5c $return-ravenous
 
 .label exit-normal
 :       b9 f4 3b

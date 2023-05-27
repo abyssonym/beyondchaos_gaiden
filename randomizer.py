@@ -4216,12 +4216,14 @@ def test():
     jm.add_junction('shadow', 'sunken_state')
     #jm.add_junction('edgar', 'hamedo')
     jm.add_junction(0x13, 'counter_all', force_category='monster')
-    jm.add_junction(0x4d, 'hamedo', force_category='monster')
+    #jm.add_junction(0x4d, 'hamedo', force_category='monster')
     jm.add_junction(0x4d, 'return_magic', force_category='monster')
     jm.add_junction(0x5a, 'return_magic', force_category='monster')
     jm.add_junction('gau', 'esper_counter')
     jm.add_junction('gau', 'esper_magic')
     #jm.add_junction('edgar', 'return_magic')
+    #jm.add_junction('edgar', 'vampire')
+    #jm.add_junction('ogre nix', 'ravenous')
     jm.execute()
     return jm
 

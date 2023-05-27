@@ -1,8 +1,9 @@
 .addr   jun-checker                     610000
-.addr   main                            621580
+.addr   main                            6211a0
 
 .def    jun-index-astral        7d
 .def    jun-index-vorpal        7e
+.def    jun-index-vampire       8f
 .def    jun-index-decisive      9c
 
 0231b6: 22 $main
@@ -25,6 +26,18 @@ $main
 :       0c a3 11
 
 .label no-astral
+:       a9 01
+:       2c a4 11
+:       d0 no-vampire
+:       a9 jun-index-vampire
+:       22 $jun-checker
+:       f0 no-vampire
+:       a9 02
+:       0c a4 11
+:       a9 08
+:       0c a2 11
+
+.label no-vampire
 :       a9 jun-index-decisive
 :       22 $jun-checker
 :       f0 no-junction
