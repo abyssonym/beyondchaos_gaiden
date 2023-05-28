@@ -1,15 +1,20 @@
 .addr   jun-checker                     610000
 .addr   jun-deduct-item-if-possible     610740
-.addr   main                            621680
+.addr   jun-queue-command               610ff0
+.addr   main                            622400
+
+.addr   living-characters               7e3a74
 
 .def    jun-index-astral        7d
 .def    jun-index-vorpal        7e
 .def    jun-index-vampire       8f
+.def    jun-index-quickening    94
 .def    jun-index-gunblade      95
 .def    jun-index-decisive      9c
 
 .def    super-ball-item-index   fa
 .def    hyperdrive-index        d1
+.def    custom-mp-command-index 42
 
 0231b6: 22 $main
 
@@ -45,6 +50,44 @@ $main
 
 .label no-gunblade
 .label not-physical
+:       ad a5 11
+:       f0 no-quickening
+:       a5 b7
+:       1a
+:       d0 no-quickening
+:       a9 jun-index-quickening
+:       22 $jun-checker
+:       f0 no-quickening
+:       c2 20
+:       a5 b8
+:       2c $living-characters,2
+:       e2 20
+:       f0 no-quickening
+:       ad 4c 3a
+:       4a
+:       6d 4c 3a
+:       90 quickening-no-overflow
+:       a9 ff
+.label quickening-no-overflow
+:       cd a5 11
+:       b0 not-economizer-case
+:       ad a5 11
+.label not-economizer-case
+:       c2 20
+:       29 ff 00
+:       3a
+:       dd 08 3c
+:       e2 20
+:       b0 no-quickening
+:       1a
+:       85 b7
+:       a9 custom-mp-command-index
+:       8d 7a 3a
+:       a5 b6
+:       8d 7b 3a
+:       22 $jun-queue-command
+
+.label no-quickening
 :       a9 jun-index-astral
 :       22 $jun-checker
 :       f0 no-astral

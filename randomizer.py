@@ -4151,7 +4151,6 @@ def test():
     #jm.add_junction(None, 'heal_sink')
     #jm.add_junction('setzer', 'precision')
     jm.add_junction('setzer', 'faith')
-    jm.add_junction('setzer', 'vampire')
     jm.add_junction('edgar', 'victory_cry')
     #jm.add_junction(None, 'auto_potion')
     #jm.add_junction(0x4d, 'auto_potion', 'blacklist', force_category='monster')
@@ -4225,6 +4224,7 @@ def test():
     #jm.add_junction('edgar', 'vampire')
     #jm.add_junction('ogre nix', 'ravenous')
     jm.add_junction('flame sabre', 'gunblade')
+    jm.add_junction('setzer', 'quickening')
     jm.execute()
     return jm
 

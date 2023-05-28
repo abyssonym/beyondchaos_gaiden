@@ -1,0 +1,31 @@
+.addr   main                            628080
+.addr   reentry-address                 02175f
+.addr   reentry-fail-address            0200e3
+
+.addr   pointer-address                 61f184
+
+.addr   living-characters               7e3a74
+
+.def    command-index               42
+
+$main
+:       c2 20
+:       a5 b8
+:       2c $living-characters,2
+:       e2 20
+:       f0 reentry-fail
+:       a9 02
+:       85 b5
+
+:       a5 b7
+:       8d 4c 3a
+:       8d a5 11
+:       a9 ff
+:       85 b7
+
+:       5c $reentry-address
+.label reentry-fail
+:       5c $reentry-fail-address
+
+$pointer-address
+:       $main,2
