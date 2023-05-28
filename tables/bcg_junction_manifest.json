@@ -318,6 +318,7 @@
         "final_spiral":         "Final Spiral",
         "final_esper":          "Final Summon",
         "final_ripple":         "Final Ripple",
+        "gunblade":             "Gunblade",
         "vip":                  "VIP",
         "final_fenix":          "Final Fenix",
         "caller":               "Caller",
@@ -879,6 +880,9 @@
         ],
         "final_ripple": [
             "patch_junction_death_trigger.txt"
+        ],
+        "gunblade": [
+            "patch_junction_hit_trigger.txt"
         ],
         "vip": [
             "patch_junction_vip.txt"

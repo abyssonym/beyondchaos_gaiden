@@ -4224,6 +4224,7 @@ def test():
     #jm.add_junction('edgar', 'return_magic')
     #jm.add_junction('edgar', 'vampire')
     #jm.add_junction('ogre nix', 'ravenous')
+    jm.add_junction('flame sabre', 'gunblade')
     jm.execute()
     return jm
 

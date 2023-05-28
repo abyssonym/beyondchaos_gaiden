@@ -1,10 +1,15 @@
 .addr   jun-checker                     610000
-.addr   main                            6211a0
+.addr   jun-deduct-item-if-possible     610740
+.addr   main                            621680
 
 .def    jun-index-astral        7d
 .def    jun-index-vorpal        7e
 .def    jun-index-vampire       8f
+.def    jun-index-gunblade      95
 .def    jun-index-decisive      9c
+
+.def    super-ball-item-index   fa
+.def    hyperdrive-index        d1
 
 0231b6: 22 $main
 
@@ -14,10 +19,31 @@ $main
 :       f0 not-physical
 :       a9 jun-index-vorpal
 :       22 $jun-checker
-:       f0 not-physical
+:       f0 no-vorpal
 :       a9 20
 :       0c a2 11
 
+.label no-vorpal
+:       a5 b5
+:       d0 no-gunblade
+:       a9 jun-index-gunblade
+:       22 $jun-checker
+:       f0 no-gunblade
+:       a9 super-ball-item-index
+:       22 $jun-deduct-item-if-possible
+:       f0 no-gunblade
+:       a9 92
+:       14 b3
+:       a9 20
+:       04 b3
+:       0c a4 11
+:       ee 70 3a
+:       a9 10
+:       14 b2
+:       a9 hyperdrive-index
+:       8d 00 34
+
+.label no-gunblade
 .label not-physical
 :       a9 jun-index-astral
 :       22 $jun-checker

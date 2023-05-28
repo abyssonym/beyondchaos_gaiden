@@ -700,7 +700,7 @@ $jun-deduct-item-if-possible
 :       bd $inventory-quantity-address,2
 :       d0 not-last-item
 :       a9 ff
-:       99 $inventory-address,2
+:       9d $inventory-address,2
 .label not-last-item
 :       68 28 7a fa
 :       c2 02
