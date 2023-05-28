@@ -69,6 +69,7 @@
         "critical_esper":       "32",
         "critical_jump":        "33",
         "critical_defend":      "34",
+        "sneeze_guard":         "37",
         "critical_morph":       "38",
         "critical_revenge":     "39",
         "critical_escape":      "3a",
@@ -225,6 +226,7 @@
         "critical_morph":       "SOS Morph",
         "critical_runic":       "SOS Runic",
         "critical_defend":      "SOS Defend",
+        "sneeze_guard":         "Sneeze Guard",
         "critical_gprain":      "SOS GP Rain",
         "critical_esper":       "SOS Summon",
         "critical_jump":        "SOS Jump",
@@ -604,6 +606,9 @@
         "critical_defend": [
             "patch_junction_critical_trigger.txt"
         ],
+        "sneeze_guard": [
+            "patch_junction_taunt_salve.txt"
+        ],
         "critical_gprain": [
             "patch_junction_critical_trigger.txt"
         ],
@@ -883,7 +888,7 @@
             "patch_junction_death_trigger.txt"
         ],
         "quickening": [
-            "patch_junction_hit_trigger",
+            "patch_junction_hit_trigger.txt",
             "patch_junction_command_custom_mp_spell.txt"
         ],
         "gunblade": [

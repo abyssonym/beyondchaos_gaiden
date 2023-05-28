@@ -1,4 +1,6 @@
 .addr   jun-checker                     610000
+.addr   jun-checker-y                   6100a0
+.addr   jun-check-are-same-team         6105e0
 .addr   jun-check-entity-living         610600
 .addr   jun-set-target-allies           610780
 .addr   jun-rng1                        610820
@@ -6,6 +8,7 @@
 .addr   main-target-manipulation        620200
 .addr   main-taunt                      620260
 .addr   main-camouflage                 6202b0
+.addr   main-sneeze-guard               620dc0
 .addr   salve-target-group              620500
 .addr   salve-check-item-is-consumable  620530
 
@@ -17,13 +20,17 @@
 
 .def    jun-index-taunt-full    02
 .def    jun-index-taunt-half    03
-.def    jun-index-camouflage    76
 .def    jun-index-salve         07
+.def    jun-index-sneeze-guard  37
+.def    jun-index-camouflage    76
 
 018925: 22 $salve-target-group
 :       ea ea
 
 0258ed: 5c $main-target-manipulation
+
+025930: 22 $main-sneeze-guard
+:       ea
 
 $main-target-manipulation
 :       22 $jun-rng1
@@ -54,6 +61,31 @@ $main-target-manipulation
 :       c2 20
 :       a5 b8
 :       5c $return-skip-retarget
+
+$main-sneeze-guard
+:       e2 20
+:       ad ad 11
+:       89 20
+:       f0 no-sneeze
+:       a0 12
+.label sneeze-guard-loop
+:       22 $jun-check-are-same-team
+:       d0 sneeze-guard-loop-skip
+:       a9 jun-index-sneeze-guard
+:       22 $jun-checker-y
+:       f0 sneeze-guard-loop-skip
+:       c2 20
+:       b9 18 30
+:       14 b8
+:       e2 20
+.label sneeze-guard-loop-skip
+:       88 88
+:       10 sneeze-guard-loop
+.label no-sneeze
+:       c2 20
+:       ad 2c 3f
+:       14 b8
+:       6b
 
 $main-taunt
 :       48 da 08
@@ -198,3 +230,6 @@ VALIDATION
 :       a5 b8
 :       20 $old-bit-select,2
 :       85 b8
+
+025930: ad 2c 3f
+:       14 b8

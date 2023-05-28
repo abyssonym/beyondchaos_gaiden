@@ -4224,7 +4224,8 @@ def test():
     #jm.add_junction('edgar', 'vampire')
     #jm.add_junction('ogre nix', 'ravenous')
     jm.add_junction('flame sabre', 'gunblade')
-    jm.add_junction('setzer', 'quickening')
+    #jm.add_junction('setzer', 'quickening')
+    jm.add_junction('setzer', 'sneeze_guard')
     jm.execute()
     return jm
 
