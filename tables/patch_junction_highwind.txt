@@ -5,6 +5,7 @@
 .addr   main-clear-flag                 621f20
 .addr   set-menu-jump                   621f40
 .addr   main-jump-command               621f80
+.addr   main-palidor                    621fc0
 
 .addr   return-land                     021810
 .addr   return-hang                     0200e3
@@ -15,6 +16,9 @@
 
 020144: 22 $main-clear-flag
 :       ea ea
+
+020b7d: 22 $main-palidor
+:       ea
 
 02180b: 5c $main-jump-command
 :       ea
@@ -70,6 +74,32 @@ $main-jump-command
 :       8d a4 11
 :       5c $return-land
 
+$main-palidor
+:       a9 jun-index-highwind
+:       22 $jun-checker
+:       f0 exit-palidor
+:       20 $set-menu-jump,2
+:       bd 18 30
+:       0c 58 3a
+:       bc cc 32
+:       b9 84 31
+:       30 palidor-nothing-queued
+:       c2 20
+:       29 ff 00
+:       0a
+:       a8
+:       e2 20
+:       a9 15
+:       99 20 34
+.label palidor-nothing-queued
+:       a9 00
+:       80 exit-palidor-no-wait
+.label exit-palidor
+:       a9 e0
+.label exit-palidor-no-wait
+:       9d 2c 32
+:       6b
+
 $set-menu-jump
 :       da 08
 :       c2 20
@@ -98,6 +128,9 @@ VALIDATION
 
 02180b: a9 20
 :       8d a4 11
+
+020b7d: a9 e0
+:       9d 2c 32
 
 0221d3: bd 18 30
 :       0c 2c 3f
