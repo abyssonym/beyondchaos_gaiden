@@ -4131,7 +4131,7 @@ def test():
     jm.add_junction('setzer', 'regenerator')
     jm.add_junction('dragoonboots', 'reverse')
     #jm.add_junction('mirage vest', 'heal_boost')
-    jm.add_junction(None, 'gilgam_heart')
+    #jm.add_junction(None, 'gilgam_heart')
     #jm.add_junction('setzer', 'deaths_door')
     #jm.add_junction(None, 'fire_font')
     jm.add_junction(None, 'fire_sink')
@@ -4226,6 +4226,7 @@ def test():
     jm.add_junction('flame sabre', 'gunblade')
     #jm.add_junction('setzer', 'quickening')
     jm.add_junction('setzer', 'sneeze_guard')
+    jm.add_junction('edgar', 'leech')
     jm.execute()
     return jm
 

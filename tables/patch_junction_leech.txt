@@ -1,0 +1,103 @@
+.addr   jun-checker                 610000
+.addr   jun-check-are-same-team     6105e0
+.addr   jun-check-entity-living     610600
+.addr   main                        622500
+.addr   main-damage                 622540
+.addr   return-normal               020c9c
+.addr   check-has-leech             622580
+
+.addr   living-characters           7e3a74
+
+.def    jun-index           36
+
+025b74: 22 $main
+:       ea ea
+
+020c98: 5c $main-damage
+
+$main
+:       5a
+:       bd f8 3e
+:       29 02
+:       d0 exit-normal
+
+:       da 5a
+:       8a bb a8
+:       a2 12
+.label leech-loop
+:       20 $check-has-leech,2
+:       d0 exit-leech
+:       ca ca
+:       10 leech-loop
+:       7a fa
+
+.label exit-normal
+:       bd e5 3e
+:       1d 4d 3e
+:       7a
+:       6b
+
+.label exit-leech
+:       7a fa
+:       a9 40
+:       7a
+:       6b
+
+$main-damage
+:       99 d0 33
+:       c9 00 00
+:       f0 exit-main-damage
+:       1a
+:       f0 exit-main-damage
+:       ad 7a 3a
+:       29 ff bb
+:       c9 22 00
+:       d0 exit-main-damage
+
+:       a2 12
+.label leech-damage-loop
+:       20 $check-has-leech,2
+:       f0 leech-damage-skip
+:       bd e4 33
+:       1a
+:       f0 zero-healing
+:       3a
+.label zero-healing
+:       18
+:       79 d0 33
+:       9d e4 33
+.label leech-damage-skip
+:       ca ca
+:       10 leech-damage-loop
+
+.label exit-main-damage
+:       28
+:       5c $return-normal
+
+$check-has-leech
+:       08
+:       e2 20
+:       22 $jun-check-are-same-team
+:       d0 has-leech-fail
+
+:       22 $jun-check-entity-living
+:       f0 has-leech-fail
+:       a9 jun-index
+:       22 $jun-checker
+:       f0 has-leech-fail
+
+:       28
+:       c2 02
+:       60
+.label has-leech-fail
+:       28
+:       e2 02
+:       60
+
+VALIDATION
+
+020c98: 99 d0 33
+:       28
+
+025b74: bd e5 3e
+:       1d 4d 3e

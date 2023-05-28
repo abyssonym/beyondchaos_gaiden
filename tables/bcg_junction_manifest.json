@@ -69,6 +69,7 @@
         "critical_esper":       "32",
         "critical_jump":        "33",
         "critical_defend":      "34",
+        "leech":                "36",
         "sneeze_guard":         "37",
         "critical_morph":       "38",
         "critical_revenge":     "39",
@@ -226,6 +227,7 @@
         "critical_morph":       "SOS Morph",
         "critical_runic":       "SOS Runic",
         "critical_defend":      "SOS Defend",
+        "leech":                "Leech",
         "sneeze_guard":         "Sneeze Guard",
         "critical_gprain":      "SOS GP Rain",
         "critical_esper":       "SOS Summon",
@@ -605,6 +607,9 @@
         ],
         "critical_defend": [
             "patch_junction_critical_trigger.txt"
+        ],
+        "leech": [
+            "patch_junction_leech.txt"
         ],
         "sneeze_guard": [
             "patch_junction_taunt_salve.txt"

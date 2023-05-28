@@ -1,7 +1,7 @@
 .addr   jun-checker                     610000
 .addr   jun-rng1                        610820
 
-.addr   main                            6207a0
+.addr   main                            6211a0
 .addr   return-normal                   024460
 .addr   return-poisoned                 02447d
 
