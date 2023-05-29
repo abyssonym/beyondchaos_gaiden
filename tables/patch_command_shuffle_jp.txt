@@ -11,7 +11,7 @@
 0261c1: 68 eb ea ea ea ea ea
 0261cb: ea ea ea ea
 
-00a0bf: 4c da a1 60
+00a0bf: 4c 0f a1 60
 00a135: ea
 
 0253f8: ea ea                    # morph

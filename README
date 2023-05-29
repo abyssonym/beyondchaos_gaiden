@@ -31,11 +31,16 @@ Flags:
     c  Randomize characters.
     e  Randomize espers.
     g  Randomize magicite.
+    i  Randomize equipment stats.
+    k  Randomize monster palettes.
+    l  Randomize character palettes.
     m  Randomize monsters.
+    o  Randomize character commands.
     p  Randomize shops.
     q  Randomize equipment.
     r  Randomize rng.
     t  Randomize treasure.
+    u  Randomize music.
     v  Randomize nothing. (for when you want to play "fanatix" mode without any randomizations)
 
 Randomness:
