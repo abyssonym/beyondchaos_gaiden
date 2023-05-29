@@ -27,7 +27,9 @@
 .addr   do-auto-potion                  621100
 .addr   check-nonzero-nonlethal-damage  621160
 .addr   retarget-salve                  621180
+.addr   do-blood-restriction            6207c0
 
+.def    jun-index-blood             0a
 .def    jun-index-heal-boost        53
 .def    jun-index-heal-font         70
 .def    jun-index-heal-sink         71
@@ -57,6 +59,7 @@ $main
 :       c9 ff ff
 :       f0 no-check-heal
 :       20 $check-heal,2
+:       20 $do-blood-restriction,2
 :       80 heal-or-damage
 
 .label no-check-heal
@@ -137,6 +140,25 @@ $check-heal
 .label end-heal-sink-loop
 
 .label not-heal
+:       60
+
+$do-blood-restriction
+:       b9 18 30
+:       3c 18 30
+:       f0 no-blood
+:       e2 20
+:       ad a5 11
+:       f0 no-blood
+:       a9 01
+:       2c a4 11
+:       f0 no-blood
+:       a9 jun-index-blood
+:       22 $jun-checker
+:       f0 no-blood
+:       c2 20
+:       9e e4 33
+.label no-blood
+:       c2 20
 :       60
 
 $main-calc
