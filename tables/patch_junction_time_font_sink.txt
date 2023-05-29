@@ -1,11 +1,16 @@
 .addr   jun-checker                     610000
 .addr   jun-check-count-all-living      610680
+.addr   jun-force-update                610fe0
 .addr   main                            622000
+.addr   main-initialize                 6220a0
 
 .def    jun-index-time-font     8b
 .def    jun-index-time-sink     8c
 
 0209e4: 22 $main
+
+0224c1: 22 $main-initialize
+:       ea
 
 $main
 :       98
@@ -61,7 +66,24 @@ $main
 :       9d dd 3a
 :       6b
 
+$main-initialize
+:       a2 12
+.label initialize-loop
+:       a9 04
+:       1d 04 32
+:       9d 04 32
+:       ca ca
+:       10 initialize-loop
+:       22 $jun-force-update
+
+:       a2 00
+:       ad 4b 2f
+:       6b
+
 VALIDATION
 
 0209e4: 98
 :       9d dd 3a
+
+0224c1: a2 00
+:       ad 4b 2f

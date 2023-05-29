@@ -44,6 +44,8 @@
 .addr   jun-reload-character-commands       610f80
 .addr       load-character-commands-routine     02532c
 .addr       command-change-byte-address     18500a
+.addr   jun-force-update                    610fe0
+.addr       force-update-routine                02083f
 
 .addr   jun-check-entity-living             610600
 .addr       living-characters                   7e3a74
@@ -804,6 +806,15 @@ $jun-reload-character-commands
 :       5c $load-character-commands-routine
 .label reload-commands-reentry
 :       28 7a fa
+:       6b
+
+$jun-force-update
+:       08
+:       62 force-update-reentry,2
+:       f4 $jun-dispatcher-address-c2,2
+:       5c $force-update-routine
+.label force-update-reentry
+:       28
 :       6b
 
 $jun-check-are-same-team
