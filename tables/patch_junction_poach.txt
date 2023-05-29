@@ -2,8 +2,8 @@
 .addr   jun-rng1                        610820
 .addr   jun-rng2                        610830
 .addr   main                            620a40
-.addr   get-steal-or-drop               620ac0
-.addr   obtain-item                     620ae0
+.addr   get-steal-or-drop               620ab0
+.addr   obtain-item                     620ad0
 .addr   return                          020e32
 .addr   monster-indexes                 7e1ff9
 .addr   monster-steals                  0f3000

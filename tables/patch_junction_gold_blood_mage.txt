@@ -1,6 +1,7 @@
 .addr   jun-checker                     610000
 .addr   menu-load-mp                    620880
 .addr   cast-check-deduct-mp            620980
+.addr   do-mp-critical                  620b00
 .addr   load-mp-routine                 620890
 .addr   blood-to-mp                     6208e0
 .addr   gold-to-mp                      620900
@@ -18,6 +19,9 @@
 025d39: 5c $menu-load-mp
 
 0232b6: 5c $cast-check-deduct-mp
+
+023f47: 22 $do-mp-critical
+:       ea ea
 
 024973: 22 $set-end-battle-mp
 :       ea ea
@@ -144,6 +148,37 @@ $gold-to-mp
 :       a9 e7 03
 :       60
 
+$do-mp-critical
+:       48 da 5a 08
+:       ad 4c 3a
+:       48
+
+:       e2 20
+:       a5 ee
+:       8d 4c 3a
+:       bb
+:       c2 20
+
+:       a9 jun-index-blood 00
+:       22 $jun-checker
+:       f0 no-blood
+:       20 $deduct-blood,2
+
+.label no-blood
+:       a9 jun-index-gold 00
+:       22 $jun-checker
+:       f0 no-gold
+:       20 $deduct-gold,2
+
+.label no-gold
+:       68
+:       8d 4c 3a
+
+:       28 7a fa 68
+:       99 08 3c
+:       a9 00 02
+:       6b
+
 $deduct-blood
 :       ad 4c 3a
 :       48
@@ -176,6 +211,15 @@ $deduct-gold
 :       60
 
 VALIDATION
+0232b6: 38
+:       bd 08 3c
+
+023f47: 99 08 3c
+:       a9 00 02
+
+024973: bd 08 3c
+:       99 0d 16
+
 025d39: b9 08 3c
 :       99 88 2e
 :       b9 30 3c

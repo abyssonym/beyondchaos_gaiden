@@ -49,6 +49,9 @@ $main-damage
 :       f0 exit-main-damage
 :       1a
 :       f0 exit-main-damage
+:       b9 18 30
+:       3c 18 30
+:       f0 exit-main-damage
 :       ad 7a 3a
 :       29 ff bb
 :       c9 22 00
