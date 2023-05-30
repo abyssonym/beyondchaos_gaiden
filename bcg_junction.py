@@ -6,54 +6,6 @@ import json
 from os import path
 
 
-TEXT_TABLE_FILEPATH = path.join(tblpath, 'shorttext.txt')
-CHARACTER_MAP = {}
-with open(TEXT_TABLE_FILEPATH) as f:
-    for line in f:
-        character, code = line.split()
-        code = int(code, 0x10)
-        CHARACTER_MAP[code] = character
-        CHARACTER_MAP[character] = code
-
-for (a, b) in {
-        ' ': 0xff,
-        '\n': 0x01,
-        }.items():
-    CHARACTER_MAP[a] = b
-    CHARACTER_MAP[b] = a
-
-
-def map_character(c):
-    old_c = c
-    try:
-        c = CHARACTER_MAP[c]
-    except KeyError:
-        c = '<{0:0>2x}>'.format(c)
-    if c == '\n':
-        c = '<01>'
-    if isinstance(c, int):
-        c = bytes([c])
-    return c
-
-def map_text(text):
-    if isinstance(text, bytes):
-        result = ''
-    else:
-        assert isinstance(text, str)
-        result = b''
-    while text:
-        if text[0] == '<':
-            assert text[3] == '>'
-            c = bytes([int(text[1:3], 0x10)])
-            result += c
-            text = text[4:]
-        else:
-            c = map_character(text[0])
-            text = text[1:]
-            result += c
-    return result
-
-
 def populate_data(data, filename, address):
     f = get_open_file(filename)
 
@@ -97,11 +49,21 @@ def populate_data(data, filename, address):
         assert 0 <= p <= 0xFFFF
         f.write(p.to_bytes(2, byteorder='little'))
 
+def recursive_merge(original, update):
+    for key in sorted(update):
+        if key in original:
+            assert type(original[key]) == type(update[key])
+            if type(update[key]) is dict:
+                original[key] = recursive_merge(original[key], update[key])
+                continue
+        original[key] = update[key]
+    return original
+
 
 class JunctionManager:
     MAX_LINE_LENGTH = 32
 
-    def __init__(self, outfile, manifest=None, data=None):
+    def __init__(self, outfile, manifest=None, data=None, update=None):
         self.outfile = get_open_file(outfile)
         self.directory = tblpath
         self.patches = set()
@@ -113,6 +75,18 @@ class JunctionManager:
                 full_data = json.loads(f.read())
         else:
             full_data = {}
+
+        if update is not None:
+            filename = path.join(self.directory, update)
+            with open(filename) as f:
+                update = json.loads(f.read())
+            full_data = recursive_merge(full_data, update)
+
+        if 'address_mapping' in full_data:
+            self.set_address_mapping(full_data['address_mapping'])
+            del(full_data['address_mapping'])
+        else:
+            self.address_mapping = None
 
         if data is not None:
             for key in sorted(data):
@@ -165,6 +139,10 @@ class JunctionManager:
 
         for patch in self.core_patch_list:
             self.patches.add(patch)
+
+        self.load_character_map()
+        for name in self.junction_short_names.values():
+            self.map_text(name)
 
     def clean_number(self, value):
         if isinstance(value, int):
@@ -295,7 +273,76 @@ class JunctionManager:
     def write_patches(self):
         set_addressing_mode('hirom')
         for patch in sorted(self.patches):
-            write_patch(self.outfile, patch)
+            write_patch(self.outfile, patch, mapping=self.address_mapping)
+
+    def load_character_map(self):
+        self.character_map = {}
+        with open(path.join(tblpath, self.character_table)) as f:
+            for line in f:
+                character, code = line.split()
+                code = int(code, 0x10)
+                assert code not in self.character_map
+                self.character_map[code] = character
+                if character not in self.character_map:
+                    self.character_map[character] = code
+
+        for (a, b) in {
+                ' ': 0xff,
+                '\n': 0x01,
+                }.items():
+            self.character_map[a] = b
+            self.character_map[b] = a
+
+    def map_character(self, c):
+        if isinstance(c, bytes):
+            c = int.from_bytes(c, byteorder='big')
+
+        try:
+            c = self.character_map[c]
+        except KeyError:
+            try:
+                c = '<{0:0>2x}>'.format(c)
+            except:
+                import pdb; pdb.set_trace()
+
+        if c == '\n':
+            c = '<01>'
+        if isinstance(c, int):
+            if c >= 0x100:
+                c = c.to_bytes(length=2, byteorder='big')
+            else:
+                c = c.to_bytes(length=1, byteorder='big')
+
+        return c
+
+    def map_text(self, text):
+        if isinstance(text, bytes):
+            result = ''
+        else:
+            assert isinstance(text, str)
+            result = b''
+        while text:
+            if text[0] == '<':
+                assert text[3] == '>'
+                c = bytes([int(text[1:3], 0x10)])
+                result += c
+                text = text[4:]
+            elif isinstance(text, str):
+                c = self.map_character(text[0])
+                text = text[1:]
+                result += c
+            elif isinstance(text, bytes):
+                test = text[:2]
+                if test.startswith(b'\x00'):
+                    test = text[:1]
+                c = self.map_character(test)
+                if isinstance(c, str) and c.startswith('<') and len(test) > 1:
+                    c = self.map_character(text[0])
+                    text = text[1:]
+                else:
+                    text = text[len(test):]
+                result += c
+        return result
 
     def read_descriptions(self, address, num_messages):
         self.outfile.seek(address)
@@ -327,7 +374,7 @@ class JunctionManager:
                 if c == b'\x00':
                     break
                 message += c
-            message = map_text(message)
+            message = self.map_text(message)
             messages.append(message)
 
         return messages
@@ -356,7 +403,7 @@ class JunctionManager:
             assert message.count('\n') <= 1
             assert all(len(line) <= self.MAX_LINE_LENGTH
                        for line in message.split('\n'))
-            m = map_text(message) + b'\x00'
+            m = self.map_text(message) + b'\x00'
             if m in offset_cache:
                 offset = offset_cache[m]
             else:
@@ -384,19 +431,27 @@ class JunctionManager:
         for key, values in sorted(whitelist.items()):
             if not values:
                 continue
-            s = 'J:'
+            if 'J' in self.character_map:
+                s = 'J:'
+            else:
+                s = ''
             for junction_index in values:
-                append = ' %s,' % self.junction_short_names[junction_index]
+                if ',' in self.character_map:
+                    append = ' %s,' % self.junction_short_names[junction_index]
+                else:
+                    append = '%s、' % self.junction_short_names[junction_index]
                 test = s + append
                 if len(test.split('\n')[-1]) > self.MAX_LINE_LENGTH:
                     append = '\n' + append[1:]
                 s = s + append
             message = '\n'.join(s.split('\n')[:2])
-            assert message[-1] == ','
+            assert message[-1] in (',', '、')
             if len(message) < len(s):
                 message = message[:-1] + '…'
             else:
                 message = message[:-1]
+            if ',' not in self.character_map:
+                assert ',' not in message
             messages[key] = message
         return messages
 
@@ -408,15 +463,20 @@ class JunctionManager:
         self.write_descriptions(self.esper_description_address, messages,
                                 self.esper_free_address)
 
-    def read_battle_messages(self, num_messages=256, address=0x11f7a0):
-        self.outfile.seek(address)
+    def read_battle_messages(self, num_messages=256, pointers_address=None,
+                             messages_address=None):
+        if pointers_address is None:
+            pointers_address = self.battle_message_pointer_address
+        if messages_address is None:
+            messages_address = self.battle_message_address
+        self.outfile.seek(pointers_address)
         pointers = []
         for _ in range(num_messages):
             pointer = int.from_bytes(self.outfile.read(2), byteorder='little')
             pointers.append(pointer)
         messages = []
         for p in pointers:
-            self.outfile.seek((address & 0xFF8000) | p)
+            self.outfile.seek((messages_address & 0xFF8000) | p)
             message = b''
             prev_c = None
             while True:
@@ -425,11 +485,15 @@ class JunctionManager:
                     break
                 message += c
                 prev_c = c
-            messages.append(map_text(message))
+            messages.append(self.map_text(message))
         return messages
 
-    def write_battle_messages(self, messages, pointers_address=0x11f7a0,
-                              messages_address=0x11f000):
+    def write_battle_messages(self, messages, pointers_address=None,
+                              messages_address=None):
+        if pointers_address is None:
+            pointers_address = self.battle_message_pointer_address
+        if messages_address is None:
+            messages_address = self.battle_message_address
         self.outfile.seek(messages_address)
         self.outfile.write(b'\x00')
         message_cache = {'': messages_address}
@@ -440,9 +504,11 @@ class JunctionManager:
             else:
                 pointer = next_free_space
                 self.outfile.seek(pointer)
-                self.outfile.write(map_text(m) + b'\x00')
-                next_free_space += len(m) + 1
-                assert next_free_space <= pointers_address
+                mdata = self.map_text(m)
+                self.outfile.write(mdata + b'\x00')
+                next_free_space += len(mdata) + 1
+                if messages_address < pointers_address:
+                    assert next_free_space <= pointers_address
                 message_cache[m] = pointer
             self.outfile.seek(pointers_address + (i*2))
             self.outfile.write((pointer & 0xFFFF).to_bytes(length=2,
@@ -453,6 +519,9 @@ class JunctionManager:
         for index, message in sorted(self.battle_messages.items()):
             messages[index] = message
         self.write_battle_messages(messages)
+
+    def set_address_mapping(self, mapping):
+        self.address_mapping = path.join(tblpath, mapping)
 
     def execute(self):
         self.populate_everything()

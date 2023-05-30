@@ -26,6 +26,9 @@
 .addr   get-esper-menu-offset           62f300
 .addr       esper-menu-offsets-address      014b5f
 
+.addr   menu-active-character           7e62ca
+.addr   refresh-vram-address            7e7ba9
+
 .addr   bits                            00bafc
 .addr   wide-bits                       00b4f3
 
@@ -70,7 +73,7 @@ $main
 :       a5 05
 :       29 03
 :       f0 normal-confirm
-:       ad ca 62
+:       ad $menu-active-character,2
 :       29 03
 :       0a
 :       aa
@@ -80,7 +83,7 @@ $main
 
 :       20 $get-next-esper,2
 # this bit refreshes the VRAM at the next opportunity
-:       ee a9 7b
+:       ee $refresh-vram-address,2
 :       f4 $reentry-address-minus-one,2
 :       5c $esper-name-routine-address
 
@@ -137,7 +140,7 @@ $check-esper-available
 :       48 da 5a
 :       c9 ff
 :       f0 esper-is-available
-:       ad ca 62
+:       ad $menu-active-character,2
 :       29 03
 :       0a
 :       aa
@@ -197,7 +200,7 @@ $check-esper-owned
 #.addr                   esper-allocations-address       307880
 $check-can-equip-esper
 :       48 08 48
-:       ad ca 62
+:       ad $menu-active-character,2
 :       0a
 :       aa
 :       bd d8 3e
@@ -222,7 +225,7 @@ $check-can-equip-esper
 
 $set-new-esper
 :       48
-:       ad ca 62
+:       ad $menu-active-character,2
 :       0a
 :       aa
 :       68 48
@@ -273,7 +276,7 @@ $check-esper-castable
 :       bd 91 20
 :       29 ff 00
 :       48
-:       ad ca 62
+:       ad $menu-active-character,2
 :       29 03 00
 :       0a
 :       aa
@@ -299,7 +302,7 @@ $get-esper-menu-offset
 :       08
 :       c2 20
 :       48
-:       ad ca 62
+:       ad $menu-active-character,2
 :       29 03 00
 :       0a
 :       aa

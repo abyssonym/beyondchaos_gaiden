@@ -4072,23 +4072,28 @@ def handle_exhirom():
 
 
 def test():
-    jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json')
+    if 'FF6_JP' in get_global_label():
+        jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json',
+                             update='bcg_junction_manifest_jp.json')
+    else:
+        jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json')
+
+    jm.add_junction('edgar', 'initiative')
+    jm.add_junction('shadow', 'initiative')
     #jm.add_junction(None, 0x01, 'whitelist')
     jm.add_junction('edgar', 'perfect_taunt', 'blacklist')
     jm.remove_junction('edgar', 0x02, 'blacklist')
     jm.add_junction('plumed hat', 'perfect_taunt', force_category='equip')
     #jm.add_junction('edgar', 'taunt')
     jm.add_junction('shadow', 'camouflage')
+    jm.add_junction('setzer', 'critical_haste')
     jm.add_junction('bismark', 'pierce_fire')
     jm.add_junction('bismark', 'pierce_ice')
     jm.add_junction('bismark', 'pierce_bolt')
     jm.add_junction('bismark', 'boost_water')
     jm.add_junction('shoat', 'pierce_poison')
-    jm.add_junction('edgar', 'initiative')
-    jm.add_junction('shadow', 'initiative')
     jm.add_junction('edgar', 'instant_run')
     #jm.add_junction('edgar', 'instant_act')
-    jm.add_junction('setzer', 'critical_haste')
     #jm.add_junction('edgar', 'critical_bserk')
     #jm.add_junction('edgar', 'critical_float')
     #jm.add_junction('edgar', 'critical_vanish')
@@ -4116,6 +4121,7 @@ def test():
     jm.add_junction(0x4d, 'repel_earth', force_category='monster')
     jm.add_junction(0x4d, 'repel_bolt', force_category='monster')
     jm.add_junction(0x4d, 'repel_nuke', force_category='monster')
+    jm.add_junction(0x13, 'repel_bolt', force_category='monster')
     #jm.add_junction('edgar', 'lucid_dead')
     #jm.add_junction('edgar', 'focus')
     jm.add_junction('gau', 'focus')
@@ -4129,7 +4135,7 @@ def test():
     jm.add_junction('leather hat', 'miasma')
     jm.add_junction('leatherarmor', 'miasma')
     jm.add_junction('setzer', 'regenerator')
-    jm.add_junction('dragoonboots', 'reverse')
+    #jm.add_junction('dragoonboots', 'reverse')
     #jm.add_junction('mirage vest', 'heal_boost')
     #jm.add_junction(None, 'gilgam_heart')
     #jm.add_junction('setzer', 'deaths_door')
@@ -4165,7 +4171,7 @@ def test():
     jm.add_junction('setzer', 'prism_wall')
     jm.add_junction(None, 'unlimited')
     #jm.add_junction(None, 'mp_switch')
-    jm.add_junction('buckler', 'mp_regen')
+    #jm.add_junction('buckler', 'mp_regen')
     jm.add_junction('buckler', 'vorpal')
     jm.add_junction('imperial', 'astral')
     #jm.add_junction('setzer', 'boost_phys')
@@ -4226,7 +4232,7 @@ def test():
     jm.add_junction('flame sabre', 'gunblade')
     #jm.add_junction('setzer', 'quickening')
     jm.add_junction('setzer', 'sneeze_guard')
-    jm.add_junction('edgar', 'leech')
+    #jm.add_junction('edgar', 'leech')
     jm.execute()
     return jm
 

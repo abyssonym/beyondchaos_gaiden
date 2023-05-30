@@ -18,6 +18,9 @@
 .addr   bits                            00bafc
 .addr   item-table-address              185000
 
+.addr   menu-active-character           7e62ca
+.addr   selector-targeting-address      7e7a84
+
 .def    jun-index-taunt-full    02
 .def    jun-index-taunt-half    03
 .def    jun-index-salve         07
@@ -33,6 +36,11 @@
 :       ea
 
 $main-target-manipulation
+# check for runic animation
+:       a9 40
+:       24 b2
+:       f0 just-return
+
 :       22 $jun-rng1
 :       90 no-taunt
 :       a9 jun-index-taunt-half
@@ -176,7 +184,7 @@ $salve-target-group
 :       bd 88 26
 :       89 40
 :       d0 salve-target-group-return-normal
-:       ad ca 62
+:       ad $menu-active-character,2
 :       0a
 :       da
 :       aa
@@ -193,7 +201,7 @@ $salve-target-group
 .label salve-target-group-return-normal
 :       bd 88 26
 .label salve-target-group-return-new
-:       8d 84 7a
+:       8d $selector-targeting-address,2
 :       6b
 
 $salve-check-item-is-consumable
@@ -224,7 +232,7 @@ $salve-check-item-is-consumable
 VALIDATION
 
 018925: bd 88 26
-:       8d 84 7a
+:       8d $selector-targeting-address,2
 
 0258ed: c2 20
 :       a5 b8

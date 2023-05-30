@@ -5,11 +5,11 @@
 .addr   bits                            00bafc
 
 # 022241 -> 02224f
-.addr   return-reflect                  02224f
+.addr   return-reflect                  022241
 
 # 02224b -> 022215 (order of operations changed for vanish doom)
 # This skips forward to 022259, the end of the vanish doom patch
-.addr   return-no-reflect               022259
+.addr   return-no-reflect               02224b
 
 .def    jun-index-null-reflect  0d
 .def    jun-index-fire          40
@@ -22,7 +22,7 @@
 .def    jun-index-water         47
 .def    jun-index-nuke          48
 
-022243: 5c $main
+022235: 5c $main
 :       ea
 
 $main
@@ -129,5 +129,11 @@ VALIDATION
 
 # in unmodified roms this code is at c2/2235
 # the vanish doom patch moves it to c2/2243
-022243: ad a3 11
+022235: ad a3 11
+:       89 02
+
+022241: c2 20
+:       b9 18 30
+
+02224b: ad a2 11
 :       89 02

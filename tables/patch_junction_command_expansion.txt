@@ -3,21 +3,68 @@
 
 # should reserve 0x200 bytes for the table, up to 61f300
 .addr   jun-command-table-address       61f100
+# c21401 minus one
+.addr   return-addr                     021400
 
-.def    return-addr-1       14
-.def    return-addr-2       00
-
-.def    command-table       C8 15 97 18 41 17 36 19 27 19 91 15 10 16 47 18 8D 18 85 18 9D 15 5B 19 5F 17 1F 15 76 19 26 17 60 15 9D 19 1E 15 7D 17 4C 19 6A 19 F6 17 41 17 07 19 63 17 1E 17 1A 17 E5 17 5F 17 B2 19 1E 15 72 50 D1 50 0B 50 57 4F 97 4F CD 50 5F 4F DD 50 1E 15 61 51 DE 20 2D 64 A8 51 B2 51 FA 1D 1A 1E 5E 1E 1E 15 1E 15 1E 15
+.addr   cmd-00  0215c8
+.addr   cmd-01  021897
+.addr   cmd-02  021741
+.addr   cmd-03  021936
+.addr   cmd-04  021927
+.addr   cmd-05  021591
+.addr   cmd-06  021610
+.addr   cmd-07  021847
+.addr   cmd-08  02188d
+.addr   cmd-09  021885
+.addr   cmd-0a  02159d
+.addr   cmd-0b  02195b
+.addr   cmd-0c  02175f
+.addr   cmd-0d  02151f
+.addr   cmd-0e  021976
+.addr   cmd-0f  021726
+.addr   cmd-10  021560
+.addr   cmd-11  02199d
+.addr   cmd-12  02151e
+.addr   cmd-13  02177d
+.addr   cmd-14  02194c
+.addr   cmd-15  02196a
+.addr   cmd-16  0217f6
+.addr   cmd-17  021741
+.addr   cmd-18  021907
+.addr   cmd-19  021763
+.addr   cmd-1a  02171e
+.addr   cmd-1b  02171a
+.addr   cmd-1c  0217e5
+.addr   cmd-1d  02175f
+.addr   cmd-1e  0219b2
+.addr   cmd-1f  02151e
+.addr   cmd-20  025072
+.addr   cmd-21  0250d1
+.addr   cmd-22  02500b
+.addr   cmd-23  024f57
+.addr   cmd-24  024f97
+.addr   cmd-25  0250cd
+.addr   cmd-26  024f5f
+.addr   cmd-27  0250dd
+.addr   cmd-28  02151e
+.addr   cmd-29  025161
+.addr   cmd-2a  0220de
+.addr   cmd-2b  02642d
+.addr   cmd-2c  0251a8
+.addr   cmd-2d  0251b2
+.addr   cmd-2e  021dfa
+.addr   cmd-2f  021e1a
+.addr   cmd-30  021e5e
+.addr   cmd-31  02151e
+.addr   cmd-32  02151e
+.addr   cmd-33  02151e
 
 0213fc: 5c $get-command-subroutine
 02155b: 5c $get-command-jump
 
 $get-command-subroutine
 :       aa
-:       a9 return-addr-1
-:       48
-:       a9 return-addr-2
-:       48
+:       f4 $return-addr,2
 :       8a
 :       4c $get-command-jump,2
 
@@ -40,17 +87,69 @@ $get-command-jump
 :       dc 10 00
 
 $jun-command-table-address
-:       command-table
+:       $cmd-00,2
+:       $cmd-01,2
+:       $cmd-02,2
+:       $cmd-03,2
+:       $cmd-04,2
+:       $cmd-05,2
+:       $cmd-06,2
+:       $cmd-07,2
+:       $cmd-08,2
+:       $cmd-09,2
+:       $cmd-0a,2
+:       $cmd-0b,2
+:       $cmd-0c,2
+:       $cmd-0d,2
+:       $cmd-0e,2
+:       $cmd-0f,2
+:       $cmd-10,2
+:       $cmd-11,2
+:       $cmd-12,2
+:       $cmd-13,2
+:       $cmd-14,2
+:       $cmd-15,2
+:       $cmd-16,2
+:       $cmd-17,2
+:       $cmd-18,2
+:       $cmd-19,2
+:       $cmd-1a,2
+:       $cmd-1b,2
+:       $cmd-1c,2
+:       $cmd-1d,2
+:       $cmd-1e,2
+:       $cmd-1f,2
+:       $cmd-20,2
+:       $cmd-21,2
+:       $cmd-22,2
+:       $cmd-23,2
+:       $cmd-24,2
+:       $cmd-25,2
+:       $cmd-26,2
+:       $cmd-27,2
+:       $cmd-28,2
+:       $cmd-29,2
+:       $cmd-2a,2
+:       $cmd-2b,2
+:       $cmd-2c,2
+:       $cmd-2d,2
+:       $cmd-2e,2
+:       $cmd-2f,2
+:       $cmd-30,2
+:       $cmd-31,2
+:       $cmd-32,2
+:       $cmd-33,2
 
 VALIDATION
 
+.addr   command-pointers        0219c7
+
 0213fc: 0a aa
-:       fc c7 19
+:       fc $command-pointers,2
 
 02155b: 0a aa
-:       7c c7 19
+:       7c $command-pointers,2
 
-#0219c7: command-table
-0219c7: c8 15
-:       97 18
-:       41 17
+0219c7: $cmd-00,2
+:       $cmd-01,2
+:       $cmd-02,2

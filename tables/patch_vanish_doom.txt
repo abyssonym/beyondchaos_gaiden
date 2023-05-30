@@ -1,5 +1,26 @@
-022215: AD A2 11 89  02 F0 07 B9  A1 3A 89 04  D0 6E A5 B3
-:       10 1C B9 E4  3E 89 10 F0  15 AD A4 11  0A 30 07 AD
-:       A2 11 4A 4C  B3 22 B9 FC  3D 09 10 99  FC 3D AD A3
-:       11 89 02 D0  0F B9 F8 3E  10 0A C2 20  B9 18 30 04
-:       A6 4C E5 22
+.addr   main                    618000
+.addr   return-miss             0222b5
+.addr   return-hit              0222e8
+
+022226: 5c $main
+
+$main
+:       ad a2 11
+:       4a
+:       b0 exit-miss-physical
+:       ad a2 11
+:       89 02
+:       f0 exit-hit
+:       b9 a1 3a
+:       89 04
+:       d0 exit-miss-instant-death
+.label exit-hit
+:       5c $return-hit
+.label exit-miss-instant-death
+.label exit-miss-physical
+:       5c $return-miss
+
+VALIDATION
+
+022226: ad a2 11
+:       4a

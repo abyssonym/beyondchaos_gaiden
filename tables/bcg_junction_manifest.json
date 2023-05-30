@@ -1,4 +1,5 @@
 {
+    "character_table":              "shorttext.txt",
     "always_whitelist_address":     "611000",
     "character_whitelist_address":  "611800",
     "character_blacklist_address":  "611c00",
@@ -11,12 +12,14 @@
     "monster_whitelist_address":    "614000",
     "monster_blacklist_address":    "614800",
 
-    "esper_description_address":    "035c09",
-    "esper_free_address":           "61c000",
-    "num_esper_descriptions":       "1b",
-    "equip_description_address":    "038308",
-    "equip_free_address":           "61c800",
-    "num_equip_descriptions":       "100",
+    "esper_description_address":        "035c09",
+    "esper_free_address":               "61c000",
+    "num_esper_descriptions":           "1b",
+    "equip_description_address":        "038308",
+    "equip_free_address":               "61c800",
+    "num_equip_descriptions":           "100",
+    "battle_message_pointer_address":   "11f7a0",
+    "battle_message_address":           "11f000",
 
     "junction_indexes": {
         "esper_magic":          "01",
