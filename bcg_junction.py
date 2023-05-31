@@ -144,6 +144,43 @@ class JunctionManager:
         for name in self.junction_short_names.values():
             self.map_text(name)
 
+    @property
+    def report(self):
+        s = ''
+        for category in ('character', 'esper', 'equip',
+                         'status', 'monster'):
+            if category.endswith('s'):
+                substr = '{0}ES\n'.format(category.upper())
+            else:
+                substr = '{0}S\n'.format(category.upper())
+            names = getattr(self, '%s_names' % category)
+            whitelist = getattr(self, '%s_whitelist' % category)
+            blacklist = getattr(self, '%s_blacklist' % category)
+            any_junctions = False
+            for name in sorted(names):
+                category_index = self.get_category_index(category, name)
+                if category_index not in whitelist:
+                    whitelist[category_index] = []
+                if category_index not in blacklist:
+                    blacklist[category_index] = []
+                junctions = whitelist[category_index]
+                junctions = {self.junction_short_names[i] for i in junctions}
+                nonjunctions = blacklist[category_index]
+                nonjunctions = {self.junction_short_names[i]
+                                for i in nonjunctions}
+                junctions = {j for j in junctions if j not in nonjunctions}
+                nonjunctions = {'-%s' % j for j in nonjunctions}
+                junctions = sorted(junctions) + sorted(nonjunctions)
+                if not junctions:
+                    continue
+                junctions = ', '.join(junctions)
+                line = '{0:>14} : {1}\n'.format(name, junctions)
+                substr += line
+                any_junctions = True
+            if any_junctions:
+                s += substr + '\n'
+        return s.rstrip()
+
     def clean_number(self, value):
         if isinstance(value, int):
             return value
