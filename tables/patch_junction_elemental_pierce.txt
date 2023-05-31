@@ -1,6 +1,7 @@
 .addr   jun-checker                             610000
 .addr   jun-rng2                                610830
 .addr   jun-mult                                610800
+.addr   jun-check-is-damage-over-time           610920
 .addr   main                                    621340
 .addr   main-esper-attack-misc-effect           621b00
 .addr   fix-force-field                         6203a0
@@ -38,6 +39,8 @@
 020c03: ea 24 10
 
 $main-esper-attack-misc-effect
+:       22 $jun-check-is-damage-over-time
+:       d0 no-esper-attack-misc-junction
 :       20 $check-has-esper,2
 :       f0 no-esper-attack-misc-junction
 :       a9 jun-index-esper-attack
@@ -61,6 +64,7 @@ $main-esper-attack-misc-effect
 :       99 d4 3d
 :       bf 0c 00 c4
 :       19 e8 3d
+:       29 ff df
 :       99 e8 3d
 :       80 esper-attack-misc-cleanup
 .label misc-cure-status

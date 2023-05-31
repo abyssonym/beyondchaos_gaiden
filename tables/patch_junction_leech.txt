@@ -1,12 +1,13 @@
-.addr   jun-checker                 610000
-.addr   jun-check-are-same-team     6105e0
-.addr   jun-check-entity-living     610600
-.addr   main                        622500
-.addr   main-damage                 622540
-.addr   return-normal               020c9c
-.addr   check-has-leech             622580
+.addr   jun-checker                     610000
+.addr   jun-check-are-same-team         6105e0
+.addr   jun-check-entity-living         610600
+.addr   jun-check-is-damage-over-time   610920
+.addr   main                            622500
+.addr   main-damage                     622540
+.addr   return-normal                   020c9c
+.addr   check-has-leech                 622580
 
-.addr   living-characters           7e3a74
+.addr   living-characters               7e3a74
 
 .def    jun-index           36
 
@@ -49,13 +50,9 @@ $main-damage
 :       f0 exit-main-damage
 :       1a
 :       f0 exit-main-damage
-:       b9 18 30
-:       3c 18 30
+
+:       22 $jun-check-is-damage-over-time
 :       f0 exit-main-damage
-:       ad 7a 3a
-:       29 ff bb
-:       c9 22 00
-:       d0 exit-main-damage
 
 :       a2 12
 .label leech-damage-loop

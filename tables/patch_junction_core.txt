@@ -63,6 +63,7 @@
 .addr   jun-set-target-counter              6107c0
 .addr   jun-check-are-same-team             6105e0
 .addr   jun-get-equipped-esper              610900
+.addr   jun-check-is-damage-over-time       610920
 
 .addr   bits                                00bafc
 .addr   wide-bits                           00b4f3
@@ -853,6 +854,29 @@ $jun-get-equipped-esper
 .label equipped-esper-fail
 :       a9 ff
 :       28 7a
+:       6b
+
+$jun-check-is-damage-over-time
+:       08
+:       c2 20
+:       b9 18 30
+:       3c 18 30
+:       f0 dot-not-targeting-self
+:       e2 20
+:       ad 7a 3a
+:       c9 22
+:       d0 not-damage-over-time-command
+:       a9 12
+:       c5 b5
+:       f0 is-damage-over-time
+.label not-damage-over-time-command
+.label dot-not-targeting-self
+:       28
+:       e2 02
+:       6b
+.label is-damage-over-time
+:       28
+:       c2 02
 :       6b
 
 VALIDATION

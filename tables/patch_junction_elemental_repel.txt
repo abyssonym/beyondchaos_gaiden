@@ -1,4 +1,5 @@
 .addr   jun-checker                     610000
+.addr   jun-check-is-damage-over-time   610920
 .addr   main                            620700
 .addr   check-element                   6207a0
 .addr   check-prism                     6213c0
@@ -37,14 +38,8 @@ $main
 :       2c a2 11
 :       d0 no-reflect
 
-:       c2 20
-:       b9 18 30
-:       3c 18 30
-:       e2 20
-:       f0 not-targeting-self
-:       a9 12
-:       c5 b5
-:       f0 no-reflect
+:       22 $jun-check-is-damage-over-time
+:       d0 no-reflect
 .label not-targeting-self
 
 :       20 $check-prism,2

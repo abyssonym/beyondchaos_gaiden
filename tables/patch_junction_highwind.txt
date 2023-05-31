@@ -78,6 +78,9 @@ $main-palidor
 :       a9 jun-index-highwind
 :       22 $jun-checker
 :       f0 exit-palidor
+:       bd 4d 3e
+:       09 40
+:       9d 4d 3e
 :       20 $set-menu-jump,2
 :       bd 18 30
 :       0c 58 3a
