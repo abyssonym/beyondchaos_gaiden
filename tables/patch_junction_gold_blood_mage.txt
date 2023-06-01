@@ -7,7 +7,7 @@
 .addr   gold-to-mp                      620900
 .addr   deduct-blood                    620920
 .addr   deduct-gold                     620940
-.addr   set-end-battle-mp               6209d0
+.addr   set-end-battle-mp               6209e0
 .addr   menu-return                     025d45
 .addr   return-no-junction-check-mp     0232ba
 .addr   return-enough-mp                0232e0
@@ -37,6 +37,8 @@ $cast-check-deduct-mp
 :       22 $jun-checker
 :       d0 blood-mage-check-mp
 
+:       e0 08
+:       b0 is-monster-no-gold
 :       a9 jun-index-gold 00
 :       22 $jun-checker
 :       d0 gold-mage-check-mp
@@ -59,6 +61,7 @@ $cast-check-deduct-mp
 :       20 $deduct-gold,2
 :       80 enough-mp
 
+.label is-monster-no-gold
 .label no-junction-check-mp
 :       ad 4c 3a
 :       38
