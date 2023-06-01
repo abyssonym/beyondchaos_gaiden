@@ -2727,7 +2727,7 @@ class CharacterObject(TableObject):
 
         NO_RAGE_PATCH = True
         for patchfilename in get_activated_patches():
-            if 'auto_learn_rage_patch' in patchfilename.lower():
+            if 'patch_auto_learn_rage' in patchfilename.lower():
                 NO_RAGE_PATCH = False
                 break
         else:
@@ -2739,6 +2739,8 @@ class CharacterObject(TableObject):
             replaceable = [c for c in commands if c not in [0x10, 0x00, 0x01]]
             commands.remove(random.choice(replaceable))
             commands.insert(1, 0x11)
+        elif not NO_RAGE_PATCH:
+            assert 0x11 not in commands
 
         self.commands = commands
         if self.index <= 0xc:
@@ -2788,6 +2790,15 @@ class CharacterObject(TableObject):
 
         if self.index == 0x1b and 't' in get_flags():
             self.weapon = 0x29
+
+        if 'o' in get_flags():
+            if 'FF6_NA' in get_global_label():
+                assert 'patch_auto_learn_rage.txt' in get_activated_patches()
+                assert 0x11 not in self.commands
+            if 'FF6_JP' in get_global_label():
+                assert ('patch_auto_learn_rage_jp.txt'
+                        in get_activated_patches())
+                assert 0x11 not in self.commands
 
 
 class ExperienceObject(TableObject):
@@ -3279,7 +3290,7 @@ def execute_fanatix_mode():
     partydict, fulldict = {}, {}
     removedict, addict = {}, {}
     done_parties = set([])
-    NUM_FLOORS = 99
+    NUM_FLOORS = 49
     next_membit = 1
     LocationObject.class_reseed('prefanatix')
     for n in range(NUM_FLOORS):
@@ -3497,18 +3508,10 @@ def execute_fanatix_mode():
     boss_formations = [f for f in FormationObject.ranked
                        if f.two_packs and f.rank > 0
                        and f.index not in BANNED_FORMATIONS]
-
-    duplicates = []
-    for f1 in list(boss_formations):
-        if f1 not in boss_formations:
-            continue
-        for f2 in boss_formations[boss_formations.index(f1):]:
-            if f1 is f2:
-                continue
-            if str(sorted(f1.enemies)) == str(sorted(f2.enemies)):
-                duplicates.append((f1, f2))
-                if f2 in boss_formations:
-                    boss_formations.remove(f2)
+    two_packs = {tp for f in boss_formations for tp in f.two_packs}
+    boss_formations = {random.choice(tp.formations)
+                       for tp in sorted(two_packs, key=lambda tp: tp.index)}
+    boss_formations = sorted(boss_formations, key=lambda bf: bf.index)
 
     unique_boss_formations = sorted(set(boss_formations), key=lambda f: f.rank)
     max_index = len(unique_boss_formations)-1
@@ -3886,6 +3889,13 @@ def execute_fanatix_mode():
         l.music = chosen_music[n]
         prev = l
 
+    #assert len(boss_packs) == len(chosen_packs) == NUM_FLOORS
+    #for i, (bp, p) in enumerate(zip(boss_packs, chosen_packs)):
+    #    print('FLOOR', i)
+    #    print(bp)
+    #    print(p)
+    #    print()
+
     # top section
     LocationObject.class_reseed('postfanatix')
     assert next_membit <= 0x100
@@ -4078,161 +4088,15 @@ def test():
     else:
         jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json')
 
-    jm.add_junction('edgar', 'initiative')
-    jm.add_junction('shadow', 'initiative')
-    #jm.add_junction(None, 0x01, 'whitelist')
-    jm.add_junction('edgar', 'perfect_taunt', 'blacklist')
-    jm.remove_junction('edgar', 0x02, 'blacklist')
-    jm.add_junction('plumed hat', 'perfect_taunt', force_category='equip')
-    #jm.add_junction('edgar', 'taunt')
-    jm.add_junction('shadow', 'camouflage')
-    jm.add_junction('setzer', 'critical_haste')
-    jm.add_junction('bismark', 'pierce_fire')
-    jm.add_junction('bismark', 'pierce_ice')
-    jm.add_junction('bismark', 'pierce_bolt')
-    jm.add_junction('bismark', 'boost_water')
-    jm.add_junction('shoat', 'pierce_poison')
-    jm.add_junction('edgar', 'instant_run')
-    #jm.add_junction('edgar', 'instant_act')
-    #jm.add_junction('edgar', 'critical_bserk')
-    #jm.add_junction('edgar', 'critical_float')
-    #jm.add_junction('edgar', 'critical_vanish')
-    #jm.add_junction('edgar', 'critical_warp')
-    #jm.add_junction('edgar', 'critical_quick')
-    #jm.add_junction('edgar', 'critical_cure3')
-    #jm.add_junction('edgar', 'critical_remedy')
-    #jm.add_junction('edgar', 'critical_regen')
-    #jm.add_junction('edgar', 'critical_life3')
-    #jm.add_junction('edgar', 'critical_golem')
-    #jm.add_junction('edgar', 'critical_fenrir')
-    #jm.add_junction('edgar', 'critical_rabbit')
-    #jm.add_junction('edgar', 'critical_escape')
-    #jm.add_junction('edgar', 'critical_morph')
-    #jm.add_junction('edgar', 'critical_runic')
-    #jm.add_junction('edgar', 'critical_defend')
-    #jm.add_junction('edgar', 'critical_gprain')
-    #jm.add_junction('edgar', 'critical_esper')
-    #jm.add_junction('edgar', 'critical_jump')
-    #jm.add_junction('edgar', 'critical_revenge')
-    #jm.add_junction('haste', 'salve', 'blacklist')
-    jm.add_junction('edgar', 'salve')
-    #jm.add_junction('edgar', 'repel_fire')
-    #jm.add_junction(0x4d, 'initiative', force_category='monster')
-    jm.add_junction(0x4d, 'repel_earth', force_category='monster')
-    jm.add_junction(0x4d, 'repel_bolt', force_category='monster')
-    jm.add_junction(0x4d, 'repel_nuke', force_category='monster')
-    jm.add_junction(0x13, 'repel_bolt', force_category='monster')
-    #jm.add_junction('edgar', 'lucid_dead')
-    #jm.add_junction('edgar', 'focus')
-    jm.add_junction('gau', 'focus')
-    jm.add_junction('umaro', 'focus')
-    jm.add_junction('edgar', 'blood_mage')
-    jm.add_junction('edgar', 'reflect_boost')
-    jm.add_junction('setzer', 'gold_mage')
-    #jm.add_junction('setzer', 'null_reflect')
-    jm.add_junction('gau', 'poach')
-    jm.add_junction('shadow', 'imp_harvest')
-    jm.add_junction('leather hat', 'miasma')
-    jm.add_junction('leatherarmor', 'miasma')
-    jm.add_junction('setzer', 'regenerator')
-    #jm.add_junction('dragoonboots', 'reverse')
-    #jm.add_junction('mirage vest', 'heal_boost')
-    #jm.add_junction(None, 'gilgam_heart')
-    #jm.add_junction('setzer', 'deaths_door')
-    #jm.add_junction(None, 'fire_font')
-    jm.add_junction(None, 'fire_sink')
-    jm.add_junction(None, 'ice_sink')
-    jm.add_junction('edgar', 'necromancer')
-    jm.add_junction('edgar', 'commander')
-    jm.add_junction('setzer', 'potent_venom')
-    jm.add_junction('ifrit', 'boost_esper')
-    jm.add_junction('cards', 'boost_nuke')
-    jm.add_junction('buckler', 'chemist')
-    jm.add_junction('mithrilblade', 'nihopalaoa')
-    jm.add_junction('imperial', 'innate_runic')
-    #jm.add_junction(None, 'nuke_sink')
-    jm.add_junction(None, 'freebie')
-    #jm.add_junction(None, 'heal_font')
-    jm.add_junction('gau', 'null_freeze')
-    #jm.add_junction(None, 'heal_sink')
-    #jm.add_junction('setzer', 'precision')
-    jm.add_junction('setzer', 'faith')
-    jm.add_junction('edgar', 'victory_cry')
-    #jm.add_junction(None, 'auto_potion')
-    #jm.add_junction(0x4d, 'auto_potion', 'blacklist', force_category='monster')
-    jm.add_junction(0x4d, 'salve', force_category='monster')
-    jm.add_junction(None, 'firestarter')
-    jm.add_junction('edgar', 'null_freeze')
-    #jm.add_junction(None, 'auto_reraise')
-    jm.add_junction(0x13, 'repel_ice', force_category='monster')
-    #jm.add_junction('gau', 'immortal')
-    jm.add_junction('gau', 'catch')
-    #jm.add_junction(None, 'esper_defense')
-    jm.add_junction('setzer', 'prism_wall')
-    jm.add_junction(None, 'unlimited')
-    #jm.add_junction(None, 'mp_switch')
-    #jm.add_junction('buckler', 'mp_regen')
-    jm.add_junction('buckler', 'vorpal')
-    jm.add_junction('imperial', 'astral')
-    #jm.add_junction('setzer', 'boost_phys')
-    #jm.add_junction(None, 'phys_sink')
-    jm.add_junction(None, 'phys_font')
-    #jm.add_junction('gau', 'vip')
-    jm.add_junction('edgar', 'brace')
-    #jm.add_junction('shadow', 'final_fenix')
-    #jm.add_junction('shadow', 'final_spiral')
-    #jm.add_junction('setzer', 'final_esper')
-    #jm.add_junction('gau', 'critical_freeze')
-    jm.add_junction('setzer', 'caller')
-    jm.add_junction('setzer', 'initiative')
-    jm.add_junction('setzer', 'esper_attack')
-    jm.add_junction('edgar', 'esper_defense')
-    jm.add_junction('golem', 'barehanded')
-    jm.add_junction('raiden', 'decisive')
-    jm.add_junction('edgar', 'maintenance')
-    #jm.add_junction('edgar', 'damage_split')
-    jm.add_junction('edgar', 'distribute')
-    jm.add_junction(0x13, 'distribute', force_category='monster')
-    #jm.add_junction(0x4d, 'critical_freeze', force_category='monster')
-    #jm.add_junction('edgar', 'true_paladin')
-    #jm.add_junction('gau', 'popular')
-    #jm.add_junction('shadow', 'final_fenix')
-    #jm.add_junction(0x13, 'final_fenix', force_category='monster')
-    #jm.add_junction(0x4d, 'final_spiral', force_category='monster')
-    jm.add_junction('edgar', 'highwind')
-    jm.add_junction('palidor', 'instant_act')
-    #jm.add_junction('gau', 'final_ripple')
-    #jm.add_junction(None, 'time_sink')
-    jm.add_junction(None, 'time_font')
-    #jm.add_junction('edgar', 'synchronize')
-    #jm.add_junction(0x4d, 'perfect_taunt', force_category='monster')
-    #jm.add_junction(0x4d, 'camouflage', force_category='monster')
-    #jm.add_junction('gau', 'auto_down')
-    jm.add_junction('setzer', 'auto_revivify')
-    jm.add_junction('shadow', 'auto_remedy')
-    jm.add_junction(0x4d, 'auto_remedy', force_category='monster')
-    #jm.add_junction(0x13, 'auto_down', force_category='monster')
-    jm.add_junction('shadow', 'loner')
-    #jm.add_junction('edgar', 'crisis_arm')
-    jm.add_junction('bahamut', 'boost_crit')
-    #jm.add_junction('plumed hat', 'dog')
-    jm.add_junction('gau', 'double_ap')
-    #jm.add_junction('gau', 'counter_all')
-    jm.add_junction('shadow', 'sunken_state')
-    #jm.add_junction('edgar', 'hamedo')
-    jm.add_junction(0x13, 'counter_all', force_category='monster')
-    #jm.add_junction(0x4d, 'hamedo', force_category='monster')
-    jm.add_junction(0x4d, 'return_magic', force_category='monster')
-    jm.add_junction(0x5a, 'return_magic', force_category='monster')
-    jm.add_junction('gau', 'esper_counter')
-    jm.add_junction('gau', 'esper_magic')
-    #jm.add_junction('edgar', 'return_magic')
-    #jm.add_junction('edgar', 'vampire')
-    #jm.add_junction('ogre nix', 'ravenous')
-    jm.add_junction('flame sabre', 'gunblade')
-    #jm.add_junction('setzer', 'quickening')
-    jm.add_junction('setzer', 'sneeze_guard')
-    #jm.add_junction('edgar', 'leech')
+    jm.set_seed(get_seed())
+    equips = {i.index for i in ItemObject.every if i.is_equipable}
+    espers = {e.index for e in EsperObject.every}
+    monsters = {m.index for m in MonsterObject.every if m.intershuffle_valid}
+    statuses = {'morph', 'imp', 'zombie', 'dance'}
+    jm.randomize_sparing(equips, 'equip')
+    jm.randomize_generous(espers, 'esper')
+    jm.randomize_sparing(monsters, 'monster')
+    jm.randomize_generous(statuses, 'status')
     jm.execute()
     return jm
 
@@ -4291,6 +4155,7 @@ if __name__ == '__main__':
         jm = None
         if DEBUG_MODE:
             jm = test()
+            #print(jm.report)
 
         write_seed()
         handle_exhirom()

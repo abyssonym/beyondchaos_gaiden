@@ -1,0 +1,19 @@
+.addr   main-call               034d3d
+.addr   main                    618020
+
+$main-call
+:       22 $main
+
+$main
+:       a9 20
+:       a6 00
+:       95 79
+:       e8
+:       a9 24
+:       6b
+
+VALIDATION
+
+$main-call
+:       a9 24
+:       a6 00

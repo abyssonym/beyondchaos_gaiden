@@ -1,4 +1,4 @@
-from randomtools.utils import map_to_snes, map_from_snes
+from randomtools.utils import map_to_snes, map_from_snes, md5, random
 from randomtools.tablereader import (
     tblpath, write_patch, set_addressing_mode, get_open_file, verify_patchlist)
 
@@ -147,6 +147,11 @@ class JunctionManager:
     @property
     def report(self):
         s = ''
+        names = sorted({self.junction_short_names[i]
+                        for i in self.always_whitelist})
+        if names:
+            s += 'ALWAYS\n  {0}\n\n'.format(', '.join(names))
+
         for category in ('character', 'esper', 'equip',
                          'status', 'monster'):
             if category.endswith('s'):
@@ -559,6 +564,52 @@ class JunctionManager:
 
     def set_address_mapping(self, mapping):
         self.address_mapping = path.join(tblpath, mapping)
+
+    def set_seed(self, seed):
+        self.seed = seed
+
+    def reseed(self, salt):
+        if not hasattr(self, 'seed') or self.seed is None:
+            raise Exception('No seed has been set for BCG Junction.')
+
+        self.random = random
+        s = 'junction%s%s' % (self.seed, salt)
+        value = int(md5(s.encode('ascii')).hexdigest(), 0x10)
+        self.random.seed(value)
+
+    def randomize_sparing(self, items, category, ratio=0.36788):
+        self.reseed(category)
+        options = [0 for _ in items]
+        max_index = len(options) - 1
+        for _ in range(int(round(len(items) * ratio))):
+            options[self.random.randint(0, max_index)] += 1
+        options = [min(o, 3) for o in options]
+
+        banlist = getattr(self, '%s_banlist' % category)
+        banlist += self.always_banlist
+        banlist = {self.get_junction_index(i) for i in banlist}
+        junctions = sorted({self.get_junction_index(i)
+                            for i in self.junction_indexes} - banlist)
+        assert not set(junctions) & banlist
+
+        for item in sorted(items):
+            option = self.random.choice(options)
+            for _ in range(option):
+                junction = self.random.choice(junctions)
+                self.add_junction(item, junction, force_category=category)
+
+    def randomize_generous(self, items, category):
+        self.reseed(category)
+        banlist = getattr(self, '%s_banlist' % category)
+        banlist += self.always_banlist
+        banlist = {self.get_junction_index(i) for i in banlist}
+        junctions = sorted({self.get_junction_index(i)
+                            for i in self.junction_indexes} - banlist)
+        for item in sorted(items):
+            option = 1 + random.randint(0, 1) + random.randint(0, 1)
+            for _ in range(option):
+                junction = self.random.choice(junctions)
+                self.add_junction(item, junction, force_category=category)
 
     def execute(self):
         self.populate_everything()
