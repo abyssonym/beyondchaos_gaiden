@@ -26,6 +26,7 @@
 .def    jun-index-earth         1e
 .def    jun-index-water         1f
 .def    jun-index-prism-wall    79
+.def    jun-index-art-license   96
 .def    jun-index-esper-attack  9a
 
 020b8e: 5c $main-esper-attack-misc-effect
@@ -90,6 +91,14 @@ $main
 :       ad a1 11
 :       85 10
 
+:       ec 17 34
+:       d0 not-sketching
+:       a9 jun-index-art-license
+:       22 $jun-checker
+:       f0 not-sketching
+:       64 10
+
+.label not-sketching
 :       20 $check-has-esper,2
 :       f0 no-esper-main
 :       a9 jun-index-esper-attack

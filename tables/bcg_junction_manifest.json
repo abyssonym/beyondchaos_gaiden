@@ -1011,6 +1011,10 @@
         "gunblade": [
             "patch_junction_hit_trigger.txt"
         ],
+        "art_license": [
+            "patch_junction_art_license.txt",
+            "patch_junction_elemental_pierce.txt"
+        ],
         "vip": [
             "patch_junction_vip.txt"
         ],

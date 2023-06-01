@@ -1,0 +1,115 @@
+.addr   jun-checker                 610000
+.addr   main-level                  622600
+.addr   main-sketch-rate            622680
+.addr   main-sketch-ailments        6226c0
+
+.addr   sketch-rate-return-normal   023b3d
+.addr   sketch-rate-return-success  023b42
+
+.def    jun-index           96
+
+022c22: 22 $main-level
+:       fa 60
+
+023b37: 5c $main-sketch-rate
+:       ea ea
+
+024527: 22 $main-sketch-ailments
+:       ea
+
+$main-level
+:       5a
+:       ad 17 34
+:       30 exit-normal
+
+:       9b
+:       aa
+:       a9 jun-index
+:       22 $jun-checker
+:       f0 exit-normal
+
+:       bd 18 3b
+:       d9 18 3b
+:       b0 level-is-greater
+:       b9 18 3b
+.label level-is-greater
+:       8d af 11
+
+:       a9 01
+:       2c a2 11
+:       f0 not-physical
+
+:       bd 2c 3b
+:       d9 2c 3b
+:       b0 vigor-is-greater
+:       b9 2c 3b
+.label vigor-is-greater
+:       8d ae 11
+:       80 skip-mpower
+
+.label not-physical
+:       bd 41 3b
+:       d9 41 3b
+:       b0 mpower-is-greater
+:       b9 41 3b
+.label mpower-is-greater
+:       8d ae 11
+
+.label skip-mpower
+:       a9 20
+:       0c a4 11
+:       7a
+:       6b
+.label exit-normal
+:       bd 18 3b
+:       8d af 11
+:       7a
+:       6b
+
+$main-sketch-rate
+:       a9 jun-index
+:       22 $jun-checker
+:       d0 exit-sketch-rate-success
+:       bd 45 3c
+:       4a 4a 4a
+:       5c $sketch-rate-return-normal
+.label exit-sketch-rate-success
+:       5c $sketch-rate-return-success
+
+$main-sketch-ailments
+:       da
+:       e2 20
+
+:       ad 17 34
+:       30 ailments-not-sketching
+:       aa
+
+:       a9 jun-index
+:       22 $jun-checker
+:       f0 ailments-not-sketching
+
+:       c2 20
+:       b9 d4 3d
+:       85 fc
+:       b9 e8 3d
+:       85 fe
+
+.label ailments-not-sketching
+:       c2 20
+:       fa
+:       b9 e4 3e
+:       85 f8
+:       6b
+
+VALIDATION
+
+022c22: ad 17 34
+:       30 01
+:       aa
+:       bd 18 3b
+
+023b37: bd 45 3c
+:       4a 4a 4a
+
+024527: b9 e4 3e
+:       85 f8
