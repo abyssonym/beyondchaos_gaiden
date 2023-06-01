@@ -1,5 +1,5 @@
 .addr   main-call               034d3d
-.addr   main                    618020
+.addr   main                    618000
 
 $main-call
 :       22 $main

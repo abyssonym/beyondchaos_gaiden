@@ -1,4 +1,4 @@
-.addr   main                    618000
+.addr   main                    618020
 .addr   return-miss             0222b5
 .addr   return-hit              0222e8
 
@@ -17,6 +17,9 @@ $main
 .label exit-hit
 :       5c $return-hit
 .label exit-miss-instant-death
+:       b9 fc 3d
+:       09 10
+:       99 fc 3d
 .label exit-miss-physical
 :       5c $return-miss
 
