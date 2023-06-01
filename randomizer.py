@@ -1230,6 +1230,10 @@ class MonsterLootObject(TableObject):
     def drops(self):
         return [ItemObject.get(i) for i in self.drop_item_ids if i < 0xFF]
 
+    @property
+    def rank(self):
+        return self.monster.rank
+
     def mutate(self):
         for i, s in enumerate(self.steal_item_ids):
             if s < 0xFF:
