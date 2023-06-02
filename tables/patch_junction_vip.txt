@@ -10,7 +10,7 @@
 0206db: 5c $main
 
 $main
-:       c9 05
+:       c9 0e
 :       f0 vip-fell
 :       a9 jun-index-vip
 :       22 $jun-checker
