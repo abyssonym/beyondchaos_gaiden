@@ -1,0 +1,709 @@
+{
+    "Dirk": [
+        "physical"
+    ],
+    "MithrilKnife": [
+        "physical"
+    ],
+    "Guardian": [
+        "physical"
+    ],
+    "Air Lancet": [
+        "wind"
+    ],
+    "ThiefKnife": [
+        "luck",
+        "physical"
+    ],
+    "Assassin": [
+        "death",
+        "physical"
+    ],
+    "Man Eater": [
+        "death",
+        "physical"
+    ],
+    "SwordBreaker": [
+        "physical"
+    ],
+    "Graedus": [
+        "pearl"
+    ],
+    "ValiantKnife": [
+        "death",
+        "physical"
+    ],
+    "MithrilBlade": [
+        "physical"
+    ],
+    "RegalCutlass": [
+        "physical"
+    ],
+    "Rune Edge": [
+        "mp",
+        "physical"
+    ],
+    "Flame Sabre": [
+        "fire"
+    ],
+    "Blizzard": [
+        "ice"
+    ],
+    "ThunderBlade": [
+        "bolt"
+    ],
+    "Epee": [
+        "physical"
+    ],
+    "Break Blade": [
+        "physical"
+    ],
+    "Drainer": [
+        "drain",
+        "physical"
+    ],
+    "Enhancer": [
+        "physical"
+    ],
+    "Crystal": [
+        "physical"
+    ],
+    "Falchion": [
+        "physical"
+    ],
+    "Soul Sabre": [
+        "drain",
+        "mp",
+        "physical"
+    ],
+    "Ogre Nix": [
+        "mp",
+        "physical"
+    ],
+    "Excalibur": [
+        "pearl"
+    ],
+    "Scimitar": [
+        "death",
+        "physical"
+    ],
+    "Illumina": [
+        "mp",
+        "physical"
+    ],
+    "Ragnarok": [
+        "mp",
+        "physical"
+    ],
+    "Atma Weapon": [
+        "-death",
+        "physical"
+    ],
+    "Mithril Pike": [
+        "physical"
+    ],
+    "Trident": [
+        "water"
+    ],
+    "Stout Spear": [
+        "physical"
+    ],
+    "Partisan": [
+        "physical"
+    ],
+    "Pearl Lance": [
+        "pearl"
+    ],
+    "Gold Lance": [
+        "physical"
+    ],
+    "Aura Lance": [
+        "physical"
+    ],
+    "Imp Halberd": [
+        "imp",
+        "physical"
+    ],
+    "Imperial": [
+        "physical"
+    ],
+    "Kodachi": [
+        "physical"
+    ],
+    "Blossom": [
+        "wind"
+    ],
+    "Hardened": [
+        "physical"
+    ],
+    "Striker": [
+        "death",
+        "physical"
+    ],
+    "Stunner": [
+        "physical"
+    ],
+    "Ashura": [
+        "physical"
+    ],
+    "Kotetsu": [
+        "physical"
+    ],
+    "Forged": [
+        "physical"
+    ],
+    "Tempest": [
+        "wind"
+    ],
+    "Murasame": [
+        "physical"
+    ],
+    "Aura": [
+        "physical"
+    ],
+    "Strato": [
+        "physical"
+    ],
+    "Sky Render": [
+        "physical"
+    ],
+    "Heal Rod": [
+        "heal",
+        "physical"
+    ],
+    "Mithril Rod": [
+        "physical"
+    ],
+    "Fire Rod": [
+        "-buff",
+        "-fire",
+        "debuff",
+        "fire",
+        "freeze",
+        "ice",
+        "status"
+    ],
+    "Ice Rod": [
+        "-ice",
+        "-water",
+        "fire",
+        "ice"
+    ],
+    "Thunder Rod": [
+        "bolt"
+    ],
+    "Poison Rod": [
+        "heal",
+        "poison",
+        "status"
+    ],
+    "Pearl Rod": [
+        "pearl"
+    ],
+    "Gravity Rod": [
+        "-buff",
+        "debuff",
+        "earth",
+        "nuke",
+        "seizure",
+        "status"
+    ],
+    "Punisher": [
+        "mp",
+        "physical"
+    ],
+    "Magus Rod": [
+        "physical"
+    ],
+    "Chocobo Brsh": [
+        "physical"
+    ],
+    "DaVinci Brsh": [
+        "physical"
+    ],
+    "Magical Brsh": [
+        "physical"
+    ],
+    "Rainbow Brsh": [
+        "physical"
+    ],
+    "Flail": [
+        "physical"
+    ],
+    "Full Moon": [
+        "physical"
+    ],
+    "Morning Star": [
+        "physical"
+    ],
+    "Boomerang": [
+        "physical"
+    ],
+    "Rising Sun": [
+        "physical"
+    ],
+    "Hawk Eye": [
+        "-float",
+        "physical"
+    ],
+    "Bone Club": [
+        "physical"
+    ],
+    "Sniper": [
+        "-float",
+        "physical"
+    ],
+    "Wing Edge": [
+        "death",
+        "physical"
+    ],
+    "Cards": [
+        "physical"
+    ],
+    "Darts": [
+        "physical"
+    ],
+    "Doom Darts": [
+        "physical"
+    ],
+    "Trump": [
+        "death",
+        "physical"
+    ],
+    "Dice": [
+        "luck",
+        "physical"
+    ],
+    "Fixed Dice": [
+        "luck",
+        "physical"
+    ],
+    "MetalKnuckle": [
+        "physical"
+    ],
+    "Mithril Claw": [
+        "physical"
+    ],
+    "Kaiser": [
+        "pearl"
+    ],
+    "Poison Claw": [
+        "poison"
+    ],
+    "Fire Knuckle": [
+        "fire"
+    ],
+    "Dragon Claw": [
+        "pearl"
+    ],
+    "Tiger Fangs": [
+        "physical"
+    ],
+    "Buckler": [],
+    "Heavy Shld": [],
+    "Mithril Shld": [],
+    "Gold Shld": [],
+    "Aegis Shld": [],
+    "Diamond Shld": [],
+    "Flame Shld": [
+        "-water",
+        "death",
+        "fire",
+        "ice",
+        "wound"
+    ],
+    "Ice Shld": [
+        "-buff",
+        "-wind",
+        "debuff",
+        "fire",
+        "ice",
+        "nuke",
+        "seizure",
+        "status"
+    ],
+    "Thunder Shld": [
+        "-buff",
+        "bolt",
+        "condemned",
+        "death",
+        "debuff",
+        "fire",
+        "ice",
+        "status",
+        "wind"
+    ],
+    "Crystal Shld": [],
+    "Genji Shld": [],
+    "TortoiseShld": [
+        "imp",
+        "water"
+    ],
+    "Cursed Shld": [
+        "-bolt",
+        "-earth",
+        "-fire",
+        "-ice",
+        "-poison",
+        "-water",
+        "berserk",
+        "buff",
+        "condemned",
+        "muddled",
+        "mute",
+        "seizure",
+        "status"
+    ],
+    "Paladin Shld": [
+        "bolt",
+        "death",
+        "earth",
+        "fire",
+        "ice",
+        "life",
+        "pearl",
+        "poison",
+        "water",
+        "wind"
+    ],
+    "Force Shld": [
+        "bolt",
+        "buff",
+        "earth",
+        "fire",
+        "ice",
+        "shell",
+        "status",
+        "water",
+        "wind"
+    ],
+    "Leather Hat": [],
+    "Hair Band": [],
+    "Plumed Hat": [],
+    "Beret": [
+        "sketch"
+    ],
+    "Magus Hat": [],
+    "Bandana": [],
+    "Iron Helmet": [],
+    "Coronet": [
+        "sketch"
+    ],
+    "Bard's Hat": [
+        "mp"
+    ],
+    "Green Beret": [],
+    "Head Band": [],
+    "Mithril Helm": [],
+    "Tiara": [],
+    "Gold Helmet": [],
+    "Tiger Mask": [],
+    "Red Cap": [],
+    "Mystery Veil": [],
+    "Circlet": [],
+    "Regal Crown": [],
+    "Diamond Helm": [],
+    "Dark Hood": [],
+    "Crystal Helm": [],
+    "Oath Veil": [],
+    "Cat Hood": [
+        "bolt",
+        "earth",
+        "fire",
+        "ice",
+        "luck",
+        "pearl",
+        "wind"
+    ],
+    "Genji Helmet": [],
+    "Thornlet": [
+        "buff",
+        "seizure",
+        "status"
+    ],
+    "Titanium": [
+        "imp",
+        "water"
+    ],
+    "LeatherArmor": [],
+    "Cotton Robe": [],
+    "Kung Fu Suit": [],
+    "Iron Armor": [],
+    "Silk Robe": [],
+    "Mithril Vest": [],
+    "Ninja Gear": [],
+    "White Dress": [],
+    "Mithril Mail": [],
+    "Gaia Gear": [
+        "earth"
+    ],
+    "Mirage Vest": [
+        "buff",
+        "image",
+        "status"
+    ],
+    "Gold Armor": [],
+    "Power Sash": [],
+    "Light Robe": [],
+    "Diamond Vest": [],
+    "Red Jacket": [
+        "fire"
+    ],
+    "Force Armor": [
+        "bolt",
+        "earth",
+        "fire",
+        "ice",
+        "wind"
+    ],
+    "DiamondArmor": [],
+    "Dark Gear": [],
+    "Tao Robe": [],
+    "Crystal Mail": [],
+    "Czarina Gown": [],
+    "Genji Armor": [],
+    "Imp's Armor": [
+        "imp",
+        "water"
+    ],
+    "Minerva": [
+        "bolt",
+        "earth",
+        "fire",
+        "ice",
+        "mp",
+        "pearl",
+        "poison",
+        "water",
+        "wind"
+    ],
+    "Tabby Suit": [
+        "poison"
+    ],
+    "Chocobo Suit": [
+        "poison"
+    ],
+    "Moogle Suit": [
+        "poison"
+    ],
+    "Nutkin Suit": [],
+    "BehemothSuit": [],
+    "Snow Muffler": [
+        "fire",
+        "ice"
+    ],
+    "Goggles": [
+        "blind",
+        "heal",
+        "status"
+    ],
+    "Star Pendant": [
+        "heal",
+        "poison",
+        "status"
+    ],
+    "Peace Ring": [
+        "berserk",
+        "heal",
+        "muddled",
+        "status"
+    ],
+    "Amulet": [
+        "blind",
+        "heal",
+        "poison",
+        "status",
+        "zombie"
+    ],
+    "White Cape": [
+        "heal",
+        "imp",
+        "mute",
+        "status"
+    ],
+    "Jewel Ring": [
+        "heal",
+        "petrify",
+        "status"
+    ],
+    "Fairy Ring": [
+        "blind",
+        "heal",
+        "poison",
+        "status"
+    ],
+    "Barrier Ring": [
+        "buff"
+    ],
+    "MithrilGlove": [
+        "buff"
+    ],
+    "Guard Ring": [
+        "buff",
+        "safe",
+        "status"
+    ],
+    "RunningShoes": [
+        "buff",
+        "haste",
+        "status"
+    ],
+    "Wall Ring": [
+        "buff",
+        "reflect",
+        "status"
+    ],
+    "Cherub Down": [
+        "buff",
+        "float",
+        "status"
+    ],
+    "Cure Ring": [
+        "buff",
+        "regen",
+        "status"
+    ],
+    "True Knight": [
+        "defend"
+    ],
+    "DragoonBoots": [],
+    "Zephyr Cape": [],
+    "Czarina Ring": [
+        "buff"
+    ],
+    "Cursed Ring": [
+        "buff",
+        "condemned",
+        "status"
+    ],
+    "Earrings": [
+        "magic"
+    ],
+    "Atlas Armlet": [],
+    "Blizzard Orb": [
+        "fire",
+        "ice"
+    ],
+    "Rage Ring": [
+        "bolt",
+        "fire"
+    ],
+    "Sneak Ring": [
+        "luck"
+    ],
+    "Pod Bracelet": [
+        "buff",
+        "safe",
+        "shell",
+        "status"
+    ],
+    "Hero Ring": [
+        "magic"
+    ],
+    "Ribbon": [
+        "berserk",
+        "blind",
+        "heal",
+        "imp",
+        "muddled",
+        "mute",
+        "petrify",
+        "poison",
+        "seizure",
+        "sleep",
+        "status",
+        "zombie"
+    ],
+    "Muscle Belt": [],
+    "Crystal Orb": [
+        "mp"
+    ],
+    "Gold Hairpin": [
+        "mp"
+    ],
+    "Economizer": [
+        "mp"
+    ],
+    "Thief Glove": [],
+    "Gauntlet": [
+        "physical"
+    ],
+    "Genji Glove": [
+        "physical"
+    ],
+    "Hyper Wrist": [
+        "physical"
+    ],
+    "Offering": [
+        "physical"
+    ],
+    "Beads": [
+        "defend"
+    ],
+    "Black Belt": [
+        "defend"
+    ],
+    "Coin Toss": [],
+    "FakeMustache": [],
+    "Gem Box": [],
+    "Dragon Horn": [
+        "hide"
+    ],
+    "Merit Award": [
+        "defend"
+    ],
+    "Memento Ring": [
+        "death",
+        "heal",
+        "life",
+        "petrify",
+        "status",
+        "wound",
+        "zombie"
+    ],
+    "Safety Bit": [
+        "death",
+        "heal",
+        "life",
+        "petrify",
+        "status",
+        "wound",
+        "zombie"
+    ],
+    "Relic Ring": [
+        "death",
+        "zombie"
+    ],
+    "Moogle Charm": [
+        "luck"
+    ],
+    "Charm Bangle": [
+        "luck"
+    ],
+    "Marvel Shoes": [
+        "buff",
+        "haste",
+        "regen",
+        "safe",
+        "shell",
+        "status"
+    ],
+    "Back Guard": [
+        "luck"
+    ],
+    "Gale Hairpin": [
+        "luck"
+    ],
+    "Sniper Sight": [
+        "physical"
+    ],
+    "Exp. Egg": [
+        "luck"
+    ],
+    "Tintinabar": [
+        "heal"
+    ],
+    "Sprint Shoes": [
+        "haste"
+    ]
+}

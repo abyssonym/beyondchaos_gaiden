@@ -120,7 +120,7 @@ class JunctionManager:
                 value = {int(k, 0x10): v for (k, v) in value.items()}
                 full_data[key] = value
 
-            if key in ('patch_list', 'junction_short_names'):
+            if key in ('patch_list', 'junction_short_names', 'junction_tags'):
                 new_dict = {}
                 for k, v in sorted(value.items()):
                     k = self.get_junction_index(k)
@@ -130,11 +130,18 @@ class JunctionManager:
                 full_data[key] = value
 
             if isinstance(value, dict):
-                if key !='junction_indexes':
+                if key not in ('junction_indexes',):
                     assert all(isinstance(k, int) for k in value.keys())
 
             if key.endswith('_address') or key.startswith('num_'):
                 full_data[key] = self.clean_number(full_data[key])
+
+            if key.endswith('_tags') and key != 'junction_tags':
+                filename = path.join(tblpath, full_data[key])
+                with open(filename) as f:
+                    tags = json.loads(f.read())
+                full_data[key] = tags
+
             setattr(self, key, full_data[key])
 
         for patch in self.core_patch_list:
@@ -143,6 +150,14 @@ class JunctionManager:
         self.load_character_map()
         for name in self.junction_short_names.values():
             self.map_text(name)
+
+        for key in full_data:
+            if key.endswith('_tags') and key != 'junction_tags':
+                tags = getattr(self, key)
+                category = key.rsplit('_', 1)[0]
+                tags = {self.get_category_index(category, k): v
+                        for (k, v) in tags.items()}
+                setattr(self, key, tags)
 
     @property
     def report(self):
@@ -264,6 +279,11 @@ class JunctionManager:
         if key in names:
             return names.index(key)
         return self.clean_number(key)
+
+    def reverse_index(self, category, index):
+        names = getattr(self, '%s_names' % category)
+        name = names[index]
+        return name
 
     def populate_always(self):
         data = {0: []}
@@ -577,7 +597,81 @@ class JunctionManager:
         value = int(md5(s.encode('ascii')).hexdigest(), 0x10)
         self.random.seed(value)
 
-    def randomize_sparing(self, items, category, ratio=0.36788):
+    def get_weights(self, junctions, all_item_tags):
+        scores = {}
+        weights = {}
+        junction_tag_pool = {t for j in self.junction_tags
+                             for t in self.junction_tags[j]}
+        junction_tag_pool |= {'-%s' % t for t in junction_tag_pool}
+        junction_tag_pool |= {t[1:] for t in junction_tag_pool if t[0] == '-'}
+        item_tag_pool = {t for i in all_item_tags for t in all_item_tags[i]}
+        item_tag_pool |= {'-%s' % t for t in item_tag_pool}
+        item_tag_pool |= {t[1:] for t in item_tag_pool if t[0] == '-'}
+        common_tag_pool = junction_tag_pool & item_tag_pool
+        exclusive_tag_pool = ((junction_tag_pool | item_tag_pool)
+                              - common_tag_pool)
+
+        for junction_index in sorted(junctions):
+            junction_tags = self.junction_tags[junction_index]
+            junction_tags = [t for t in junction_tags if t in common_tag_pool]
+            for item_index in sorted(all_item_tags):
+                item_tags = all_item_tags[item_index]
+                item_tags = [t for t in item_tags if t in common_tag_pool]
+                score = 1
+                for j in junction_tags:
+                    for i in item_tags:
+                        if j == i:
+                            score += 1
+                        elif j == '-%s' % i or i == '-%s' % j:
+                            score -= 1
+                score = score / ((len(junction_tags) * len(item_tags)) + 2)
+                scores[(item_index, junction_index)] = (
+                    score, random.random(), item_index, junction_index)
+
+        sorted_item_junctions = {}
+        for item_index in sorted(all_item_tags):
+            sorted_junctions = sorted(
+                junctions, key=lambda j: scores[(item_index, j)])
+            sorted_item_junctions[item_index] = sorted_junctions
+        for junction_index in sorted(junctions):
+            sorted_items = sorted(all_item_tags,
+                                  key=lambda i: scores[(i, junction_index)])
+            max_item_index = len(sorted_items)-1
+            for item_index in sorted(all_item_tags):
+                sorted_junctions = sorted_item_junctions[item_index]
+                max_junction_index = len(sorted_junctions)-1
+                item_rank = sorted_items.index(item_index) / max_item_index
+                junction_rank = (sorted_junctions.index(junction_index)
+                                 / max_junction_index)
+                weight = item_rank * junction_rank
+                if item_index not in weights:
+                    weights[item_index] = {}
+                assert junction_index not in weights[item_index]
+                weights[item_index][junction_index] = weight
+
+        return weights
+
+    def get_junction_weighted(self, item, weights):
+        item_weights = weights[item]
+        junction_indexes = sorted(
+            item_weights,
+            key=lambda j: (item_weights[j], random.random(), j))
+        max_index = len(junction_indexes) - 1
+        index = random.randint(random.randint(0, max_index), max_index)
+        return junction_indexes[index]
+
+        total = sum(item_weights.values())
+        threshold = self.random.random() * total
+        running = 0
+        for junction_index in sorted(item_weights):
+            running += item_weights[junction_index]
+            if running >= threshold:
+                return junction_index
+
+    def randomize_sparing(self, items, category, tags=None, ratio=0.36788):
+        if tags is True:
+            tags = getattr(self, '%s_tags' % category)
+
         self.reseed(category)
         options = [0 for _ in items]
         max_index = len(options) - 1
@@ -592,23 +686,42 @@ class JunctionManager:
                             for i in self.junction_indexes} - banlist)
         assert not set(junctions) & banlist
 
+        if tags is not None:
+            tags = {self.get_category_index(category, i): ts
+                    for (i, ts) in tags.items()}
+            weights = self.get_weights(junctions, tags)
+
         for item in sorted(items):
             option = self.random.choice(options)
             for _ in range(option):
-                junction = self.random.choice(junctions)
+                if tags is None:
+                    junction = self.random.choice(junctions)
+                else:
+                    junction = self.get_junction_weighted(item, weights)
                 self.add_junction(item, junction, force_category=category)
 
-    def randomize_generous(self, items, category):
+    def randomize_generous(self, items, category, tags=None):
+        if tags is True:
+            tags = getattr(self, '%s_tags' % category)
+
         self.reseed(category)
         banlist = getattr(self, '%s_banlist' % category)
         banlist += self.always_banlist
         banlist = {self.get_junction_index(i) for i in banlist}
         junctions = sorted({self.get_junction_index(i)
                             for i in self.junction_indexes} - banlist)
+        if tags is not None:
+            tags = {self.get_category_index(category, i): ts
+                    for (i, ts) in tags.items()}
+            weights = self.get_weights(junctions, tags)
+
         for item in sorted(items):
             option = 1 + random.randint(0, 1) + random.randint(0, 1)
             for _ in range(option):
-                junction = self.random.choice(junctions)
+                if tags is None:
+                    junction = self.random.choice(junctions)
+                else:
+                    junction = self.get_junction_weighted(item, weights)
                 self.add_junction(item, junction, force_category=category)
 
     def execute(self):

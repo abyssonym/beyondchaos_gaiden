@@ -674,6 +674,36 @@ class SkillObject(TableObject):
         'statuses': 0xffffffff,
         }
 
+    STATUS_NAMES = [
+        'blind', 'zombie', 'poison', 'magitek',
+        'clear', 'imp', 'petrify', 'wound',
+
+        'condemned', 'near fatal', 'image', 'mute',
+        'berserk', 'muddled', 'seizure', 'sleep',
+
+        'dance', 'regen', 'slow', 'haste',
+        'stop', 'shell', 'safe', 'reflect',
+
+        'rage', 'freeze', 'life 3', 'morph',
+        'control', 'hide', 'interceptor', 'float'
+        ]
+
+    ELEMENT_NAMES = [
+        'fire', 'ice', 'bolt', 'poison',
+        'wind', 'pearl', 'earth', 'water',
+        ]
+
+    OPPOSITE_ELEMENTS = {
+        'fire':     ('ice', 'water',),
+        'ice':      ('fire',),
+        'bolt':     ('water',),
+        'poison':   ('pearl',),
+        'wind':     ('earth',),
+        'pearl':    ('poison',),
+        'earth':    ('wind',),
+        'water':    ('fire', 'bolt'),
+        }
+
     @property
     def rank(self):
         return self.mp
@@ -681,6 +711,74 @@ class SkillObject(TableObject):
     @property
     def name(self):
         return names.skills[self.index]
+
+    @property
+    def tags(self):
+        tags = set()
+        for i in range(8):
+            if self.elements & (1 << i):
+                tags.add(self.ELEMENT_NAMES[i])
+
+        for t in sorted(tags):
+            if t in self.OPPOSITE_ELEMENTS:
+                for t2 in self.OPPOSITE_ELEMENTS[t]:
+                    if t2 not in tags:
+                        tags.add('-%s' % t2)
+
+        if not self.get_bit('cure_status'):
+            for i in range(32):
+                if self.statuses & (1 << i):
+                    tags.add(self.STATUS_NAMES[i])
+
+        if self.power and not any(
+                [self.elements, self.get_bit('percentage'),
+                 self.get_bit('physical'), self.get_bit('draining'),
+                 self.get_bit('concerns_mp'), self.get_bit('healing')]):
+            tags.add('nuke')
+
+        if self.get_bit('draining'):
+            tags.add('drain')
+
+        if self.get_bit('physical'):
+            tags.add('physical')
+
+        death_bit = 1 << (self.STATUS_NAMES.index('wound'))
+
+        if self.statuses & death_bit:
+            if self.get_bit('cure_status'):
+                tags.add('life')
+            else:
+                tags.add('death')
+
+        if self.get_bit('healing') and not self.statuses & death_bit:
+            tags.add('heal')
+
+        if self.get_bit('miss_if_death_prot'):
+            tags.add('death')
+
+        death_bit |= 1 << (self.STATUS_NAMES.index('hide'))
+        if self.statuses & (0xffffffff ^ death_bit):
+            tags.add('status')
+            if self.get_bit('cure_status'):
+                tags.add('heal')
+            else:
+                if self.get_bit('target_enemy_default'):
+                    tags.add('debuff')
+                    tags.add('-buff')
+                else:
+                    tags.add('buff')
+                    tags.add('-debuff')
+
+        if tags >= {'buff', 'debuff'}:
+            tags -= {'-buff', '-debuff'}
+
+        if self.get_bit('concerns_mp'):
+            tags.add('mp')
+
+        if 'wound' in tags:
+            tags -= {'hide'}
+
+        return sorted(tags)
 
 
 class CharNameObject(TableObject): pass
@@ -1083,6 +1181,62 @@ class MonsterObject(TableObject):
                 m._rank = -1
 
         return self.rank
+
+    @property
+    def tags(self):
+        tags = set()
+        element = self.absorb | self.null
+        for i in range(8):
+            if element & (1 << i):
+                tags.add(SkillObject.ELEMENT_NAMES[i])
+
+        for i in range(8):
+            if self.weakness & (1 << i):
+                tags.add('-%s' % SkillObject.ELEMENT_NAMES[i])
+
+        if self.get_bit('dies_zero_mp'):
+            tags.add('mp')
+
+        if self.get_bit('is_undead'):
+            tags |= {'death', 'zombie'}
+
+        for i in range(32):
+            if self.statuses & (1 << i):
+                tags.add(SkillObject.STATUS_NAMES[i])
+
+        if self.special == 0x30:
+            tags.add('drain')
+        elif self.special == 0x31:
+            tags |= {'drain', 'mp'}
+        elif self.special & 0xf0 == 0x20:
+            tags.add('physical')
+        elif self.special >> 4 <= 1:
+            tags.add(SkillObject.STATUS_NAMES[self.special & 0xf])
+
+        tags = sorted(tags) * 2
+
+        #for i in range(32):
+        #    if self.immunities & (1 << i):
+        #        tags.append(SkillObject.STATUS_NAMES[i])
+
+        for cls in (MonsterCtrlObject, MonsterSketchObject, MonsterRageObject):
+            try:
+                mob = cls.get(self.index)
+            except KeyError:
+                continue
+            for index in mob.commands:
+                if index in {0xee, 0xef, 0xff}:
+                    continue
+                tags += SkillObject.get(index).tags
+
+        for element in SkillObject.OPPOSITE_ELEMENTS:
+            if element in tags:
+                tags = [t for t in tags if t != '-%s' % element]
+        if set(tags) >= {'buff', 'debuff'}:
+            tags = [t for t in tags if t not in {'-buff', '-debuff'}]
+        tags = ['float' if t == 'dance' else t for t in tags]
+
+        return sorted(tags)
 
     def mutate(self):
         if self.rank < 0:
@@ -1850,6 +2004,112 @@ class ItemObject(TableObject):
                 6: 'consumable'}[self.itemtype & 0x7]
 
     @property
+    def tags(self):
+        if self.itemtype & 0xf in (0, 6):
+            return []
+
+        tags = set()
+
+        elements = self.elements | self.elemabsorbs | self.elemnulls
+        for i in range(8):
+            if elements & (1 << i):
+                tags.add(SkillObject.ELEMENT_NAMES[i])
+
+        for i in range(8):
+            if self.elemweaks & (1 << i):
+                if SkillObject.ELEMENT_NAMES[i] not in tags:
+                    tags.add('-%s' % SkillObject.ELEMENT_NAMES[i])
+
+        for i in range(8):
+            bitmask = (1 << i)
+            if self.statusacquire2 & bitmask:
+                tags |= {'status', 'buff'}
+                tags.add(SkillObject.STATUS_NAMES[8:16][i])
+            if self.statusacquire3 & bitmask:
+                tags |= {'status', 'buff'}
+                tags.add(SkillObject.STATUS_NAMES[16:24][i])
+            if self.statusprotect & bitmask:
+                tags |= {'status', 'heal'}
+                tags.add(SkillObject.STATUS_NAMES[0:8][i])
+            if self.statusprotect2 & bitmask:
+                tags |= {'status', 'heal'}
+                tags.add(SkillObject.STATUS_NAMES[8:16][i])
+
+        if self.itemtype & 0x20 and self.itemtype & 0xf < 6:
+            tags |= set(SkillObject.get(self.breakeffect).tags)
+
+        if self.itemtype & 0xf == 1:
+            if not self.elements:
+                tags.add('physical')
+            special_tags = [
+                None, 'luck', '-death', 'death',
+                'death', 'drain', ('drain', 'mp'), 'mp',
+                '-float', 'luck', 'death', 'wind',
+                'heal', 'death', 'mp', None]
+            special_tag = special_tags[self.specialaction >> 4]
+            if special_tag is not None:
+                if isinstance(special_tag, str):
+                    special_tag = [special_tag]
+                tags |= set(special_tag)
+
+        if self.equipability & 0x4000:
+            tags.add('imp')
+
+        if self.get_bit('weapon_death_protect'):
+            tags |= {'life', 'death'}
+
+        if self.special3 & 0x18:
+            tags.add('luck')
+
+        if self.special3 & 0x80:
+            tags |= {'death', 'zombie'}
+
+        if self.special2 & 0x66:
+            tags.add('defend')
+
+        if self.special2 & 0x19:
+            tags.add('physical')
+
+        if self.special3 & 0x07:
+            tags.add('buff')
+
+        if self.fieldeffect & 0x80:
+            tags.add('heal')
+
+        if self.fieldeffect & 0x20:
+            tags.add('haste')
+
+        if self.fieldeffect & 0x03:
+            tags.add('luck')
+
+        if self.statboost1 & 0xe0:
+            tags.add('mp')
+
+        if self.statboost1 & 0x02:
+            tags.add('magic')
+
+        if self.statboost2 & 0x01:
+            tags.add('luck')
+
+        if self.statboost2 & 0x0c:
+            tags.add('sketch')
+
+        if self.statboost2 & 0x90:
+            tags.add('physical')
+
+        if self.statboost2 & 0x60:
+            tags.add('mp')
+
+        if self.special1 & 0x03:
+            tags.add('luck')
+
+        if self.special1 & 0x80:
+            tags.add('hide')
+
+        tags = ['float' if t == 'dance' else t for t in tags]
+        return sorted(tags)
+
+    @property
     def rank(self):
         if hasattr(self, '_rank'):
             return self._rank
@@ -2237,6 +2497,19 @@ class EsperObject(TableObject):
     @property
     def spell_object(self):
         return SkillObject.get(0x36 + self.index)
+
+    @property
+    def tags(self):
+        tags = self.spell_object.tags * 3
+        for index, _ in self.spell_learns + self.old_spell_learns:
+            if index != 0xff:
+                tags += SkillObject.get(index).tags
+        for element in SkillObject.OPPOSITE_ELEMENTS:
+            if element in tags:
+                tags = [t for t in tags if t != '-%s' % element]
+        if set(tags) >= {'buff', 'debuff'}:
+            tags = [t for t in tags if t not in {'-buff', '-debuff'}]
+        return sorted(tags)
 
     def get_spell_similarity_score(self, spell):
         if not hasattr(EsperObject, '_spell_similarity_averages'):
@@ -4097,9 +4370,9 @@ def test():
     espers = {e.index for e in EsperObject.every}
     monsters = {m.index for m in MonsterObject.every if m.intershuffle_valid}
     statuses = {'morph', 'imp', 'zombie', 'dance'}
-    jm.randomize_sparing(equips, 'equip')
-    jm.randomize_generous(espers, 'esper')
-    jm.randomize_sparing(monsters, 'monster')
+    jm.randomize_sparing(equips, 'equip', True)
+    jm.randomize_generous(espers, 'esper', True)
+    jm.randomize_sparing(monsters, 'monster', True)
     jm.randomize_generous(statuses, 'status')
     jm.execute()
     return jm
