@@ -8,7 +8,7 @@
 020926: 5c $main-umaro
 
 $main-umaro
-:       c9 0d
+:       c9 {{berserker-index:0d}}
 :       d0 not-umaro
 :       a9 jun-index-focus
 :       22 $jun-checker
@@ -19,5 +19,5 @@ $main-umaro
 
 VALIDATION
 
-020926: c9 0d
-:       f0 9b
+020926: c9 {{berserker-index:0d}}
+020928: f0 9b
