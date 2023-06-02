@@ -5,6 +5,8 @@
     "equip_description_address":        "038a89",
     "battle_message_pointer_address":   "0f3940",
     "battle_message_address":           "11f000",
+    "command_ptrs_address":             "0219c2",
+    "command_ptrs_relocated_address":   "61f100",
 
     "junction_short_names": {
         "esper_magic":          "幻獣の魔法",

@@ -4441,7 +4441,7 @@ if __name__ == '__main__':
         rewrite_snes_meta('BCG-R', VERSION, lorom=False)
 
         if jm is not None:
-            jm.verify_patches()
+            jm.verify()
 
         finish_interface()
 

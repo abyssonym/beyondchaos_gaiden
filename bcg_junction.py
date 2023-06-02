@@ -730,15 +730,36 @@ class JunctionManager:
                     junction = self.get_junction_weighted(item, weights)
                 self.add_junction(item, junction, force_category=category)
 
+    def relocate_command_pointers(self):
+        num_commands = 0x34
+        self.outfile.seek(self.command_ptrs_address)
+        pointers = self.outfile.read(num_commands * 2)
+        self.outfile.seek(self.command_ptrs_relocated_address)
+        self.outfile.write(pointers)
+
     def execute(self):
         self.populate_everything()
         self.enable_all_patches()
         self.write_patches()
+        self.relocate_command_pointers()
         self.rewrite_descriptions()
         self.rewrite_battle_messages()
 
     def verify_patches(self):
         verify_patchlist(self.outfile, sorted(self.patches))
+
+    def verify_command_pointers(self):
+        num_commands = 0x34
+        self.outfile.seek(self.command_ptrs_address)
+        a = self.outfile.read(num_commands * 2)
+        self.outfile.seek(self.command_ptrs_relocated_address)
+        b = self.outfile.read(num_commands * 2)
+        assert a == b
+
+    def verify(self):
+        self.outfile = get_open_file(self.outfile)
+        self.verify_patches()
+        self.verify_command_pointers()
 
 
 if __name__ == '__main__':

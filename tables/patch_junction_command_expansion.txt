@@ -86,60 +86,6 @@ $get-command-jump
 :       e2 20
 :       dc 10 00
 
-$jun-command-table-address
-:       $cmd-00,2
-:       $cmd-01,2
-:       $cmd-02,2
-:       $cmd-03,2
-:       $cmd-04,2
-:       $cmd-05,2
-:       $cmd-06,2
-:       $cmd-07,2
-:       $cmd-08,2
-:       $cmd-09,2
-:       $cmd-0a,2
-:       $cmd-0b,2
-:       $cmd-0c,2
-:       $cmd-0d,2
-:       $cmd-0e,2
-:       $cmd-0f,2
-:       $cmd-10,2
-:       $cmd-11,2
-:       $cmd-12,2
-:       $cmd-13,2
-:       $cmd-14,2
-:       $cmd-15,2
-:       $cmd-16,2
-:       $cmd-17,2
-:       $cmd-18,2
-:       $cmd-19,2
-:       $cmd-1a,2
-:       $cmd-1b,2
-:       $cmd-1c,2
-:       $cmd-1d,2
-:       $cmd-1e,2
-:       $cmd-1f,2
-:       $cmd-20,2
-:       $cmd-21,2
-:       $cmd-22,2
-:       $cmd-23,2
-:       $cmd-24,2
-:       $cmd-25,2
-:       $cmd-26,2
-:       $cmd-27,2
-:       $cmd-28,2
-:       $cmd-29,2
-:       $cmd-2a,2
-:       $cmd-2b,2
-:       $cmd-2c,2
-:       $cmd-2d,2
-:       $cmd-2e,2
-:       $cmd-2f,2
-:       $cmd-30,2
-:       $cmd-31,2
-:       $cmd-32,2
-:       $cmd-33,2
-
 VALIDATION
 
 .addr   command-pointers        0219c7

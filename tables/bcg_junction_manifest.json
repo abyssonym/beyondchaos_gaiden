@@ -20,6 +20,8 @@
     "num_equip_descriptions":           "100",
     "battle_message_pointer_address":   "11f7a0",
     "battle_message_address":           "11f000",
+    "command_ptrs_address":             "0219c7",
+    "command_ptrs_relocated_address":   "61f100",
 
     "junction_indexes": {
         "esper_magic":          "01",
@@ -725,11 +727,12 @@
         "esper_attack", "quickening", "vip"],
 
     "core_patch_list": [
-        "patch_rom_expansion.txt",
-        "patch_no_self_counter.txt",
+        "patch_junction_command_expansion.txt",
         "patch_junction_core.txt",
         "patch_junction_free_status_bytes.txt",
-        "patch_junction_command_expansion.txt"
+        "patch_no_self_counter.txt",
+        "patch_rom_expansion.txt",
+        "patch_vanish_doom.txt"
     ],
 
     "patch_list": {
