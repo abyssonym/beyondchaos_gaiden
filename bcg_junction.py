@@ -67,6 +67,7 @@ class JunctionManager:
         self.outfile = get_open_file(outfile)
         self.directory = tblpath
         self.patches = set()
+        self.patch_parameters = {}
 
         assert manifest or data
         if manifest:
@@ -335,7 +336,8 @@ class JunctionManager:
     def write_patches(self):
         set_addressing_mode('hirom')
         for patch in sorted(self.patches):
-            write_patch(self.outfile, patch, mapping=self.address_mapping)
+            write_patch(self.outfile, patch, mapping=self.address_mapping,
+                        parameters=self.patch_parameters)
 
     def load_character_map(self):
         self.character_map = {}
@@ -584,6 +586,10 @@ class JunctionManager:
 
     def set_address_mapping(self, mapping):
         self.address_mapping = path.join(tblpath, mapping)
+
+    def set_parameters(self, parameters):
+        for k, v in parameters.items():
+            self.patch_parameters[k] = v
 
     def set_seed(self, seed):
         self.seed = seed
