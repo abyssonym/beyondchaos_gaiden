@@ -10,6 +10,10 @@
 0222a8: 5c $main
 
 $main
+:       ad a2 11
+:       4a
+:       b0 is-physical
+
 :       ad a4 11
 :       89 40
 :       d0 exit-check-level
@@ -23,6 +27,8 @@ $main
 :       d0 exit-faith
 
 :       fa
+.label is-physical
+:       ad a4 11
 :       5c $return-normal
 .label exit-check-level
 :       5c $return-check-level
