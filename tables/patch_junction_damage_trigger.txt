@@ -6,6 +6,7 @@
 .addr   jun-check-count-all-living      610680
 .addr   jun-deduct-item-if-possible     610740
 .addr   jun-set-target-allies           610780
+.addr   jun-count-bits                  6108c0
 .addr   main                            620c00
 .addr   main-nihopalaoa                 620c60
 .addr   main-calc                       621dc0
@@ -212,12 +213,14 @@ $reverse-damage
 :       60
 
 $check-precision
-:       e2 20
 :       a5 b8
-:       f0 no-precision
-:       a5 b9
-:       f0 no-precision
+:       da
+:       22 $jun-count-bits
+:       e0 02
+:       90 no-precision-pull
+:       fa
 
+:       e2 20
 :       a9 jun-index-precision
 :       22 $jun-checker
 :       f0 no-precision
@@ -237,7 +240,8 @@ $check-precision
 :       a9 ff ff
 :       99 d0 33
 :       60
-
+.label no-precision-pull
+:       fa
 .label no-precision
 :       c2 20
 :       60
