@@ -1,6 +1,7 @@
 .addr   jun-checker                     610000
 .addr   jun-deduct-item-if-possible     610740
 .addr   jun-queue-command               610ff0
+.addr   jun-check-is-damage-over-time   610920
 .addr   main                            622400
 
 .addr   living-characters               7e3a74
@@ -19,6 +20,11 @@
 0231b6: 22 $main
 
 $main
+:       22 $jun-check-is-damage-over-time
+:       f0 not-damage-over-time
+:       82 no-junction,2
+
+.label not-damage-over-time
 :       a9 01
 :       2c a2 11
 :       f0 not-physical
