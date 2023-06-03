@@ -41,6 +41,7 @@ $main
 :       99 e4 3e
 :       bf 0c 00 c4
 :       19 f8 3e
+:       29 ff df
 :       99 f8 3e
 
 .label no-esper-defense
