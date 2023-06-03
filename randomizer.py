@@ -9,7 +9,7 @@ from randomtools.interface import (
     run_interface, rewrite_snes_meta, clean_and_write, finish_interface)
 
 from bcg_junction import JunctionManager
-from ex_utils import generate_character_palette, shuffle_char_hues
+from ex_utils import generate_character_palette, hue_rgb
 from collections import Counter, defaultdict
 from time import time, gmtime
 from itertools import combinations
@@ -568,22 +568,18 @@ class CharPaletteObject(TableObject):
         super().randomize_all()
 
         unique = {0, 1, 4}
-        unique_used = set()
+        related = {4, 5}
         candidates = list(range(6)) * 3
-        random.shuffle(candidates)
+        while True:
+            random.shuffle(candidates)
+            unique_indexes = {candidates[i] for i in unique}
+            related_indexes = {candidates[i] for i in related}
+            if (len(unique_indexes) == len(unique)
+                    and len(related_indexes) == 1):
+                break
+
         for cpo, p in zip(CharPaletteObject.every, candidates):
             cpo.palette_index = p
-            if cpo.index in unique:
-                if p in unique_used:
-                    fallback = [i for i in range(6) if i not in unique_used]
-                    cpo.palette_index = random.choice(fallback)
-                unique_used.add(cpo.palette_index)
-
-    def preclean(self):
-        related = {5: 4}
-        if self.index in related:
-            relative = related[self.index]
-            self.palette_index = CharPaletteObject.get(relative).palette_index
 
 
 class MouldObject(TableObject): pass
@@ -2804,6 +2800,7 @@ class NPCPaletteObject(PaletteMixin):
                  ((27, 23, 15), (20, 14, 9))]
     CHAR_HUES = [0, 10, 20, 30, 45, 60, 75, 90, 120, 150, 180,
                  200, 220, 240, 270, 300, 330, 345]
+    DONE_HUESETS = []
 
     def randomize(self):
         if self.pointer == addresses.npc_choco_palette_address:
@@ -2820,21 +2817,70 @@ class NPCPaletteObject(PaletteMixin):
         if 6 <= self.index <= 7:
             return
 
-        if not hasattr(NPCPaletteObject, '_shuffled'):
+        def get_360_diff(x, y):
+            x, y = min(x, y), max(x, y)
+            a = (y - x)
+            b = (x + 360 - y)
+            return min(a, b)
+
+        NUM_CANDIDATES = 100
+        candidates = []
+        max_index = len(NPCPaletteObject.CHAR_HUES) - 1
+        while len(candidates) < NUM_CANDIDATES:
+            first = random.choice(NPCPaletteObject.CHAR_HUES)
+
+            def sort_key_second(x):
+                return get_360_diff(x, first)
+            sorted_second = sorted(NPCPaletteObject.CHAR_HUES,
+                                   key=sort_key_second)
+            while True:
+                index = random.randint(random.randint(0, max_index), max_index)
+                index = int(round(max_index * (random.random()**0.5)))
+                second = sorted_second[index]
+                if second != first:
+                    break
+
+            def sort_key_third(x):
+                diff1 = get_360_diff(x, first)
+                diff2 = get_360_diff(x, second)
+                return max(diff1, diff2) * diff1 * diff2
+            sorted_third = sorted(NPCPaletteObject.CHAR_HUES,
+                                  key=sort_key_third)
+            while True:
+                index = int(round(max_index * (random.random()**0.5)))
+                third = sorted_third[index]
+                if third not in (first, second):
+                    break
+
+            hueset = [first, second, third]
+            random.shuffle(hueset)
+            candidates.append(hueset)
+
+        def get_hueset_difference(xs, ys):
+            differences = [get_360_diff(x, y) for (x, y) in zip(xs, ys)]
+            return (sum(differences)/3) * min(differences)
+
+        def get_cumulative_hueset_difference(xs):
+            total = 0
+            for ys in self.DONE_HUESETS:
+                total += get_hueset_difference(xs, ys)
+            return (total, random.random(), xs)
+
+        candidates = sorted(candidates, key=get_cumulative_hueset_difference)
+        max_index = len(candidates)-1
+        index = int(round(max_index * (random.random()**0.125)))
+        chosen_hueset = candidates[index]
+        self.DONE_HUESETS.append(chosen_hueset)
+
+        if not hasattr(NPCPaletteObject, '_shuffled_skintones'):
             random.shuffle(NPCPaletteObject.SKINTONES)
-            NPCPaletteObject.CHAR_HUES = shuffle_char_hues(
-                NPCPaletteObject.CHAR_HUES)
-            NPCPaletteObject._shuffled = True
-        before = (len(NPCPaletteObject.SKINTONES),
-                  len(NPCPaletteObject.CHAR_HUES))
+            NPCPaletteObject._shuffled_skintones = True
+
         trance = self.index == 8
         colors = generate_character_palette(
-            NPCPaletteObject.SKINTONES, NPCPaletteObject.CHAR_HUES, trance)
-        after = (len(NPCPaletteObject.SKINTONES),
-                 len(NPCPaletteObject.CHAR_HUES))
-        if not trance:
-            assert after[0] == before[0] - 1
-            assert after[1] == before[1] - 3
+            NPCPaletteObject.SKINTONES,
+            list(map(hue_rgb, chosen_hueset)), trance)
+
         self.colors[:12] = colors
 
         npc_only_cluster = [n for (n, c) in enumerate(self.colors)][12:]
