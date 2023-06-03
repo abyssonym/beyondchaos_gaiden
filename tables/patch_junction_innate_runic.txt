@@ -16,6 +16,7 @@ $main
 :       f0 no-junction
 
 :       fa
+:       b9 4c 3e
 :       5c $return-runic
 
 .label no-junction
