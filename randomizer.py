@@ -363,6 +363,85 @@ class VanillaObject(TableObject):
     flag_description = 'nothing'
 
 
+class JunctionObject(TableObject):
+    flag = 'j'
+    flag_description = 'additional "Junction" effects'
+
+    jm = None
+
+    @classproperty
+    def after_order(cls):
+        return [ItemObject, EsperObject, MonsterObject]
+
+    @classproperty
+    def report(cls):
+        if JunctionObject.jm is None:
+            return None
+        return JunctionObject.jm.report
+
+    @classmethod
+    def junction(cls):
+        if 'BNW' in get_global_label():
+            return
+
+        if 'FF6_JP' in get_global_label():
+            jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json',
+                                 update='bcg_junction_manifest_jp.json')
+        else:
+            jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json')
+
+        jm.set_seed(get_seed())
+        equips = {i.index for i in ItemObject.every if i.is_equipable}
+        espers = {e.index for e in EsperObject.every}
+        monsters = {m.index for m in MonsterObject.every
+                    if m.intershuffle_valid}
+        statuses = {'morph', 'imp', 'zombie', 'dance'}
+        statuses = [jm.get_category_index('status', name)
+                    for name in sorted(statuses)]
+
+        equip_flag, esper_flag, monster_flag = False, False, False
+        if JunctionObject.flag in get_flags():
+            if EsperObject.flag in get_flags():
+                esper_flag = True
+            if EquipmentStatsObject.flag in get_flags():
+                equip_flag = True
+            if MonsterObject.flag in get_flags():
+                monster_flag = True
+
+        if 'espffect' in get_activated_codes():
+            esper_flag = True
+
+        if 'effectmas' in get_activated_codes():
+            equip_flag = True
+
+        if 'effectster' in get_activated_codes():
+            monster_flag = True
+
+        if (JunctionObject.flag in get_flags()
+                and not any([esper_flag, equip_flag, monster_flag])):
+            esper_flag, equip_flag, monster_flag = True, True, True
+
+        if equip_flag:
+            jm.randomize_sparing(equips, 'equip', True)
+
+        if esper_flag:
+            jm.randomize_generous(espers, 'esper', True)
+
+        if monster_flag:
+            jm.randomize_sparing(monsters, 'monster', True)
+            jm.randomize_generous(statuses, 'status', True)
+
+        if equip_flag or esper_flag or monster_flag:
+            jm.execute()
+            JunctionObject.jm = jm
+
+    @classmethod
+    def full_cleanup(cls):
+        if JunctionObject.jm is not None:
+            JunctionObject.jm.verify()
+        super().full_cleanup()
+
+
 class MusicObject(TableObject):
     flag = 'u'
     flag_description = 'music'
@@ -4358,26 +4437,6 @@ def handle_exhirom():
         f.write(block)
 
 
-def test():
-    if 'FF6_JP' in get_global_label():
-        jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json',
-                             update='bcg_junction_manifest_jp.json')
-    else:
-        jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json')
-
-    jm.set_seed(get_seed())
-    equips = {i.index for i in ItemObject.every if i.is_equipable}
-    espers = {e.index for e in EsperObject.every}
-    monsters = {m.index for m in MonsterObject.every if m.intershuffle_valid}
-    statuses = {'morph', 'imp', 'zombie', 'dance'}
-    jm.randomize_sparing(equips, 'equip', True)
-    jm.randomize_generous(espers, 'esper', True)
-    jm.randomize_sparing(monsters, 'monster', True)
-    jm.randomize_generous(statuses, 'status')
-    jm.execute()
-    return jm
-
-
 if __name__ == '__main__':
     try:
         print('You are using the Beyond Chaos Gaiden '
@@ -4388,10 +4447,13 @@ if __name__ == '__main__':
                        and g not in [TableObject]]
 
         codes = {
-            'fanatix': ['fanatix'],
+            'fanatix':      ['fanatix'],
             'wildcommands': ['wildcommands'],
-            'easymodo': ['easymodo'],
-            'bonanza': ['bonanza'],
+            'easymodo':     ['easymodo'],
+            'bonanza':      ['bonanza'],
+            'espffect':     ['espffect'],
+            'effectmas':    ['effectmas'],
+            'effectster':   ['effectster'],
         }
 
         run_interface(ALL_OBJECTS, snes=True, codes=codes,
@@ -4425,14 +4487,11 @@ if __name__ == '__main__':
                 write_patch(get_outfile(), 'patch_let_banon_equip.txt')
             execute_fanatix_mode()
 
+        JunctionObject.junction()
+
         hexify = lambda x: ' '.join(['{0:0>2x}'.format(c) for c in x])
         numify = lambda x: '{0: >3}'.format(x)
         minmax = lambda x: (min(x), max(x))
-
-        jm = None
-        if DEBUG_MODE:
-            jm = test()
-            #print(jm.report)
 
         write_seed()
         handle_exhirom()
@@ -4440,8 +4499,9 @@ if __name__ == '__main__':
         clean_and_write(ALL_OBJECTS)
         rewrite_snes_meta('BCG-R', VERSION, lorom=False)
 
-        if jm is not None:
-            jm.verify()
+        if JunctionObject.report is not None:
+            with open('junction.spoiler.%s.txt' % get_seed(), 'w+') as f:
+                f.write(JunctionObject.report)
 
         finish_interface()
 

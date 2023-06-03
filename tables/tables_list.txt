@@ -1,4 +1,5 @@
 VanillaObject           empty.txt                       0       1
+JunctionObject          empty.txt                       0       1
 MusicObject             empty.txt                       0       1
 EquipabilityObject      empty.txt                       0       1
 EquipmentStatsObject    empty.txt                       0       1
