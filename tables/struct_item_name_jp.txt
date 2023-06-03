@@ -1,0 +1,1 @@
+name_text,9,str

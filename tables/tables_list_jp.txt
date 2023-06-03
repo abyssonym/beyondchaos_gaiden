@@ -50,6 +50,7 @@ DanceObject             struct_dance.txt                ffe80   8
 FormationAPObject       struct_formation_ap.txt         10fe00  512
 MonsterSpriteObject     struct_monster_sprite.txt       127000  384
 MonsterPaletteObject    struct_monster_palette.txt      pointers_monster_palette.txt
+ItemNameObject          struct_item_name_jp.txt         26f700  255
 FullSpriteObject        struct_full_sprite.txt          150000  16
 AlmostSpriteObject      struct_almost_sprite.txt        166a00  6
 ItemObject              struct_item.txt                 185000  255
