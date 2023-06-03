@@ -423,6 +423,10 @@ class JunctionObject(TableObject):
 
         if equip_flag:
             jm.randomize_sparing(equips, 'equip', True)
+            if ('JP' not in get_global_label() and
+                    'questionablecontent' in get_activated_codes()):
+                for index in sorted(jm.equip_whitelist):
+                    ItemNameObject.get(index).emphasize()
 
         if esper_flag:
             jm.randomize_generous(espers, 'esper', True)
@@ -2007,6 +2011,14 @@ class ItemNameObject(TableObject):
     @property
     def name(self):
         return to_ascii(self.name_text)
+
+    def emphasize(self):
+        name_text = self.name_text.rstrip(b'\xff')
+        name_text = name_text[:12]
+        name_text += b'\xca'
+        while len(name_text) < len(self.name_text):
+            name_text += b'\xff'
+        self.name_text = name_text
 
 
 class FullSpriteObject(TableObject):
@@ -4454,6 +4466,7 @@ if __name__ == '__main__':
             'espffect':     ['espffect'],
             'effectmas':    ['effectmas'],
             'effectster':   ['effectster'],
+            'questionablecontent': ['questionablecontent'],
         }
 
         run_interface(ALL_OBJECTS, snes=True, codes=codes,
