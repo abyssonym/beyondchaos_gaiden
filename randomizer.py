@@ -595,6 +595,13 @@ class CmdChangeFBObject(TableObject, CmdChangeMixin):
     @classmethod
     def randomize_all(cls):
         cls.class_reseed('rand_commands')
+        if CmdChangeFBObject.flag in get_flags():
+            if get_global_label() in ['FF6_NA_1.0', 'FF6_NA_1.1']:
+                write_patch(get_outfile(), 'patch_auto_learn_rage.txt')
+            if 'BNW' in get_global_label():
+                write_patch(get_outfile(), 'patch_auto_learn_rage.txt')
+            if 'JP' in get_global_label():
+                write_patch(get_outfile(), 'patch_auto_learn_rage_jp.txt')
         for c in CharacterObject.every:
             assert not hasattr(c, 'randomized')
             c.randomize_commands()
@@ -3099,7 +3106,7 @@ class CharacterObject(TableObject):
         return seen_commands
 
     def randomize_commands(self):
-        if 'o' not in get_flags() or self.index in [12, 13]:
+        if CmdChangeFBObject.flag not in get_flags() or self.index in [12, 13]:
             return
 
         if not hasattr(CharacterObject, '_done_commands'):
@@ -3144,16 +3151,9 @@ class CharacterObject(TableObject):
             if 'patch_auto_learn_rage' in patchfilename.lower():
                 NO_RAGE_PATCH = False
                 break
-        else:
-            if 'BNW' in get_global_label():
-                write_patch(get_outfile(), 'patch_auto_learn_rage.txt')
-                NO_RAGE_PATCH = False
 
-        if self.index == 0x0b and 0x11 not in commands and NO_RAGE_PATCH:
-            replaceable = [c for c in commands if c not in [0x10, 0x00, 0x01]]
-            commands.remove(random.choice(replaceable))
-            commands.insert(1, 0x11)
-        elif not NO_RAGE_PATCH:
+        assert not NO_RAGE_PATCH
+        if not NO_RAGE_PATCH:
             assert 0x11 not in commands
 
         self.commands = commands
