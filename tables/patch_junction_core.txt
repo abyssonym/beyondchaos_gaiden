@@ -498,11 +498,12 @@ $jun-rng1
 
 # 0 to 255
 $jun-rng2
-:   da
+:   da 08
+:   e2 30
 :   e6 be
 :   a6 be
 :   bf 00 fd c0
-:   fa
+:   28 fa
 :   6b
 
 # 0 to A-1
