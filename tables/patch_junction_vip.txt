@@ -1,13 +1,14 @@
 .addr   jun-checker                     610000
 .addr   main                            6215c0
-.addr   return-normal                   0206e4
-.addr   return-highwind                 0206e7
+.addr   banon_check                     0206db
 .addr   return-vip-fell                 0206df
+.addr   return-normal                   0206e4
 
 .def    jun-index-vip       97
 .def    jun-index-highwind  8a
 
-0206db: 5c $main
+$banon_check
+:       5c $main
 
 $main
 :       c9 0e
@@ -15,16 +16,12 @@ $main
 :       a9 jun-index-vip
 :       22 $jun-checker
 :       d0 vip-fell
-:       a9 jun-index-highwind
-:       22 $jun-checker
-:       d0 highwind-fell
 :       5c $return-normal
 .label vip-fell
 :       5c $return-vip-fell
-.label highwind-fell
-:       5c $return-highwind
 
 VALIDATION
 
-0206db: c9 0e
-:       d0 05
+$banon_check
+:       c9 0e
+:       d0

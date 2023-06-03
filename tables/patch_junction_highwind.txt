@@ -6,6 +6,7 @@
 .addr   set-menu-jump                   621f40
 .addr   main-jump-command               621f80
 .addr   main-palidor                    621fc0
+.addr   main-sky-die                    621de0
 
 .addr   return-land                     021810
 .addr   return-hang                     0200e3
@@ -16,6 +17,9 @@
 
 020144: 22 $main-clear-flag
 :       ea ea
+
+020710: 22 $main-sky-die
+:       ea
 
 020b7d: 22 $main-palidor
 :       ea
@@ -122,12 +126,30 @@ $set-menu-jump
 :       28 fa
 :       60
 
+$main-sky-die
+:       c2 20
+:       bd 18 30
+:       2c 2c 3f
+:       f0 exit-sky-die-normal
+:       a9 jun-index-highwind 00
+:       22 $jun-checker
+:       d0 exit-sky-die-death
+:       bd 18 30
+.label exit-sky-die-normal
+:       6b
+.label exit-sky-die-death
+:       a9 00 00
+:       6b
+
 VALIDATION
 
 0200e3: 60
 
 020144: bd 18 30
 :       1c 2c 3f
+
+020710: c2 20
+:       bd 18 30
 
 02180b: a9 20
 :       8d a4 11
