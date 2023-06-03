@@ -185,6 +185,10 @@ $main-counter
 :       4a
 :       90 counter-exit-normal
 
+:       b9 e4 3e
+:       89 10
+:       d0 no-sunken-state
+
 :       a9 jun-index-sunken-state
 :       22 $jun-checker-y
 :       f0 no-sunken-state
