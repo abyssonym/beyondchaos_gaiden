@@ -1,13 +1,54 @@
-031e6e: c9 0f
-031e83: c9 0f
+.addr       bits                    039c67
+.addr       main-equip-anything     618060
 
-039c4c: 22 00 70 f0
+.addr       reentry-not-party       0c359d
+.addr       reentry-everyone        0c351e
+.addr       option3                 0a5eb3
+.addr       main-unequip-not-party  61e100
+.addr       main-unequip-everyone   61e120
 
-307000: bf 67 9c c3
-307004: 29 ff 3f
-307007: f0 01
-307009: 6b
-30700a: 09 ff 3f
-30700d: 6b
+# Bank is calculated as 0xCA + 0x97 = 0x61
+.def        fake-bank               97
 
-3fffff: 00
+031e6e: c9 {{first-unequipable-character:0f}}
+031e83: c9 {{first-unequipable-character:0f}}
+
+039c4c: 22 $main-equip-anything
+
+$main-equip-anything
+:       bf $bits
+:       29 ff 3f
+:       d0 has-equip-set
+:       09 ff 3f
+.label has-equip-set
+:       6b
+
+0c3513: b6 $main-unequip-not-party,2 fake-bank
+:       $main-unequip-everyone,2 fake-bank
+
+$main-unequip-not-party
+:       e1
+:       c0 ad 01 @exit-unequip-not-party,2 fake-bank
+:       de
+:       c0 ad 81 @exit-unequip-not-party,2 fake-bank
+:       8d 0d
+.label exit-unequip-not-party
+:       c1 00 80 00 00 $reentry-not-party,2 02
+
+$main-unequip-everyone
+:       e1
+:       c0 ad 01 @exit-unequip-everyone,2 fake-bank
+:       8d 0d
+.label exit-unequip-everyone
+:       c1 00 80 00 00 $reentry-everyone,2 02
+
+VALIDATION
+
+031e6e: c9 0d
+031e83: c9 0e
+
+039c4c: bf $bits
+
+0c3513: b6 $reentry-not-party,2 02
+:       $reentry-everyone,2 02
+:       $option3,2 00
