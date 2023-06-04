@@ -46,6 +46,8 @@ $main
 .label no-junction
 :       e2 10
 :       7a fa 68
+:       a5 d8
+:       9d 58 3c
 :       6b
 
 $check-esper-defense
