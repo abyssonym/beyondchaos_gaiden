@@ -3,6 +3,7 @@
 .addr   jun-set-target-counter          6107c0
 
 .addr   main                            621700
+.addr   main-rippler-instant-death      6216c0
 
 .def    jun-index-immortal          90
 .def    jun-index-spiraler          91
@@ -14,8 +15,14 @@
 .def    summon-command-index        40
 .def    final-attack-command-index  44
 
+.def    death-bit                   80 00
+.def    death-prot-bit              04 00
+
 024606: 22 $main
 :       ea
+
+023c2a: 22 $main-rippler-instant-death
+:       ea ea
 
 $main
 :       da
@@ -87,7 +94,35 @@ $main
 :       fa
 :       6b
 
+$main-rippler-instant-death
+:       bd a1 3a
+:       89 death-prot-bit
+:       f0 attacker-skip
+:       bd d4 3d
+:       89 death-bit
+:       f0 attacker-skip
+:       49 death-bit
+:       9d d4 3d
+
+.label attacker-skip
+:       b9 a1 3a
+:       89 death-prot-bit
+:       f0 defender-skip
+:       b9 d4 3d
+:       89 death-bit
+:       f0 defender-skip
+:       49 death-bit
+:       99 d4 3d
+
+.label defender-skip
+:       bd f8 3e
+:       39 f8 3e
+:       6b
+
 VALIDATION
+
+023c2a: bd f8 3e
+:       39 f8 3e
 
 024606: a9 80 00
 :       14 f4
