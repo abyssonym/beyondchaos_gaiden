@@ -20,6 +20,15 @@ $main
 :       24 fc
 :       f0 exit-normal
 
+:       ad a9 11
+:       29 ff 00
+:       c9 42 00
+:       d0 not-rippler
+:       bd e4 3e
+:       89 poison-bit
+:       f0 exit-normal
+
+.label not-rippler
 :       22 $jun-rng1
 :       b0 exit-normal
 
