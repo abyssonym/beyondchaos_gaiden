@@ -30,8 +30,14 @@ $main
 :       c2 20
 :       b9 e4 3e
 :       89 80 00
-:       d0 main-finish
-
+:       d0 skip-everything
+:       ad 1a 34
+:       29 ff 00
+:       f0 skip-everything
+:       80 do-stuff
+.label skip-everything
+        82 main-finish,2
+.label do-stuff
 :       64 b8
 :       bd 18 30
 :       85 b8

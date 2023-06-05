@@ -12,7 +12,6 @@
 .def    jun-index-vampire       8f
 .def    jun-index-quickening    94
 .def    jun-index-gunblade      95
-.def    jun-index-decisive      9c
 
 .def    super-ball-item-index   fa
 .def    hyperdrive-index        d1
@@ -116,11 +115,6 @@ $main
 :       0c a2 11
 
 .label no-vampire
-:       a9 jun-index-decisive
-:       22 $jun-checker
-:       f0 no-junction
-:       9c 1a 34
-
 .label no-junction
 :       a9 20
 :       14 b2
