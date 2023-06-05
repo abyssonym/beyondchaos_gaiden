@@ -1,8 +1,29 @@
 .addr   main-call               034d3d
-.addr   main                    618000
+.addr   gogo-check              034d71
+.addr   check-learn-rate-call   0359f6
+.addr   check-learned-call      035a96
+.addr   main                    618100
+.addr   check-character         618110
+.addr   check-learn-rate        618130
+.addr   check-learned           618140
+
+.addr   esper-data              186e00
+
+.def    char-slot-index         28
+.def    char-data-pointers      6d
+.def    gogo-index              0c
+
+$gogo-check
+:       80 04
 
 $main-call
 :       22 $main
+
+$check-learn-rate-call
+:       22 $check-learn-rate
+
+$check-learned-call
+:       22 $check-learned
 
 $main
 :       a9 20
@@ -12,8 +33,56 @@ $main
 :       a9 24
 :       6b
 
+$check-learn-rate
+:       20 $check-character,2
+:       90 exit-learn-rate-normal
+:       a9 00
+:       6b
+.label exit-learn-rate-normal
+:       bf $esper-data
+:       6b
+
+$check-learned
+:       20 $check-character,2
+:       90 exit-learned-normal
+:       e2 02
+:       6b
+.label exit-learned-normal
+:       a5 e1
+:       c9 ff
+:       6b
+
+$check-character
+:       da 5a
+:       a9 00
+:       eb
+:       a5 char-slot-index
+:       0a
+:       aa
+:       b4 char-data-pointers
+:       b9 00 00
+:       c9 gogo-index
+:       90 less-than-gogo
+:       7a fa
+:       38
+:       60
+.label less-than-gogo
+:       7a fa
+:       18
+:       60
+
 VALIDATION
+
+$gogo-check
+:       d0 04
 
 $main-call
 :       a9 24
 :       a6 00
+
+$check-learn-rate-call
+:       bf $esper-data
+
+$check-learned-call
+:       a5 e1
+:       c9 ff

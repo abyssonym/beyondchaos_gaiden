@@ -3531,9 +3531,9 @@ class CharEsperObject(TableObject):
             else:
                 esper_ratios[i] = 0.0
 
-        for i in range(12):
+        for i in range(0xe):
             char_ratios[i] = 0.15
-        for i in range(12, 16):
+        for i in [0xe, 0xf]:
             char_ratios[i] = 0.0
 
         for ceo in CharEsperObject.every:
