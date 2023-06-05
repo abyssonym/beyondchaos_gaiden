@@ -381,6 +381,7 @@ class JunctionObject(TableObject):
 
     @classmethod
     def junction(cls):
+        cls.class_reseed('junction')
         if 'BNW' in get_global_label():
             return
 
@@ -434,6 +435,13 @@ class JunctionObject(TableObject):
             jm.randomize_generous(statuses, 'status', True)
 
         if equip_flag or esper_flag or monster_flag:
+            parameters = {}
+            morpher_indexes = [c.index for c in CharacterObject.every
+                               if 0x03 in c.commands and c.index <= 13]
+            if morpher_indexes:
+                parameters['morpher-index'] = random.choice(morpher_indexes)
+
+            jm.set_parameters(parameters)
             jm.execute()
             JunctionObject.jm = jm
 
@@ -3695,7 +3703,7 @@ def execute_fanatix_mode():
         ]
     fo = open(get_outfile(), 'r+b')
     fo.seek(addresses.opening_crawl_pointer)
-    fo.write(bytes([0xFD]*4))  # no opening crawl
+    fo.write(bytes([0xFD]*5))  # no opening crawl
     opening_jump_pointer = addresses.opening_jump_pointer
     fo.seek(addresses.opening_pointer)
     fo.write(bytes(

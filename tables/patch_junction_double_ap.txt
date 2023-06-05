@@ -56,4 +56,4 @@ VALIDATION
 :       a5 fb
 
 025e2f: b9 d8 3e
-:       c9 {{morpher-index:00}}
+:       c9
