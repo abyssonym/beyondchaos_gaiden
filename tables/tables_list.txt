@@ -113,6 +113,7 @@ $skills                     names_skills.txt
 .patch                      patch_always_sprint.txt
 .patch                      patch_flip_gradient.txt
 .patch                      patch_opening_skip.txt
+.patch                      patch_xzone_reraise_fix.txt
 .option                     patch_auto_learn_rage.txt
 .option                     patch_y_equip.bin
 .option                     patch_condensed_spell_list_fixed.txt

@@ -1,0 +1,33 @@
+.addr   main                618080
+.addr   return-normal       024f63
+.addr   return-fail         024fdf
+
+.addr   monsters-shown      7e61ab
+.addr   wide-bits-monster   00b4eb
+
+
+024f5f: 5c $main
+
+$main
+:       a6 b6
+:       e0 08
+:       90 not-a-monster
+:       bf $wide-bits-monster
+:       2c $monsters-shown,2
+:       d0 monster-is-shown
+:       5c $return-fail
+.label monster-is-shown
+.label not-a-monster
+:       a5 b8
+:       5c $return-normal
+
+VALIDATION
+
+024f5f: a5 b8
+:       a6 b6
+
+$return-normal
+:       85 b6
+
+$return-fail
+:       60
