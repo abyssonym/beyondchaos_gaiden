@@ -3,6 +3,7 @@
 .addr   jun-queue-command               610ff0
 .addr   jun-check-is-damage-over-time   610920
 .addr   main                            622400
+.addr   null-secondary-data             6224e0
 
 .addr   living-characters               7e3a74
 
@@ -16,6 +17,8 @@
 .def    super-ball-item-index   fa
 .def    hyperdrive-index        d1
 .def    custom-mp-command-index 42
+
+021771: 22 $null-secondary-data
 
 0231b6: 22 $main
 
@@ -123,7 +126,17 @@ $main
 :       14 b2
 :       6b
 
+$null-secondary-data
+:       a9 ff
+:       85 b7
+:       a5 b5
+:       c9 0f
+:       6b
+
 VALIDATION
+
+021771: a5 b5
+:       c9 0f
 
 0231b6: a9 20
 :       14 b2
