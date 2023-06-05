@@ -392,7 +392,7 @@ class JunctionObject(TableObject):
             jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json')
 
         jm.set_seed(get_seed())
-        equips = {i.index for i in ItemObject.every if i.is_equipable}
+        equips = set()
         espers = {e.index for e in EsperObject.every}
         monsters = {m.index for m in MonsterObject.every
                     if m.intershuffle_valid}
@@ -413,6 +413,13 @@ class JunctionObject(TableObject):
             esper_flag = True
 
         if 'effectmas' in get_activated_codes():
+            equips |= {i.index for i in ItemObject.every if i.is_equipable
+                       and i.pretty_type != 'relic'}
+            equip_flag = True
+
+        if 'effectory' in get_activated_codes():
+            equips |= {i.index for i in ItemObject.every if i.is_equipable
+                       and i.pretty_type == 'relic'}
             equip_flag = True
 
         if 'effectster' in get_activated_codes():
@@ -423,6 +430,8 @@ class JunctionObject(TableObject):
             esper_flag, equip_flag, monster_flag = True, True, True
 
         if equip_flag:
+            if not equips:
+                equips = {i.index for i in ItemObject.every if i.is_equipable}
             jm.randomize_sparing(equips, 'equip', True)
             for index in sorted(jm.equip_whitelist):
                 ItemNameObject.get(index).emphasize()
@@ -4521,6 +4530,7 @@ if __name__ == '__main__':
             'bonanza':      ['bonanza'],
             'espffect':     ['espffect'],
             'effectmas':    ['effectmas'],
+            'effectory':    ['effectory'],
             'effectster':   ['effectster'],
         }
 
