@@ -1,18 +1,20 @@
-.addr   jun-checker-y               6100a0
-.addr   main                        620360
+.addr   jun-checker-y                   6100a0
+.addr   main                            620360
+.addr   restore-normal-magic-points     620560
 
 .def    jun-index           3e
 
 025e2f: 22 $main
 :       ea
 
-$main
-:       da
-:       ae d4 3e
-:       e0 00 02
-:       b0 exit-main
+025e77: 22 $restore-normal-magic-points
+:       ea ea
 
-:       bf 00 b4 df
+$main
+:       22 $restore-normal-magic-points
+:       c9 00
+:       f0 exit-main
+
 :       48
 :       a9 jun-index
 :       22 $jun-checker-y
@@ -28,12 +30,30 @@ $main
 :       68
 :       85 fb
 .label exit-main
-:       fa
 :       b9 d8 3e
 :       c9 {{morpher-index:00}}
 :       6b
 
+$restore-normal-magic-points
+:       da
+:       ae d4 3e
+:       e0 00 02
+:       b0 no-magic-points
+:       bf 00 b4 df
+:       80 exit-restore
+.label no-magic-points
+:       a9 00
+.label exit-restore
+:       85 fb
+:       fa
+:       6b
+
 VALIDATION
+
+025e77: a5 f1
+:       25 f0
+:       f0 12
+:       a5 fb
 
 025e2f: b9 d8 3e
 :       c9 {{morpher-index:00}}
