@@ -1,10 +1,12 @@
 .addr   jun-checker                     610000
+.addr   jun-check-entity-living         610600
 .addr   main                            621600
 .addr   check-esper-defense             6200c0
 .addr   return-loop                     022594
 .addr   return-terminate                022600
 
 .def    jun-index-initiative    04
+.def    jun-index-regenerator   51
 .def    jun-index-auto-reraise  75
 .def    jun-index-final-fenix   98
 
@@ -13,6 +15,17 @@
 
 $main
 :       bb
+
+:       a9 jun-index-regenerator
+:       22 $jun-checker
+:       f0 no-regenerator
+:       bd e8 3d
+:       09 02
+:       9d e8 3d
+
+.label no-regenerator
+:       22 $jun-check-entity-living
+:       f0 no-auto-reraise
 :       a9 jun-index-final-fenix
 :       22 $jun-checker
 :       d0 yes-auto-reraise

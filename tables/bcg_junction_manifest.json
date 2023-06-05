@@ -950,7 +950,8 @@
             "patch_junction_miasma.txt"
         ],
         "regenerator": [
-            "patch_junction_miasma.txt"
+            "patch_junction_miasma.txt",
+            "patch_junction_initiative.txt"
         ],
         "reverse": [
             "patch_junction_damage_trigger.txt"
