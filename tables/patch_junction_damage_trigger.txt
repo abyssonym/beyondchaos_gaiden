@@ -546,6 +546,12 @@ $retarget-salve
 
 $do-auto-potion
 :       da
+
+# check for mp damage
+:       a9 80 00
+:       2c a3 11
+:       d0 auto-potion-exit
+
 :       20 $check-nonzero-nonlethal-damage,2
 :       f0 auto-potion-exit
 
