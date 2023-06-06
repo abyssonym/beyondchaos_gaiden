@@ -29,8 +29,8 @@ $main
 :       82 no-junction,2
 
 .label not-damage-over-time
-:       a5 b9
-:       f0 no-add-steal
+:       a5 b8
+:       d0 no-add-steal
 :       ad a9 11
 :       d0 no-add-steal
 :       22 $jun-rng1
