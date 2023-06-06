@@ -696,8 +696,10 @@
         "170", "Zone Eater", "172", "173",
         "174", "Officer", "Cadet", "177",
         "178", "Soldier 179", "17a", "17b",
-        "17c", "Atma", "17e", "17f"
+        "17c", "Atma", "17e", "17f", "every_monster"
     ],
+
+    "every_monster_index": "180",
 
     "battle_messages": {
         "36": "VIP fell…",

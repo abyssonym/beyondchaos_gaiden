@@ -7,12 +7,18 @@
 .addr   jun-check-list                      6101e0
 .addr   jun-check-equip-whitelist           610200
 .addr   jun-check-equip-blacklist           610210
-.addr   jun-check-whitelist-monster-version 610220
-.addr   jun-check-blacklist-monster-version 610240
-.addr   jun-check-status-whitelist          610260
-.addr   jun-check-status-blacklist          6102b0
+.addr   jun-check-whitelist-monster-version 610280
+.addr   jun-check-blacklist-monster-version 6102c0
 .addr   jun-check-rage                      610300
 .addr       rage-indexes                        7e33a8
+.addr   jun-check-status-whitelist          610340
+.addr   jun-check-status-blacklist          6103a0
+.addr   jun-check-monster-equip-whitelist   610400
+.addr   jun-check-monster-equip-blacklist   610480
+.addr       stealable-items-address         7e3308
+.addr       dropped-items-address           0f3002
+.addr       monster-equip-steal-enabled     6104fc
+.addr       monster-equip-drop-enabled      6104fe
 
 .addr   jun-always-whitelist                611000
 .addr   jun-character-whitelist             611800
@@ -262,6 +268,16 @@ $jun-check-whitelist-monster-version
 :   20 $jun-check-list,2
 :   d0 found-whitelist-monster-version
 
+:   a9 {{every_monster_index:180}}
+:   0a
+:   a8
+:   be $jun-monster-whitelist,2
+:   20 $jun-check-list,2
+:   d0 found-whitelist-monster-version
+
+:   20 $jun-check-monster-equip-whitelist,2
+:   d0 found-whitelist-monster-version
+
 :   a6 14
 :   bf $monster-indexes
 :   0a
@@ -272,6 +288,122 @@ $jun-check-whitelist-monster-version
 :   20 $jun-check-status-whitelist,2
 .label found-whitelist-monster-version
 :   60
+
+$jun-check-monster-equip-whitelist
+:   af $monster-equip-steal-enabled
+:   f0 check-monster-equip-whitelist-no-steal
+:   a6 14
+:   a8
+:   bf $stealable-items-address
+:   20 @whitelist-check-loot-pair,2
+:   d0 check-monster-equip-exit-whitelist-success
+
+.label check-monster-equip-whitelist-no-steal
+:   af $monster-equip-drop-enabled
+:   f0 check-monster-equip-exit-whitelist-fail
+:   a6 14
+:   bf $monster-indexes
+:   0a 0a
+:   aa
+:   bf $dropped-items-address
+:   20 @whitelist-check-loot-pair,2
+:   d0 check-monster-equip-exit-whitelist-success
+
+.label check-monster-equip-exit-whitelist-fail
+:   a9 00 00
+:   60
+.label check-monster-equip-exit-whitelist-success
+:   a9 01 00
+:   60
+
+.label whitelist-check-loot-pair
+:   48
+
+:   29 ff 00
+:   0a
+:   a8
+:   be $jun-equip-whitelist,2
+:   20 $jun-check-list,2
+:   d0 exit-whitelist-check-loot-pair-success
+
+:   a3 01
+:   eb
+:   29 ff 00
+:   0a
+:   a8
+:   be $jun-equip-whitelist,2
+:   20 $jun-check-list,2
+:   d0 exit-whitelist-check-loot-pair-success
+
+.label exit-whitelist-check-loot-pair-fail
+:   68
+:   e2 02
+:   60
+.label exit-whitelist-check-loot-pair-success
+:   68
+:   c2 02
+:   60
+
+$jun-check-monster-equip-blacklist
+:   af $monster-equip-steal-enabled
+:   f0 check-monster-equip-blacklist-no-steal
+:   a6 14
+:   a8
+:   bf $stealable-items-address
+:   20 @blacklist-check-loot-pair,2
+:   d0 check-monster-equip-exit-blacklist-success
+
+.label check-monster-equip-blacklist-no-steal
+:   af $monster-equip-drop-enabled
+:   f0 check-monster-equip-exit-blacklist-fail
+:   a6 14
+:   bf $monster-indexes
+:   0a 0a
+:   aa
+:   bf $dropped-items-address
+:   20 @blacklist-check-loot-pair,2
+:   d0 check-monster-equip-exit-blacklist-success
+
+.label check-monster-equip-exit-blacklist-fail
+:   a9 00 00
+:   60
+.label check-monster-equip-exit-blacklist-success
+:   a9 01 00
+:   60
+
+.label blacklist-check-loot-pair
+:   48
+
+:   29 ff 00
+:   0a
+:   a8
+:   be $jun-equip-blacklist,2
+:   20 $jun-check-list,2
+:   d0 exit-blacklist-check-loot-pair-success
+
+:   a3 01
+:   eb
+:   29 ff 00
+:   0a
+:   a8
+:   be $jun-equip-blacklist,2
+:   20 $jun-check-list,2
+:   d0 exit-blacklist-check-loot-pair-success
+
+.label exit-blacklist-check-loot-pair-fail
+:   68
+:   e2 02
+:   60
+.label exit-blacklist-check-loot-pair-success
+:   68
+:   c2 02
+:   60
+
+$monster-equip-steal-enabled
+:   {{monster-equip-steal-enabled:01}}
+
+$monster-equip-drop-enabled
+:   {{monster-equip-drop-enabled:01}}
 
 $jun-check-rage
 :   a6 14
@@ -397,6 +529,16 @@ $jun-check-blacklist
 :   60
 
 $jun-check-blacklist-monster-version
+:   a9 {{every_monster_index:180}}
+:   0a
+:   a8
+:   be $jun-monster-blacklist,2
+:   20 $jun-check-list,2
+:   d0 found-blacklist-monster-version
+
+:   20 $jun-check-monster-equip-blacklist,2
+:   d0 found-blacklist-monster-version
+
 :   a6 14
 :   bf $monster-indexes
 :   0a
