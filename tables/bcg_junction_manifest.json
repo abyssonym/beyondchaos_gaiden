@@ -69,6 +69,7 @@
         "critical_fenrir":      "2b",
         "critical_rabbit":      "2c",
         "critical_freeze":      "2d",
+        "add_steal":            "2f",
         "critical_runic":       "30",
         "critical_gprain":      "31",
         "critical_esper":       "32",
@@ -228,6 +229,7 @@
         "critical_fenrir":      "SOS Fenrir",
         "critical_rabbit":      "SOS Rabbit",
         "critical_freeze":      "SOS Freeze",
+        "add_steal":            "Add Steal",
         "critical_escape":      "SOS Escape",
         "critical_morph":       "SOS Morph",
         "critical_runic":       "SOS Runic",
@@ -387,6 +389,7 @@
         "critical_fenrir":      ["buff", "image"],
         "critical_rabbit":      ["heal"],
         "critical_freeze":      ["ice", "-fire", "status", "freeze"],
+        "add_steal":            ["luck"],
         "critical_runic":       ["mp", "buff"],
         "critical_gprain":      ["item"],
         "critical_esper":       ["esper"],
@@ -884,6 +887,9 @@
         ],
         "critical_freeze": [
             "patch_junction_critical_trigger.txt"
+        ],
+        "add_steal": [
+            "patch_junction_hit_trigger.txt"
         ],
         "critical_escape": [
             "patch_junction_critical_trigger.txt"

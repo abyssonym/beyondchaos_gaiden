@@ -1,5 +1,6 @@
 .addr   jun-checker                     610000
 .addr   jun-deduct-item-if-possible     610740
+.addr   jun-rng1                        610820
 .addr   jun-queue-command               610ff0
 .addr   jun-check-is-damage-over-time   610920
 .addr   main                            622400
@@ -7,6 +8,7 @@
 
 .addr   living-characters               7e3a74
 
+.def    jun-index-add-steal     2f
 .def    jun-index-astral        7d
 .def    jun-index-vorpal        7e
 .def    jun-index-vampire       8f
@@ -27,6 +29,19 @@ $main
 :       82 no-junction,2
 
 .label not-damage-over-time
+:       a5 b9
+:       f0 no-add-steal
+:       ad a9 11
+:       d0 no-add-steal
+:       22 $jun-rng1
+:       90 no-add-steal
+:       a9 jun-index-add-steal
+:       22 $jun-checker
+:       f0 no-add-steal
+:       a9 a4
+:       8d a9 11
+
+.label no-add-steal
 :       a9 01
 :       2c a2 11
 :       f0 not-physical
