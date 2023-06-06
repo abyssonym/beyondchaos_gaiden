@@ -443,6 +443,9 @@ class JunctionObject(TableObject):
             jm.randomize_sparing(monsters, 'monster', True)
             jm.randomize_generous(statuses, 'status', True)
 
+        if esper_flag and monster_flag:
+            jm.match_esper_monster_junctions()
+
         if equip_flag or esper_flag or monster_flag:
             parameters = {}
             morpher_indexes = [c.index for c in CharacterObject.every

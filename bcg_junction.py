@@ -3,6 +3,7 @@ from randomtools.tablereader import (
     tblpath, write_patch, set_addressing_mode, get_open_file, verify_patchlist)
 
 import json
+from collections import defaultdict
 from os import path
 
 
@@ -729,6 +730,23 @@ class JunctionManager:
                 else:
                     junction = self.get_junction_weighted(item, weights)
                 self.add_junction(item, junction, force_category=category)
+
+    def match_esper_monster_junctions(self, matches=None):
+        if matches is None:
+            matches = defaultdict(set)
+            for esper_name in self.esper_names:
+                key = ('%s ' % esper_name).lower()
+                for monster_name in self.monster_names:
+                    if monster_name.lower().startswith(key):
+                        matches[esper_name].add(monster_name)
+
+        for esper_index, monster_indexes in sorted(matches.items()):
+            esper_index = self.get_category_index('esper', esper_index)
+            esper_junctions = self.esper_whitelist[esper_index]
+            for monster_index in monster_indexes:
+                monster_index = self.get_category_index('monster',
+                                                        monster_index)
+                self.monster_whitelist[monster_index] = esper_junctions
 
     def relocate_command_pointers(self):
         num_commands = 0x34
