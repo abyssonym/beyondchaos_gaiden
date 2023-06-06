@@ -22,6 +22,8 @@ ALL_OBJECTS = None
 DEBUG_MODE = True
 FOOLS = False
 
+JP_MAPPING = path.join(tblpath, 'jp_address_mapping.txt')
+
 price_message_indexes = {
     10:     0xa6b,
     50:     0xa6c,
@@ -3540,6 +3542,10 @@ class CharEsperObject(TableObject):
 
     @classmethod
     def full_randomize(cls):
+        if 'JP' in get_global_label():
+            write_patch(
+                get_outfile(), 'patch_can_always_access_esper_menu.txt',
+                mapping=JP_MAPPING)
         values = set(CharEsperObject.allocations_by_character)
         char_ratios, esper_ratios = {}, {}
         if len(values) == 1:
@@ -4577,6 +4583,9 @@ if __name__ == '__main__':
             if 'JP' in get_global_label():
                 write_patch(get_outfile(), 'patch_let_banon_equip_jp.txt')
                 write_patch(get_outfile(), 'patch_auto_learn_rage_jp.txt')
+                write_patch(
+                    get_outfile(), 'patch_can_always_access_esper_menu.txt',
+                    mapping=JP_MAPPING)
             elif 'SAFE_MODE' not in get_global_label():
                 write_patch(get_outfile(), 'patch_let_banon_equip.txt')
             execute_fanatix_mode()

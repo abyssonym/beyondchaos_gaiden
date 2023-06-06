@@ -108,5 +108,5 @@ $known_lores_address        26f564
 .patch                      patch_flip_gradient_jp.txt
 .patch                      patch_opening_skip_jp.txt
 .patch                      patch_esper_allocation_jp.txt
-#.option                     patch_auto_learn_rage_jp.txt
+.option                     patch_auto_learn_rage_jp.txt
 $char_esper_address         307880
