@@ -46,6 +46,7 @@
 .addr       command-change-byte-address     18500a
 .addr   jun-force-update                    610fe0
 .addr       force-update-routine                02083f
+.addr   jun-generic-dispatch                610f00
 
 .addr   jun-check-entity-living             610600
 .addr       living-characters                   7e3a74
@@ -816,6 +817,50 @@ $jun-force-update
 :       f4 $jun-dispatcher-address-c2,2
 :       5c $force-update-routine
 .label force-update-reentry
+:       28
+:       6b
+
+$jun-generic-dispatch
+:       48 08
+:       c2 20
+:       62 generic-dispatch-reentry,2
+:       f4 $jun-dispatcher-address-c2,2
+# push bank (high byte)
+:       e2 20
+:       a9 c2
+:       48
+# push low bytes of target routine
+:       c2 20
+:       a3 0b
+:       3a
+:       48
+# restore status register and accumulator
+:       e2 20
+:       a3 08
+:       48 28
+:       a3 09
+:       6b
+.label generic-dispatch-reentry
+# automatically handle removing target from stack
+# this requires some rearranging of the stack
+:       08
+:       c2 20
+:       48
+# shift call address
+:       a3 07
+:       83 09
+:       a3 06
+:       83 08
+# shift accumulator
+:       a3 01
+:       83 04
+:       83 06
+# shift status
+:       e2 20
+:       a3 03
+:       83 07
+:       c2 20
+:       68 68 68
 :       28
 :       6b
 

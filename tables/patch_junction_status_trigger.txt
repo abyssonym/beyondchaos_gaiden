@@ -8,7 +8,6 @@
 .addr   jun-count-bits                  6108c0
 .addr   jun-queue-command               610ff0
 .addr   main                            622080
-.addr   main-synchronize                622100
 .addr   main-auto-item                  6222c0
 .addr   use-best-item                   622200
 .addr       inventory-address               7e2686
@@ -16,9 +15,7 @@
 .addr       item-properties-type            185000
 .addr       item-properties-status-byte     185015
 .addr   do-auto-item                    622280
-.addr   get-unprotected-statuses        622060
 
-.def    jun-index-synchronize       8d
 .def    jun-index-auto-down         81
 .def    jun-index-auto-revivify     82
 .def    jun-index-auto-remedy       83
@@ -31,8 +28,6 @@
 
 $main
 :       da 08
-:       20 $main-synchronize,2
-:       28 08
 :       c0 08
 :       90 main-is-human
 :       22 $jun-rng1
@@ -173,137 +168,6 @@ $use-best-item
 :       c2 20
 :       83 01
 :       80 exit-use-best
-
-$main-synchronize
-:       a5 fc
-:       05 fe
-:       f0 exit-synchronize
-
-:       e2 30
-:       a9 ff
-:       48
-
-:       a2 06
-.label find-synchronize-loop
-:       a9 jun-index-synchronize
-:       22 $jun-check-entity-living
-:       f0 find-synchronize-skip
-:       22 $jun-checker
-:       f0 find-synchronize-skip
-:       a9 ff
-:       c3 01
-:       d0 no-synchronize
-:       8a
-:       83 01
-.label find-synchronize-skip
-:       ca ca
-:       10 find-synchronize-loop
-
-:       a9 ff
-:       c3 01
-:       f0 no-synchronize
-:       98
-:       c3 01
-:       f0 is-synchronizer
-
-# prevent status changes where preserved by synchronizer
-:       fa
-:       c2 20
-:       a9 ff ff
-:       48 48
-:       20 $get-unprotected-statuses,2
-
-:       a5 fc
-:       23 01
-:       85 fc
-:       a5 fe
-:       23 03
-:       85 fe
-
-:       b9 e4 3e
-:       03 01
-:       43 01
-:       05 fc
-:       85 fc
-:       b9 f8 3e
-:       03 03
-:       43 03
-:       05 fe
-:       85 fe
-:       68 68
-:       80 exit-synchronize
-
-.label no-synchronize
-:       68
-.label exit-synchronize
-:       60
-
-.label is-synchronizer
-:       fa
-:       c2 20
-
-:       a5 fc
-:       89 c2 00
-:       d0 exit-synchronize
-:       99 e4 3e
-:       a5 fe
-:       99 f8 3e
-
-:       98
-:       29 ff 00
-:       48
-:       a9 ff ff
-:       48 48
-:       20 $get-unprotected-statuses,2
-:       a2 06
-.label synchronize-loop
-:       8a
-:       29 ff 00
-:       c3 05
-:       f0 synchronize-skip
-:       22 $jun-check-entity-living
-:       f0 synchronize-skip
-:       bd e4 3e
-:       23 01
-:       9d e4 3e
-
-:       bd f8 3e
-:       23 03
-:       9d f8 3e
-
-:       b9 e4 3e
-:       03 01
-:       43 01
-:       1d e4 3e
-:       9d e4 3e
-
-:       b9 f8 3e
-:       03 03
-:       43 03
-:       1d f8 3e
-:       9d f8 3e
-
-.label synchronize-skip
-:       ca ca
-:       10 synchronize-loop
-
-:       68 68 68
-:       60
-
-$get-unprotected-statuses
-:       bd 1c 33
-:       49 ff ff
-# wound, petrify, magitek, zombie
-:       09 ca 00
-:       83 03
-
-:       bd 30 33
-:       49 ff ff
-# interceptor, hide, control, rage, dance
-:       09 01 71
-:       83 05
-
-:       60
 
 VALIDATION
 

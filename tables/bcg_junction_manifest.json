@@ -161,7 +161,7 @@
         "highwind":             "8a",
         "time_font":            "8b",
         "time_sink":            "8c",
-        "synchronize":          "8d",
+        "resonate":             "8d",
         "sunken_state":         "8e",
         "vampire":              "8f",
         "immortal":             "90",
@@ -320,7 +320,7 @@
         "highwind":             "Highwind",
         "time_font":            "Time Font",
         "time_sink":            "Time Sink",
-        "synchronize":          "Synchronize",
+        "resonate":             "Resonate",
         "sunken_state":         "Sunken State",
         "vampire":              "Vampire",
         "immortal":             "Immortal",
@@ -479,7 +479,7 @@
         "highwind":             ["hide"],
         "time_font":            ["status", "buff", "debuff", "haste"],
         "time_sink":            ["status", "buff", "debuff", "slow"],
-        "synchronize":          ["status", "buff", "debuff"],
+        "resonate":             ["status", "buff", "debuff"],
         "sunken_state":         ["defend", "buff", "clear"],
         "vampire":              ["drain"],
         "immortal":             ["life", "death"],
@@ -718,7 +718,7 @@
     "monster_whitelist":    {},
     "monster_blacklist":    {},
 
-    "always_banlist":       ["synchronize"],
+    "always_banlist":       [],
     "character_banlist":    [],
     "esper_banlist":        ["perfect_taunt", "repel_nuke", "caller"],
     "equip_banlist":        ["perfect_taunt", "repel_nuke", "boost_nuke"],
@@ -1112,13 +1112,13 @@
             "patch_junction_damage_trigger.txt"
         ],
         "auto_down": [
-            "patch_junction_synchronize.txt"
+            "patch_junction_status_trigger.txt"
         ],
         "auto_revivify": [
-            "patch_junction_synchronize.txt"
+            "patch_junction_status_trigger.txt"
         ],
         "auto_remedy": [
-            "patch_junction_synchronize.txt"
+            "patch_junction_status_trigger.txt"
         ],
         "counter_all": [
             "patch_junction_prehit_trigger.txt"
@@ -1151,8 +1151,8 @@
         "time_sink": [
             "patch_junction_time_font_sink.txt"
         ],
-        "synchronize": [
-            "patch_junction_synchronize.txt"
+        "resonate": [
+            "patch_junction_prehit_trigger.txt"
         ],
         "sunken_state": [
             "patch_junction_prehit_trigger.txt"

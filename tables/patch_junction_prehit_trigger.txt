@@ -6,13 +6,15 @@
 .addr   jun-set-target-allies           610780
 .addr   jun-rng1                        610820
 .addr   jun-rng2                        610830
+.addr   jun-generic-dispatch            610f00
 .addr   jun-queue-self-spell            610fc0
 .addr   jun-queue-command               610ff0
 
 .addr   get-esper-spell                 620100
 
-.addr   main-null-freeze                621000
+.addr   main                            621000
 .addr   main-firestarter                621200
+.addr   main-resonate                   622100
 .addr   main-counter                    622320
 .addr   queue-counter                   622300
 .addr   return-normal                   022215
@@ -25,18 +27,22 @@
 .def    jun-index-hamedo            85
 .def    jun-index-return-magic      86
 .def    jun-index-esper-counter     87
+.def    jun-index-resonate          8d
 .def    jun-index-sunken-state      8e
 .def    jun-index-decisive          9c
 
 .def    vanish-spell-index          26
 .def    final-attack-command-index  44
 
-022211: 5c $main-null-freeze
+.def    rippler-allowed-statuses1   37 fd
+.def    rippler-allowed-statuses2   fe 84
+
+022211: 5c $main
 
 024692: 22 $main-firestarter
 :       ea ea ea
 
-$main-null-freeze
+$main
 :       e2 20
 :       64 fe
 :       da
@@ -54,6 +60,17 @@ $main-null-freeze
 .label no-freeze
 :       fa
 
+:       a9 jun-index-resonate
+:       22 $jun-checker
+:       d0 resonate
+:       22 $jun-checker-y
+:       d0 resonate
+:       80 no-resonate
+.label resonate
+:       20 $main-resonate,2
+:       e2 20
+
+.label no-resonate
 :       a9 jun-index-decisive
 :       22 $jun-checker
 :       f0 no-decisive
@@ -249,6 +266,45 @@ $queue-counter
 :       22 $jun-queue-command
 .label exit-queue-counter
 :       fa
+:       60
+
+$main-resonate
+# this is largely duplicated rippler code,
+# except with the originally intended "banned status" bitmasks
+:       08
+:       c2 20
+
+:       bd e4 3e
+:       39 e4 3e
+:       49 ff ff
+:       29 rippler-allowed-statuses1
+:       85 ee
+:       bd e4 3e
+:       25 ee
+:       99 d4 3d
+
+:       9d fc 3d
+:       b9 e4 3e
+:       25 ee
+:       9d d4 3d
+:       99 fc 3d
+
+:       bd f8 3e
+:       39 f8 3e
+:       49 ff ff
+:       29 rippler-allowed-statuses2
+:       85 ee
+:       bd f8 3e
+:       25 ee
+:       99 e8 3d
+
+:       9d 10 3e
+:       b9 f8 3e
+:       25 ee
+:       9d e8 3d
+:       99 10 3e
+
+:       28
 :       60
 
 VALIDATION
