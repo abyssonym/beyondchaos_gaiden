@@ -425,9 +425,14 @@ class JunctionObject(TableObject):
         if 'effectster' in get_activated_codes():
             monster_flag = True
 
+        treaffect_flag = False
+        if 'treaffect' in get_activated_codes():
+            treaffect_flag = True
+
         if (JunctionObject.flag in get_flags()
                 and not any([esper_flag, equip_flag, monster_flag])):
             esper_flag, equip_flag, monster_flag = True, True, True
+            treaffect_flag = True
 
         if equip_flag:
             if not equips:
@@ -448,6 +453,13 @@ class JunctionObject(TableObject):
 
         if equip_flag or esper_flag or monster_flag:
             parameters = {}
+            if treaffect_flag:
+                parameters['monster-equip-steal-enabled'] = 1
+                parameters['monster-equip-drop-enabled'] = 1
+            else:
+                parameters['monster-equip-steal-enabled'] = 0
+                parameters['monster-equip-drop-enabled'] = 0
+
             morpher_indexes = [c.index for c in CharacterObject.every
                                if 0x03 in c.commands and c.index <= 13]
             if morpher_indexes:
@@ -4535,6 +4547,7 @@ if __name__ == '__main__':
             'effectmas':    ['effectmas'],
             'effectory':    ['effectory'],
             'effectster':   ['effectster'],
+            'treaffect':    ['treaffect'],
         }
 
         run_interface(ALL_OBJECTS, snes=True, codes=codes,
