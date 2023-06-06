@@ -68,7 +68,6 @@ class JunctionManager:
         self.outfile = get_open_file(outfile)
         self.directory = tblpath
         self.patches = set()
-        self.patch_parameters = {}
 
         assert manifest or data
         if manifest:
@@ -132,7 +131,7 @@ class JunctionManager:
                 full_data[key] = value
 
             if isinstance(value, dict):
-                if key not in ('junction_indexes',):
+                if key not in ('junction_indexes', 'patch_parameters'):
                     assert all(isinstance(k, int) for k in value.keys())
 
             if key.endswith('_address') or key.startswith('num_'):
@@ -186,10 +185,13 @@ class JunctionManager:
                 if category_index not in blacklist:
                     blacklist[category_index] = []
                 junctions = whitelist[category_index]
-                junctions = {self.junction_short_names[i] for i in junctions}
+                junctions = {
+                    self.junction_short_names[self.get_junction_index(i)]
+                    for i in junctions}
                 nonjunctions = blacklist[category_index]
-                nonjunctions = {self.junction_short_names[i]
-                                for i in nonjunctions}
+                nonjunctions = {
+                    self.junction_short_names[self.get_junction_index(i)]
+                    for i in nonjunctions}
                 junctions = {j for j in junctions if j not in nonjunctions}
                 nonjunctions = {'-%s' % j for j in nonjunctions}
                 junctions = sorted(junctions) + sorted(nonjunctions)

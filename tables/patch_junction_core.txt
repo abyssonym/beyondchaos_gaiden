@@ -268,7 +268,7 @@ $jun-check-whitelist-monster-version
 :   20 $jun-check-list,2
 :   d0 found-whitelist-monster-version
 
-:   a9 {{every_monster_index:180}}
+:   a9 {{every_monster_index}}
 :   0a
 :   a8
 :   be $jun-monster-whitelist,2
@@ -529,7 +529,7 @@ $jun-check-blacklist
 :   60
 
 $jun-check-blacklist-monster-version
-:   a9 {{every_monster_index:180}}
+:   a9 {{every_monster_index}}
 :   0a
 :   a8
 :   be $jun-monster-blacklist,2

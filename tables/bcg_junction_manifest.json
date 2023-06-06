@@ -699,8 +699,6 @@
         "17c", "Atma", "17e", "17f", "every_monster"
     ],
 
-    "every_monster_index": "180",
-
     "battle_messages": {
         "36": "VIP fell…",
         "b0": "Got <12><01> <d7> 1 !",
@@ -718,7 +716,9 @@
     "status_whitelist":     {},
     "status_blacklist":     {},
     "monster_whitelist":    {},
-    "monster_blacklist":    {},
+    "monster_blacklist":    {
+        "every_monster":    ["taunt", "quickening"]
+    },
 
     "always_banlist":       [],
     "character_banlist":    [],
@@ -728,6 +728,14 @@
     "monster_banlist":      [
         "taunt", "esper_magic", "esper_defense", "esper_counter",
         "esper_attack", "quickening", "vip"],
+
+    "patch_parameters": {
+        "morpher-index":                    "00",
+        "berserker-index":                  "0d",
+        "monster-equip-steal-enabled":      "01",
+        "monster-equip-drop-enabled":       "01",
+        "every_monster_index":              "180"
+    },
 
     "core_patch_list": [
         "patch_junction_command_expansion.txt",
