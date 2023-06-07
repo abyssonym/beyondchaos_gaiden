@@ -30,8 +30,11 @@ $main
 :       f0 main-esper-proc-exit
 
 .label is-valid-proc
+:       a5 b5
+:       f0 skip-strikes-number-check
 :       ad 70 3a
 :       d0 main-esper-proc-exit
+.label skip-strikes-number-check
 :       a9 jun-index-esper-magic
 :       22 $jun-checker
 :       f0 main-esper-proc-exit
