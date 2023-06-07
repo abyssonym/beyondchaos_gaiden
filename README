@@ -1,12 +1,23 @@
 Final Fantasy 6 Beyond Chaos Gaiden Randomizer
-Version:    6
-Date:       April 22, 2021
-URL:        https://abyssonym.wordpress.com/2018/04/02/176/
+Version:    7
+Date:       June 06, 2023
+URL:        https://github.com/abyssonym/beyondchaos_gaiden/releases/latest/
 Contact:    https://twitter.com/abyssonym
+            https://discord.gg/Vzk2tsm92A
 
 --- FAQ ---
 Q: How do I play the Gaiden exclusive game mode?
 A: Use the special code "fanatix" when the randomizer asks for flags. This is a hack 'n slash mode for FF6, similar to a roguelike or ancient cave, but much more linear.
+
+Q: What is the Junction system?
+A: I've been building a framework for pluggable patches that I call the "Junction" system. This framework makes it easy to create entirely new effects and attach them to arbitrary Espers, equipment, characters, and monsters... such as in a randomizer. I wrote over 150 new effects for the Junction patch set! There are five codes available for customizing you Junction experience:
+
+    espffect        Attach random Junction effects to espers.
+    effectmas       Attach random Junction effects to weapons, shields, and armor.
+    effectory       Attach random Junction effects to relics.
+    effectster      Attach random Junction effects to monsters, Rages, and some status conditions.
+    treaffect       Enemies inherit Junction effects from held items.
+    espercutegf     All characters gain the EspMag-J, EspCntr-J, EspAtk-J, EspDef-J, and Caller junctions.
 
 --- HOW TO USE ---
 About:
@@ -32,6 +43,7 @@ Flags:
     e  Randomize espers.
     g  Randomize magicite.
     i  Randomize equipment stats.
+    j  Randomize additional "Junction" effects.
     k  Randomize monster palettes.
     l  Randomize character palettes.
     m  Randomize monsters.

@@ -17,9 +17,9 @@ from os import path
 from traceback import format_exc
 
 
-VERSION = "6.2"
+VERSION = "7.0"
 ALL_OBJECTS = None
-DEBUG_MODE = True
+DEBUG_MODE = False
 FOOLS = False
 
 JP_MAPPING = path.join(tblpath, 'jp_address_mapping.txt')
