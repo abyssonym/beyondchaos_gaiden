@@ -739,6 +739,13 @@ class JunctionManager:
             for esper_name in self.esper_names:
                 key = ('%s ' % esper_name).lower()
                 for monster_name in self.monster_names:
+                    monster_index = monster_name.split(' ')[-1]
+                    try:
+                        int(monster_index, 0x10)
+                    except ValueError:
+                        continue
+                    if monster_name != '%s %s' % (esper_name, monster_index):
+                        continue
                     if monster_name.lower().startswith(key):
                         matches[esper_name].add(monster_name)
 

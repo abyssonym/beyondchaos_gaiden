@@ -453,6 +453,14 @@ class JunctionObject(TableObject):
         if esper_flag and monster_flag:
             jm.match_esper_monster_junctions()
 
+        if 'espercutegf' in get_activated_codes():
+            jm.add_junction(None, 'caller')
+            jm.add_junction(None, 'esper_magic')
+            jm.add_junction(None, 'esper_counter')
+            jm.add_junction(None, 'esper_attack')
+            jm.add_junction(None, 'esper_defense')
+            esper_flag = True
+
         if equip_flag or esper_flag or monster_flag:
             parameters = {}
             if treaffect_flag:
@@ -4554,10 +4562,14 @@ if __name__ == '__main__':
             'effectory':    ['effectory'],
             'effectster':   ['effectster'],
             'treaffect':    ['treaffect'],
+            'espercutegf':  ['espercutegf'],
         }
 
         run_interface(ALL_OBJECTS, snes=True, codes=codes,
                       custom_degree=True, custom_difficulty=True)
+
+        for code in sorted(get_activated_codes()):
+            print('Code "%s" activated.' % code)
 
         tm = gmtime(get_seed())
         if tm.tm_mon == 4 and tm.tm_mday == 1:
@@ -4590,7 +4602,8 @@ if __name__ == '__main__':
                 write_patch(get_outfile(), 'patch_let_banon_equip.txt')
             execute_fanatix_mode()
 
-        JunctionObject.junction()
+        if hasattr(JunctionObject, 'specs'):
+            JunctionObject.junction()
 
         hexify = lambda x: ' '.join(['{0:0>2x}'.format(c) for c in x])
         numify = lambda x: '{0: >3}'.format(x)

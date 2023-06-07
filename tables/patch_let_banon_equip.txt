@@ -44,7 +44,7 @@ $main-unequip-everyone
 
 VALIDATION
 
-031e6e: c9 0d
+031e6e: c9
 031e83: c9 0e
 
 039c4c: bf $bits
