@@ -98,10 +98,12 @@ $get-esper-spell
 :       83 01
 .label esper-spell-skip
 :       ca ca
+:       30 esper-spell-loop-exit
 :       8a
 :       c3 03
 :       b0 esper-spell-loop
 
+.label esper-spell-loop-exit
 :       a9 ff
 :       80 get-spell-exit
 .label esper-spell-found
