@@ -72,14 +72,14 @@ class JunctionManager:
         assert manifest or data
         if manifest:
             filename = path.join(self.directory, manifest)
-            with open(filename) as f:
+            with open(filename, encoding='utf8') as f:
                 full_data = json.loads(f.read())
         else:
             full_data = {}
 
         if update is not None:
             filename = path.join(self.directory, update)
-            with open(filename) as f:
+            with open(filename, encoding='utf8') as f:
                 update = json.loads(f.read())
             full_data = recursive_merge(full_data, update)
 
@@ -139,7 +139,7 @@ class JunctionManager:
 
             if key.endswith('_tags') and key != 'junction_tags':
                 filename = path.join(tblpath, full_data[key])
-                with open(filename) as f:
+                with open(filename, encoding='utf8') as f:
                     tags = json.loads(f.read())
                 full_data[key] = tags
 
@@ -344,7 +344,8 @@ class JunctionManager:
 
     def load_character_map(self):
         self.character_map = {}
-        with open(path.join(tblpath, self.character_table)) as f:
+        with open(path.join(tblpath, self.character_table),
+                  encoding='utf8') as f:
             for line in f:
                 character, code = line.split()
                 code = int(code, 0x10)
@@ -367,10 +368,7 @@ class JunctionManager:
         try:
             c = self.character_map[c]
         except KeyError:
-            try:
-                c = '<{0:0>2x}>'.format(c)
-            except:
-                import pdb; pdb.set_trace()
+            c = '<{0:0>2x}>'.format(c)
 
         if c == '\n':
             c = '<01>'

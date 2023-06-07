@@ -4616,7 +4616,8 @@ if __name__ == '__main__':
         rewrite_snes_meta('BCG-R', VERSION, lorom=False)
 
         if JunctionObject.report is not None:
-            with open('junction.spoiler.%s.txt' % get_seed(), 'w+') as f:
+            with open('junction.spoiler.%s.txt' % get_seed(),
+                      'w+', encoding='utf8') as f:
                 f.write(JunctionObject.report)
 
         finish_interface()
