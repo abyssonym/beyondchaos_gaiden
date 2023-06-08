@@ -114,6 +114,11 @@ class JunctionManager:
                         k = category_cleaner(k)
                         assert k not in new_dict
                         new_dict[k] = v
+                    names_key = '%s_names' % category
+                    if names_key in full_data:
+                        for i in range(len(full_data[names_key])):
+                            if i not in new_dict:
+                                new_dict[i] = []
                     value = new_dict
                     full_data[key] = value
 
@@ -749,7 +754,9 @@ class JunctionManager:
 
         for esper_index, monster_indexes in sorted(matches.items()):
             esper_index = self.get_category_index('esper', esper_index)
-            esper_junctions = self.esper_whitelist[esper_index]
+            esper_junctions = []
+            if esper_index in self.esper_whitelist:
+                esper_junctions = self.esper_whitelist[esper_index]
             for monster_index in monster_indexes:
                 monster_index = self.get_category_index('monster',
                                                         monster_index)

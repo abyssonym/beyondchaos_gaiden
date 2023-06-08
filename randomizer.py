@@ -441,7 +441,8 @@ class JunctionObject(TableObject):
                 equips = {i.index for i in ItemObject.every if i.is_equipable}
             jm.randomize_sparing(equips, 'equip', True)
             for index in sorted(jm.equip_whitelist):
-                ItemNameObject.get(index).emphasize()
+                if jm.equip_whitelist[index]:
+                    ItemNameObject.get(index).emphasize()
 
         if esper_flag:
             jm.randomize_generous(espers, 'esper', True)
