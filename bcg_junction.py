@@ -498,18 +498,23 @@ class JunctionManager:
 
         messages = self.read_descriptions(address, num_messages)
         whitelist = getattr(self, '%s_whitelist' % category)
+        whitelist_names = {}
         for key, values in sorted(whitelist.items()):
-            if not values:
+            names = [self.junction_short_names[v] for v in values]
+            whitelist_names[key] = sorted(names)
+
+        for key, names in sorted(whitelist_names.items()):
+            if not names:
                 continue
             if 'J' in self.character_map:
                 s = 'J:'
             else:
                 s = ''
-            for junction_index in values:
+            for name in names:
                 if ',' in self.character_map:
-                    append = ' %s,' % self.junction_short_names[junction_index]
+                    append = ' %s,' % name
                 else:
-                    append = '%s、' % self.junction_short_names[junction_index]
+                    append = '%s、' % name
                 test = s + append
                 if len(test.split('\n')[-1]) > self.MAX_LINE_LENGTH:
                     append = '\n' + append[1:]
