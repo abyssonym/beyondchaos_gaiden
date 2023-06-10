@@ -1,5 +1,5 @@
 .addr   jun-checker-y                   6100a0
-.addr   main                            620360
+.addr   main                            621580
 .addr   restore-normal-magic-points     620560
 
 .def    jun-index           3e

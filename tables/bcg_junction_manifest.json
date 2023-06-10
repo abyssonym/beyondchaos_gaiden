@@ -180,7 +180,8 @@
         "decisive":             "9c",
         "maintenance":          "9d",
         "true_paladin":         "9e",
-        "popular":              "9f"
+        "popular":              "9f",
+        "field_boost":          "a0"
     },
 
     "junction_short_names": {
@@ -340,7 +341,8 @@
         "decisive":             "Decisive",
         "maintenance":          "Maintenance",
         "true_paladin":         "True Paladin",
-        "popular":              "Popularity"
+        "popular":              "Popularity",
+        "field_boost":          "Field Boost"
     },
 
     "junction_tags": {
@@ -500,7 +502,8 @@
         "decisive":             ["death"],
         "maintenance":          ["item"],
         "true_paladin":         ["defend"],
-        "popular":              ["defend"]
+        "popular":              ["defend"],
+        "field_boost":          ["fire", "ice", "bolt", "poison", "wind", "pearl", "earth", "water"]
     },
 
     "esper_tags":       "tags_esper.json",
@@ -1230,6 +1233,9 @@
         ],
         "popular": [
             "patch_junction_cover.txt"
+        ],
+        "field_boost": [
+            "patch_junction_damage_modification.txt"
         ]
     }
 }

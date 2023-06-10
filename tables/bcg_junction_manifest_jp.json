@@ -165,7 +165,8 @@
         "decisive":             "必殺",
         "maintenance":          "メンテナンス",
         "true_paladin":         "セシルの心得",
-        "popular":              "人気"
+        "popular":              "人気",
+        "field_boost":          "地形の利点"
     },
 
     "battle_messages": {
