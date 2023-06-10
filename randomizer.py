@@ -4544,6 +4544,26 @@ def handle_exhirom():
         f.write(block)
 
 
+def test_junctions(num_trials=20):
+    counter = defaultdict(int)
+    for n in range(num_trials):
+        jm = JunctionManager(get_outfile(), 'bcg_junction_manifest.json')
+        jm.set_seed(get_seed() + n)
+        equips = {i.index for i in ItemObject.every if i.is_equipable}
+        espers = {e.index for e in EsperObject.every}
+        jm.randomize_sparing(equips, 'equip', True)
+        jm.randomize_generous(espers, 'equip', True)
+        for attr in ('equip_whitelist', 'esper_whitelist'):
+            whitelist = getattr(jm, attr)
+            for category_index in whitelist:
+                for junction_index in whitelist[category_index]:
+                    junction_name = jm.junction_short_names[junction_index]
+                    counter[junction_name] += 1
+    for junction_name in sorted(counter.keys(), key=lambda k: -counter[k]):
+        print('{0:13} {1}'.format(junction_name, counter[junction_name]))
+    import pdb; pdb.set_trace()
+
+
 if __name__ == '__main__':
     try:
         print('You are using the Beyond Chaos Gaiden '
@@ -4603,6 +4623,7 @@ if __name__ == '__main__':
                 write_patch(get_outfile(), 'patch_let_banon_equip.txt')
             execute_fanatix_mode()
 
+        test_junctions()
         if hasattr(JunctionObject, 'specs'):
             JunctionObject.junction()
 
