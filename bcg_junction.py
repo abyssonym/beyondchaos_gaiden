@@ -629,6 +629,10 @@ class JunctionManager:
             for item_index in sorted(all_item_tags):
                 item_tags = all_item_tags[item_index]
                 item_tags = [t for t in item_tags if t in common_tag_pool]
+                for t in list(item_tags):
+                    while t in item_tags and '-%s' % t in item_tags:
+                        item_tags.remove(t)
+                        item_tags.remove('-%s' % t)
                 score = 1
                 for j in junction_tags:
                     for i in item_tags:
@@ -663,33 +667,32 @@ class JunctionManager:
 
         return weights
 
-    def get_junction_weighted(self, item, weights):
+    def get_junction_weighted(self, item, weights, restriction=None):
         item_weights = weights[item]
         junction_indexes = sorted(
             item_weights,
             key=lambda j: (item_weights[j], random.random(), j))
+        if restriction is not None:
+            junction_indexes = [j for j in junction_indexes
+                                if j in restriction]
         max_index = len(junction_indexes) - 1
         index = random.randint(random.randint(0, max_index), max_index)
         return junction_indexes[index]
 
-        total = sum(item_weights.values())
-        threshold = self.random.random() * total
-        running = 0
-        for junction_index in sorted(item_weights):
-            running += item_weights[junction_index]
-            if running >= threshold:
-                return junction_index
-
-    def randomize_sparing(self, items, category, tags=None, ratio=0.36788):
+    def randomize(self, items, category, tags=None, ratio=0.36788,
+                  generous=False):
         if tags is True:
             tags = getattr(self, '%s_tags' % category)
 
         self.reseed(category)
-        options = [0 for _ in items]
-        max_index = len(options) - 1
-        for _ in range(int(round(len(items) * ratio))):
-            options[self.random.randint(0, max_index)] += 1
-        options = [min(o, 3) for o in options]
+        if generous:
+            options = [1, 2, 2, 3]
+        else:
+            options = [0 for _ in items]
+            max_index = len(options) - 1
+            for _ in range(int(round(len(items) * ratio))):
+                options[self.random.randint(0, max_index)] += 1
+            options = [min(o, 3) for o in options]
 
         banlist = getattr(self, '%s_banlist' % category)
         banlist += self.always_banlist
@@ -703,38 +706,60 @@ class JunctionManager:
                     for (i, ts) in tags.items()}
             weights = self.get_weights(junctions, tags)
 
-        for item in sorted(items):
-            option = self.random.choice(options)
-            for _ in range(option):
-                if tags is None:
-                    junction = self.random.choice(junctions)
-                else:
-                    junction = self.get_junction_weighted(item, weights)
-                self.add_junction(item, junction, force_category=category)
+        item_options = {item: self.random.choice(options)
+                        for item in sorted(items)}
+
+        num_junctions = sum(item_options.values())
+        chosen_junctions = [random.choice(junctions)
+                            for _ in range(num_junctions)]
+
+        while True:
+            candidates = sorted([item for item in item_options
+                                 if item_options[item] > 0])
+            if not candidates:
+                break
+            item = random.choice(candidates)
+            item_options[item] -= 1
+            assert item_options[item] >= 0
+            if tags is None:
+                junction = self.random.choice(chosen_junctions)
+            else:
+                junction = self.get_junction_weighted(
+                    item, weights, restriction=chosen_junctions)
+            assert junction in chosen_junctions
+            chosen_junctions.remove(junction)
+            self.add_junction(item, junction, force_category=category)
+        assert not chosen_junctions
+
+        whitelist = getattr(self, '%s_whitelist' % category)
+        shuffled_items = sorted(i for i in items if whitelist[i])
+        self.random.shuffle(shuffled_items)
+        for item1 in shuffled_items:
+            for _ in range(3):
+                item2 = random.choice(shuffled_items)
+                if item1 == item2:
+                    continue
+                min1 = min(whitelist[item1], key=lambda j: weights[item1][j])
+                min2 = min(whitelist[item2], key=lambda j: weights[item2][j])
+                if min1 == min2:
+                    break
+                assert min1 in whitelist[item1]
+                assert min2 in whitelist[item2]
+                before = weights[item1][min1] * weights[item2][min2]
+                after = weights[item1][min2] * weights[item2][min1]
+                if after > before:
+                    whitelist[item1].remove(min1)
+                    whitelist[item2].remove(min2)
+                    if min2 not in whitelist[item1]:
+                        whitelist[item1].append(min2)
+                    if min1 not in whitelist[item2]:
+                        whitelist[item2].append(min1)
+
+    def randomize_sparing(self, items, category, tags=None):
+        return self.randomize(items, category, tags=tags, generous=False)
 
     def randomize_generous(self, items, category, tags=None):
-        if tags is True:
-            tags = getattr(self, '%s_tags' % category)
-
-        self.reseed(category)
-        banlist = getattr(self, '%s_banlist' % category)
-        banlist += self.always_banlist
-        banlist = {self.get_junction_index(i) for i in banlist}
-        junctions = sorted({self.get_junction_index(i)
-                            for i in self.junction_indexes} - banlist)
-        if tags is not None:
-            tags = {self.get_category_index(category, i): ts
-                    for (i, ts) in tags.items()}
-            weights = self.get_weights(junctions, tags)
-
-        for item in sorted(items):
-            option = 1 + random.randint(0, 1) + random.randint(0, 1)
-            for _ in range(option):
-                if tags is None:
-                    junction = self.random.choice(junctions)
-                else:
-                    junction = self.get_junction_weighted(item, weights)
-                self.add_junction(item, junction, force_category=category)
+        return self.randomize(items, category, tags=tags, generous=True)
 
     def match_esper_monster_junctions(self, matches=None):
         if matches is None:
