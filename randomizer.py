@@ -2174,9 +2174,6 @@ class ItemObject(TableObject):
                 tags |= {'status', 'heal'}
                 tags.add(SkillObject.STATUS_NAMES[8:16][i])
 
-        if self.itemtype & 0x20 and self.itemtype & 0xf < 6:
-            tags |= set(SkillObject.get(self.breakeffect).tags)
-
         if self.itemtype & 0xf == 1:
             if not self.elements:
                 tags.add('physical')
@@ -2246,6 +2243,10 @@ class ItemObject(TableObject):
             tags.add('hide')
 
         tags = ['float' if t == 'dance' else t for t in tags]
+        if ((self.itemtype & 0x20 or self.breakeffect)
+                and self.itemtype & 0xf < 6):
+            tags += sorted(set(SkillObject.get(self.breakeffect & 0x3f).tags))
+
         return sorted(tags)
 
     @property
@@ -4561,7 +4562,6 @@ def test_junctions(num_trials=20):
                     counter[junction_name] += 1
     for junction_name in sorted(counter.keys(), key=lambda k: -counter[k]):
         print('{0:13} {1}'.format(junction_name, counter[junction_name]))
-    import pdb; pdb.set_trace()
 
 
 if __name__ == '__main__':
@@ -4623,7 +4623,6 @@ if __name__ == '__main__':
                 write_patch(get_outfile(), 'patch_let_banon_equip.txt')
             execute_fanatix_mode()
 
-        test_junctions()
         if hasattr(JunctionObject, 'specs'):
             JunctionObject.junction()
 

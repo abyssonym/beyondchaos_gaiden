@@ -44,19 +44,31 @@
         "physical"
     ],
     "Flame Sabre": [
+        "-ice",
+        "-water",
+        "fire",
         "fire"
     ],
     "Blizzard": [
+        "-fire",
+        "ice",
         "ice"
     ],
     "ThunderBlade": [
+        "-water",
+        "bolt",
         "bolt"
     ],
     "Epee": [
         "physical"
     ],
     "Break Blade": [
-        "physical"
+        "-buff",
+        "death",
+        "debuff",
+        "petrify",
+        "physical",
+        "status"
     ],
     "Drainer": [
         "drain",
@@ -72,9 +84,11 @@
         "physical"
     ],
     "Soul Sabre": [
+        "death",
         "drain",
         "mp",
-        "physical"
+        "physical",
+        "wound"
     ],
     "Ogre Nix": [
         "mp",
@@ -88,11 +102,14 @@
         "physical"
     ],
     "Illumina": [
+        "-poison",
         "mp",
+        "pearl",
         "physical"
     ],
     "Ragnarok": [
         "mp",
+        "nuke",
         "physical"
     ],
     "Atma Weapon": [
@@ -112,6 +129,8 @@
         "physical"
     ],
     "Pearl Lance": [
+        "-poison",
+        "pearl",
         "pearl"
     ],
     "Gold Lance": [
@@ -141,7 +160,11 @@
         "physical"
     ],
     "Stunner": [
-        "physical"
+        "-buff",
+        "debuff",
+        "physical",
+        "status",
+        "stop"
     ],
     "Ashura": [
         "physical"
@@ -175,38 +198,37 @@
         "physical"
     ],
     "Fire Rod": [
-        "-buff",
-        "-fire",
-        "debuff",
-        "fire",
-        "freeze",
-        "ice",
-        "status"
-    ],
-    "Ice Rod": [
         "-ice",
         "-water",
         "fire",
+        "fire"
+    ],
+    "Ice Rod": [
+        "-fire",
+        "ice",
         "ice"
     ],
     "Thunder Rod": [
+        "-water",
+        "bolt",
         "bolt"
     ],
     "Poison Rod": [
-        "heal",
+        "-buff",
+        "-pearl",
+        "debuff",
+        "poison",
         "poison",
         "status"
     ],
     "Pearl Rod": [
+        "-poison",
+        "pearl",
         "pearl"
     ],
     "Gravity Rod": [
-        "-buff",
-        "debuff",
-        "earth",
-        "nuke",
-        "seizure",
-        "status"
+        "death",
+        "earth"
     ],
     "Punisher": [
         "mp",
@@ -264,7 +286,9 @@
         "physical"
     ],
     "Doom Darts": [
-        "physical"
+        "death",
+        "physical",
+        "wound"
     ],
     "Trump": [
         "death",
@@ -288,9 +312,17 @@
         "pearl"
     ],
     "Poison Claw": [
-        "poison"
+        "-buff",
+        "-pearl",
+        "debuff",
+        "poison",
+        "poison",
+        "status"
     ],
     "Fire Knuckle": [
+        "-ice",
+        "-water",
+        "fire",
         "fire"
     ],
     "Dragon Claw": [
@@ -306,31 +338,26 @@
     "Aegis Shld": [],
     "Diamond Shld": [],
     "Flame Shld": [
+        "-ice",
         "-water",
-        "death",
+        "-water",
         "fire",
-        "ice",
-        "wound"
+        "fire",
+        "ice"
     ],
     "Ice Shld": [
-        "-buff",
+        "-fire",
         "-wind",
-        "debuff",
         "fire",
         "ice",
-        "nuke",
-        "seizure",
-        "status"
+        "ice"
     ],
     "Thunder Shld": [
-        "-buff",
+        "-water",
         "bolt",
-        "condemned",
-        "death",
-        "debuff",
+        "bolt",
         "fire",
         "ice",
-        "status",
         "wind"
     ],
     "Crystal Shld": [],
