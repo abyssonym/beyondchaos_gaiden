@@ -136,9 +136,13 @@ $main
 :       6b
 
 $null-secondary-data
+:       a5 b5
+:       c9 13
+:       f0 is-dance
 :       a9 ff
 :       85 b7
 :       a5 b5
+.label  is-dance
 :       c9 0f
 :       6b
 
