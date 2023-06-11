@@ -71,6 +71,8 @@
 .addr   jun-check-are-same-team             6105e0
 .addr   jun-get-equipped-esper              610900
 .addr   jun-check-is-damage-over-time       610920
+.addr   jun-check-spell-targets-ally        610960
+.addr       spell-data-address                  046ac0
 
 .addr   bits                                00bafc
 .addr   wide-bits                           00b4f3
@@ -1003,6 +1005,7 @@ $jun-generic-dispatch
 :       83 07
 :       c2 20
 :       68 68 68
+:       eb
 :       28
 :       6b
 
@@ -1051,7 +1054,7 @@ $jun-check-is-damage-over-time
 :       3c 18 30
 :       f0 dot-not-targeting-self
 :       e2 20
-:       ad 7a 3a
+:       ad 7c 3a
 :       c9 22
 :       d0 not-damage-over-time-command
 :       a9 12
@@ -1064,6 +1067,28 @@ $jun-check-is-damage-over-time
 :       6b
 .label is-damage-over-time
 :       28
+:       c2 02
+:       6b
+
+$jun-check-spell-targets-ally
+:       48 da 08
+:       e2 20
+:       eb
+:       a9 0e
+:       22 $jun-mult
+:       c2 10
+:       aa
+:       bf $spell-data-address
+:       89 c0
+:       d0 exit-spell-targets-ally-no
+:       89 02
+:       d0 exit-spell-targets-ally-yes
+.label exit-spell-targets-ally-no
+:       28 fa 68
+:       e2 02
+:       6b
+.label exit-spell-targets-ally-yes
+:       28 fa 68
 :       c2 02
 :       6b
 

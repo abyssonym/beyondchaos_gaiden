@@ -57,11 +57,11 @@
 
 .def    jun-index-loner         3c
 .def    jun-index-crisis-arm    3d
-.def    jun-index-field-boost   a0
+.def    jun-index-gaia-boost    a0
 
 .def    ramuh-index             36
 .def    phoenix-index-plus-one  51
-.def    field-elements-bits     10 20 01 04 40 80 08 02
+.def    gaia-elements-bits      10 20 01 04 40 80 08 02
 
 02336f: 5c $main
 
@@ -108,23 +108,23 @@ $main
 :       ae e2 11
 :       bf $background-dances-address
 :       aa
-:       bf @field-elements-address,3
+:       bf @gaia-elements-address,3
 :       fa
 :       2c a1 11
-:       f0 no-field-boost
-:       a9 jun-index-field-boost
+:       f0 no-gaia-boost
+:       a9 jun-index-gaia-boost
 :       22 $jun-checker
-:       f0 no-field-boost
+:       f0 no-gaia-boost
 :       20 $boost-damage-half,2
 
-.label no-field-boost
+.label no-gaia-boost
 :       7a fa 68
 :       ad a2 11
 :       4a
 :       5c $return
 
-.label field-elements-address
-:       field-elements-bits
+.label gaia-elements-address
+:       gaia-elements-bits
 
 $main-misc
 :       da 08

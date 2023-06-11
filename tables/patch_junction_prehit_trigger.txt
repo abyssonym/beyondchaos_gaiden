@@ -6,6 +6,8 @@
 .addr   jun-set-target-allies           610780
 .addr   jun-rng1                        610820
 .addr   jun-rng2                        610830
+.addr   jun-check-is-damage-over-time   610920
+.addr   jun-check-spell-targets-ally    610960
 .addr   jun-generic-dispatch            610f00
 .addr   jun-queue-self-spell            610fc0
 .addr   jun-queue-command               610ff0
@@ -17,6 +19,11 @@
 .addr   main-resonate                   622100
 .addr   main-counter                    622320
 .addr   queue-counter                   622300
+.addr   main-esper-counter              6225a0
+.addr   main-gaia                       622700
+.addr   pick-dance-move                 02059c
+.addr   background-dances-address       2d8e5b
+
 .addr   return-normal                   022215
 .addr   return-miss                     0222d1
 
@@ -30,8 +37,10 @@
 .def    jun-index-resonate          8d
 .def    jun-index-sunken-state      8e
 .def    jun-index-decisive          9c
+.def    jun-index-gaia-assist       a1
 
 .def    vanish-spell-index          26
+.def    spell-proc-command-index    43
 .def    final-attack-command-index  44
 
 .def    rippler-allowed-statuses1   37 fd
@@ -178,37 +187,9 @@ $main-counter
 :       fa
 
 .label no-return-magic
-:       a9 jun-index-esper-counter
-:       22 $jun-checker-y
-:       f0 no-esper-counter
-:       c2 20
-:       a5 b8
-:       48
-:       bd 18 30
-:       85 b8
-:       e2 20
-:       da 5a
-:       8a
-:       bb
-:       a8
-:       20 $get-esper-spell,2
-:       c9 ff
-:       f0 skip-esper-counter
-:       eb
-:       a9 40
-:       04 b1
-:       a9 final-attack-command-index
-:       c2 20
-:       8d 7a 3a
-:       22 $jun-queue-command
-.label skip-esper-counter
-:       7a fa
-:       c2 20
-:       68
-:       85 b8
-:       e2 20
+:       20 $main-esper-counter,2
+:       20 $main-gaia,2
 
-.label no-esper-counter
 # check for physical
 :       ad a2 11
 :       4a
@@ -305,6 +286,99 @@ $main-resonate
 :       99 10 3e
 
 :       28
+:       60
+
+$main-esper-counter
+:       a9 jun-index-esper-counter
+:       22 $jun-checker-y
+:       f0 no-esper-counter
+:       c2 20
+:       a5 b8
+:       48
+:       bd 18 30
+:       85 b8
+:       e2 20
+:       da 5a
+:       8a
+:       bb
+:       a8
+:       20 $get-esper-spell,2
+:       c9 ff
+:       f0 skip-esper-counter
+:       eb
+:       a9 40
+:       04 b1
+:       a9 final-attack-command-index
+:       c2 20
+:       8d 7a 3a
+:       22 $jun-queue-command
+.label skip-esper-counter
+:       7a fa
+:       c2 20
+:       68
+:       85 b8
+:       e2 20
+.label no-esper-counter
+:       60
+
+$main-gaia
+:       da 5a
+:       ad 7c 3a
+:       c9 spell-proc-command-index
+:       f0 no-gaia-defender
+:       22 $jun-check-is-damage-over-time
+:       d0 no-gaia-defender
+:       a9 jun-index-gaia-assist
+:       22 $jun-checker
+:       f0 no-gaia-attacker
+:       20 @do-gaia,2
+
+.label no-gaia-attacker
+:       8a bb a8
+:       a9 jun-index-gaia-assist
+:       22 $jun-checker
+:       f0 no-gaia-defender
+:       20 @do-gaia,2
+
+.label no-gaia-defender
+:       7a fa
+:       60
+
+.label do-gaia
+:       b9 e1 32
+:       48
+:       22 $jun-rng2
+:       29 03
+:       d0 do-gaia-exit
+:       da
+:       ae e2 11
+:       bf $background-dances-address
+:       99 e1 32
+:       fa
+:       f4 $pick-dance-move,2
+:       22 $jun-generic-dispatch
+:       22 $jun-check-are-same-team
+:       d0 gaia-same-team
+:       22 $jun-check-spell-targets-ally
+:       d0 do-gaia-exit
+:       80 do-gaia-spell
+.label gaia-same-team
+:       22 $jun-check-spell-targets-ally
+:       f0 do-gaia-exit
+.label do-gaia-spell
+:       48
+:       c2 20
+:       b9 18 30
+:       85 b8
+:       e2 20
+:       a9 spell-proc-command-index
+:       8d 7a 3a
+:       68
+:       8d 7b 3a
+:       22 $jun-queue-command
+.label do-gaia-exit
+:       68
+:       99 e1 32
 :       60
 
 VALIDATION

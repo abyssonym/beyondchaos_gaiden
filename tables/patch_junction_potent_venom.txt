@@ -51,7 +51,7 @@ $main
 :       5c $return-normal
 
 .label already-poisoned
-:       ad 7a 3a
+:       ad 7c 3a
 :       29 ff 00
 :       c9 22 00
 :       d0 exit-normal

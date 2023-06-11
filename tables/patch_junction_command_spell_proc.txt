@@ -1,0 +1,67 @@
+.addr   jun-generic-dispatch                610f00
+
+.addr   main                                628120
+.addr   reentry-address                     02317b
+.addr   reentry-fail-address                02151e
+.addr   spell-load-address                  02274d
+.addr   setup-damage-parameters-address     022951
+
+.addr   living-characters                   7e3a74
+
+.addr   pointer-address                     61f186
+.def    command-index               43
+
+$main
+:       bb
+:       c2 20
+:       b9 18 30
+:       2c $living-characters,2
+:       f0 exit-fail
+:       a5 b8
+:       2c $living-characters,2
+:       f0 exit-fail
+
+:       e2 20
+:       a9 ff
+:       85 bb
+:       64 ba
+
+:       ad 7d 3a
+:       85 b6
+
+:       da 5a 48
+:       f4 $spell-load-address,2
+:       22 $jun-generic-dispatch
+:       68 7a fa
+
+:       f4 $setup-damage-parameters-address,2
+:       22 $jun-generic-dispatch
+
+# use magic command for animation
+:       a9 02
+:       85 b5
+# restrict targeting and do not retarget
+:       ad a0 11
+:       29 40
+:       09 03
+:       85 bb
+# stops character from standing up
+:       a9 10
+:       14 b0
+# prevents attack name from being displayed
+:       a9 01
+:       14 b2
+# don't retarget if target invalid
+:       a9 04
+:       04 ba
+# disable randomize target
+:       a9 40
+:       14 ba
+
+:       5c $reentry-address
+.label exit-fail
+:       e2 20
+:       5c $reentry-fail-address
+
+$pointer-address
+:       $main,2

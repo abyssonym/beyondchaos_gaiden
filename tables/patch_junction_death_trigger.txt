@@ -43,23 +43,18 @@ $main
 :       85 b8
 :       e2 20
 
-:       a9 final-attack-command-index
-:       8d 7a 3a
-
 :       a9 jun-index-immortal
 :       22 $jun-checker
 :       f0 no-immortal
 :       a9 chokesmoke-index
-:       8d 7b 3a
-:       22 $jun-queue-command
+:       20 @queue-final-attack,2
 
 .label no-immortal
 :       a9 jun-index-spiraler
 :       22 $jun-checker
 :       f0 no-spiraler
 :       a9 spiraler-index
-:       8d 7b 3a
-:       22 $jun-queue-command
+:       20 @queue-final-attack,2
 
 .label no-spiraler
 :       a9 jun-index-esper
@@ -99,6 +94,14 @@ $main
 :       14 f4
 :       fa
 :       6b
+
+.label queue-final-attack
+:       8d 7b 3a
+:       a9 final-attack-command-index
+:       8d 7a 3a
+:       22 $jun-queue-command
+:       60
+
 
 $main-rippler-instant-death
 :       bd a1 3a
