@@ -547,6 +547,11 @@ $retarget-salve
 $do-auto-potion
 :       da
 
+# check for decisive blow
+:       ad 1a 34
+:       29 ff 00
+:       f0 auto-potion-exit
+
 # check for mp damage
 :       a9 80 00
 :       2c a3 11
