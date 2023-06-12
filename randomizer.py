@@ -3598,6 +3598,20 @@ class CharEsperObject(TableObject):
         undone_espers = [i for i in range(32) if esper_ratios[i]
                          and (valid_mask ^ new_mask) & (1 << i)]
 
+        if len(CharEsperObject.every) > 16:
+            for i in sorted(esper_ratios):
+                if i in undone_espers:
+                    continue
+                if i <= 0:
+                    continue
+                try:
+                    ceo = CharEsperObject.get(i)
+                except KeyError:
+                    continue
+                if ceo.allocations & 0x0fff:
+                    continue
+                undone_espers.append(i)
+
         CharEsperObject.class_reseed('remaining_allocations')
         while undone_chars or undone_espers:
             if undone_chars:
@@ -3606,7 +3620,7 @@ class CharEsperObject(TableObject):
             else:
                 chosen_char = random.choice([i for (i, a) in enumerate(
                     CharEsperObject.allocations_by_character) if a])
-            if undone_espers:
+            if undone_espers and chosen_char <= 11:
                 chosen_esper = random.choice(undone_espers)
                 undone_espers.remove(chosen_esper)
             else:
