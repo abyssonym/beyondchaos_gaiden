@@ -123,6 +123,7 @@ $skills                     names_skills.txt
 .option                     patch_evade_mblock.txt
 .option                     patch_vanish_doom.txt
 .option                     patch_can_always_access_esper_menu.txt
+.option                     patch_mp_color_digits.txt
 .patch                      patch_myself_core.bin
 .patch                      patch_myself_menu_dance.txt
 .patch                      patch_myself_menu_gogo.txt

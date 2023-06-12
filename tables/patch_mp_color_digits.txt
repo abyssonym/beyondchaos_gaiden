@@ -1,0 +1,141 @@
+# Title: Decoupled Color-Coded MP Digits
+# Author: SilentEnigma (updates), Imzogelmo (original implementation)
+# Version: 1.3
+# Release Date: 2021-04-19
+# Applies to: Final Fantasy III (v1.0) (U)
+
+00de5e: 09 01
+:       48
+:       b2 76
+:       c9 0b
+:       f0 05
+:       68
+:       20 a4 de
+:       48 68
+:       9d 1a 63
+:       6b
+
+:       09 01
+:       48
+:       b2 76
+:       c9 03
+:       f0 05
+:       68
+:       20 a4 de
+:       48 68
+:       9d 3f 7b
+:       6b
+
+:       48
+:       bd 1a 63
+:       80 04
+:       48
+:       bd 3f 7b
+:       29 40
+:       f0 06
+:       68 18
+:       69 04
+:       80 01
+:       68
+:       99 03 03
+:       99 07 03
+:       6b
+
+:       63 14
+:       e2 7d
+
+:       48 da
+:       7b
+:       aa
+:       bf a0 de c0
+:       9d f8 7f
+:       9d f8 7d
+:       e8
+:       e0 04 00
+:       d0 f0
+:       fa 68
+:       09 40
+:       60
+
+012b9b: ea ea
+:       22 8a de c0
+
+012d2b: ea ea
+:       22 84 de c0
+
+0191a0: b3 a4
+
+0191a6: 09 96
+
+01a5a9: ea
+:       22 5e de c0
+
+01a6e6: ea
+:       22 71 de c0
+
+01ac21: 90 07
+:       22 63 a7 c2
+:       20 5b ac
+:       20 35 ac
+:       60
+
+01ac2e: 20 b3 9c
+:       6b
+:       ff ff ff
+
+0263a9: 20 40 a7
+
+0263bc: 54 a7
+
+02a740: 48
+:       e2 20
+:       ad a3 11
+:       c2 20
+:       10 05
+:       68
+:       09 05 00
+:       60
+:       68
+:       09 0b 00
+:       60
+
+:       48
+:       ad a3 11
+:       10 05
+:       68
+:       a9 08
+:       80 01
+:       68
+:       4c 9b 62
+:       7b
+:       a8
+:       84 1e
+:       c8 c8
+:       b1 76
+:       22 2e ac c1
+:       da
+:       7b
+:       aa
+:       bf a1 c6 c2
+:       9d f8 7f
+:       9d f8 7d
+:       e8
+:       e0 08 00
+:       d0 f0
+:       fa
+:       6b
+
+VALIDATION
+
+00de5e: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+012b9b: 99 03 03 99 07 03
+012d2b: 99 03 03 99 07 03
+0191a0: e2 93
+0191a6: e2 93
+01a5a9: 09 01 9d 1a 63
+01a6e6: 09 01 9d 3f 7b
+01ac22: 0e 7b a8 84 1e c8 c8 b1 76 20 b3 9c
+01ac2f: 5b ac 20 35 ac 60
+0263a9: 09 0b 00
+0263bc: 9b 62
+02a740: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
