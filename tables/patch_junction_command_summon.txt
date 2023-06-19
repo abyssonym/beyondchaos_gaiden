@@ -38,6 +38,7 @@ $main
 :       5c $reentry-address
 
 .label no-esper
+:       a9 ff
 :       85 b8
 :       5c $reentry-no-esper
 
