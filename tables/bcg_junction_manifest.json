@@ -787,10 +787,12 @@
             "patch_junction_focus.txt"
         ],
         "blood_mage": [
-            "patch_junction_gold_blood_mage.txt"
+            "patch_junction_gold_blood_mage.txt",
+            "patch_junction_prehit_trigger.txt"
         ],
         "gold_mage": [
-            "patch_junction_gold_blood_mage.txt"
+            "patch_junction_gold_blood_mage.txt",
+            "patch_junction_prehit_trigger.txt"
         ],
         "reflect_boost": [
             "patch_junction_reflect_boost.txt"
@@ -1116,13 +1118,16 @@
             "patch_junction_unlimited.txt"
         ],
         "mp_switch": [
-            "patch_junction_mp_switch.txt"
+            "patch_junction_mp_switch.txt",
+            "patch_junction_prehit_trigger.txt"
         ],
         "mp_regen": [
-            "patch_junction_mp_regen.txt"
+            "patch_junction_mp_regen.txt",
+            "patch_junction_prehit_trigger.txt"
         ],
         "astral": [
-            "patch_junction_hit_trigger.txt"
+            "patch_junction_hit_trigger.txt",
+            "patch_junction_prehit_trigger.txt"
         ],
         "vorpal": [
             "patch_junction_hit_trigger.txt"
