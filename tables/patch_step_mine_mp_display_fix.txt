@@ -1,0 +1,11 @@
+# Title: Step Mine's missing digit fix
+# Author: Assassin
+# Version: Beta 0.22
+# Applies to: FF3us 1.0 and 1.1 (the routine involved is identical)
+# Tested on: FF3us 1.0, FF3us 1.1
+
+01057b: 14                                                  # 01057c
+
+VALIDATION
+
+01057b: 08                                                  # 01057c

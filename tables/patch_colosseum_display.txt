@@ -1,0 +1,32 @@
+# Colosseum rewards display patch
+# Author: HatZen08
+
+037fd0: 4c 00 f8                                            # 037fd3
+03f800: a5 26 c9 71  f0 0d c9 72  f0 09 20 b9  80 20 d9 7f
+:       4c e6 7f 20  3b f8 20 49  f8 20 ab f8  20 50 f8 20
+:       66 f8 20 49  f8 20 97 f8  20 50 f8 20  61 f8 20 49
+:       f8 20 78 f8  20 50 f8 20  66 f8 60 7b  a5 e5 a8 b9
+:       69 18 8d 05  02 20 2c b2  60 a2 8b 9e  8e 81 21 60
+:       20 d9 7f 60  a2 0d 00 8d  80 21 ca d0  fa 9c 80 21
+:       60 a2 02 00  80 03 a2 1a  00 c2 20 8a  18 6f 89 9e
+:       7e 8f 89 9e  7e e2 20 60  ad 09 02 d0  0e ad 05 02
+:       c9 ff f0 0d  ad 07 02 20  68 c0 60 a9  bf 20 54 f8
+:       60 a9 ff 20  54 f8 60 ad  05 02 c9 ff  f0 04 a9 c1
+:       80 02 a9 ff  8d 80 21 9c  80 21 60 ad  05 02 c9 ff
+:       f0 07 ad 05  02 20 68 c0  60 a9 ff 20  54 f8 60     # 03f8bf
+
+VALIDATION
+
+037fd0: 20 b9 80                                            # 037fd3
+03f800: ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff     # 03f8bf

@@ -1,0 +1,18 @@
+# Title: Magic Damage Overflow fix
+# Author: Assassin
+# Version: Beta 0.30
+# Applies to: FF3us 1.0 and 1.1, FF6j 1.0
+# Tested on: FF3us 1.? (whichever Wiseman has), and briefly on my FF3us 1.0 (the code
+#            involved is identical in FF3us 1.1) and FF6j 1.0
+
+022b7a:                                 20 97  2b ad ae 11
+:       eb ad a6 11  20 81 47 20  b7 47 a9 04  c2 20 da a2
+:       1f e4 ea 20  d4 fb fa                               # 022b97
+02fbd4: 90 09 20 d1  0d 18 6d b0  11 90 02 7b  3a 60        # 02fbe2
+
+VALIDATION
+
+022b7a:                                 8d b0  11 e2 20 ad
+:       ae 11 eb ad  a6 11 20 81  47 20 b7 47  a9 04 c2 20
+:       20 d1 0d 18  6d b0 11                               # 022b97
+02fbd4: ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff        # 02fbe2

@@ -1,0 +1,15 @@
+# Title: Randomosity monster encounter fix
+# Author: Assassin
+# Version: Version 0.20
+# Applies to: FF3us 1.0 and 1.1, FF6j 1.0
+# Tested on: FF3us 1.0 (the routines involved are identical in v1.1), FF6j 1.0
+
+022441: 42 14 ea ea                                         # 022445
+0313c8:                           ee 42 14 a9  3c cd 1e 02
+:       d0 2a 9c 1e  02 3a cd 1d  02                        # 0313d9
+
+VALIDATION
+
+022441: 1e 02 0a 0a                                         # 022445
+0313c8:                           ad 1e 02 c9  3c f0 02 80
+:       2b 9c 1e 02  ad 1d 02 c9  3b                        # 0313d9

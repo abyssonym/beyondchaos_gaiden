@@ -1,0 +1,15 @@
+# Title: Some MP changes don't update menus fix
+# Author: Assassin
+# Version: Version 0.20
+# Applies to: FF3us 1.0 and 1.1, FF6j 1.0
+# Tested on: FF3us 1.0 (the routines involved are identical in v1.1), FF6j 1.0
+
+023cb1: 20 62 13 ea  ea ea                                  # 023cb7
+023d17: 80 96 14 b2  4c 8a 13                               # 023d1e
+023f41: 38 e5 ee 90  09 99 08 3c  a9 00 02 20  19 3d        # 023f4f
+
+VALIDATION
+
+023cb1: b9 30 3c 99  08 3c                                  # 023cb7
+023d17: a9 80 20 4c  46 80 91                               # 023d1e
+023f41: c5 ee 90 0a  e5 ee 99 08  3c a9 00 02  14 b2        # 023f4f

@@ -1,0 +1,8 @@
+# Stray Flash patch
+# Author: The FF6Hacking Community
+
+10784b: a7                                                  # 10784c
+
+VALIDATION
+
+10784b: af                                                  # 10784c

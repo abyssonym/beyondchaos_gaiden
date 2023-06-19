@@ -1,0 +1,32 @@
+# Mastered Esper Icon Hack
+# by: madsiur
+# version: 1.1
+# Released on: March 27, 2022
+# apply to: FF3us 1.0 (no header)
+
+.addr   jsl1        618201
+.addr   jsl2        618222
+.addr   jsl3        61826f
+
+031b5e: 22 $jsl1                                            # 031b62
+03552e: 22 $jsl2                                            # 035532
+035554: 22 $jsl3     ea ea 4c d9  7f a0 0d                  # 03555f
+0487b0: 18 00 3c 18  ff 18 ff 7e  7e 3c ff 7e  ff 66 e7     # 0487bf
+
+$jsl1
+:       7b a5 28 aa  b5 69 eb a9  36 c2 20 8f  02 42 00 ea
+:       ea ea ea af  16 42 00 8d  03 02 e2 20  7b a5 28 aa
+:       6b da 5a 7b  85 fb bf 89  9d 7e c2 20  85 fc 0a 85
+:       fe 0a 0a 18  65 fe 18 65  fc aa 64 fc  a0 05 00 e2
+:       20 7b bf 01  6e d8 c9 ff  f0 1b 85 fc  c2 20 ad 03
+:       02 18 65 fc  da aa e2 20  bd 6e 1a fa  c9 ff d0 07
+:       e8 e8 88 d0  dc e6 fb 7a  fa bf 89 9d  7e 6b 8d 80
+:       21 a5 fb f0  04 a9 7f 80  02 a9 ff 8d  80 21 9c 80
+:       21 6b                                               # 2eaf83
+
+VALIDATION
+
+031b5e: 7b a5 28 aa                                         # 031b62
+03552e: bf 89 9d 7e                                         # 035532
+035554: 8d 80 21 9c  80 21 4c d9  7f a0 0c                  # 03555f
+0487b0: 00 00 00 00  00 00 00 00  00 00 00 00  00 00 00     # 0487bf

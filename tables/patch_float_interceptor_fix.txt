@@ -1,0 +1,10 @@
+# Allergic Dog Fix
+# Author: Novalia Spirit
+
+0391c7: ad 32 30 20  ec 91 ad 34  30 19 15 00  4a 90 15 b9
+:       15 00 29 40  85 e0 ad 34  30 29 01 f0  02 a9 81     # 0391e6
+
+VALIDATION
+
+0391c7: af 32 30 7e  20 ec 91 ad  34 30 29 01  d0 07 b9 15
+:       00 29 01 f0  0f ad 34 30  18 29 01 85  e0 6a 6a     # 0391e6

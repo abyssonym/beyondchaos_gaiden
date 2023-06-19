@@ -1,0 +1,18 @@
+# Title: Description Disruption Fix
+# Author: SilentEnigma
+# Version: 1.2
+# Release Date: 2021-03-01
+# Applies to: FF3us 1.0, FF3us 1.1
+# Tested on: Final Fantasy III (v1.0) (U)
+
+0302a3: 30 ff                                               # 0302a5
+03a897: 20 3b ff                                            # 03a89a
+03ff30: a9 10 14 45  20 fd 0e 18  4c 83 89 48  a5 26 c9 5e
+:       f0 08 4a c9  32 f0 03 9e  49 36 68 60               # 03ff4c
+
+VALIDATION
+
+0302a3: 83 89                                               # 0302a5
+03a897: 9e 49 36                                            # 03a89a
+03ff30: ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff               # 03ff4c

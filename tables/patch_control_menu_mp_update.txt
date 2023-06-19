@@ -1,0 +1,17 @@
+# Title: Control menu responds poorly to MP change fix
+# Author: Assassin
+# Version: Beta 0.13
+# Applies to: FF3us 1.0 and 1.1, FF6j 1.0
+# Tested on: FF3us 1.0 (the routines involved are identical in v1.1), FF6j 1.0
+
+02086d: 4f 65                                               # 02086f
+02654f:                                                 20
+:       63 57 5a 9b  be b9 32 30  09 20 2f 37  bd 18 30 0c
+:       58 3a bb 7a  60                                     # 026565
+
+VALIDATION
+
+02086d: 63 57                                               # 02086f
+02654f:                                                 ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff                                     # 026565

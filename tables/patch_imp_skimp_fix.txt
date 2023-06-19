@@ -1,0 +1,80 @@
+# Imp Skimp Bug fix patch
+# Author: Leet Sketcher
+
+011116: 1b d7                                               # 011118
+012f7f: 4a 6a 6a 6a  aa bd cd 61  f0 03 4c 1a  30 1a 9d ce
+:       61 2d 4b 2f  d0 16 bd c0  2e 29 08 f0  04 a9 12 80
+:       0e bd bd 2e  29 20 f0 04  a9 0f 80 03  bd ae 2e d9
+:       6c 7b f0 0a  99 6c 7b 20  57 31 7b 99  70 7b ad 4b
+:       2f 4a b0 1e  bd bd 2e 29  10 f0 17 b9  70 7b d0 31
+:       ad 6a 7b d0  2c ee 6a 7b  20 50 30 20  06 31 a9 01
+:       80 17 b9 70  7b f0 1a ad  6a 7b d0 15  ee 6a 7b 20
+:       50 30 b9 6c  7b 20 57 31  7b 99 70 7b  a9 1e 9d cd
+:       61 9e ce 61  20 71 30 20  24 2f c2 20  bd bd 2e 9d
+:       c1 2e bd bf  2e 9d c3 2e  7b e2 20 ee  78 7b 60 f4
+:       c0 25 7b aa  a8 5e c2 62  90 01 c8 1e  c2 62 e8 e0
+:       06 00 d0 f1  98 f0 03 4c  7c 25 4c 5d  32 bd ec 3e
+:       29 20 59 c2  62 4a f0 08  0a 59 c2 62  1a 99 c2 62  # 01304f
+013247: 69 37 cf aa  a0 c4 64 a9  07 00 8b 54  7e c2 ab 7b
+:       e2 20 ee bb  64 60 fa e0  c0 25 f0 01  da 60 1a 0c
+:       c2 62 60                                            # 01326a
+0191d5: 1b d7                                               # 0191d7
+01936a: 1b d7                                               # 01936c
+0193c6: 1b d7                                               # 0193c8
+01c8ab: 3f d7 2f d7  3c                                     # 01c8b0
+01d6e8: 20 f1 d6 ca  20 f1 d6 e8  60 bd 39 6a  da 30 17 29
+:       03 8d 78 7b  0a a8 0a 0a  0a 0a aa b9  e4 3e 9d bd
+:       2e 20 79 2f  fa 60 69 7c  a8 0a aa 20  3c 30 20 1e
+:       30 fa 60 7b  aa a8 20 65  32 20 3c 30  e8 e8 c8 c0
+:       06 00 d0 f5  4c 21 30 20  5b 18 ae f6  7a 9d d8 74
+:       9e d9 74 60  7b 80 f3 c2  20 ae f6 7a  bd 82 6f 9d
+:       3a 6a bd 84  6f 9d 3c 6a  80 23                     # 01d752
+101f51: fa 7a 1f ff                                         # 101f55
+101f6c: 8c 1f bf 8c  1f bf 8c 1f  bf 8c 1f 80  13 ff 8b 07
+:       00 8c 80 13  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       e9 1f 00 8b  03 80 65 00  80 65 00 8c  89 09 83 cf
+:       80 65 03 80  65 03 8a 89  04 83 3f 8a               # 101fa8
+103433: fa 0d 5f                                            # 103436
+105f02: 13 89 2c a6  00 00 ff a7  00 8a ff ad  03 80 13 ff
+:       d1 00 80 13  ff ff ff                               # 105f19
+10790c: fa 12 5f                                            # 10790f
+
+VALIDATION
+
+011116: 7c 25                                               # 011118
+012f7f: 0a 0a 0a 0a  0a aa bd cd  61 f0 03 4c  4c 30 a9 01
+:       9d ce 61 ad  4b 2f 29 01  d0 38 bd c0  2e 29 08 f0
+:       15 b9 6c 7b  c9 12 f0 3f  a9 12 99 6c  7b 20 57 31
+:       7b 99 70 7b  80 31 bd bd  2e 29 20 f0  15 b9 6c 7b
+:       c9 0f f0 23  a9 0f 99 6c  7b 20 57 31  7b 99 70 7b
+:       80 15 b9 6c  7b dd ae 2e  f0 0d bd ae  2e 99 6c 7b
+:       20 57 31 7b  99 70 7b ad  4b 2f 29 01  d0 26 bd bd
+:       2e 29 10 f0  1f b9 70 7b  d0 39 ad 6a  7b d0 34 ee
+:       6a 7b 20 50  30 20 06 31  a9 01 99 70  7b a9 1e 9d
+:       cd 61 80 1f  b9 70 7b f0  1a ad 6a 7b  d0 15 ee 6a
+:       7b 20 50 30  b9 6c 7b 20  57 31 7b 99  70 7b a9 1e
+:       9d cd 61 9e  ce 61 20 71  30 20 24 2f  c2 20 bd bd
+:       2e 9d c1 2e  bd bf 2e 9d  c3 2e 7b e2  20 ee 78 7b  # 01304f
+013247: aa bf 37 cf  c2 8d c4 64  bf 39 cf c2  8d c6 64 bf
+:       3b cf c2 8d  c8 64 bf 3d  cf c2 8d ca  64 7b e2 20
+:       ee bb 64                                            # 01326a
+0191d5: 7c 25                                               # 0191d7
+01936a: 7c 25                                               # 01936c
+0193c6: 7c 25                                               # 0193c8
+01c8ab: 3e d7 27 d7  34                                     # 01c8b0
+01d6e8: bd 39 6a 30  20 29 03 85  10 0a 0a 0a  0a 0a aa bd
+:       bd 2e 49 20  9d bd 2e a5  10 8d 78 7b  ae f6 7a da
+:       20 79 2f fa  60 29 7f 38  e9 04 a8 b9  c2 62 49 01
+:       99 c2 62 ae  f6 7a da 20  7c 25 20 c1  25 fa 60 20
+:       5b 18 ae f6  7a 9d d8 74  9e d9 74 60  ae f6 7a 9e
+:       d8 74 9e d9  74 60 c2 20  ae f6 7a bd  82 6f 9d 3a
+:       6a bd 84 6f  9d 3c 6a 7b  e2 20                     # 01d752
+101f51: 8b 07 00 8c                                         # 101f55
+101f6c: 78 1f bf 78  1f bf 78 1f  bf 78 1f ff  e9 1f 00 80
+:       65 00 80 65  00 80 65 01  80 65 01 80  65 02 80 65
+:       02 80 65 03  80 65 03 89  09 83 cf 80  65 03 80 65
+:       03 8a 83 3f  83 3f 83 3f  83 3f 83 3f               # 101fa8
+103433: ad 03 ff                                            # 103436
+105f02: 72 0a 89 2c  a6 00 00 ff  a7 00 8a ff  80 13 89 2c
+:       a6 00 00 ff  a7 00 8a                               # 105f19
+10790c: d1 00 ff                                            # 10790f

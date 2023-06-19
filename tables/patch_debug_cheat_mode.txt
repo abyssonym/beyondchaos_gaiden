@@ -1,0 +1,37 @@
+# Final Fantasy 3 Test patch v1.1
+# by Master ZED (http://masterzed.web1000.com *OR* cytekzed@aol.com)
+# Retrieved from Assassin17's website
+
+016643: 5c 14 0a f0  ea ea ea ea  ea ea ea ea               # 01664f
+017182: 00 ea ea ea                                         # 017186
+017c15: f6 ff                                               # 017c17
+017cad: 02                                                  # 017cae
+017e8b: 19                                                  # 017e8c
+01853a: 22 00 12 f0  ea ea a9 61                            # 018542
+01ffe5:                 b9 af 2b  c9 10 f0 04  a9 61 80 02
+:       a9 02 8d 84  7a 60 ee 41  2f 4c 27 59               # 01fffc
+0232b7: 4c e1 64                                            # 0232ba
+0264e1:    bd 08 3c  e0 08 b0 05  9c 4c 3a 80  04 38 4c ba
+:       32 38 4c bd  32                                     # 0264f5
+0473b8: 63                                                  # 0473b9
+047aa0: ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff  # 047ac0
+18cf50: a4 a2 a5 a5  ff                                     # 18cf55
+
+VALIDATION
+
+016643: bf 50 c0 cf  20 fe 63 e8  c6 40 d0 f4               # 01664f
+017182: 04 de 89 26                                         # 017186
+017c15: 31 56                                               # 017c17
+017cad: ff                                                  # 017cae
+017e8b: 14                                                  # 017e8c
+01853a: bd 7e 25 8d  85 7a a9 02                            # 018542
+01ffe5:                 ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff               # 01fffc
+0232b7: bd 08 3c                                            # 0232ba
+0264e1:    ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff                                     # 0264f5
+0473b8: 02                                                  # 0473b9
+047aa0: 00 48 28 02  00 40 40 02  04 00 00 00  00 00 00 00
+:       00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00  # 047ac0
+18cf50: ae a6 a6 a8  a7                                     # 18cf55

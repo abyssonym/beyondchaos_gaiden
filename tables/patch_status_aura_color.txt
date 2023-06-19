@@ -1,0 +1,32 @@
+# Color wheel status aura patch
+# Author: Leet Sketcher
+
+012e50: 2b                                                  # 012e51
+012e5d: 1e                                                  # 012e5e
+012e6a: 11 b9 a9 2e  24 38 d0 10  4a 69 00 99  a9 2e c9 04
+:       b0 f2 a9 80  99 a9 2e 60  29 fc 20 0f  1a bf 8b 2e
+:       c1 80 36 04  03 07 02 01  00 b9 a9 2e  4a b0 e3 29
+:       fc f0 df 24  38 f0 f5 80  db ea ea ea  ea ea ea ea
+:       ea ea ea ea  ea ea ea ea  ea ea                     # 012eb4
+012ed9: 3c 4a 85 2c  64 2d a5 36  0a 0a 90 06  a9 1f e5 2c
+:       85 2c a5 2c  c9 1f d0 06  20 93 2e 80  01 ea        # 012ef7
+02307e: a5 fe 9d a1  3a bd d9 3e  48 a3 05 9d  d9 3e 7b 8a
+:       0a 0a 0a 0a  aa a9 06 85  fe 5a b9 01  16 9d ae 2e
+:       e8 c8 c6 fe  10 f4 7a 68  c9 ff f0 03  9d a7 2e a9
+:       81 9d a2 2e  a3 03 9d bf  2e c9 0e c2  20 aa        # 0230bc
+
+VALIDATION
+
+012e50: 63                                                  # 012e51
+012e5d: 56                                                  # 012e5e
+012e6a: 49 a5 38 10  06 7b 20 c3  2e 80 3f 29  40 f0 07 a9
+:       01 20 c3 2e  80 34 a5 38  29 20 f0 07  a9 02 20 c3
+:       2e 80 27 a5  38 29 10 f0  07 a9 07 20  c3 2e 80 1a
+:       a5 38 29 08  f0 07 a9 03  20 c3 2e 80  0d a5 38 29
+:       04 f0 07 a9  04 20 c3 2e  80 00                     # 012eb4
+012ed9: 40 f0 12 a5  36 29 3c 4a  85 2c a9 1f  38 e5 2c 85
+:       2c 64 2d 80  09 a5 36 29  3c 4a 85 2c  64 2d        # 012ef7
+02307e: 48 a5 fe 9d  a1 3a bd d9  3e 48 a3 06  9d d9 3e 7b
+:       8a 0a 0a 0a  0a aa 68 c9  ff d0 03 b9  01 16 9d ae
+:       2e 7b 68 9d  c6 2e c9 0e  c2 20 48 b9  02 16 9d af
+:       2e b9 04 16  9d b1 2e b9  06 16 9d b3  2e fa        # 0230bc

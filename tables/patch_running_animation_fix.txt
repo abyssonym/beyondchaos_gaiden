@@ -1,0 +1,11 @@
+# Title: Running Popsicle / Lead-footed Esper fix
+# Author: Assassin
+# Version: Version 0.30
+# Applies to: FF3us 1.0 and 1.1, FF6j 1.0
+# Tested on: FF3us 1.0, FF3us 1.1, FF6j 1.0
+
+013540: 02                                                  # 013541
+
+VALIDATION
+
+013540: 08                                                  # 013541

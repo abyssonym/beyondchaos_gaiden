@@ -1,0 +1,47 @@
+# Title: Unaffected Rows fix
+# Author: Assassin
+# Version: Version 0.20
+# Applies to: FF3us 1.0 and 1.1, FF6j 1.0
+# Tested on: FF3us 1.0, FF3us 1.1, FF6j 1.0
+
+013b7a:                                 20 82  3b 80 1f 8d
+:       1e 20 5a 08  e2 30 a0 00  b9 c5 2e f0  05 a9 01 99
+:       c5 2e 98 18  69 20 a8 c0  80 d0 ed 28  7a 60 c2 20
+:       7b a8 bf 17  cf c2 99 c9  61 1a 99 cb  61 b9 c5 2e
+:       29 ff 00 f0  0b b9 c9 61  18 7f e3 ce  c2 99 c9 61
+:       7b 99 d3 61  98 18 69 20  00 a8 e8 e8  c0 80 00 d0
+:       d1 80 51 c2  20 a2 0a 9e  a8 3a 9e 54  3e 7b 3a 9d
+:       01 20 a9 bc  ff 9d 0c 32  ca ca 10 eb  e2 20 6b ad
+:       1f 20 c9 02  b0 12 49 01  c5 e8 d0 02  49 01 c9 00
+:       d0 06 a9 01  5c af 50 c2  6b ea ea ea  ea ea ea ea
+:       ea ea ea ea  ea ea ea ea  ea ea ea ea  ea ea ea ea
+:       ea ea ea ea                                         # 013c24
+019398: 4c 7f 3b                                            # 01939b
+0224a2:       aa 24  20 a6 50 80  15 ea 20 e1  2e 20 91 43
+:       20 9b 06 a9  14 8d af 11  20 3f 08 4c  b9 4a        # 0224be
+025089:                              22 d3 3b  c1 20 aa 24
+:       a9 20 14 b1  ad 1f 20 85  e8 20 a6 50  22 ef 3b c1
+:       a9 40 14 b0  80 13 20 3a  2e 20 c9 26  4c 68 2e a5
+:       b1 48 20 75  2e 68 85 b1  6b                        # 0250b9
+
+VALIDATION
+
+013b7a:                                 c2 20  bf 17 cf c2
+:       8d c9 61 1a  8d cb 61 ad  c5 2e 29 ff  00 f0 14 e2
+:       20 a9 01 8d  c5 2e c2 20  ad c9 61 18  7f e3 ce c2
+:       8d c9 61 bf  19 cf c2 8d  e9 61 1a 8d  eb 61 ad e5
+:       2e 29 ff 00  f0 14 e2 20  a9 01 8d e5  2e c2 20 ad
+:       e9 61 18 7f  e5 ce c2 8d  e9 61 bf 1b  cf c2 8d 09
+:       62 1a 8d 0b  62 ad 05 2f  29 ff 00 f0  14 e2 20 a9
+:       01 8d 05 2f  c2 20 ad 09  62 18 7f e7  ce c2 8d 09
+:       62 bf 1d cf  c2 8d 29 62  1a 8d 2b 62  ad 25 2f 29
+:       ff 00 f0 14  e2 20 a9 01  8d 25 2f c2  20 ad 29 62
+:       18 7f e9 ce  c2 8d 29 62  9c d3 61 9c  f3 61 9c 13
+:       62 9c 33 62                                         # 013c24
+019398: 8d 1e 20                                            # 01939b
+0224a2:       e1 2e  20 91 43 20  9b 06 a9 14  8d af 11 20
+:       3f 08 20 b9  4a 20 3a 2e  20 c9 26 20  68 2e        # 0224be
+025089:                              c2 20 a2  0a 9e a8 3a
+:       9e 54 3e 7b  3a 9d 01 20  a9 bc ff 9d  0c 32 ca ca
+:       10 eb e2 20  20 e1 2e 20  91 43 20 9b  06 20 3f 08
+:       20 b9 4a 20  c9 26 20 3a  2e                        # 0250b9

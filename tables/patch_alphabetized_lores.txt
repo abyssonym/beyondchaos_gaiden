@@ -1,0 +1,35 @@
+# Title: Alphabetical Lore
+# Author: SilentEnigma
+# Version: 1.0
+# Release Date: 2022-08-29
+# Applies to: Final Fantasy III (v1.0) (U)
+
+025564: e8 bf a8 67  c2 a8 da 18  20 17 52 3c  29 1d f0 0e
+:       ad 87 3a 69  37 99 0f 31  ee 87 3a 20  9d 66 fa e0
+:       17 d0 dd                                            # 025587
+02669d: 98 69 8b 99  6a 30 60                               # 0266a4
+0267a8: 04 03 06 05  02 00 10 17  0f 16 0b 0a  09 0d 08 12
+:       15 0c 07 13  01 11 0e 14                            # 0267c0
+02fbd0: 20 17 52 6b                                         # 02fbd4
+03520f: 4c 4c ff ff  ff                                     # 035214
+035290: 48 ea                                               # 035292
+0352a0: 68 ea                                               # 0352a2
+03ff4c: a2 89 9d 8e  81 21 a6 00  bf a8 67 c2  a8 da 18 22
+:       d0 fb c2 3c  29 1d f0 03  98 80 02 a9  ff 8d 80 21
+:       fa e8 e0 18  00 d0 e1 60                            # 03ff74
+
+VALIDATION
+
+025564: a0 17 a2 02  7b 38 6a 90  02 6a ca 3c  29 1d f0 10
+:       ee 87 3a 48  98 69 37 99  0f 31 69 54  99 6a 30 68
+:       88 10 e3                                            # 025587
+02669d: ff ff ff ff  ff ff ff                               # 0266a4
+0267a8: ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff                            # 0267c0
+02fbd0: ff ff ff ff                                         # 02fbd4
+03520f: a2 89 9d 8e  81                                     # 035214
+035290: a5 e5                                               # 035292
+0352a0: a5 e5                                               # 0352a2
+03ff4c: ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff                            # 03ff74

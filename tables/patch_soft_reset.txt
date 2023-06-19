@@ -1,0 +1,27 @@
+# Title: Soft Reset
+# Author: SilentEnigma
+# Version: 1.1
+# Release Date: 2021-10-24
+# Applies to: Final Fantasy III (v1.0) (U)
+
+00c504: 28 d7                                               # 00c506
+00d720: 20 25 05 6b  20 73 05 6b  5c 3d fe c3               # 00d72c
+03a527: 20 28 fe                                            # 03a52a
+03fe28: 08 a9 c3 c3  06 f0 09 c2  20 a5 04 49  30 30 f0 05
+:       28 ac 13 02  60 e2 24 a9  f0 8d 00 13  22 04 00 c5
+:       a2 ff 15 9a  a2 00 00 da  2b 7b 48 ab  a9 01 8d 0d
+:       42 9c 0b 42  9c 0c 42 a9  8f 8d 00 21  9c 00 42 22
+:       20 d7 c0 a2  00 00 86 00  a2 ff ff 86  02 22 24 d7
+:       c0 5c 53 00  c0                                     # 03fe7d
+
+VALIDATION
+
+00c504: 00 ff                                               # 00c506
+00d720: ff ff ff ff  ff ff ff ff  ff ff ff ff               # 00d72c
+03a527: ac 13 02                                            # 03a52a
+03fe28: ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff                                     # 03fe7d

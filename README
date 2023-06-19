@@ -63,14 +63,21 @@ Output files:
     The randomizer will output a new, randomized rom with the seed in the filename.
 
 SPECIAL THANKS:
-    Assasin             Gogo yellow streak patch
+    Assassin17          SrBehemoth rows, control menu MP, formation randomosity, magic damage overflow, rage/mute fix, freeze/morph running animation fix, stacking immunities fix, step mine MP fix, and Gogo yellow streak patches
+    darknil             Improved shop preview patch, Regen/Rerise status display patch
     emberling           Music and character palette randomization
-    GrayShadows         Condensed spell list patch
+    FF6Hacking          Flash tool animation fix patch
+    GrayShadows         Condensed spell list patch, ATB/Max HP select toggle patch
     HatZen08            Colosseum rewards display patch
     Imzogelmo           MP color digits patch
-    Leet Sketcher       Color wheel patch, Y equip relics patch
-    myself086           Various menu patches
-    SilentEnigma        MP color digits patch
-    subtractionsoup     Beyond Chaos co-developer
+    Leet Sketcher       Color wheel, Y equip relics, vanish/runic, and imp skimp patches
+    madsiur             Mastered Esper icon patch
+    Myria               Improved party gear screen patch
+    myself086           Dance descriptions, item descriptions, status screen, and item/rage locking patches
+    Novalia Spirit      Auto-float/interceptor fix and selective re-equip patches
+    Seibaby             ATB color gauge patch
+    SilentEnigma        Alphabetical Lore, description disruption fix, MP color digits, docile NPCs, Siegfried/Chupon rages, and soft reset patches
+    subtractionsoup     Beyond Chaos co-developer, Y equip relics bugfix
     synchysi            Esper allocation patch (base)
+    Terii Senshi        Documentation of bank C2
     vivify93            Total graphics uncensorship patch

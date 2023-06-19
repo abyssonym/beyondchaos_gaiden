@@ -1,0 +1,167 @@
+# Shop Preview Patch
+# Author: darknil
+# Additional optimizations by Abyssonym
+
+03874a:                                 80 f4  20 9a f4 29
+:       80 20 8f f4  a0 30 8e 20  a2 f4 20 9a  f4 29 40 20
+:       8f f4 a0 38  8e 20 a2 f4  20 9a f4 29  02 20 8f f4
+:       a0 26 8e 20  a2 f4 60 ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff                                     # 038795
+0388cf: 65                                                  # 0388d0
+0388db: e5                                                  # 0388dc
+0388e7: 65                                                  # 0388e8
+0388f3: e5                                                  # 0388f4
+038d69: b8 f7 c2 f7  cc f7 d7 f7                            # 038d71
+03b4bd:                                           20 d9 f4
+:       60 20 d9 7f  60 ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff                                  # 03b4e6
+03b8c5: a8 f4 ea ea  ea ea ea ea                            # 03b8cd
+03b95b:                                    cc  f4 20 d3 bf
+:       a0 38 c3 20  f9 02 20 f2  c2 ac 60 18  84 f1 ad 62
+:       18 85 f3 20  82 05 a2 33  7a 20 ac 04  60           # 03b97d
+03b98a: 39 f7                                               # 03b98c
+03baba: ea ea ea                                            # 03babd
+03baca: c1 b4                                               # 03bacc
+03c038: 06                                                  # 03c039
+03c2e2: 31 f5                                               # 03c2e4
+03f480: 20 eb 87 20  f7 c2 a0 1d  8e 20 f9 02  4c a0 88 f0
+:       04 a9 20 80  02 a9 24 85  29 60 ae 34  21 bf 13 50
+:       d8 60 84 e7  20 95 87 60  20 28 6a 20  2d 6a 20 32
+:       6a 20 37 6a  a0 e3 f7 20  41 03 a0 e7  f7 20 41 03
+:       a0 eb f7 20  41 03 a0 ef  f7 20 41 03  20 3c 6a 20
+:       41 6a 20 46  6a 20 4b 6a  60 a9 10 04  45 a5 0d 89
+:       40 d0 11 20  39 0f 20 a6  b8 20 6e f5  20 84 bc 20
+:       a8 bc 80 1c  20 a6 b8 20  6e f5 20 4d  0f c2 20 a9
+:       00 01 85 3b  85 3d e2 20  a9 04 14 45  20 dc f6 60
+:       64 3c 64 3e  a9 04 04 45  a5 09 89 80  f0 06 20 a9
+:       0e 4c 60 b7  a5 08 89 80  f0 06 20 2f  b8 20 e6 b7
+:       60 20 f7 c2  a0 4f f7 20  f9 02 a0 57  f7 20 f9 02
+:       a0 5f f7 20  f9 02 a0 69  f7 20 f9 02  a0 71 f7 20
+:       f9 02 a0 7b  f7 20 f9 02  a0 84 f7 20  f9 02 a0 8c
+:       f7 20 f9 02  a0 96 f7 20  f9 02 20 c2  bf 60 48 da
+:       5a 08 20 f2  c2 20 c2 bf  20 21 83 ae  34 21 7b 8f
+:       8d 9e 7e 8f  8e 9e 7e c2  20 a9 23 82  8f 89 9e 7e
+:       e2 20 7b bf  10 50 d8 48  29 0f 0a 20  36 88 c2 20
+:       a9 a3 82 8f  89 9e 7e e2  20 7b 68 29  f0 4a 4a 4a
+:       20 36 88 c2  20 a9 41 82  8f 89 9e 7e  e2 20 ae 34
+:       21 7b bf 11  50 d8 48 29  0f 0a 20 36  88 c2 20 a9
+:       c1 82 8f 89  9e 7e e2 20  7b 68 29 f0  4a 4a 4a 20
+:       36 88 ae 34  21 bf 00 50  d8 29 07 f0  65 c9 01 f0
+:       27 c9 06 f0  5d bf 14 50  d8 20 e0 04  a2 a1 83 20
+:       c0 04 ae 34  21 bf 15 50  d8 20 e0 04  a2 bf 83 20
+:       c0 04 a0 a6  f7 20 f9 02  7b ae 34 21  bf 00 50 d8
+:       29 07 c9 01  d0 2c a9 20  85 29 c9 51  f0 1e ae 34
+:       21 bf 14 50  d8 20 e0 04  a2 3f 81 20  c0 04 a0 ac
+:       f7 20 f9 02  a0 b2 f7 20  f9 02 80 06  a0 a0 f7 20
+:       f9 02 20 bc  f6 c2 20 a9  21 83 8f 89  9e 7e e2 20
+:       ae 34 21 7b  bf 1a 50 d8  48 29 0f 0a  0a 20 1a 88
+:       c2 20 a9 3f  83 8f 89 9e  7e e2 20 ae  34 21 7b 68
+:       29 f0 4a 4a  aa bf 54 88  c3 8f 8b 9e  7e bf 55 88
+:       c3 8f 8c 9e  7e bf 56 88  c3 8f 8d 9e  7e 20 47 88
+:       c2 20 a9 0d  81 8f 89 9e  7e e2 20 20  c2 bf 20 68
+:       c0 20 d9 7f  28 7a fa 68  20 92 bc 60  ae 34 21 bf
+:       00 50 d8 29  07 c9 06 d0  12 a0 a6 f7  20 f9 02 a0
+:       ac f7 20 f9  02 a0 b2 f7  20 f9 02 60  a5 02 c5 4b
+:       d0 09 20 f0  f6 20 e6 b4  20 ef b4 a5  4b 85 02 60
+:       a2 49 78 86  eb a9 7e 85  ed a0 bc 0c  84 e7 a0 84
+:       0c a2 00 35  86 e0 20 83  a7 a0 fc 0c  84 e7 a0 c4
+:       0c a2 01 35  86 e0 20 83  a7 a0 3c 0d  84 e7 a0 04
+:       0d a2 38 35  86 e0 20 83  a7 a0 7c 0d  84 e7 a0 44
+:       0d a2 39 35  86 e0 4c 83  a7 1f 79 87  a8 a5 9d ff
+:       98 ff 9f a8  ab ff 9d 9e  ad 9a a2 a5  ac c5 00 0d
+:       82 95 a2 a0  a8 ab 00 8d  82 92 a9 9e  9e 9d 00 2b
+:       82 92 ad 9a  a6 a2 a7 9a  00 ab 82 8c  9a a0 a2 9c
+:       00 8d 83 83  9e 9f 9e a7  ac 9e 00 ab  83 8c c5 83
+:       9e 9f c5 00  0d 83 84 af  9a 9d 9e 00  2b 83 8c c5
+:       84 af 9a 9d  9e 00 2b 81  81 c5 8f a8  b0 9e ab 00
+:       3f 81 bf bf  bf 00 3f 81  c4 c4 c4 00  a1 83 c4 c4
+:       c4 00 bf 83  c4 c4 c4 00  8d 7b 91 9e  ac a2 ac ad
+:       c1 00 0d 7c  80 9b ac a8  ab 9b c1 00  8d 7c 8d ae
+:       a5 a5 a2 9f  b2 c1 00 0d  7d 96 9e 9a  a4 a7 9e ac
+:       ac c1 00 8b  71 1c 06 0b  75 1c 06 8b  70 1c 02 8b
+:       73 1c 04                                            # 03f7f3
+
+VALIDATION
+
+03874a:                                 eb 87  a9 2c 85 29
+:       a0 1d 8e 20  f9 02 20 a0  88 a9 20 85  29 ae 34 21
+:       bf 13 50 d8  10 08 a0 30  8e 84 e7 20  95 87 ae 34
+:       21 bf 13 50  d8 29 40 f0  08 a0 38 8e  84 e7 20 95
+:       87 ae 34 21  bf 13 50 d8  29 02 f0 08  a0 26 8e 84
+:       e7 20 95 87  60                                     # 038795
+0388cf: cd                                                  # 0388d0
+0388db: e9                                                  # 0388dc
+0388e7: cd                                                  # 0388e8
+0388f3: e9                                                  # 0388f4
+038d69: f1 8d fb 8d  07 8e 13 8e                            # 038d71
+03b4bd:                                           a9 10 04
+:       45 20 39 0f  20 a6 b8 20  84 bc 20 a8  bc a5 09 89
+:       80 f0 06 20  a9 0e 4c 60  b7 a5 08 89  80 f0 06 20
+:       2f b8 20 e6  b7 60                                  # 03b4e6
+03b8c5: 28 6a 20 2d  6a 20 32 6a                            # 03b8cd
+03b95b:                                    3c  6a 20 41 6a
+:       20 46 6a 20  d3 bf 20 f7  c2 a0 38 c3  20 f9 02 20
+:       f2 c2 ac 60  18 84 f1 ad  62 18 85 f3  20           # 03b97d
+03b98a: 85 c3                                               # 03b98c
+03baba: 20 ec ba                                            # 03babd
+03baca: d9 7f                                               # 03bacc
+03c038: 04                                                  # 03c039
+03c2e2: f7 c2                                               # 03c2e4
+03f480: ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff                                            # 03f7f3

@@ -1,0 +1,28 @@
+# Title: Mute steals Rage statuses fix
+# Author: Assassin
+# Version: Beta 0.21
+# Applies to: FF3us 1.0 and 1.1, FF6j 1.0
+# Tested on: FF3us 1.0 (the routines and tables involved are identical in v1.1), RPGOne
+#            (also covers FF6j 1.0, which is identical in the relevant areas)
+
+021589: 04 17 20 75  26 4c 54 15                            # 021591
+021683: 23 85 b5 a9  20 0c a2 11  a9 02 14 b2               # 02168f
+0216a2:       1b eb  bd f9 3e 89  20 f0 06 eb  5d 18 30 80
+:       0d bd e5 3e  89 a0 f0 05  eb bd 18 30  eb eb ca ca
+:       10 dc 48 7b  68 f0 b7 20  2a 52 20 f9  51 bb bd d8
+:       3e c9 0a d0  04 a9 02 14  b3 bd 68 3b  7d 69 3b 90
+:       02 a9 fe 6d  a6 11 90 02  a9 ff 8d a6  11 a9 01 04
+:       ba bd e5 3e  29 a0 1d fd  3d 9d fd 3d  a9 24 80 84
+:       ea ea ea ea  20 50 26 5a  20 91 43 7a  60           # 02170d
+
+VALIDATION
+
+021589: 50 26 20 54  15 4c 75 26                            # 021591
+021683: 20 0c a2 11  a9 02 14 b2  a9 23 85 b5               # 02168f
+0216a2:       1c eb  bd f9 3e 89  20 f0 07 eb  5d 18 30 eb
+:       80 0c bd e5  3e 89 a0 f0  05 eb bd 18  30 eb eb ca
+:       ca 10 db 48  7b 68 f0 b6  20 2a 52 20  f9 51 bb bd
+:       d8 3e c9 0a  d0 04 a9 02  14 b3 bd 68  3b 7d 69 3b
+:       90 02 a9 fe  6d a6 11 90  02 a9 ff 8d  a6 11 a9 24
+:       85 b5 a9 20  0c a2 11 a9  02 14 b2 a9  01 04 ba bd
+:       e5 3e 29 a0  1d fd 3d 9d  fd 3d 4c 7b  31           # 02170d

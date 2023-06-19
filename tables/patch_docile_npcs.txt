@@ -1,0 +1,21 @@
+# Title: Docile NPCs
+# Author: SilentEnigma
+# Version: 1.0
+# Release Date: 2020-04-18
+# Applies to: Final Fantasy III (v1.0) (U)
+
+007bb9: 4c 00 db                                            # 007bbc
+00db00: 20 03 7d ae  03 08 a9 29  8e 04 42 8d  06 42 ea ea
+:       ea ea ea ea  ea ad 14 42  0a a6 1e df  01 20 7e d0
+:       04 a9 02 80  1c df ff 1f  7e d0 04 a9  01 80 12 df
+:       00 21 7e d0  04 a9 08 80  08 df 00 1f  7e d0 07 a9
+:       04 24 07 f0  01 60 4c be  7b                        # 00db49
+
+VALIDATION
+
+007bb9: 20 03 7d                                            # 007bbc
+00db00: ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff                        # 00db49

@@ -1,4 +1,5 @@
 VanillaObject           empty.txt                       0       1
+JunctionObject          empty.txt                       0       1
 MusicObject             empty.txt                       0       1
 EquipabilityObject      empty.txt                       0       1
 EquipmentStatsObject    empty.txt                       0       1
@@ -107,29 +108,55 @@ $wob_choco_palette_address  12ee20
 $wor_choco_palette_address  12ef20
 $npc_choco_palette_address  2680e0
 $known_lores_address        26f564
+$skills                     names_skills.txt
 .patch                      patch_rom_expansion.txt
+
 .option                     patch_always_sprint.txt
-.option.no_verify           patch_flip_gradient.txt
+.option                     patch_behemoth_rows.txt
+.option                     patch_control_menu_mp_update.txt
+.option                     patch_description_disruption.txt
+.option                     patch_flash_tool_fix.txt
+.option                     patch_float_interceptor_fix.txt
+.option                     patch_formation_randomosity.txt
+.option                     patch_imp_skimp_fix.txt
+.option                     patch_flip_gradient.txt
+.option                     patch_magic_damage_overflow_fix.txt
 .option                     patch_opening_skip.txt
-.option.no_verify           patch_music_player.txt
+.option                     patch_rage_mute_fix.txt
+.option                     patch_running_animation_fix.txt
+.option                     patch_stacking_immunities_fix.txt
+.option                     patch_step_mine_mp_display_fix.txt
+.option                     patch_vanish_runic.txt
+.option                     patch_xzone_reraise_fix.txt
+
+.option                     patch_alphabetized_lores.txt
+.option                     patch_atb_color.txt
 .option                     patch_auto_learn_rage.txt
-.option                     patch_command_shuffle.txt
-.option                     patch_let_banon_equip.txt
-.option                     patch_y_equip.bin
+.option                     patch_can_always_access_esper_menu.txt
+.option                     patch_chupon_siegfried_rage.txt
+.option                     patch_colosseum_display.txt
 .option                     patch_condensed_spell_list_fixed.txt
-#.option                     patch_graphics_decensor.bin
-.option                     patch_colosseum_display.bin
-.option                     patch_status_aura_color.bin
+.option                     patch_docile_npcs.txt
 .option                     patch_evade_mblock.txt
+.option                     patch_graphics_decensor.bin
+.option                     patch_improved_party_gear.txt
+.option                     patch_improved_shop_menu.txt
+.option                     patch_mastered_espers.txt
+.option                     patch_mp_color_digits.txt
+.option                     patch_select_atb_swap.txt
+.option                     patch_selective_reequip.txt
+.option                     patch_soft_reset.txt
+.option                     patch_status_aura_color.txt
+.option                     patch_status_display.txt
 .option                     patch_vanish_doom.txt
-.option                     patch_myself_core.bin
+.option                     patch_y_equip.txt
+.option                     patch_myself_core.txt
 .option                     patch_myself_menu_dance.txt
 .option                     patch_myself_menu_gogo.txt
+.option                     patch_myself_menu_item_lock.txt
 .option                     patch_myself_menu_item.txt
 #.option                     patch_myself_menu_names.txt
 .option                     patch_myself_menu_rage.txt
-$myself_rages_address       301416
-.option                     patch_sort_rages.txt
-$sort_rages_address         307100
+$myself_rages_address       30157d
 .option                     patch_esper_allocation.txt
 $char_esper_address         307880

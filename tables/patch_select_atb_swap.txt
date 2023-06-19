@@ -1,0 +1,14 @@
+# Max HP/ATB toggle patch
+# Author: GrayShadows
+
+010cfb: e5 ff                                               # 010cfd
+01ffe5:                 a5 0b 89  20 f0 05 9c  21 20 80 05
+:       a9 ff 8d 21  20 4c 73 0b                            # 01fff8
+03493c: 8e a7 00
+
+VALIDATION
+
+010cfb: 73 0b                                               # 010cfd
+01ffe5:                 ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff                            # 01fff8
+03493c: 8e 9f 9f

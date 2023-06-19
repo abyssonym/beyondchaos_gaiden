@@ -1,0 +1,11 @@
+# Title: Stackable immunities and permanent statuses fix
+# Author: Assassin
+# Version: Beta 0.22
+# Applies to: FF3us 1.0 and 1.1, FF6j 1.0
+# Tested on: FF3us 1.0 (the routine involved is identical in v1.1), FF6j 1.0
+
+022918: 30                                                  # 022919
+
+VALIDATION
+
+022918: 1c                                                  # 022919

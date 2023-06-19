@@ -112,9 +112,3 @@ $aux_seed_length            19
 .patch                      patch_flip_gradient.txt
 .patch                      patch_splash_removal.txt
 .patch                      patch_opening_skip.txt
-.option                     patch_myself_core.bin
-.option                     patch_myself_menu_dance.txt
-#.option                     patch_myself_menu_gogo.txt
-.option                     patch_myself_menu_item.txt
-#.option                     patch_myself_menu_names.txt
-#.option                     patch_myself_menu_rage.txt

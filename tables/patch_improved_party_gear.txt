@@ -1,0 +1,71 @@
+# Improved Party Gear Screen
+# Author: Myria
+
+.addr   main                6180a0
+.addr   names_address       302f00
+
+#.def    terra       93 84 91 91 80 ff ff ff
+#.def    locke       8b 8e 82 8a 84 ff ff ff
+#.def    cyan        82 98 80 8d ff ff ff ff
+#.def    shadow      92 87 80 83 8e 96 ff ff
+#.def    edgar       84 83 86 80 91 ff ff ff
+#.def    sabin       92 80 81 88 8d ff ff ff
+#.def    celes       82 84 8b 84 92 ff ff ff
+#.def    strago      92 93 91 80 86 8e ff ff
+#.def    relm        91 84 8b 8c ff ff ff ff
+#.def    setzer      92 84 93 99 84 91 ff ff
+#.def    mog         8c 8e 86 ff ff ff ff ff
+#.def    gau         86 80 94 ff ff ff ff ff
+#.def    gogo        86 8e 86 8e ff ff ff ff
+#.def    umaro       94 8c 80 91 8e ff ff ff
+#.def    banon       81 80 8d 8e 8d ff ff ff
+#.def    leo         8b 84 8e ff ff ff ff ff
+
+.def    terra       ff ff ff ff ff ff ff ff
+.def    locke       ff ff ff ff ff ff ff ff
+.def    cyan        ff ff ff ff ff ff ff ff
+.def    shadow      ff ff ff ff ff ff ff ff
+.def    edgar       ff ff ff ff ff ff ff ff
+.def    sabin       ff ff ff ff ff ff ff ff
+.def    celes       ff ff ff ff ff ff ff ff
+.def    strago      ff ff ff ff ff ff ff ff
+.def    relm        ff ff ff ff ff ff ff ff
+.def    setzer      ff ff ff ff ff ff ff ff
+.def    mog         ff ff ff ff ff ff ff ff
+.def    gau         ff ff ff ff ff ff ff ff
+.def    gogo        ff ff ff ff ff ff ff ff
+.def    umaro       ff ff ff ff ff ff ff ff
+.def    banon       ff ff ff ff ff ff ff ff
+.def    leo         ff ff ff ff ff ff ff ff
+
+
+038f04: 64 28 22 $main     a9 00  eb a5 28 aa  b5 69 30 60
+:       48 8a 0a a8  69 39 eb a9  0d b6 6d 86  67 a8 5a a9
+:       24 85 29 20  cf 34 7a a9  28 85 29 c2  21 98 69 10
+:       00 8f 89 9e  7e a9 08 00  85 eb a9 $names_address,2
+:                                                 85 ef e2
+:       20 a9 f0 85  f1 68 c9 0e  b0 08 5a 20  67 84 20 d9
+:       7f 7a a9 34  85 29 c2 21  98 69 20 00  a8 e2 20 20
+:       e6 34 a9 20  85 29 a5 28  0a 0a 0a 69  04 20 8a 8f
+:       a5 28 1a 85  28 c9 04 d0  8d 20 28 0e  20 36 0e 20
+:       3c 6a 4c 6e  0e                                     # 038f89
+
+$main
+:       c2 20 a9 00  00 8f e9 30  7e 8f eb 30  7e a9 ce 39
+:       8f ed 30 7e  a9 bf 03 8f  ef 30 7e e2  20 6b
+
+$names_address
+:       terra locke cyan shadow edgar sabin celes strago
+:       relm setzer mog gau gogo umaro banon leo
+
+VALIDATION
+
+038f04: 20 1c 8f 20  36 8f 20 52  8f 20 6e 8f  20 28 0e 20
+:       36 0e 20 3c  6a 4c 6e 0e  a5 69 30 15  a6 6d 86 67
+:       a9 20 85 29  a0 0d 39 20  cf 34 64 28  a9 04 20 8a
+:       8f 60 a5 6a  30 17 a6 6f  86 67 a9 20  85 29 a0 0d
+:       3b 20 cf 34  a9 01 85 28  a9 0c 20 8a  8f 60 a5 6b
+:       30 17 a6 71  86 67 a9 20  85 29 a0 0d  3d 20 cf 34
+:       a9 02 85 28  a9 14 20 8a  8f 60 a5 6c  30 17 a6 73
+:       86 67 a9 20  85 29 a0 0d  3f 20 cf 34  a9 03 85 28
+:       a9 1c 20 8a  8f                                     # 038f89

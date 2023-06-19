@@ -1,0 +1,12 @@
+# Vanish/Runic fix patch
+# Author: Leet Sketcher
+
+01d6c4:              14 da 29 03  8d 78 7b 4a  6a 6a 6a aa
+:       bd bd 2e 09  10 9d bd 2e  fa 60 ea ea  ea ea ea ea
+:       ea ea ea ea  ea                                     # 01d6e5
+
+VALIDATION
+
+01d6c4:              1f 29 03 85  10 0a 0a 0a  0a 0a aa bd
+:       bd 2e 09 10  9d bd 2e a5  10 8d 78 7b  ae f6 7a da
+:       20 79 2f fa  60                                     # 01d6e5

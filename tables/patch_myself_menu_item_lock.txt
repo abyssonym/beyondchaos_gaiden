@@ -1,0 +1,30 @@
+# PATCH_SRAM_EXPANSION
+00bd8f: 22 59 1f f0  ea ea ea ea  ea                        # 00bd98
+03151f: 22 b3 1f f0                                         # 031523
+0329e6: 22 6f 1f f0  ea                                     # 0329eb
+
+# PATCH_SRAM_SIZE
+00ffd8: 04                                                  # 00ffd9
+
+# PATCH_ITEM_LOCK
+018ae4: 22 05 20 f0                                         # 018ae8
+031f3b: 22 93 20 f0                                         # 031f3f
+0326ba: 22 53 20 f0  60                                     # 0326bf
+032728: 22 83 20 f0                                         # 03272c
+0327aa: 22 ea 1f f0                                         # 0327ae
+037fbc: 22 d3 1f f0                                         # 037fc0
+
+VALIDATION
+
+00bd8f: 9e 00 16 e8  e0 50 02 d0  f7                        # 00bd98
+03151f: 8f f0 7f 30                                         # 031523
+0329e6: a5 66 8d 24  02                                     # 0329eb
+
+00ffd8: 03                                                  # 00ffd9
+
+018ae4: a9 05 85 40                                         # 018ae8
+031f3b: a5 08 89 80                                         # 031f3f
+0326ba: bd 69 18 9f  8d                                     # 0326bf
+032728: bf 8d aa 7e                                         # 03272c
+0327aa: a9 10 04 45                                         # 0327ae
+037fbc: 1a a2 03 00                                         # 037fc0

@@ -1,0 +1,17 @@
+# Title: Alternative Rage
+# Author: SilentEnigma
+# Version: 1.0
+# Release Date: 2022-02-20
+# Applies to: Final Fantasy III (v1.0) (U)
+
+0249e0: 20 69 64                                            # 0249e3
+026469: ad 08 02 c9  0b d0 1d ad  01 20 c9 37  d0 0a ad 32
+:       1d 09 80 8d  32 1d 80 0c  c9 40 d0 08  ad 34 1d 09
+:       01 8d 34 1d  ad 4b 2f 60                            # 026491
+
+VALIDATION
+
+0249e0: ad 4b 2f                                            # 0249e3
+026469: ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff                            # 026491

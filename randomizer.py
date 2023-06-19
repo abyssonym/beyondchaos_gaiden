@@ -1961,19 +1961,18 @@ class MonsterNameObject(TableObject):
 
     @classmethod
     def full_cleanup(cls):
-        if hasattr(addresses, 'sort_rages_address'):
+        if hasattr(addresses, 'myself_rages_address'):
             f = open(get_outfile(), 'r+b')
             counter = 0
             for mno in sorted(MonsterNameObject.every, key=lambda n: n.name):
                 if mno.index >= 0x100:
                     continue
-                f.seek(addresses.sort_rages_address + counter)
+                f.seek(addresses.myself_rages_address + counter)
                 f.write(bytes([mno.index]))
-                if hasattr(addresses, 'myself_rages_address'):
-                    f.seek(addresses.myself_rages_address + counter)
-                    f.write(bytes([mno.index]))
                 counter += 1
             assert counter <= 0x100
+            while counter < 0x100:
+                f.write(b'\xff')
             f.close()
 
         super(MonsterNameObject, cls).full_cleanup()
