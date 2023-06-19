@@ -38,6 +38,7 @@
 .def    jun-index-sunken-state      8e
 .def    jun-index-decisive          9c
 .def    jun-index-gaia-assist       a1
+.def    jun-index-flinch            a2
 
 .def    vanish-spell-index          26
 .def    spell-proc-command-index    43
@@ -160,6 +161,18 @@ $main-counter
 
 :       22 $jun-check-are-same-team
 :       d0 no-counter-all
+
+:       22 $jun-rng1
+:       90 no-flinch
+:       a9 jun-index-flinch
+:       22 $jun-checker
+:       f0 no-flinch
+:       b9 19 32
+:       4a 4a
+:       f0 no-flinch
+:       99 19 32
+
+.label no-flinch
 :       22 $jun-rng2
 :       29 03
 :       d0 no-counter-all

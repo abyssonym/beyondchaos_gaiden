@@ -8,7 +8,7 @@
 .addr   jun-set-target-allies           610780
 .addr   jun-count-bits                  6108c0
 .addr   main                            620c00
-.addr   main-nihopalaoa                 620c60
+.addr   main-nihopalaoa                 6210e0
 .addr   main-calc                       621dc0
 .addr   check-calc                      621c80
 .addr   do-distribute-characters        621d00
@@ -23,6 +23,7 @@
 .addr   boost-healing-quarter           620f60
 .addr   reduce-healing-quarter          620f80
 .addr   reduce-damage-half              620ce0
+.addr   reduce-healing-half             620cf0
 .addr   reverse-damage                  620fa0
 .addr   check-precision                 620fc0
 .addr   do-auto-potion                  621100
@@ -46,6 +47,7 @@
 .def    jun-index-auto-potion       80
 .def        jun-index-salve             07
 .def        potion-index                e9
+.def    jun-index-double-time       a3
 
 
 022af2: 22 $main-nihopalaoa
@@ -72,6 +74,13 @@ $main
 :       20 $check-brace,2
 :       20 $check-catch,2
 
+:       a9 jun-index-double-time 00
+:       22 $jun-checker
+:       f0 no-double-time
+:       20 $reduce-damage-half,2
+:       20 $reduce-healing-half,2
+
+.label no-double-time
 :       a5 b5
 :       29 ff 00
 :       c9 01 00
@@ -443,7 +452,7 @@ $check-catch
 $boost-healing-half
 :       b9 e4 33
 :       c9 ff ff
-:       f0 exit-healing-half
+:       f0 exit-boost-healing-half
 :       4a
 :       18
 :       79 e4 33
@@ -451,7 +460,7 @@ $boost-healing-half
 :       a9 fe ff
 .label healing-half-no-overflow
 :       99 e4 33
-.label exit-healing-half
+.label exit-boost-healing-half
 :       60
 
 $boost-healing-quarter
@@ -516,6 +525,15 @@ $reduce-damage-half
 :       4a
 :       99 d0 33
 .label exit-damage-half
+:       60
+
+$reduce-healing-half
+:       b9 e4 33
+:       c9 ff ff
+:       f0 exit-reduce-healing-half
+:       4a
+:       99 e4 33
+.label exit-reduce-healing-half
 :       60
 
 $check-nonzero-nonlethal-damage
