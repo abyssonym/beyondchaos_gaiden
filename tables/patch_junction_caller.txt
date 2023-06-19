@@ -33,7 +33,7 @@
 .addr   wide-bits                       00b4f3
 
 .def    jun-index           99
-.def    esper-order         0e 0d 07 13 0f 18 16 01 11 06 0b 09 14 1a 10 0c 00 02 05 03 15 19 08 04 0a 17 12 ff
+.def    esper-order-list    0e 0d 07 13 0f 18 16 01 11 06 0b 09 14 1a 10 0c 00 02 05 03 15 19 08 04 0a 17 12 ff
 .def    overflow-index      1c
 
 0182ad: ea ea
@@ -48,7 +48,7 @@
 025789: 22 $main-multicast
 :       ea
 
-$esper-order-address: esper-order
+$esper-order-address: esper-order-list
 
 $main-multicast
 :       48

@@ -5,9 +5,9 @@
 .addr   main                            620480
 
 .addr   spell-indexes-address           620580
-.def    spell-indexes           1f 21 22 26 2a 2b 2f 33 34 35 4c 4e fe cf
+.def    spell-indexes-list      1f 21 22 26 2a 2b 2f 33 34 35 4c 4e fe cf
 .addr   command-indexes-address         620590
-.def    command-indexes         0b 18 40 41 15
+.def    command-indexes-list    0b 18 40 41 15
 
 .def    first-spell-index           20
 .def    overflow-spell-index        2e
@@ -28,10 +28,10 @@
 :       ea ea
 
 $spell-indexes-address
-:       spell-indexes
+:       spell-indexes-list
 
 $command-indexes-address
-:       command-indexes
+:       command-indexes-list
 
 $main
 :       5d 05 32
