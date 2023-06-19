@@ -1,20 +1,49 @@
 .addr   jun-checker                     610000
-.addr   main-umaro                      620850
+.addr   main-umaro                      621a40
 .addr   return-umaro                    0208c5
 .addr   return-not-umaro                02092a
+.addr   check-able-bodied               620d40
 
 .def    jun-index-focus         08
+.def    jun-index-commander     56
 
 020926: 5c $main-umaro
 
 $main-umaro
+:       48 da
 :       c9 {{berserker-index:0d}}
-:       d0 not-umaro
+:       d0 exit-not-berserk
 :       a9 jun-index-focus
 :       22 $jun-checker
-:       d0 not-umaro
+:       d0 exit-not-berserk
+.label not-focus
+:       a2 06
+.label commander-loop
+:       8a
+:       c3 01
+:       f0 commander-skip
+:       20 $check-able-bodied,2
+:       f0 commander-skip
+:       a9 jun-index-commander
+:       22 $jun-checker
+:       f0 commander-skip
+:       80 exit-not-berserk
+.label commander-skip
+:       ca ca
+:       10 commander-loop
+.label exit-berserk
+:       fa
+:       a9 fd
+:       3d a0 3a
+:       9d a0 3a
+:       68
 :       5c $return-umaro
-.label not-umaro
+.label exit-not-berserk
+:       fa
+:       a9 02
+:       1d a0 3a
+:       9d a0 3a
+:       68
 :       5c $return-not-umaro
 
 VALIDATION

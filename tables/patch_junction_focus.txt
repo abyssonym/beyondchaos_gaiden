@@ -1,7 +1,7 @@
 .addr   jun-checker                     610000
 .addr   jun-check-entity-living         610600
 .addr   main-focus                      620800
-.addr   main-lucid-dead                 620870
+.addr   main-lucid-dead                 620860
 .addr   return-focus                    02095c
 .addr   check-lucid-dead                620d00
 .addr   check-focus                     620d80
