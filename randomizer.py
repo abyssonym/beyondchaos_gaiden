@@ -2785,6 +2785,10 @@ class EsperObject(TableObject):
             chosen = 7
         return chosen
 
+    def cleanup(self):
+        if 'naturalstats' in get_activated_codes():
+            self.bonus = 0xff
+
 
 class CmdNameObject(TableObject): pass
 
@@ -4597,6 +4601,7 @@ if __name__ == '__main__':
             'effectster':   ['effectster'],
             'treaffect':    ['treaffect'],
             'espercutegf':  ['espercutegf'],
+            'naturalstats': ['naturalstats'],
         }
 
         run_interface(ALL_OBJECTS, snes=True, codes=codes,
