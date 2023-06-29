@@ -19,8 +19,8 @@ $gogo-check
 $main-call
 :       22 $main
 
-$check-learn-rate-call
-:       22 $check-learn-rate
+#$check-learn-rate-call
+#:       22 $check-learn-rate
 
 $check-learned-call
 :       22 $check-learned

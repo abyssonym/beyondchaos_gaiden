@@ -476,6 +476,9 @@ class JunctionObject(TableObject):
             if morpher_indexes:
                 parameters['morpher-index'] = random.choice(morpher_indexes)
 
+            parameters['esper-allocations-address'] = \
+                    addresses.char_esper_address
+
             jm.set_parameters(parameters)
             jm.execute()
             JunctionObject.jm = jm

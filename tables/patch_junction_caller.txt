@@ -12,7 +12,7 @@
 .addr           check-esper-available           621900
 .addr               check-esper-owned               6218c0
 .addr               check-can-equip-esper           621a00
-.addr                   esper-allocations-address       307880
+.addr                   esper-allocations-address       {{esper-allocations-address}}
 .addr           set-new-esper                   621960
 .addr               get-mp-cost-targeting           6219a0
 .addr                   mp-costs-address                046db4
@@ -197,7 +197,6 @@ $check-esper-owned
 :       c2 12
 :       60
 
-#.addr                   esper-allocations-address       307880
 $check-can-equip-esper
 :       48 08 48
 :       ad $menu-active-character,2
