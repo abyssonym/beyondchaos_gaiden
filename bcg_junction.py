@@ -7,6 +7,9 @@ from collections import defaultdict
 from os import path
 
 
+set_addressing_mode('hirom')
+
+
 def populate_data(data, filename, address):
     f = get_open_file(filename)
 
@@ -68,6 +71,7 @@ class JunctionManager:
         self.outfile = get_open_file(outfile)
         self.directory = tblpath
         self.patches = set()
+        self.patch_blacklist = set()
 
         assert manifest or data
         if manifest:
@@ -342,8 +346,10 @@ class JunctionManager:
         self.populate_list('monster', 'black', 0x1ff)
 
     def write_patches(self):
-        set_addressing_mode('hirom')
         for patch in sorted(self.patches):
+            if patch in self.patch_blacklist:
+                self.patches.remove(patch)
+                continue
             write_patch(self.outfile, patch, mapping=self.address_mapping,
                         parameters=self.patch_parameters)
 
