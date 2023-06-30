@@ -169,7 +169,8 @@
         "gaia_boost":           "地形の利点",
         "gaia_assist":          "地形の反撃",
         "flinch":               "ひるみ",
-        "double_time":          "にびょうし"
+        "double_time":          "にびょうし",
+        "plague":               "プレイグ"
     },
 
     "battle_messages": {

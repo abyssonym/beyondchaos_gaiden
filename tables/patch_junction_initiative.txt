@@ -1,4 +1,5 @@
 .addr   jun-checker                     610000
+.addr   jun-check-are-same-team         6105e0
 .addr   jun-check-entity-living         610600
 .addr   main                            621600
 .addr   check-esper-defense             6200c0
@@ -9,6 +10,7 @@
 .def    jun-index-regenerator   51
 .def    jun-index-auto-reraise  75
 .def    jun-index-final-fenix   98
+.def    jun-index-plague        a4
 
 0225fa: 5c $main
 :       ea ea
@@ -59,6 +61,12 @@ $main
 
 .label no-esper-defense
 :       e2 30
+:       a9 jun-index-plague
+:       22 $jun-checker
+:       f0 no-plague
+:       20 @do-plague,2
+
+.label no-plague
 :       fa
 :       a9 jun-index-initiative
 :       22 $jun-checker
@@ -72,6 +80,24 @@ $main
 :       5c $return-terminate
 .label continue-loop
 :       5c $return-loop
+
+.label do-plague
+:       5a
+:       a0 12
+.label plague-loop
+:       22 $jun-check-are-same-team
+:       d0 plague-skip
+:       b9 1d 33
+:       89 01
+:       f0 plague-skip
+:       a9 20
+:       19 04 32
+:       99 04 32
+.label plague-skip
+:       88 88
+:       10 plague-loop
+:       7a
+:       60
 
 VALIDATION
 

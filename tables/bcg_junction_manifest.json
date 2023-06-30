@@ -184,7 +184,8 @@
         "gaia_boost":           "a0",
         "gaia_assist":          "a1",
         "flinch":               "a2",
-        "double_time":          "a3"
+        "double_time":          "a3",
+        "plague":               "a4"
     },
 
     "junction_short_names": {
@@ -348,7 +349,8 @@
         "gaia_boost":           "Gaia Boost",
         "gaia_assist":          "Gaia Assist",
         "flinch":               "Flinch",
-        "double_time":          "Double Time"
+        "double_time":          "Double Time",
+        "plague":               "Plague"
     },
 
     "junction_tags": {
@@ -512,7 +514,8 @@
         "gaia_boost":           ["dance", "fire", "ice", "bolt", "poison", "wind", "pearl", "earth", "water"],
         "gaia_assist":          ["dance", "defend", "magic"],
         "flinch":               ["slow", "debuff"],
-        "double_time":          ["haste", "buff"]
+        "double_time":          ["haste", "buff"],
+        "plague":               ["condemned", "death", "status", "debuff", "haste", "slow"]
     },
 
     "esper_tags":       "tags_esper.json",
@@ -1261,6 +1264,9 @@
         "double_time": [
             "patch_junction_double_time.txt",
             "patch_junction_damage_trigger.txt"
+        ],
+        "plague": [
+            "patch_junction_initiative.txt"
         ]
     }
 }
