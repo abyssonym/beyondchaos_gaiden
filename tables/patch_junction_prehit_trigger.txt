@@ -32,6 +32,7 @@
 
 .def    jun-index-null-freeze       5a
 .def    jun-index-firestarter       74
+.def    jun-index-null-sleep        a6
 
 .def    jun-index-counter-all       84
 .def    jun-index-hamedo            85
@@ -73,12 +74,21 @@ $main
 :       b9 f9 3e
 :       29 02
 :       f0 no-freeze
-:       bb
 :       a9 jun-index-null-freeze
-:       22 $jun-checker
+:       22 $jun-checker-y
 :       d0 freeze-exit-miss
 
 .label no-freeze
+:       b9 e5 3e
+:       89 80
+:       f0 no-sleep
+:       b9 f9 3c
+:       f0 no-sleep
+:       a9 jun-index-null-sleep
+:       22 $jun-checker-y
+:       d0 freeze-exit-miss
+
+.label no-sleep
 :       fa
 
 :       a9 jun-index-resonate

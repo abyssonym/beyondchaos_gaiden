@@ -1,5 +1,5 @@
 .addr   jun-checker                     610000
-.addr   main                            621060
+.addr   main                            6221a0
 .addr   return-normal                   020e07
 .addr   return-ravenous                 020e1d
 

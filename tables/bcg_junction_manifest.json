@@ -186,7 +186,8 @@
         "flinch":               "a2",
         "double_time":          "a3",
         "plague":               "a4",
-        "discordant":           "a5"
+        "discordant":           "a5",
+        "null_sleep":           "a6"
     },
 
     "junction_short_names": {
@@ -352,7 +353,8 @@
         "flinch":               "Flinch",
         "double_time":          "Double Time",
         "plague":               "Plague",
-        "discordant":           "Discordant"
+        "discordant":           "Discordant",
+        "null_sleep":           "Null Sleep?"
     },
 
     "junction_tags": {
@@ -518,7 +520,8 @@
         "flinch":               ["slow", "debuff"],
         "double_time":          ["haste", "buff"],
         "plague":               ["condemned", "death", "status", "debuff", "haste", "slow"],
-        "discordant":           ["luck", "buff", "debuff"]
+        "discordant":           ["luck", "buff", "debuff"],
+        "null_sleep":           ["status", "sleep"]
     },
 
     "esper_tags":       "tags_esper.json",
@@ -1272,6 +1275,9 @@
             "patch_junction_initiative.txt"
         ],
         "discordant": [
+            "patch_junction_prehit_trigger.txt"
+        ],
+        "null_sleep": [
             "patch_junction_prehit_trigger.txt"
         ]
     }

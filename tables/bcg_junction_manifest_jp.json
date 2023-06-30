@@ -171,7 +171,8 @@
         "flinch":               "ひるみ",
         "double_time":          "にびょうし",
         "plague":               "プレイグ",
-        "discordant":           "怪音波的"
+        "discordant":           "怪音波的",
+        "null_sleep":           "アボイド睡眠"
     },
 
     "battle_messages": {
