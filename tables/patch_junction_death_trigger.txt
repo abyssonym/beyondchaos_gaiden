@@ -57,12 +57,15 @@ $main
 :       20 @queue-final-attack,2
 
 .label no-spiraler
+:       c2 20
+:       b9 18 30
+:       2c 56 3a
+:       d0 already-death-trigger
+:       e2 20
+
 :       a9 jun-index-esper
 :       22 $jun-checker
 :       f0 no-esper
-:       bd 18 30
-:       0c 2e 3f
-:       d0 no-esper
 
 :       a9 summon-command-index
 :       8d 7a 3a
@@ -77,18 +80,14 @@ $main
 :       a9 jun-index-rippler
 :       22 $jun-checker
 :       f0 no-rippler
-:       a9 02
-:       3c 05 32
-:       f0 no-rippler
-:       5d 05 32
-:       9d 05 32
+
 :       22 $jun-set-target-counter
 :       a9 rippler-index
-:       8d 7b 3a
-:       22 $jun-queue-command
+:       20 @queue-final-attack,2
 
 .label no-rippler
 :       c2 20
+.label already-death-trigger
 .label main-finish
 :       a9 80 00
 :       14 f4
