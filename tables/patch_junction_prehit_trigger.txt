@@ -4,8 +4,10 @@
 .addr   jun-check-entity-living         610600
 .addr   jun-check-entity-can-act        6106c0
 .addr   jun-set-target-allies           610780
+.addr   jun-mult                        610800
 .addr   jun-rng1                        610820
 .addr   jun-rng2                        610830
+.addr   jun-divide                      610860
 .addr   jun-check-is-damage-over-time   610920
 .addr   jun-check-spell-targets-ally    610960
 .addr   jun-generic-dispatch            610f00
@@ -21,6 +23,7 @@
 .addr   queue-counter                   622300
 .addr   main-esper-counter              6225a0
 .addr   main-gaia                       622700
+.addr   do-discordant                   622160
 .addr   pick-dance-move                 02059c
 .addr   background-dances-address       2d8e5b
 
@@ -39,6 +42,7 @@
 .def    jun-index-decisive          9c
 .def    jun-index-gaia-assist       a1
 .def    jun-index-flinch            a2
+.def    jun-index-discordant        a5
 
 .def    vanish-spell-index          26
 .def    spell-proc-command-index    43
@@ -182,6 +186,12 @@ $main-counter
 :       20 $queue-counter,2
 
 .label no-counter-all
+:       a9 jun-index-discordant
+:       22 $jun-checker
+:       f0 no-discordant
+:       20 $do-discordant,2
+
+.label no-discordant
 :       ad a5 11
 :       f0 no-return-magic
 :       c0 08
@@ -399,6 +409,30 @@ $main-gaia
 .label do-gaia-exit
 :       68
 :       99 e1 32
+:       60
+
+$do-discordant
+:       da
+:       c2 20
+:       bd f4 3b
+:       a2 0a
+:       22 $jun-divide
+:       e2 20
+:       da
+:       b9 18 3b
+:       a2 0a
+:       22 $jun-divide
+:       eb
+:       a9 0a
+:       22 $jun-mult
+:       18
+:       63 01
+:       d0 discordant-not-zero
+:       1a
+.label discordant-not-zero
+:       99 18 3b
+:       68
+:       fa
 :       60
 
 VALIDATION

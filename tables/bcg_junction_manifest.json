@@ -185,7 +185,8 @@
         "gaia_assist":          "a1",
         "flinch":               "a2",
         "double_time":          "a3",
-        "plague":               "a4"
+        "plague":               "a4",
+        "discordant":           "a5"
     },
 
     "junction_short_names": {
@@ -350,7 +351,8 @@
         "gaia_assist":          "Gaia Assist",
         "flinch":               "Flinch",
         "double_time":          "Double Time",
-        "plague":               "Plague"
+        "plague":               "Plague",
+        "discordant":           "Discordant"
     },
 
     "junction_tags": {
@@ -515,7 +517,8 @@
         "gaia_assist":          ["dance", "defend", "magic"],
         "flinch":               ["slow", "debuff"],
         "double_time":          ["haste", "buff"],
-        "plague":               ["condemned", "death", "status", "debuff", "haste", "slow"]
+        "plague":               ["condemned", "death", "status", "debuff", "haste", "slow"],
+        "discordant":           ["luck", "buff", "debuff"]
     },
 
     "esper_tags":       "tags_esper.json",
@@ -1267,6 +1270,9 @@
         ],
         "plague": [
             "patch_junction_initiative.txt"
+        ],
+        "discordant": [
+            "patch_junction_prehit_trigger.txt"
         ]
     }
 }

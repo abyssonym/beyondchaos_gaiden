@@ -170,7 +170,8 @@
         "gaia_assist":          "地形の反撃",
         "flinch":               "ひるみ",
         "double_time":          "にびょうし",
-        "plague":               "プレイグ"
+        "plague":               "プレイグ",
+        "discordant":           "怪音波的"
     },
 
     "battle_messages": {
