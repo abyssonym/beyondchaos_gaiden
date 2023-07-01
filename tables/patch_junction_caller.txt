@@ -181,7 +181,7 @@ $check-esper-owned
 :       4a 4a 4a
 :       48
 :       a3 02
-:       29 03
+:       29 07
 :       aa
 :       bf $bits
 :       e2 10
