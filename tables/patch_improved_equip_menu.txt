@@ -1,0 +1,171 @@
+# Combined Equipment/Relic Menu Patch
+# Author: GrayShadows
+# Ported from BNW by Abyssonym
+
+030247: de f2                                               # 030249
+030285: 87                                                  # 030286
+031bb8: 4c 00 f2                                            # 031bbb
+031bc4: 10 04 45 64  4a 64 49 20  06 f2                     # 031bce
+031c08: 8a 80                                               # 031c0a
+032e72: eb 1e                                               # 032e74
+03372d: 81 f3                                               # 03372f
+038e64: 40 08 70 08  a0 08 c8 08                            # 038e6c
+038e76: 9d f2 4c 40  06 81 00 00  02 03                     # 038e80
+038fb4: ea ea ea ea  ea ea ea ea  ea ea ea ea               # 038fc0
+039038:                           20 ab a6 ea  ea ea ea ea
+:       ea ea ea ea  ea 20 4e 90  4c                        # 039049
+0390ab: ea ea ea                                            # 0390ae
+0390cc: ea ea ea ea  ea ea ea ea  ea ea ea ea               # 0390d8
+0390f0: ea ea ea                                            # 0390f3
+039100: ea ea ea ea                                         # 039104
+03911b: 4c 0d f2                                            # 03911e
+0393e9: 2c 85 29 a0  8d 78                                  # 0393ef
+039483: 4b 58 1c 0a  4b 58 1c 01  4b 58 06 01               # 03948f
+03960c: 60                                                  # 03960d
+03964f: 4c 8a f3 20  f9 02 60 4c  93 f3                     # 039659
+03966e: 11 f3 8e 96  9f 96 ea ea  ea                        # 039677
+039688: ea ea ea 64  4d 60 ea ea  ea                        # 039691
+0396a8:                           a2 05 00 80  03 a2 03 00
+:       da 20 f2 93  fa b9 1f 00  20 5e 9d a9  ff 99 1f 00
+:       c8 ca 10 f1  60                                     # 0396c5
+0396e9: ea ea ea                                            # 0396ec
+0396f4: ad                                                  # 0396f5
+039888: 18 f3                                               # 03988a
+039893: 20 59 f3 ea                                         # 039897
+0398a9: 6b f3 20 33  92                                     # 0398ae
+0398c1: 76 f3                                               # 0398c3
+0398d0: 18 f3                                               # 0398d2
+039910: 2c f3                                               # 039912
+03991b: 4c 3a f3                                            # 03991e
+039949: 06 20 45 f3  4c e5 a0 60  ea                        # 039952
+039b67: 90 09 f0 47  c9 04 90 7f  4c 51 a0                  # 039b72
+03a0fc: 6c 8e a5 5e  85 4e 20 4e  f3 a9 55                  # 03a107
+03a1c9: c2 20 98 65  4b a8 e2 20  7b b9 1f                  # 03a1d4
+03a2a6:                    ba a2  c0 a2 c6 a2  cb a2 bc f3
+:       cc f3 dc f3  ec f3 fc f3  0c f4 9d 78  84 90 8f 00
+:       a9 78 8e 8f  93 00 b5 78  91 8c 00 bf  78 84 8c 8f
+:       00                                                  # 03a2d1
+03a6b5: 3c 01 84 e7  a0 04                                  # 03a6bb
+03a6c5: 7c 01 84 e7  a0 44                                  # 03a6cb
+03a6d5: bc 01 84 e7  a0 84 01                               # 03a6dc
+03a6e5: fc 01 84 e7  a0 c4 01                               # 03a6ec
+03f200: 20 bd 1b 4c  d7 1b 20 99  1b 20 b6 94  60 a9 20 85
+:       29 20 3e 91  80 0d 80 3a  a9 05 48 20  a9 f2 68 3a
+:       10 f8 60 a9  10 2c d8 11  d0 26 a0 01  00 b9 c6 11
+:       c9 ff f0 1c  20 21 83 ae  34 21 bf 00  50 d8 29 07
+:       c9 03 f0 0c  88 10 e6 20  f2 93 c8 20  91 f2 80 c1
+:       80 c4 a9 20  2c d8 11 d0  22 20 41 9c  a0 05 00 b9
+:       c6 11 c9 ff  f0 12 20 21  83 ae 34 21  c2 20 bf 01
+:       50 d8 24 e7  e2 20 f0 05  88 10 e4 80  9b 5a 20 f2
+:       93 c2 20 98  18 63 01 7a  a8 e2 20 20  91 f2 82 80
+:       ff b9 1f 00  20 5e 9d a9  ff 99 1f 00  60 00 38 78
+:       38 00 44 78  44 00 50 78  50 c2 20 29  ff 00 48 0a
+:       aa bf ae a2  c3 aa 48 bf  00 00 c3 aa  20 6d 94 c2
+:       20 98 63 03  a8 e2 20 a9  20 85 29 b9  1f 00 7a fa
+:       c9 ff f0 03  4c 79 94 a9  24 85 29 4c  f9 02 a9 10
+:       04 45 20 14  9e 20 4e 90  20 56 8e a5  08 89 80 f0
+:       06 20 b2 0e  4c 64 96 a5  09 89 80 f0  0d 20 a9 0e
+:       20 10 91 a9  04 85 27 64  26 60 a9 35  85 e0 4c 22
+:       20 20 85 96  20 1b 91 60  a5 09 89 40  f0 04 a9 10
+:       14 45 20 14  9e 20 72 8e  20 c3 a1 60  a9 10 14 45
+:       20 14 9e 20  d3 9a 20 d8  a1 60 20 42  9a b0 03 4c
+:       6e 99 4c 20  99 20 a9 0e  a5 f0 8d d8  11 60 a5 5d
+:       85 4d 20 75  8e 20 68 13  60 a5 4b 85  5f a5 4e 85
+:       5e a5 4d 85  5d ad d8 11  85 f0 60 a9  10 04 45 20
+:       15 6a 20 23  9e 60 20 59  8e a9 10 04  45 20 68 13
+:       60 b9 7a 91  9e af a2 9e  b0 00 20 9c  f3 a0 ba a2
+:       4c f9 02 20  9c f3 a0 c6  a2 4c f9 02  a9 24 85 29
+:       a0 ba a2 20  f9 02 a0 cb  a2 20 f9 02  a0 c0 a2 20
+:       f9 02 a0 c6  a2 20 f9 02  20 8a 80 60  8d 7a ff 91
+:       c4 a1 9a a7  9d ff ff ff  ff ff ff 00  ab 7a ff 8b
+:       c4 a1 9a a7  9d ff ff ff  ff ff ff 00  0d 7b ff 87
+:       9e 9a 9d                                            # 03f3e3
+03f3eb: 00 2b 7b ff  81 a8 9d b2                            # 03f3f3
+03f3fb:                                    00  8d 7b ff 91
+:       9e a5 a2 9c  ff ff ff ff  ff ff ff 00  ab 7b ff 91
+:       9e a5 a2 9c  ff ff ff ff  ff ff ff 00               # 03f41c
+
+VALIDATION
+
+030247: 21 96                                               # 030249
+030285: 84                                                  # 030286
+031bb8: 20 bd 1b                                            # 031bbb
+031bc4: 06 04 46 64  4a 64 49 20  b6 94                     # 031bce
+031c08: 14 96                                               # 031c0a
+032e72: 90 2e                                               # 032e74
+03372d: e3 37                                               # 03372f
+038e64: 00 10 38 10  80 10 b8 10                            # 038e6c
+038e76: 80 8e 4c 40  06 80 00 00  01 04                     # 038e80
+038fb4: e0 02 00 b0  05 20 1d 94  80 02 64 e0               # 038fc0
+039038:                           a9 2c 85 29  a2 ae a2 a0
+:       04 00 20 ba  69 20 4e 90  20                        # 039049
+0390ab: 20 0c 96                                            # 0390ae
+0390cc: a0 8f 94 20  41 03 a0 93  94 20 41 03               # 0390d8
+0390f0: 20 b2 61                                            # 0390f3
+039100: a9 2c 85 29                                         # 039104
+03911b: 20 75 99                                            # 03911e
+0393e9: 20 85 29 a0  b7 7b                                  # 0393ef
+039483: 0b 59 1c 07  8b 58 1c 02  4b 63 1c 0d               # 03948f
+03960c: 20                                                  # 03960d
+03964f: a0 09 a3 20  f9 02 60 a0  11 a3                     # 039659
+03966e: 85 96 8e 96  9f 96 20 14  96                        # 039677
+039688: 20 1b 91 64  4d 60 20 14  96                        # 039691
+0396a8:                           20 f2 93 b9  1f 00 20 5e
+:       9d b9 20 00  20 5e 9d b9  21 00 20 5e  9d b9 22 00
+:       20 5e 9d a9  ff                                     # 0396c5
+0396e9: 20 10 91                                            # 0396ec
+0396f4: a8                                                  # 0396f5
+039888: 75 99                                               # 03988a
+039893: a5 4e 85 5f                                         # 039897
+0398a9: 33 92 20 15  6a                                     # 0398ae
+0398c1: 59 8e                                               # 0398c3
+0398d0: 72 8e                                               # 0398d2
+039910: d3 9a                                               # 039912
+03991b: 20 42 9a                                            # 03991e
+039949: 23 20 a9 0e  20 87 9c c2  20                        # 039952
+039b67: f0 49 c9 03  f0 02 80 03  4c ee 9b                  # 039b72
+03a0fc: d5 8e a5 5f  85 4e 20 de  8e a9 5a                  # 03a107
+03a1c9: a5 4b d0 05  b9 23 00 80  03 b9 24                  # 03a1d4
+03a2a6:                    1a a3  22 a3 2c a3  34 a3 cc a2
+:       d3 a2 3c a3  44 a3 da a2  e2 a2 0d 7a  91 c4 a1 9a
+:       a7 9d 00 8d  7a 8b c4 a1  9a a7 9d 00  0d 7b 87 9e
+:       9a                                                  # 03a2d1
+03a6b5: bc 01 84 e7  a0 84                                  # 03a6bb
+03a6c5: fc 01 84 e7  a0 c4                                  # 03a6cb
+03a6d5: 3c 02 84 e7  a0 04 02                               # 03a6dc
+03a6e5: 7c 02 84 e7  a0 44 02                               # 03a6ec
+03f200: ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff                                            # 03f3e3
+03f3eb: ff ff ff ff  ff ff ff ff                            # 03f3f3
+03f3fb:                                    ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+:       ff ff ff ff  ff ff ff ff  ff ff ff ff               # 03f41c
