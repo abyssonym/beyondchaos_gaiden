@@ -48,7 +48,7 @@
 : 43 a9 0e 8d  61 43 a0 3b  fb 8c 62 43  a9 c3 8d 64
 : 43 a9 c3 8d  67 43 a9 40  04 43 60 a0  76 fb 20 41
 : 03 a0 7a fb  20 41 03 20  52 0e 20 15  6a 20 19 6a
-: 20 3c 6a a9  2c 85 29 a0  25 fb 20 f9  02 a9 20 85
+: 20 3c 6a a9  2c 85 29 a0  61 fd 20 f9  02 a9 20 85
 : 29 a6 00 bf  fd 6a f0 f0  07 9f 89 9d  7e e8 80 f3
 : 8a 38 e9 0d  b0 01 7b 85  5c a9 0d 85  5a a9 01 85
 : 5b 20 30 fc  20 28 0e 4c  6e 0e 20 1f  09 a0 00 90
@@ -74,6 +74,8 @@
 : 3a 0a aa bf  3b 6a f0 aa  e2 20 ca e8  bf 00 00 f0
 : 8d 80 21 d0  f6 a0 89 9e  84 e7 a9 7e  85 e9 4c ff
 : 02
+:    15 79 81  84 98 8e 8d  83 fe 82 87  80 8e 92 fe
+: 89 94 8a 84  81 8e 97 00
 
 050627:
 : 12 a5 05 f0  12 a2 ff ff  e8 bf f9 06  c5 30 08 c5
@@ -159,6 +161,8 @@ VALIDATION
 : ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
 : ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
 : ff
+:    ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff
+: ff ff ff ff  ff ff ff ff
 
 050627:
 : 10 a2 00 00  bf f9 06 c5  30 0d c5 01  f0 03 e8 80
