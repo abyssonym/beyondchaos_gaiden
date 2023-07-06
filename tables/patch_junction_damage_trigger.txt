@@ -14,7 +14,7 @@
 .addr   do-distribute-characters        621d00
 .addr   do-distribute-monsters          621d60
 .addr   check-nihopalaoa                620e80
-.addr   check-heal                      620f20
+.addr   check-heal                      6217a0
 .addr   check-brace                     621280
 .addr   check-catch                     6212a0
 .addr   boost-healing-half              620ea0

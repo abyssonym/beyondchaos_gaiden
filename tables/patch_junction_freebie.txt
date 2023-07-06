@@ -11,6 +11,9 @@
 
 $main
 :       08
+:       ad 7c 3a
+:       c9 09
+:       f0 exit-no-freebie
 :       22 $jun-rng2
 :       29 03
 :       d0 exit-no-freebie
