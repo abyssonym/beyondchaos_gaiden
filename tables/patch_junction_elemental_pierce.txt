@@ -60,7 +60,17 @@ $main-esper-attack-misc-effect
 :       bf 04 00 c4
 :       29 04 00
 :       d0 misc-cure-status
+
 :       bf 0a 00 c4
+:       48
+:       b9 a1 3a
+:       89 04 00
+:       f0 no-death-protection
+:       68
+:       29 7f ff
+:       48
+.label no-death-protection
+:       68
 :       19 d4 3d
 :       99 d4 3d
 :       bf 0c 00 c4
@@ -68,6 +78,7 @@ $main-esper-attack-misc-effect
 :       29 ff df
 :       99 e8 3d
 :       80 esper-attack-misc-cleanup
+
 .label misc-cure-status
 :       bf 0a 00 c4
 :       19 fc 3d
