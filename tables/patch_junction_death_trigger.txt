@@ -36,9 +36,10 @@ $main
 :       f0 skip-everything
 :       80 do-stuff
 .label skip-everything
-        82 main-finish,2
+:       82 main-finish,2
 .label do-stuff
-:       64 b8
+:       a5 b8
+:       48
 :       bd 18 30
 :       85 b8
 :       e2 20
@@ -86,8 +87,10 @@ $main
 :       20 @queue-final-attack,2
 
 .label no-rippler
-:       c2 20
 .label already-death-trigger
+:       c2 20
+:       68
+:       85 b8
 .label main-finish
 :       a9 80 00
 :       14 f4
