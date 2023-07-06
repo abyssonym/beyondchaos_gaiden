@@ -741,7 +741,9 @@
     "status_blacklist":     {},
     "monster_whitelist":    {},
     "monster_blacklist":    {
-        "every_monster":    ["taunt", "quickening"]
+        "Kefka 11a":        ["astral"],
+        "Kefka 12a":        ["astral"],
+        "every_monster":    ["taunt", "quickening", "reverse"]
     },
 
     "always_banlist":       [],
@@ -751,7 +753,7 @@
     "status_banlist":       [],
     "monster_banlist":      [
         "taunt", "esper_magic", "esper_defense", "esper_counter",
-        "esper_attack", "quickening", "vip"],
+        "esper_attack", "reverse", "astral", "quickening", "vip"],
 
     "patch_parameters": {
         "morpher-index":                    "00",
