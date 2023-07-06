@@ -1,7 +1,7 @@
 .addr   jun-check-entity-living         610600
 .addr   main                            628000
 .addr   reentry-address                 02175f
-.addr   reentry-no-esper                024f5f
+.addr   reentry-fail-address            02151e
 
 .addr   pointer-address                 61f180
 .def    command-index       40
@@ -38,9 +38,7 @@ $main
 :       5c $reentry-address
 
 .label no-esper
-:       a9 ff
-:       85 b8
-:       5c $reentry-no-esper
+:       5c $reentry-fail-address
 
 $pointer-address
 :       $main,2
