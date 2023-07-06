@@ -140,6 +140,7 @@ $skills                     names_skills.txt
 .option                     patch_improved_equip_menu.txt
 .option                     patch_improved_party_gear.txt
 .option                     patch_improved_shop_menu.txt
+.option                     patch_informative_miss.txt
 .option                     patch_mastered_espers.txt
 .option                     patch_mp_color_digits.txt
 .option                     patch_select_atb_swap.txt

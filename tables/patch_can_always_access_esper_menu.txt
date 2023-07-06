@@ -2,10 +2,10 @@
 .addr   gogo-check              034d71
 .addr   check-learn-rate-call   0359f6
 .addr   check-learned-call      035a96
-.addr   main                    618100
-.addr   check-character         618110
-.addr   check-learn-rate        618130
-.addr   check-learned           618140
+.addr   main                    57f100
+.addr   check-character         57f110
+.addr   check-learn-rate        57f130
+.addr   check-learned           57f140
 
 .addr   esper-data              186e00
 

@@ -1,4 +1,4 @@
-.addr   main                    618020
+.addr   main                    57f000
 .addr   return-miss             0222b5
 .addr   return-hit              0222e8
 

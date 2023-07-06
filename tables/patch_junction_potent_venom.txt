@@ -2,15 +2,19 @@
 .addr   jun-rng1                        610820
 
 .addr   main                            6211a0
-.addr   return-normal                   024460
+.addr   return-normal                   02445c
 .addr   return-poisoned                 02447d
 
 .def    jun-index-potent-venom  58
 .def    poison-bit              04 00
 
-02445c: 5c $main
+024456: 5c $main
+:       ea ea
 
 $main
+:       19 10 3e
+:       99 10 3e
+
 # check already poisoned
 :       a9 poison-bit
 :       24 f8
@@ -46,8 +50,6 @@ $main
 :       5c $return-poisoned
 
 .label exit-normal
-:       ad a7 11
-:       4a
 :       5c $return-normal
 
 .label already-poisoned
@@ -58,8 +60,13 @@ $main
 :       5c $return-poisoned
 
 VALIDATION
-02445c: ad a7 11
-:       4a
+# Old validation, conflicts with "informative miss" patch
+#02445c: ad a7 11
+#:       4a
 
-024462: a5 fc
-:       05 f4
+024456: 19 10 3e
+:       99 10 3e
+
+# Verify the exit in case of conflict with "informative miss" patch
+$return-poisoned
+:       28 60
