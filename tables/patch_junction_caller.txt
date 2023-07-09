@@ -182,9 +182,9 @@ $check-esper-owned
 :       48
 :       a3 02
 :       29 07
+:       e2 10
 :       aa
 :       bf $bits
-:       e2 10
 :       fa
 :       3c 69 1a
 :       d0 esper-is-owned
