@@ -248,6 +248,7 @@ FailExit:
   RTS
 
 MissType:
+  PHX
   CLC               ; default to no "miss" text
   LDX #$04          ; point to "fail" bytes first
 .loop
@@ -262,6 +263,7 @@ MissType:
   BMI .exit         ; if not, exit
   TSB !miss         ; else, show fail/null on next loop
 .exit
+  PLX
   RTS 
 .set_msg
   TRB !fail         ; clear "fail" bit
@@ -269,6 +271,7 @@ MissType:
   SEC               ; indicate "miss" text
   TXA               ; get message flag in A
   XBA               ; move to hi byte
+  PLX
   RTS
 
 FinishMiss:
