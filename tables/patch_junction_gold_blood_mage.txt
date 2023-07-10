@@ -143,7 +143,7 @@ $gold-to-mp
 :       29 ff 00
 :       d0 max-gold
 :       ad 60 18
-:       4a 4a 4a 4a
+:       4a 4a 4a 4a 4a
 :       c9 e7 03
 :       b0 max-gold
 :       60
@@ -198,7 +198,7 @@ $deduct-blood
 $deduct-gold
 :       ad 4c 3a
 :       48
-:       0a 0a 0a 0a
+:       0a 0a 0a 0a 0a
 :       8d 4c 3a
 :       ad 60 18
 :       38
