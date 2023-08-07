@@ -73,6 +73,7 @@
 .addr   jun-check-is-damage-over-time       610920
 .addr   jun-check-spell-targets-ally        610960
 .addr       spell-data-address                  046ac0
+.addr   jun-compare-x-y                     6109a0
 
 .addr   bits                                00bafc
 .addr   wide-bits                           00b4f3
@@ -1090,6 +1091,23 @@ $jun-check-spell-targets-ally
 .label exit-spell-targets-ally-yes
 :       28 fa 68
 :       c2 02
+:       6b
+
+$jun-compare-x-y
+:       08
+:       c2 30
+:       48 da
+:       98
+:       c3 01
+:       f0 jun-compare-x-y-are-equal
+:       fa 68
+:       28
+:       c2 02
+:       6b
+.label jun-compare-x-y-are-equal
+:       fa 68
+:       28
+:       e2 02
 :       6b
 
 VALIDATION

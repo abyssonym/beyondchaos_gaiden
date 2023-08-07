@@ -344,7 +344,7 @@ $check-phys
 :       60
 
 $boost-damage-half
-:       48
+:       48 08
 :       c2 20
 :       ad b0 11
 :       4a
@@ -354,12 +354,11 @@ $boost-damage-half
 :       a9 ff ff
 .label no-overflow-half
 :       8d b0 11
-:       e2 20
-:       68
+:       28 68
 :       60
 
 $boost-damage-quarter
-:       48
+:       48 08
 :       c2 20
 :       ad b0 11
 :       4a 4a
@@ -369,12 +368,11 @@ $boost-damage-quarter
 :       a9 ff ff
 .label no-overflow-quarter
 :       8d b0 11
-:       e2 20
-:       68
+:       28 68
 :       60
 
 $reduce-damage-quarter
-:       48
+:       48 08
 :       c2 20
 :       ad b0 11
 :       4a
@@ -383,8 +381,7 @@ $reduce-damage-quarter
 :       18
 :       6d b0 11
 :       8d b0 11
-:       e2 20
-:       68
+:       28 68
 :       60
 
 VALIDATION
