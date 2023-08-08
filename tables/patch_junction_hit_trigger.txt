@@ -22,9 +22,10 @@
 .def    jun-index-quickening    94
 .def    jun-index-gunblade      95
 
-.def    super-ball-item-index   fa
-.def    hyperdrive-index        d1
-.def    custom-mp-command-index 42
+.def    super-ball-item-index       fa
+.def    hyperdrive-index            d1
+.def    custom-mp-command-index     42
+.def    fixed-damage-command-index  45
 
 021771: 22 $null-secondary-data
 
@@ -89,10 +90,12 @@ $main
 :       d0 no-quickening
 :       22 $jun-check-entity-can-act
 :       f0 no-quickening
-:       a9 jun-index-quickening
+:       c2 20
+:       bd $current-current-hp-address,2
+:       f0 no-quickening
+:       a9 jun-index-quickening 00
 :       22 $jun-checker
 :       f0 no-quickening
-:       c2 20
 :       a5 b8
 :       2c $living-characters,2
 :       e2 20
@@ -116,6 +119,7 @@ $main
 :       b0 no-quickening
 :       1a
 :       85 b7
+:       20 @quickening-add-hp-damage,2
 :       a9 custom-mp-command-index
 :       8d 7a 3a
 :       a5 b6
@@ -123,6 +127,7 @@ $main
 :       22 $jun-queue-command
 
 .label no-quickening
+:       e2 20
 :       a9 jun-index-astral
 :       22 $jun-checker
 :       f0 no-astral
@@ -149,12 +154,6 @@ $main
 
 $do-quickening-penalty
 :       5a
-
-:       a9 22
-:       8d 7a 3a
-:       a9 40
-:       8d 7b 3a
-:       22 $jun-queue-command
 
 :       c2 20
 :       bd $current-max-hp-address,2
@@ -183,13 +182,23 @@ $do-quickening-penalty
 :       4a
 :       18
 :       63 01
-:       3a 3a
-:       10 quickening-penalty-no-underflow
-:       1a
-.label quickening-penalty-no-underflow
-:       1a
 :       83 01
 :       68
+:       60
+
+.label quickening-add-hp-damage
+:       a9 fixed-damage-command-index
+:       8d 7a 3a
+:       c2 20
+:       a5 b8
+:       48
+:       a5 b7
+:       29 ff 00
+:       85 b8
+:       22 $jun-queue-command
+:       68
+:       85 b8
+:       e2 20
 :       60
 
 $null-secondary-data

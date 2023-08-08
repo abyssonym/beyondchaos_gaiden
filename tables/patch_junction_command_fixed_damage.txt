@@ -1,7 +1,4 @@
 .addr   main                            628200
-#.addr   reentry-address                 023167
-#.addr   reentry-address                 0233b1
-#.addr   reentry-address                 023414
 .addr   reentry-address                 023292
 
 .addr   pointer-address                 61f18a
@@ -24,10 +21,6 @@ $main
 :       a9 04
 :       85 ba
 
-# 1 spell power (standard for fixed damage spells)
-#:       a9 01
-#:       8d a6 11
-
 # fixed damage
 :       9c 14 34
 
@@ -41,7 +34,7 @@ $main
 :       8d a2 11
 
 # can't dodge, zero mp cost
-:       a9 00 20
+:       a9 20 00
 :       8d a4 11
 
 # get fixed damage value from b8-b9 (normally targeting bytes)
@@ -68,7 +61,6 @@ $main
 # target only self
 :       bd 18 30
 :       85 b8
-#:       85 a4
 
 :       5c $reentry-address
 
