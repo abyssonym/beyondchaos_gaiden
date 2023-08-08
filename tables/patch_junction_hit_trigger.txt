@@ -1,12 +1,19 @@
 .addr   jun-checker                     610000
+.addr   jun-check-entity-can-act        6106c0
 .addr   jun-deduct-item-if-possible     610740
 .addr   jun-rng1                        610820
 .addr   jun-queue-command               610ff0
 .addr   jun-check-is-damage-over-time   610920
 .addr   main                            622400
-.addr   null-secondary-data             6224e0
+.addr   null-secondary-data             6227e0
+.addr   do-quickening-penalty           622780
 
 .addr   living-characters               7e3a74
+.addr   current-level-address           7e3b18
+.addr   current-current-hp-address      7e3bf4
+.addr   current-current-mp-address      7e3c08
+.addr   current-max-hp-address          7e3c1c
+.addr   current-max-mp-address          7e3c30
 
 .def    jun-index-add-steal     2f
 .def    jun-index-astral        7d
@@ -75,9 +82,13 @@ $main
 .label not-physical
 :       ad a5 11
 :       f0 no-quickening
+:       ad 4c 3a
+:       f0 no-quickening
 :       a5 b7
 :       1a
 :       d0 no-quickening
+:       22 $jun-check-entity-can-act
+:       f0 no-quickening
 :       a9 jun-index-quickening
 :       22 $jun-checker
 :       f0 no-quickening
@@ -90,6 +101,7 @@ $main
 :       4a
 :       6d 4c 3a
 :       90 quickening-no-overflow
+:       20 $do-quickening-penalty,2
 :       a9 ff
 .label quickening-no-overflow
 :       cd a5 11
@@ -134,6 +146,51 @@ $main
 :       a9 20
 :       14 b2
 :       6b
+
+$do-quickening-penalty
+:       5a
+
+:       a9 22
+:       8d 7a 3a
+:       a9 40
+:       8d 7b 3a
+:       22 $jun-queue-command
+
+:       c2 20
+:       bd $current-max-hp-address,2
+:       20 @reduce-three-quarters,2
+:       9d $current-max-hp-address,2
+:       bd $current-current-hp-address,2
+:       20 @reduce-three-quarters,2
+:       9d $current-current-hp-address,2
+:       bd $current-max-mp-address,2
+:       20 @reduce-three-quarters,2
+:       9d $current-max-mp-address,2
+:       bd $current-current-mp-address,2
+:       20 @reduce-three-quarters,2
+:       9d $current-current-mp-address,2
+:       a9 00 00
+:       e2 20
+:       bd $current-level-address,2
+:       20 @reduce-three-quarters,2
+:       9d $current-level-address,2
+:       7a
+:       60
+
+.label reduce-three-quarters
+:       1a 4a
+:       48
+:       4a
+:       18
+:       63 01
+:       3a 3a
+:       10 quickening-penalty-no-underflow
+:       1a
+.label quickening-penalty-no-underflow
+:       1a
+:       83 01
+:       68
+:       60
 
 $null-secondary-data
 :       a5 b5
