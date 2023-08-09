@@ -14,9 +14,10 @@
 .addr               check-can-equip-esper           621a00
 .addr                   esper-allocations-address       {{esper-allocations-address}}
 .addr           set-new-esper                   621960
-.addr               get-mp-cost-targeting           6219a0
-.addr                   mp-costs-address                046db4
-.addr                   targetings-address              046db9
+.addr               get-mp-cost-targeting           621c40
+.addr                   targetings-address              046db4
+.addr                   mp-costs-address                046db9
+.addr                   relic-effects-address           7e3c45
 .addr               check-esper-castable            6219c0
 
 .addr   no-select-disabled-esper        62f200
@@ -258,9 +259,35 @@ $get-mp-cost-targeting
 :       a9 0e
 :       22 $jun-mult
 :       aa
-:       bf $mp-costs-address
-:       eb
 :       bf $targetings-address
+:       eb
+:       bf $mp-costs-address
+
+# gold hairpin/economizer case
+:       48
+:       ad $menu-active-character,2
+:       29 03
+:       0a
+:       e2 10
+:       aa
+:       c2 10
+:       bd $relic-effects-address,2
+:       89 40
+:       f0 no-economizer
+:       68
+:       a9 01
+:       80 finish-hairpin-economizer
+.label no-economizer
+:       89 20
+:       f0 no-gold-hairpin
+:       68
+:       1a
+:       4a
+:       80 finish-hairpin-economizer
+.label no-gold-hairpin
+:       68
+.label finish-hairpin-economizer
+
 :       fa
 :       60
 
