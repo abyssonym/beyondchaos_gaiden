@@ -27,7 +27,26 @@ $main
 # no mp cost
 :       9c a5 11
 
+# non-elemental
+:       9c a1 11
+
+# target self
+:       a9 03
+:       8d a0 11
+
 :       c2 20
+
+# spell power 1 (required to do any damage)
+# clear 11a7 (miss if status fails, indexed battle messages)
+:       a9 01 00
+:       8d a6 11
+
+# no hit rate or special effect
+:       9c a8 11
+
+# no status effects
+:       9c aa 11
+:       9c ac 11
 
 # no damage split, ignore defense, ignore reflect
 :       a9 60 02

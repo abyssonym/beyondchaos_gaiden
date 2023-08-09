@@ -1219,7 +1219,8 @@
         ],
         "quickening": [
             "patch_junction_hit_trigger.txt",
-            "patch_junction_command_custom_mp_spell.txt"
+            "patch_junction_command_custom_mp_spell.txt",
+            "patch_junction_command_fixed_damage.txt"
         ],
         "gunblade": [
             "patch_junction_hit_trigger.txt"
