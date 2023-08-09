@@ -6,8 +6,11 @@
 .addr   jun-check-count-all-living      610680
 .addr   jun-deduct-item-if-possible     610740
 .addr   jun-set-target-allies           610780
+.addr   jun-set-target-counter          6107c0
 .addr   jun-count-bits                  6108c0
 .addr   jun-check-is-damage-over-time   610920
+.addr   jun-compare-x-y                 6109a0
+
 .addr   main                            620c00
 .addr   main-nihopalaoa                 6210e0
 .addr   main-calc                       621dc0
@@ -27,10 +30,13 @@
 .addr   reduce-healing-half             620cf0
 .addr   reverse-damage                  620fa0
 .addr   check-precision                 620fc0
-.addr   do-auto-potion                  621100
+.addr   do-meatbone-auto-potion         621100
 .addr   check-nonzero-nonlethal-damage  621260
-.addr   retarget-salve                  621180
+.addr   retarget-salve                  621080
 .addr   do-blood-restriction            6207c0
+
+.addr   current-hp-address              7e3bf4
+.addr   max-hp-address                  7e3c1c
 
 .def    jun-index-blood             0a
 .def    jun-index-heal-boost        53
@@ -47,8 +53,11 @@
 .def    jun-index-distribute        89
 .def    jun-index-auto-potion       80
 .def        jun-index-salve             07
+.def        jun-index-meatbone          39
+.def            revenge-spell-index         92
 .def        potion-index                e9
 .def    jun-index-double-time       a3
+
 
 
 022af2: 22 $main-nihopalaoa
@@ -104,7 +113,7 @@ $main
 
 .label no-reverse
 :       20 $check-precision,2
-:       20 $do-auto-potion,2
+:       20 $do-meatbone-auto-potion,2
 
 .label no-junction
 :       b9 d0 33
@@ -293,15 +302,15 @@ $check-calc
 :       f0 no-distribute
 :       b9 e4 33
 :       18
-:       79 f4 3b
-:       d9 1c 3c
+:       79 $current-hp-address,2
+:       d9 $max-hp-address,2
 :       90 no-distribute
 :       38
-:       f9 1c 3c
+:       f9 $max-hp-address,2
 :       48
-:       b9 1c 3c
+:       b9 $max-hp-address,2
 :       38
-:       f9 f4 3b
+:       f9 $current-hp-address,2
 :       99 e4 33
 :       68
 :       c0 08
@@ -544,7 +553,7 @@ $check-nonzero-nonlethal-damage
 :       1a
 :       f0 non-non-is-zero
 :       3a
-:       d9 f4 3b
+:       d9 $current-hp-address,2
 :       b0 non-non-is-lethal
 :       68
 :       c2 02
@@ -563,25 +572,45 @@ $retarget-salve
 .label no-salve
 :       60
 
-$do-auto-potion
+$do-meatbone-auto-potion
 :       da
 
 # check for decisive blow
 :       ad 1a 34
 :       29 ff 00
-:       f0 auto-potion-exit
+:       f0 auto-potion-exit-all
 
 # check for mp damage
 :       a9 80 00
 :       2c a3 11
-:       d0 auto-potion-exit
+:       d0 auto-potion-exit-all
 
 :       20 $check-nonzero-nonlethal-damage,2
-:       f0 auto-potion-exit
+:       f0 auto-potion-exit-all
 
 :       22 $jun-check-is-damage-over-time
-:       d0 auto-potion-exit
+:       d0 auto-potion-exit-all
 
+:       22 $jun-compare-x-y
+:       f0 no-meatbone
+
+:       bb
+:       b9 $max-hp-address,2
+:       4a 4a 4a
+:       d9 $current-hp-address,2
+:       90 no-meatbone
+:       a9 jun-index-meatbone 00
+:       22 $jun-checker
+:       f0 no-meatbone
+:       22 $jun-set-target-counter
+:       a5 b8
+:       2d 74 3a
+:       f0 no-meatbone
+:       a9 44 revenge-spell-index
+:       8d 7a 3a
+:       22 $jun-queue-command
+
+.label no-meatbone
 :       bb
 :       a9 jun-index-auto-potion 00
 :       22 $jun-checker
@@ -592,6 +621,7 @@ $do-auto-potion
 :       90 skip-monster-rng-check
 :       22 $jun-rng1
 :       90 do-not-deduct-item
+.label auto-potion-exit-all
 :       80 auto-potion-fail
 .label skip-monster-rng-check
 :       a9 potion-index 00

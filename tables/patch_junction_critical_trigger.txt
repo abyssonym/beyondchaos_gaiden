@@ -18,11 +18,9 @@
 .addr   do-command                      626000
 
 .def    jun-index-morph             38
-.def    jun-index-revenge           39
 .def    jun-index-escape            3a
 
 .def    escape-spell-index          c2
-.def    revenge-spell-index         92
 
 020a5d: 22 $main
 :       ea ea
@@ -68,17 +66,6 @@ $main
 :       22 $jun-queue-command
 
 .label no-morph
-:       a9 jun-index-revenge
-:       22 $jun-checker
-:       f0 no-revenge
-:       22 $jun-set-target-counter
-:       a9 44
-:       8d 7a 3a
-:       a9 revenge-spell-index
-:       8d 7b 3a
-:       22 $jun-queue-command
-
-.label no-revenge
 :       a9 06
 :       24 b1
 :       d0 cant-escape
