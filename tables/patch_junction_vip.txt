@@ -1,6 +1,6 @@
 .addr   jun-checker                     610000
 .addr   main                            6215c0
-.addr   banon_check                     0206db
+.addr   banon_check                     0206d8
 .addr   return-vip-fell                 0206df
 .addr   return-normal                   0206e4
 
@@ -9,13 +9,19 @@
 
 $banon_check
 :       5c $main
+:       ea ea ea
 
 $main
+:       bd f9 3e
+:       89 04
+:       d0 main-exit-normal
+:       bd d8 3e
 :       c9 0e
 :       f0 vip-fell
 :       a9 jun-index-vip
 :       22 $jun-checker
 :       d0 vip-fell
+.label main-exit-normal
 :       5c $return-normal
 .label vip-fell
 :       5c $return-vip-fell
@@ -23,5 +29,6 @@ $main
 VALIDATION
 
 $banon_check
+:       bd d8 3e
 :       c9 0e
 :       d0
