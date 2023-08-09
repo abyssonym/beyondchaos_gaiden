@@ -1,5 +1,5 @@
 .addr   jun-checker                     610000
-.addr   jun-checker-y                   6100a0
+.addr   jun-checker-y                   6100e0
 .addr   jun-compare-x-y                 6109a0
 .addr   boost-damage-quarter            621440
 .addr   main                            620a00

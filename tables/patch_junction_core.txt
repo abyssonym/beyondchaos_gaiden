@@ -1,6 +1,7 @@
 .addr   jun-checker                         610000
 .addr       character-info                      7e3010
-.addr   jun-checker-y                       6100a0
+.addr       combatant-bits                      7e3018
+.addr   jun-checker-y                       6100e0
 
 .addr   jun-check-whitelist                 610100
 .addr   jun-check-blacklist                 610180
@@ -40,6 +41,7 @@
 .addr   jun-select-bit                      6108a0
 .addr   jun-bit-to-index                    6108d0
 .addr   jun-count-bits                      6108c0
+.addr   jun-bit-to-combatant-index          6109c0
 
 .addr   jun-dispatcher-address-c2           02af18
 .addr   jun-dispatcher-return               610fff
@@ -82,10 +84,36 @@
 .addr   monster-indexes                     7e1ff9
 
 .def    jun-data-bank       61
+.def    jun-index-jammer    {{junction_jammer_index:02}}
 
 # PARAMETERS:   junction index in A, (actor index * 2) in X
 # RETURNS:      sets zero bit if check passes, otherwise clears zero bit
 $jun-checker
+:   20 @jun-checker-body,2
+:   f0 jun-checker-wrapper-fail
+.label jun-checker-wrapper-success
+:   08
+:   c2 30
+:   48 da
+:   a9 jun-index-jammer 00
+:   f0 no-jammer
+:   ad $living-characters,2
+:   f0 no-jammer
+:   22 $jun-select-bit
+:   22 $jun-bit-to-combatant-index
+:   a9 jun-index-jammer 00
+:   20 @jun-checker-body,2
+:   f0 no-jammer
+:   fa 68 28
+:   e2 02
+:   6b
+.label no-jammer
+:   fa 68 28
+:   6b
+.label jun-checker-wrapper-fail
+:   6b
+
+.label jun-checker-body
 :   48 eb 48 eb da 5a 8b 08
 :   e2 30
 :   e0 08
@@ -157,11 +185,11 @@ $jun-checker
 .label final-exit-check-failed
 :   28 ab 7a fa 68 eb 68
 :   e2 02
-:   6b
+:   60
 .label final-exit-check-passed
 :   28 ab 7a fa 68 eb 68
 :   c2 02
-:   6b
+:   60
 
 $jun-check-list
 #   X   - list address
@@ -1119,6 +1147,20 @@ $jun-compare-x-y
 :       28
 :       e2 02
 :       6b
+
+$jun-bit-to-combatant-index
+:   08
+:   c2 30
+:   a2 12 00
+.label bit-to-combatant-loop
+:   dd $combatant-bits,2
+:   f0 bit-to-combatant-found
+:   ca ca
+:   10 bit-to-combatant-loop
+:   a2 ff ff
+.label bit-to-combatant-found
+:   28
+:   6b
 
 VALIDATION
 

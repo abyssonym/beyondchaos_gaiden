@@ -1,4 +1,4 @@
-.addr   jun-checker-y                   6100a0
+.addr   jun-checker-y                   6100e0
 .addr   main                            621580
 .addr   restore-normal-magic-points     620560
 

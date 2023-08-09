@@ -1,4 +1,4 @@
-.addr   jun-checker-y               6100a0
+.addr   jun-checker-y               6100e0
 .addr   main                        620240
 
 .def    jun-index           3f

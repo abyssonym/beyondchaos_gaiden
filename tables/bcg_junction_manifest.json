@@ -25,7 +25,7 @@
 
     "junction_indexes": {
         "esper_magic":          "01",
-        "perfect_taunt":        "02",
+        "junction_jammer":      "02",
         "taunt":                "03",
         "initiative":           "04",
         "instant_run":          "05",
@@ -192,7 +192,7 @@
 
     "junction_short_names": {
         "esper_magic":          "EspMag-J",
-        "perfect_taunt":        "Perf. Taunt",
+        "junction_jammer":      "Junction Jam",
         "taunt":                "Taunt",
         "initiative":           "First Strike",
         "instant_run":          "Instant Run",
@@ -359,7 +359,7 @@
 
     "junction_tags": {
         "esper_magic":          ["esper", "magic"],
-        "perfect_taunt":        ["defend"],
+        "junction_jammer":      ["luck", "defend", "debuff", "-status"],
         "taunt":                ["defend"],
         "initiative":           ["haste"],
         "instant_run":          ["hide", "haste"],
@@ -743,17 +743,17 @@
     "monster_blacklist":    {
         "Kefka 11a":        ["astral"],
         "Kefka 12a":        ["astral"],
-        "every_monster":    ["taunt", "quickening", "reverse"]
+        "every_monster":    ["quickening", "reverse"]
     },
 
     "always_banlist":       [],
     "character_banlist":    [],
-    "esper_banlist":        ["perfect_taunt", "repel_nuke", "caller"],
-    "equip_banlist":        ["perfect_taunt", "repel_nuke", "boost_nuke"],
+    "esper_banlist":        ["repel_nuke", "caller"],
+    "equip_banlist":        ["repel_nuke", "boost_nuke"],
     "status_banlist":       [],
     "monster_banlist":      [
-        "taunt", "esper_magic", "esper_defense", "esper_counter",
-        "esper_attack", "reverse", "astral", "quickening", "vip"],
+        "esper_magic", "esper_defense", "esper_counter", "esper_attack",
+        "reverse", "astral", "quickening", "vip"],
 
     "patch_parameters": {
         "morpher-index":                    "00",
@@ -776,8 +776,8 @@
         "esper_magic": [
             "patch_junction_esper_magic_proc.txt"
         ],
-        "perfect_taunt": [
-            "patch_junction_taunt_salve.txt"
+        "junction_jammer": [
+            "patch_junction_core.txt"
         ],
         "taunt": [
             "patch_junction_taunt_salve.txt"

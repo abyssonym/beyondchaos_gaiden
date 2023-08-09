@@ -1,13 +1,15 @@
 .addr   jun-checker                     610000
-.addr   jun-checker-y                   6100a0
+.addr   jun-checker-y                   6100e0
 .addr   jun-check-are-same-team         6105e0
 .addr   jun-check-entity-living         610600
 .addr   jun-set-target-allies           610780
 .addr   jun-rng1                        610820
+.addr   jun-count-bits                  6108c0
 
 .addr   main-target-manipulation        620200
+.addr   main-target-manip-spread-single 6204e0
 .addr   main-taunt                      620260
-.addr   main-camouflage                 6202b0
+.addr   main-camouflage                 622800
 .addr   main-sneeze-guard               620dc0
 .addr   salve-target-group              620500
 .addr   salve-check-item-is-consumable  620530
@@ -21,8 +23,7 @@
 .addr   menu-active-character           7e62ca
 .addr   selector-targeting-address      7e7a84
 
-.def    jun-index-taunt-full    02
-.def    jun-index-taunt-half    03
+.def    jun-index-taunt         03
 .def    jun-index-salve         07
 .def    jun-index-sneeze-guard  37
 .def    jun-index-camouflage    76
@@ -30,10 +31,28 @@
 018925: 22 $salve-target-group
 :       ea ea
 
+0258af: 5c $main-target-manip-spread-single
+
 0258ed: 5c $main-target-manipulation
 
 025930: 22 $main-sneeze-guard
 :       ea
+
+$main-target-manip-spread-single
+:       da
+:       f0 spread-single-yes-manip
+:       c2 20
+:       a5 b8
+:       22 $jun-count-bits
+:       e2 20
+:       e0 02
+:       90 spread-single-yes-manip
+.label spread-single-no-manip
+:       fa
+:       5c f6 58 c2
+.label spread-single-yes-manip
+:       fa
+:       5c ed 58 c2
 
 $main-target-manipulation
 # check for runic animation
@@ -41,12 +60,7 @@ $main-target-manipulation
 :       24 b2
 :       f0 just-return
 
-:       22 $jun-rng1
-:       90 no-taunt
-:       a9 jun-index-taunt-half
-:       20 $main-taunt,2
-.label no-taunt
-:       a9 jun-index-taunt-full
+:       a9 jun-index-taunt
 :       20 $main-taunt,2
 :       20 $main-camouflage,2
 
@@ -114,6 +128,11 @@ $main-taunt
 .label main-taunt-entity-alive
 :       24 b8
 :       f0 main-taunt-skip
+:       e0 08
+:       b0 taunt-is-monster
+:       22 $jun-rng1
+:       90 main-taunt-unset
+.label taunt-is-monster
 :       a3 05
 :       22 $jun-checker
 :       d0 main-taunt-skip
@@ -124,14 +143,24 @@ $main-taunt
 :       ca ca
 :       10 main-taunt-loop
 
+:       a3 04
+:       aa
 :       a5 b8
 :       f0 main-taunt-fail
-:       68
-:       80 main-taunt-exit
+:       e0 08
+:       b0 main-taunt-pull-exit
+
+:       a3 01
+:       25 b8
+:       d0 main-taunt-fail
+:       80 main-taunt-pull-exit
 
 .label main-taunt-fail
 :       68
 :       85 b8
+:       80 main-taunt-exit
+.label main-taunt-pull-exit
+:       68
 .label main-taunt-exit
 :       28 fa 68
 :       60
@@ -233,6 +262,9 @@ VALIDATION
 
 018925: bd 88 26
 :       8d $selector-targeting-address,2
+
+0258af: f0 3c
+:       80 43
 
 0258ed: c2 20
 :       a5 b8

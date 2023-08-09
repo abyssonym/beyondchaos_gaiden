@@ -1,5 +1,5 @@
 .addr   jun-checker                     610000
-.addr   jun-checker-y                   6100a0
+.addr   jun-checker-y                   6100e0
 .addr   jun-check-are-same-team         6105e0
 .addr   jun-check-entity-living         610600
 .addr   jun-check-entity-can-act        6106c0
