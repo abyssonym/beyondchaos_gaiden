@@ -243,7 +243,7 @@ $set-new-esper
 :       9d 90 20
 :       80 set-new-check-castable
 .label set-new-is-empty
-:       a9 00
+:       a9 ff
 :       9d 91 20
 :       a9 ff
 :       9d 90 20
