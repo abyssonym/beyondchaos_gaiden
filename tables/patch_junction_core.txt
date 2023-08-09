@@ -1054,9 +1054,16 @@ $jun-get-equipped-esper
 $jun-check-is-damage-over-time
 :       08
 :       c2 20
+:       8a
+:       c9 13 00
+:       b0 dot-bad-indexes
+:       98
+:       c9 13 00
+:       b0 dot-bad-indexes
 :       b9 18 30
 :       3c 18 30
 :       f0 dot-not-targeting-self
+.label dot-bad-indexes
 :       e2 20
 :       ad 7c 3a
 :       c9 22

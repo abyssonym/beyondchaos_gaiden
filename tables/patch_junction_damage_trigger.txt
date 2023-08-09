@@ -7,6 +7,7 @@
 .addr   jun-deduct-item-if-possible     610740
 .addr   jun-set-target-allies           610780
 .addr   jun-count-bits                  6108c0
+.addr   jun-check-is-damage-over-time   610920
 .addr   main                            620c00
 .addr   main-nihopalaoa                 6210e0
 .addr   main-calc                       621dc0
@@ -27,7 +28,7 @@
 .addr   reverse-damage                  620fa0
 .addr   check-precision                 620fc0
 .addr   do-auto-potion                  621100
-.addr   check-nonzero-nonlethal-damage  621160
+.addr   check-nonzero-nonlethal-damage  621260
 .addr   retarget-salve                  621180
 .addr   do-blood-restriction            6207c0
 
@@ -577,6 +578,9 @@ $do-auto-potion
 
 :       20 $check-nonzero-nonlethal-damage,2
 :       f0 auto-potion-exit
+
+:       22 $jun-check-is-damage-over-time
+:       d0 auto-potion-exit
 
 :       bb
 :       a9 jun-index-auto-potion 00
