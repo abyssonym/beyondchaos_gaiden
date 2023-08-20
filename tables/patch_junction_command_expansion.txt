@@ -1,8 +1,8 @@
-.addr   get-command-subroutine          61f000
-.addr   get-command-jump                61f020
+.addr   get-command-subroutine          {{jun-global-get-command-subroutine}}
+.addr   get-command-jump                {{jun-global-get-command-jump}}
 
-# should reserve 0x200 bytes for the table, up to 61f300
-.addr   jun-command-table-address       61f100
+# should reserve 0x200 bytes for the table, i.e. 61f100-61f300
+.addr   jun-command-table-address       {{jun-global-command-table-address}}
 # c21401 minus one
 .addr   return-addr                     021400
 

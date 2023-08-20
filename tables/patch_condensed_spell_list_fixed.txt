@@ -1,4 +1,4 @@
-.addr   main                    61f200
+.addr   main                    61f300
 .addr   return-is-monster       024f47
 .addr   return-not-monster      02fab0
 

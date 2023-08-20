@@ -1,6 +1,6 @@
-.addr   jun-checker                     610000
-.addr   jun-rng1                        610820
-.addr   jun-rng2                        610830
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-rng1                        {{jun-global-rng1}}
+.addr   jun-rng2                        {{jun-global-rng2}}
 .addr   main                            620a40
 .addr   get-steal-or-drop               620ab0
 .addr   obtain-item                     620ad0

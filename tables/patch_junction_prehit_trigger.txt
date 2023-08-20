@@ -1,18 +1,18 @@
-.addr   jun-checker                     610000
-.addr   jun-checker-y                   6100e0
-.addr   jun-check-are-same-team         6105e0
-.addr   jun-check-entity-living         610600
-.addr   jun-check-entity-can-act        6106c0
-.addr   jun-set-target-allies           610780
-.addr   jun-mult                        610800
-.addr   jun-rng1                        610820
-.addr   jun-rng2                        610830
-.addr   jun-divide                      610860
-.addr   jun-check-is-damage-over-time   610920
-.addr   jun-check-spell-targets-ally    610960
-.addr   jun-generic-dispatch            610f00
-.addr   jun-queue-self-spell            610fc0
-.addr   jun-queue-command               610ff0
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-checker-y                   {{jun-global-checker-y}}
+.addr   jun-check-are-same-team         {{jun-global-check-are-same-team}}
+.addr   jun-check-entity-living         {{jun-global-check-entity-living}}
+.addr   jun-check-entity-can-act        {{jun-global-check-entity-can-act}}
+.addr   jun-set-target-allies           {{jun-global-set-target-allies}}
+.addr   jun-mult                        {{jun-global-mult}}
+.addr   jun-rng1                        {{jun-global-rng1}}
+.addr   jun-rng2                        {{jun-global-rng2}}
+.addr   jun-divide                      {{jun-global-divide}}
+.addr   jun-check-is-damage-over-time   {{jun-global-check-is-damage-over-time}}
+.addr   jun-check-spell-targets-ally    {{jun-global-check-spell-targets-ally}}
+.addr   jun-generic-dispatch            {{jun-global-generic-dispatch}}
+.addr   jun-queue-self-spell            {{jun-global-queue-self-spell}}
+.addr   jun-queue-command               {{jun-global-queue-command}}
 
 .addr   get-esper-spell                 620100
 
@@ -31,8 +31,8 @@
 .addr   return-miss                     0222d1
 
 .def    vanish-spell-index          26
-.def    spell-proc-command-index    43
-.def    final-attack-command-index  44
+.def    spell-proc-command-index    {{jun-command-index-spell-proc}}
+.def    final-attack-command-index  {{jun-command-index-final-attack}}
 
 .def    rippler-allowed-statuses1   37 fd
 .def    rippler-allowed-statuses2   fe 84

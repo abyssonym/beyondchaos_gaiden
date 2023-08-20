@@ -1,5 +1,5 @@
-.addr   jun-checker                     610000
-.addr   jun-check-count-all-living      610680
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-check-count-all-living      {{jun-global-check-count-all-living}}
 .addr   main                            620c80
 
 0233bd: 22 $main

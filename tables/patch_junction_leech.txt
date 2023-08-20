@@ -1,7 +1,7 @@
-.addr   jun-checker                     610000
-.addr   jun-check-are-same-team         6105e0
-.addr   jun-check-entity-living         610600
-.addr   jun-check-is-damage-over-time   610920
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-check-are-same-team         {{jun-global-check-are-same-team}}
+.addr   jun-check-entity-living         {{jun-global-check-entity-living}}
+.addr   jun-check-is-damage-over-time   {{jun-global-check-is-damage-over-time}}
 .addr   main                            622500
 .addr   main-damage                     622540
 .addr   return-normal                   020c9c

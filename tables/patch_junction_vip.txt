@@ -1,4 +1,4 @@
-.addr   jun-checker                     610000
+.addr   jun-checker                     {{jun-global-checker}}
 .addr   main                            6215c0
 .addr   banon_check                     0206d8
 .addr   return-vip-fell                 0206df

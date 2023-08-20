@@ -1,8 +1,7 @@
 .addr   main                            628100
 .addr   reentry-address                 02175f
 
-.addr   pointer-address                 61f188
-.def    command-index               44
+.addr   pointer-address                 {{jun-global-command-final-attack}}
 
 $main
 :       a9 02

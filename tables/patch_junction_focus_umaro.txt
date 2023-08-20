@@ -1,4 +1,4 @@
-.addr   jun-checker                     610000
+.addr   jun-checker                     {{jun-global-checker}}
 .addr   main-umaro                      621a40
 .addr   return-umaro                    0208c5
 .addr   return-not-umaro                02092a

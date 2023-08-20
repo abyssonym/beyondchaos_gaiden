@@ -2,11 +2,9 @@
 .addr   reentry-address                 02175f
 .addr   reentry-fail-address            0200e3
 
-.addr   pointer-address                 61f184
+.addr   pointer-address                 {{jun-global-command-custom-mp-spell}}
 
 .addr   living-characters               7e3a74
-
-.def    command-index               42
 
 $main
 :       c2 20

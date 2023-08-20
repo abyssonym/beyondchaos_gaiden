@@ -1,9 +1,7 @@
 .addr   main                            628200
 .addr   reentry-address                 023292
 
-.addr   pointer-address                 61f18a
-
-.def    command-index               45
+.addr   pointer-address                 {{jun-global-command-fixed-damage}}
 
 $main
 :       bb

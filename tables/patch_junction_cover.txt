@@ -1,8 +1,8 @@
-.addr   jun-checker                     610000
-.addr   jun-check-entity-living         610600
-.addr   jun-rng1                        610820
-.addr   jun-select-bit                  6108a0
-.addr   jun-bit-to-index                6108d0
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-check-entity-living         {{jun-global-check-entity-living}}
+.addr   jun-rng1                        {{jun-global-rng1}}
+.addr   jun-select-bit                  {{jun-global-select-bit}}
+.addr   jun-bit-to-index                {{jun-global-bit-to-index}}
 
 .addr   main                            621e00
 .addr   check-paladins                  621ea0

@@ -1,6 +1,6 @@
-.addr   jun-checker                     610000
-.addr   jun-check-count-all-living      610680
-.addr   jun-force-update                610fe0
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-check-count-all-living      {{jun-global-check-count-all-living}}
+.addr   jun-force-update                {{jun-global-force-update}}
 .addr   main                            622000
 .addr   main-initialize                 6220a0
 

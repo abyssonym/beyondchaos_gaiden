@@ -1,7 +1,7 @@
-.addr   jun-checker                     610000
-.addr   jun-check-entity-living         610600
-.addr   jun-rng1                        610820
-.addr   jun-rng2                        610830
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-check-entity-living         {{jun-global-check-entity-living}}
+.addr   jun-rng1                        {{jun-global-rng1}}
+.addr   jun-rng2                        {{jun-global-rng2}}
 .addr   main                            620b40
 
 025ad6: 22 $main

@@ -1,4 +1,4 @@
-.addr   jun-checker                     610000
+.addr   jun-checker                     {{jun-global-checker}}
 .addr   main                            620680
 .addr   return-dead                     021390
 .addr   return-alive                    02133c

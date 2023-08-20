@@ -1,4 +1,4 @@
-.addr   jun-checker                     610000
+.addr   jun-checker                     {{jun-global-checker}}
 .addr   main                            620430
 .addr   check-runner                    620460
 .addr   return-found-runners            025be2

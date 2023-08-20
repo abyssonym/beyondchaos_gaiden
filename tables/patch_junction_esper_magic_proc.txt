@@ -1,8 +1,8 @@
-.addr   jun-checker                     610000
-.addr   jun-check-are-same-team         6105e0
-.addr   jun-mult                        610800
-.addr   jun-rng2                        610830
-.addr   jun-get-equipped-esper          610900
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-check-are-same-team         {{jun-global-check-are-same-team}}
+.addr   jun-mult                        {{jun-global-mult}}
+.addr   jun-rng2                        {{jun-global-rng2}}
+.addr   jun-get-equipped-esper          {{jun-global-get-equipped-esper}}
 
 .addr   main                            6201c0
 .addr       get-esper-spell                 620100

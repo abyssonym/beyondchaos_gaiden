@@ -1,9 +1,8 @@
-.addr   jun-set-target-counter          6107c0
+.addr   jun-set-target-counter          {{jun-global-set-target-counter}}
 .addr   main                            628040
 .addr   reentry-address                 024ecb
 
-.addr   pointer-address                 61f182
-.def    command-index       41
+.addr   pointer-address                 {{jun-global-command-jump}}
 
 $main
 :       bb

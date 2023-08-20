@@ -1,4 +1,4 @@
-.addr   jun-checker                     610000
+.addr   jun-checker                     {{jun-global-checker}}
 .addr   menu-load-mp                    620880
 .addr   cast-check-deduct-mp            620980
 .addr   do-mp-critical                  620b00

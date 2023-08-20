@@ -1,6 +1,6 @@
-.addr   jun-checker                     610000
-.addr   jun-queue-command               610ff0
-.addr   jun-set-target-counter          6107c0
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-queue-command               {{jun-global-queue-command}}
+.addr   jun-set-target-counter          {{jun-global-set-target-counter}}
 
 .addr   main                            621700
 .addr   main-rippler-instant-death      6216c0
@@ -13,8 +13,8 @@
 .def    chokesmoke-index            a6
 .def    spiraler-index              63
 .def    rippler-index               9e
-.def    summon-command-index        40
-.def    final-attack-command-index  44
+.def    summon-command-index        {{jun-command-index-summon}}
+.def    final-attack-command-index  {{jun-command-index-final-attack}}
 
 .def    death-bit                   80 00
 .def    death-prot-bit              04 00

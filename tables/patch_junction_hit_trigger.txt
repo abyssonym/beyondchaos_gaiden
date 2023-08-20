@@ -1,9 +1,9 @@
-.addr   jun-checker                     610000
-.addr   jun-check-entity-can-act        6106c0
-.addr   jun-deduct-item-if-possible     610740
-.addr   jun-rng1                        610820
-.addr   jun-queue-command               610ff0
-.addr   jun-check-is-damage-over-time   610920
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-check-entity-can-act        {{jun-global-check-entity-can-act}}
+.addr   jun-deduct-item-if-possible     {{jun-global-deduct-item-if-possible}}
+.addr   jun-rng1                        {{jun-global-rng1}}
+.addr   jun-queue-command               {{jun-global-queue-command}}
+.addr   jun-check-is-damage-over-time   {{jun-global-check-is-damage-over-time}}
 .addr   main                            622400
 .addr   null-secondary-data             6227e0
 .addr   do-quickening-penalty           622780
@@ -17,8 +17,8 @@
 
 .def    super-ball-item-index       fa
 .def    hyperdrive-index            d1
-.def    custom-mp-command-index     42
-.def    fixed-damage-command-index  45
+.def    custom-mp-command-index     {{jun-command-index-custom-mp-spell}}
+.def    fixed-damage-command-index  {{jun-command-index-fixed-damage}}
 
 021771: 22 $null-secondary-data
 

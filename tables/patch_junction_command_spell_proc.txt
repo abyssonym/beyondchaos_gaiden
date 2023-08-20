@@ -1,4 +1,4 @@
-.addr   jun-generic-dispatch                610f00
+.addr   jun-generic-dispatch                {{jun-global-generic-dispatch}}
 
 .addr   main                                628120
 .addr   reentry-address                     02317b
@@ -8,8 +8,7 @@
 
 .addr   living-characters                   7e3a74
 
-.addr   pointer-address                     61f186
-.def    command-index               43
+.addr   pointer-address                     {{jun-global-command-spell-proc}}
 
 $main
 :       bb

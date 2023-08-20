@@ -1,7 +1,7 @@
-.addr   jun-checker                     610000
-.addr   jun-queue-command               610ff0
-.addr   jun-queue-self-spell            610fc0
-.addr   jun-set-target-counter          6107c0
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-queue-command               {{jun-global-queue-command}}
+.addr   jun-queue-self-spell            {{jun-global-queue-self-spell}}
+.addr   jun-set-target-counter          {{jun-global-set-target-counter}}
 .addr   main                            620480
 
 .addr   spell-indexes-address           620580
@@ -9,9 +9,9 @@
 .addr   command-indexes-address         620590
 .def    command-indexes-list    0b 18 40 41 15
 
-.def    first-spell-index           {{jun-index-critical-haste:20}}
+.def    first-spell-index           {{jun-index-critical-haste=20}}
 .def    overflow-spell-index        2e
-.def    first-command-index         {{jun-index-critical-runic:30}}
+.def    first-command-index         {{jun-index-critical-runic=30}}
 .def    overflow-command-index      35
 
 .addr   do-self-spell                   625000

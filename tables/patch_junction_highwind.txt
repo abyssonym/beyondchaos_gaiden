@@ -1,6 +1,6 @@
-.addr   jun-checker                     610000
-.addr   jun-mult                        610800
-.addr   jun-reload-character-commands   610f80
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-mult                        {{jun-global-mult}}
+.addr   jun-reload-character-commands   {{jun-global-reload-character-commands}}
 .addr   main-set-flag                   621f00
 .addr   main-clear-flag                 621f20
 .addr   set-menu-jump                   621f40

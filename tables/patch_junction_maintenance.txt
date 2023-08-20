@@ -1,6 +1,6 @@
-.addr   jun-checker                     610000
-.addr   jun-rng2                        610830
-.addr   jun-rng3                        610840
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-rng2                        {{jun-global-rng2}}
+.addr   jun-rng3                        {{jun-global-rng3}}
 
 .addr   main-enemy-steal                621c00
 .addr   main-ogre-nix                   621c20

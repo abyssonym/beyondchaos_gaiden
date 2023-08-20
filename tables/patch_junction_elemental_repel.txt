@@ -1,5 +1,5 @@
-.addr   jun-checker                     610000
-.addr   jun-check-is-damage-over-time   610920
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-check-is-damage-over-time   {{jun-global-check-is-damage-over-time}}
 .addr   main                            620700
 .addr   check-element                   6207a0
 .addr   check-prism                     6213c0

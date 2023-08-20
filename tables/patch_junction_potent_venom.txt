@@ -1,5 +1,5 @@
-.addr   jun-checker                     610000
-.addr   jun-rng1                        610820
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-rng1                        {{jun-global-rng1}}
 
 .addr   main                            6211a0
 .addr   return-normal                   02445c

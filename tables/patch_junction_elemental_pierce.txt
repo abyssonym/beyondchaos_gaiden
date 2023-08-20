@@ -1,7 +1,7 @@
-.addr   jun-checker                             610000
-.addr   jun-rng2                                610830
-.addr   jun-mult                                610800
-.addr   jun-check-is-damage-over-time           610920
+.addr   jun-checker                             {{jun-global-checker}}
+.addr   jun-rng2                                {{jun-global-rng2}}
+.addr   jun-mult                                {{jun-global-mult}}
+.addr   jun-check-is-damage-over-time           {{jun-global-check-is-damage-over-time}}
 .addr   main                                    621340
 .addr   main-esper-attack-misc-effect           621b00
 .addr   fix-force-field                         6203a0

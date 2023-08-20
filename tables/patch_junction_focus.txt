@@ -1,5 +1,5 @@
-.addr   jun-checker                     610000
-.addr   jun-check-entity-living         610600
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-check-entity-living         {{jun-global-check-entity-living}}
 .addr   main-focus                      620800
 .addr   main-lucid-dead                 620860
 .addr   return-focus                    02095c

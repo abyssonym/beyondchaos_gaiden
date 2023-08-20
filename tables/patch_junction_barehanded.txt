@@ -1,5 +1,5 @@
-.addr   jun-checker                     610000
-.addr   jun-mult                        610800
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-mult                        {{jun-global-mult}}
 
 .addr   main                            621b80
 

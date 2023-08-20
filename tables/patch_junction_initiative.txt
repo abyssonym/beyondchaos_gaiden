@@ -1,6 +1,6 @@
-.addr   jun-checker                     610000
-.addr   jun-check-are-same-team         6105e0
-.addr   jun-check-entity-living         610600
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-check-are-same-team         {{jun-global-check-are-same-team}}
+.addr   jun-check-entity-living         {{jun-global-check-entity-living}}
 .addr   main                            621600
 .addr   check-esper-defense             6200c0
 .addr   return-loop                     022594

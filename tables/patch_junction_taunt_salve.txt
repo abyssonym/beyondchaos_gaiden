@@ -1,10 +1,10 @@
-.addr   jun-checker                     610000
-.addr   jun-checker-y                   6100e0
-.addr   jun-check-are-same-team         6105e0
-.addr   jun-check-entity-living         610600
-.addr   jun-set-target-allies           610780
-.addr   jun-rng1                        610820
-.addr   jun-count-bits                  6108c0
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-checker-y                   {{jun-global-checker-y}}
+.addr   jun-check-are-same-team         {{jun-global-check-are-same-team}}
+.addr   jun-check-entity-living         {{jun-global-check-entity-living}}
+.addr   jun-set-target-allies           {{jun-global-set-target-allies}}
+.addr   jun-rng1                        {{jun-global-rng1}}
+.addr   jun-count-bits                  {{jun-global-count-bits}}
 
 .addr   main-target-manipulation        620200
 .addr   main-target-manip-spread-single 6204e0

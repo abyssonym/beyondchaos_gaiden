@@ -1,4 +1,4 @@
-.addr   jun-checker                 610000
+.addr   jun-checker                 {{jun-global-checker}}
 .addr   main-level                  622600
 .addr   main-sketch-rate            622680
 .addr   main-sketch-ailments        6226c0

@@ -1,4 +1,4 @@
-.addr   jun-checker-y               6100e0
+.addr   jun-checker-y               {{jun-global-checker-y}}
 .addr   main                        620240
 
 022282: 22 $main

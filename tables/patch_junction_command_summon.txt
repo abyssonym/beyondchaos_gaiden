@@ -1,11 +1,10 @@
-.addr   jun-check-entity-living         610600
-.addr   jun-rng3                        610840
+.addr   jun-check-entity-living         {{jun-global-check-entity-living}}
+.addr   jun-rng3                        {{jun-global-rng3}}
 .addr   main                            628180
 .addr   reentry-address                 02175f
 .addr   reentry-fail-address            02151e
 
-.addr   pointer-address                 61f180
-.def    command-index       40
+.addr   pointer-address                 {{jun-global-command-summon}}
 
 $main
 :       bb

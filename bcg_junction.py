@@ -140,8 +140,17 @@ class JunctionManager:
                 full_data[key] = value
 
             if isinstance(value, dict):
-                if key not in ('junction_indexes', 'patch_parameters'):
+                if key not in ('junction_indexes', 'patch_parameters',
+                               'global_addresses'):
                     assert all(isinstance(k, int) for k in value.keys())
+
+            if key.endswith('_address'):
+                value = full_data[key]
+                global_key = key[:-len('_address')].replace('_', '-')
+                if global_key in full_data['global_addresses']:
+                    assert full_data['global_addresses'][global_key] == value
+                else:
+                    full_data['global_addresses'][global_key] = value
 
             if key.endswith('_address') or key.startswith('num_'):
                 full_data[key] = self.clean_number(full_data[key])
@@ -172,6 +181,13 @@ class JunctionManager:
         for k, v in sorted(self.junction_indexes.items()):
             k = k.replace('_', '-')
             k = 'jun-index-%s' % k
+            if k in self.patch_parameters:
+                assert self.patch_parameters[k] == v
+            else:
+                self.patch_parameters[k] = v
+
+        for k, v in sorted(self.global_addresses.items()):
+            k = 'jun-global-%s' % k
             if k in self.patch_parameters:
                 assert self.patch_parameters[k] == v
             else:

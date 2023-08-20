@@ -1,12 +1,12 @@
-.addr   jun-checker                     610000
-.addr   jun-set-target-allies           610780
-.addr   jun-queue-command               610ff0
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-set-target-allies           {{jun-global-set-target-allies}}
+.addr   jun-queue-command               {{jun-global-queue-command}}
 .addr   main                            6237a0
 .addr   return-normal                   0207a8
 .addr   return-fenix                    020798
 
 .def    phoenix-spell-index         50
-.def    final-attack-command-index  44
+.def    final-attack-command-index  {{jun-command-index-final-attack}}
 
 0207a4: 5c $main
 

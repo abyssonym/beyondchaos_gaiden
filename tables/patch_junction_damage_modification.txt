@@ -1,7 +1,7 @@
-.addr   jun-checker                     610000
-.addr   jun-check-entity-living         610600
-.addr   jun-check-count-all-living      610680
-.addr   jun-divide                      610860
+.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-check-entity-living         {{jun-global-check-entity-living}}
+.addr   jun-check-count-all-living      {{jun-global-check-count-all-living}}
+.addr   jun-divide                      {{jun-global-divide}}
 .addr   main                            620300
 .addr   main-misc                       620600
 .addr   multiply-damage                 6205e0
