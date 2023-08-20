@@ -8,8 +8,6 @@
 .addr   old-rng2                        024b5a
 .addr   old-rng3                        024b65
 
-.def    jun-index       9d
-
 023a0c: 22 $main-enemy-steal
 :       ea ea
 
@@ -19,7 +17,7 @@ $main-enemy-steal
 :       da
 :       bb
 :       ee 01 34
-:       a9 jun-index
+:       a9 {{jun-index-maintenance}}
 :       22 $jun-checker
 :       f0 steal-no-maintenance
 :       a9 ff
@@ -32,7 +30,7 @@ $main-enemy-steal
 
 $main-ogre-nix
 :       bb
-:       a9 jun-index
+:       a9 {{jun-index-maintenance}}
 :       22 $jun-checker
 :       f0 ogre-nix-no-maintenance
 :       a9 00

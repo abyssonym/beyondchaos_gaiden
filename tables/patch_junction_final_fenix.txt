@@ -5,14 +5,13 @@
 .addr   return-normal                   0207a8
 .addr   return-fenix                    020798
 
-.def    jun-index                   98
 .def    phoenix-spell-index         50
 .def    final-attack-command-index  44
 
 0207a4: 5c $main
 
 $main
-:       a9 jun-index
+:       a9 {{jun-index-final-fenix}}
 :       22 $jun-checker
 :       f0 exit-normal
 

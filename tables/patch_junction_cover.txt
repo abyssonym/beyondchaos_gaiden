@@ -12,9 +12,6 @@
 .addr   return-no-bodyguards            02125f
 .addr   wide-bits                       00b4f3
 
-.def    jun-index-true-paladin  9e
-.def    jun-index-popular       9f
-
 021254: 5c $main
 
 $main
@@ -27,7 +24,7 @@ $main
 :       10 exit-with-bodyguard
 .label no-paladins
 :       bb
-:       a9 jun-index-popular 00
+:       a9 {{jun-index-popular}} 00
 :       22 $jun-checker
 :       f0 no-bodyguards
 :       20 $check-popular,2
@@ -44,7 +41,7 @@ $check-paladins
 :       48
 :       3f $wide-bits
 :       f0 paladins-skip
-:       a9 jun-index-true-paladin 00
+:       a9 {{jun-index-true-paladin}} 00
 :       22 $jun-checker
 :       d0 paladins-skip
 :       68
@@ -112,7 +109,7 @@ $get-potential-bodyguards
 :       22 $jun-rng1
 :       90 potential-force-allies-only
 :       48
-:       a9 jun-index-popular 00
+:       a9 {{jun-index-popular}} 00
 :       22 $jun-checker
 :       d0 potential-pull-exit
 :       68

@@ -1,9 +1,6 @@
 .addr   jun-checker                     610000
 .addr   main                            620400
 
-.def    jun-index-instant-act   06
-.def    jun-index-highwind      8a
-
 0203f5: 22 $main
 :       ea
 
@@ -11,11 +8,11 @@ $main
 :       48
 :       c9 16
 :       d0 no-highwind
-:       a9 jun-index-highwind
+:       a9 {{jun-index-highwind}}
 :       22 $jun-checker
 :       d0 exit-no-delay
 .label no-highwind
-:       a9 jun-index-instant-act
+:       a9 {{jun-index-instant-act}}
 :       22 $jun-checker
 :       d0 exit-no-delay
 .label exit-normal-delay

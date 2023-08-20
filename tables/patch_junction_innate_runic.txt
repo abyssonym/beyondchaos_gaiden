@@ -3,15 +3,12 @@
 .addr   return-normal                   023543
 .addr   return-runic                    023545
 
-.def    jun-index-runic         59
-
-
 02353e: 5c $main
 
 $main
 :       da
 :       bb
-:       a9 jun-index-runic
+:       a9 {{jun-index-innate-runic}}
 :       22 $jun-checker
 :       f0 no-junction
 

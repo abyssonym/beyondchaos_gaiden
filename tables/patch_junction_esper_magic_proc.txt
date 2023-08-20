@@ -11,8 +11,6 @@
 .addr           esper-data-learn                186e00
 .addr           esper-data-spell                186e01
 
-.def    jun-index-esper-magic   01
-
 023250: 22 $main
 :       ea
 
@@ -35,7 +33,7 @@ $main
 :       ad 70 3a
 :       d0 main-esper-proc-exit
 .label skip-strikes-number-check
-:       a9 jun-index-esper-magic
+:       a9 {{jun-index-esper-magic}}
 :       22 $jun-checker
 :       f0 main-esper-proc-exit
 :       20 $get-esper-spell,2

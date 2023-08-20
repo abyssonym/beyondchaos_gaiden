@@ -3,8 +3,6 @@
 .addr   main                            620040
 .addr   check-esper-defense             6200c0
 
-.def    jun-index           78
-
 02293d: 22 $main
 :       ea
 
@@ -54,7 +52,7 @@ $check-esper-defense
 :       c2 30
 :       c0 08 00
 :       b0 check-esper-defense-fail
-:       a9 jun-index 00
+:       a9 {{jun-index-esper-defense}} 00
 :       22 $jun-checker
 :       f0 check-esper-defense-fail
 :       b9 10 30

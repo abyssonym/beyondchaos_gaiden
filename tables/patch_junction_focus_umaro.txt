@@ -4,16 +4,13 @@
 .addr   return-not-umaro                02092a
 .addr   check-able-bodied               620d40
 
-.def    jun-index-focus         08
-.def    jun-index-commander     56
-
 020926: 5c $main-umaro
 
 $main-umaro
 :       48 da
 :       c9 {{berserker-index:0d}}
 :       d0 exit-just-exit
-:       a9 jun-index-focus
+:       a9 {{jun-index-focus}}
 :       22 $jun-checker
 :       d0 exit-not-berserk
 .label not-focus
@@ -24,7 +21,7 @@ $main-umaro
 :       f0 commander-skip
 :       20 $check-able-bodied,2
 :       f0 commander-skip
-:       a9 jun-index-commander
+:       a9 {{jun-index-commander}}
 :       22 $jun-checker
 :       f0 commander-skip
 :       80 exit-not-berserk

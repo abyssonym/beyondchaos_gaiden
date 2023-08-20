@@ -169,6 +169,14 @@ class JunctionManager:
                         for (k, v) in tags.items()}
                 setattr(self, key, tags)
 
+        for k, v in sorted(self.junction_indexes.items()):
+            k = k.replace('_', '-')
+            k = 'jun-index-%s' % k
+            if k in self.patch_parameters:
+                assert self.patch_parameters[k] == v
+            else:
+                self.patch_parameters[k] = v
+
     @property
     def report(self):
         s = ''

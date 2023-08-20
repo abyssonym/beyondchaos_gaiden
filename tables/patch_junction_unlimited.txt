@@ -4,15 +4,13 @@
 
 .addr   old-rng2                        024b5a
 
-.def    jun-index           7a
-
 0215e9: 22 $main
 :       ea
 
 $main
 :       da
 :       bb
-:       a9 jun-index
+:       a9 {{jun-index-unlimited}}
 :       22 $jun-checker
 :       f0 no-junction
 :       b9 18 30

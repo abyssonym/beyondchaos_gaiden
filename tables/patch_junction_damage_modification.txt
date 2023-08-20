@@ -20,45 +20,6 @@
 
 .addr   background-dances-address       2d8e5b
 
-.def    jun-index-fire          10
-.def    jun-index-ice           11
-.def    jun-index-bolt          12
-.def    jun-index-poison        13
-.def    jun-index-wind          14
-.def    jun-index-pearl         15
-.def    jun-index-earth         16
-.def    jun-index-water         17
-.def    jun-index-fire-font     60
-.def    jun-index-ice-font      61
-.def    jun-index-bolt-font     62
-.def    jun-index-poison-font   63
-.def    jun-index-wind-font     64
-.def    jun-index-pearl-font    65
-.def    jun-index-earth-font    66
-.def    jun-index-water-font    67
-.def    jun-index-fire-sink     68
-.def    jun-index-ice-sink      69
-.def    jun-index-bolt-sink     6a
-.def    jun-index-poison-sink   6b
-.def    jun-index-wind-sink     6c
-.def    jun-index-pearl-sink    6d
-.def    jun-index-earth-sink    6e
-.def    jun-index-water-sink    6f
-
-.def    jun-index-esper         49
-.def    jun-index-nuke          4a
-.def    jun-index-nuke-font     4b
-.def    jun-index-nuke-sink     4c
-.def    jun-index-phys          4d
-.def    jun-index-phys-font     4e
-.def    jun-index-phys-sink     4f
-
-.def    jun-index-esper-attack  9a
-
-.def    jun-index-loner         3c
-.def    jun-index-crisis-arm    3d
-.def    jun-index-gaia-boost    a0
-
 .def    ramuh-index             36
 .def    phoenix-index-plus-one  51
 .def    gaia-elements-bits      10 20 01 04 40 80 08 02
@@ -70,7 +31,7 @@ $main
 
 :       20 $check-has-esper,2
 :       f0 no-esper-main
-:       a9 jun-index-esper-attack
+:       a9 {{jun-index-esper-attack}}
 :       22 $jun-checker
 :       f0 no-esper-main
 :       da
@@ -81,21 +42,21 @@ $main
 :       fa
 
 .label no-esper-main
-:       a9 jun-index-fire
+:       a9 {{jun-index-boost-fire}}
 :       20 $check-element,2
-:       a9 jun-index-ice
+:       a9 {{jun-index-boost-ice}}
 :       20 $check-element,2
-:       a9 jun-index-bolt
+:       a9 {{jun-index-boost-bolt}}
 :       20 $check-element,2
-:       a9 jun-index-poison
+:       a9 {{jun-index-boost-poison}}
 :       20 $check-element,2
-:       a9 jun-index-wind
+:       a9 {{jun-index-boost-wind}}
 :       20 $check-element,2
-:       a9 jun-index-pearl
+:       a9 {{jun-index-boost-pearl}}
 :       20 $check-element,2
-:       a9 jun-index-earth
+:       a9 {{jun-index-boost-earth}}
 :       20 $check-element,2
-:       a9 jun-index-water
+:       a9 {{jun-index-boost-water}}
 :       20 $check-element,2
 
 :       20 $check-esper,2
@@ -112,7 +73,7 @@ $main
 :       fa
 :       2c a1 11
 :       f0 no-gaia-boost
-:       a9 jun-index-gaia-boost
+:       a9 {{jun-index-gaia-boost}}
 :       22 $jun-checker
 :       f0 no-gaia-boost
 :       20 $boost-damage-half,2
@@ -130,7 +91,7 @@ $main-misc
 :       da 08
 :       c2 20
 
-:       a9 jun-index-loner 00
+:       a9 {{jun-index-loner}} 00
 :       22 $jun-checker
 :       f0 no-loner
 
@@ -176,7 +137,7 @@ $main-misc
 :       fa da
 
 .label no-loner
-:       a9 jun-index-crisis-arm 00
+:       a9 {{jun-index-crisis-arm}} 00
 :       22 $jun-checker
 :       f0 no-junction
 
@@ -227,7 +188,7 @@ $check-element
 :       29 07
 :       aa
 :       18
-:       69 jun-index-fire-font
+:       69 {{jun-index-fire-font}}
 :       22 $jun-check-count-all-living
 .label font-loop
 :       3a
@@ -238,7 +199,7 @@ $check-element
 
 :       8a
 :       18
-:       69 jun-index-fire-sink
+:       69 {{jun-index-fire-sink}}
 :       22 $jun-check-count-all-living
 .label sink-loop
 :       3a
@@ -267,7 +228,7 @@ $check-esper
 :       c9 phoenix-index-plus-one
 :       b0 not-esper
 .label is-esper
-:       a9 jun-index-esper
+:       a9 {{jun-index-boost-esper}}
 :       22 $jun-checker
 :       f0 not-esper
 :       20 $boost-damage-half,2
@@ -284,13 +245,13 @@ $check-nuke
 :       89 81
 :       d0 not-nuke
 
-:       a9 jun-index-nuke
+:       a9 {{jun-index-boost-nuke}}
 :       22 $jun-checker
 :       f0 no-nuke-boost
 :       20 $boost-damage-half,2
 .label no-nuke-boost
 
-:       a9 jun-index-nuke-font
+:       a9 {{jun-index-nuke-font}}
 :       22 $jun-check-count-all-living
 .label nuke-font-loop
 :       3a
@@ -299,7 +260,7 @@ $check-nuke
 :       80 nuke-font-loop
 .label end-nuke-font-loop
 
-:       a9 jun-index-nuke-sink
+:       a9 {{jun-index-nuke-sink}}
 :       22 $jun-check-count-all-living
 .label nuke-sink-loop
 :       3a
@@ -316,13 +277,13 @@ $check-phys
 :       89 01
 :       f0 not-phys
 
-:       a9 jun-index-phys
+:       a9 {{jun-index-boost-phys}}
 :       22 $jun-checker
 :       f0 no-phys-boost
 :       20 $boost-damage-half,2
 .label no-phys-boost
 
-:       a9 jun-index-phys-font
+:       a9 {{jun-index-phys-font}}
 :       22 $jun-check-count-all-living
 .label phys-font-loop
 :       3a
@@ -331,7 +292,7 @@ $check-phys
 :       80 phys-font-loop
 .label end-phys-font-loop
 
-:       a9 jun-index-phys-sink
+:       a9 {{jun-index-phys-sink}}
 :       22 $jun-check-count-all-living
 .label phys-sink-loop
 :       3a

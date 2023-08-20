@@ -4,9 +4,6 @@
 .addr   return-vip-fell                 0206df
 .addr   return-normal                   0206e4
 
-.def    jun-index-vip       97
-.def    jun-index-highwind  8a
-
 $banon_check
 :       5c $main
 :       ea ea ea
@@ -18,7 +15,7 @@ $main
 :       bd d8 3e
 :       c9 0e
 :       f0 vip-fell
-:       a9 jun-index-vip
+:       a9 {{jun-index-vip}}
 :       22 $jun-checker
 :       d0 vip-fell
 .label main-exit-normal

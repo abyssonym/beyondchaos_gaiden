@@ -23,11 +23,6 @@
 .addr   menu-active-character           7e62ca
 .addr   selector-targeting-address      7e7a84
 
-.def    jun-index-taunt         03
-.def    jun-index-salve         07
-.def    jun-index-sneeze-guard  37
-.def    jun-index-camouflage    76
-
 018925: 22 $salve-target-group
 :       ea ea
 
@@ -60,7 +55,7 @@ $main-target-manipulation
 :       24 b2
 :       f0 just-return
 
-:       a9 jun-index-taunt
+:       a9 {{jun-index-taunt}}
 :       20 $main-taunt,2
 :       20 $main-camouflage,2
 
@@ -70,7 +65,7 @@ $main-target-manipulation
 :       a5 b6
 :       22 $salve-check-item-is-consumable
 :       f0 just-return
-:       a9 jun-index-salve
+:       a9 {{jun-index-salve}}
 :       22 $jun-checker
 :       d0 return-with-salve
 
@@ -93,7 +88,7 @@ $main-sneeze-guard
 .label sneeze-guard-loop
 :       22 $jun-check-are-same-team
 :       d0 sneeze-guard-loop-skip
-:       a9 jun-index-sneeze-guard
+:       a9 {{jun-index-sneeze-guard}}
 :       22 $jun-checker-y
 :       f0 sneeze-guard-loop-skip
 :       c2 20
@@ -184,7 +179,7 @@ $main-camouflage
 .label main-camouflage-entity-alive
 :       24 b8
 :       f0 main-camouflage-skip
-:       a9 jun-index-camouflage 00
+:       a9 {{jun-index-camouflage}} 00
 :       22 $jun-checker
 :       f0 main-camouflage-skip
 :       bd 18 30
@@ -217,7 +212,7 @@ $salve-target-group
 :       0a
 :       da
 :       aa
-:       a9 jun-index-salve
+:       a9 {{jun-index-salve}}
 :       22 $jun-checker
 :       f0 salve-target-group-return-pull
 :       fa

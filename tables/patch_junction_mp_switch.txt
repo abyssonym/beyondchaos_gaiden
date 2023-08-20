@@ -12,10 +12,6 @@
 
 .def    fixed-damage-command-index      45
 
-.def    jun-index-mp-switch     7b
-.def    jun-index-blood         0a
-.def    jun-index-gold          0b
-
 0212f7: 22 $main
 :       ea
 :       ea ea
@@ -39,13 +35,13 @@ $main
 :       22 $jun-rng1
 :       90 exit-normal
 
-:       a9 jun-index-mp-switch 00
+:       a9 {{jun-index-mp-switch}} 00
 :       22 $jun-checker
 :       f0 exit-normal
-:       a9 jun-index-blood 00
+:       a9 {{jun-index-blood-mage}} 00
 :       22 $jun-checker
 :       d0 exit-normal
-:       a9 jun-index-gold 00
+:       a9 {{jun-index-gold-mage}} 00
 :       22 $jun-checker
 :       d0 exit-normal
 

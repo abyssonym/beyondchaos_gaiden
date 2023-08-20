@@ -84,7 +84,6 @@
 .addr   monster-indexes                     7e1ff9
 
 .def    jun-data-bank       61
-.def    jun-index-jammer    {{junction_jammer_index:02}}
 
 # PARAMETERS:   junction index in A, (actor index * 2) in X
 # RETURNS:      sets zero bit if check passes, otherwise clears zero bit
@@ -95,13 +94,13 @@ $jun-checker
 :   08
 :   c2 30
 :   48 da
-:   a9 jun-index-jammer 00
+:   a9 {{jun-index-junction-jammer}} 00
 :   f0 no-jammer
 :   ad $living-characters,2
 :   f0 no-jammer
 :   22 $jun-select-bit
 :   22 $jun-bit-to-combatant-index
-:   a9 jun-index-jammer 00
+:   a9 {{jun-index-junction-jammer}} 00
 :   20 @jun-checker-body,2
 :   f0 no-jammer
 :   fa 68 28
@@ -299,7 +298,7 @@ $jun-check-whitelist-monster-version
 :   20 $jun-check-list,2
 :   d0 found-whitelist-monster-version
 
-:   a9 {{every_monster_index}}
+:   a9 {{every-monster-index}}
 :   0a
 :   a8
 :   be $jun-monster-whitelist,2
@@ -560,7 +559,7 @@ $jun-check-blacklist
 :   60
 
 $jun-check-blacklist-monster-version
-:   a9 {{every_monster_index}}
+:   a9 {{every-monster-index}}
 :   0a
 :   a8
 :   be $jun-monster-blacklist,2

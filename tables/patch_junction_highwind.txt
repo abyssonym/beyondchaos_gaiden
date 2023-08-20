@@ -13,8 +13,6 @@
 .addr   return-highwind-menu-normal     014849
 .addr   return-highwind-menu-highwind   014855
 
-.def    jun-index-highwind      8a
-
 020144: 22 $main-clear-flag
 :       ea ea
 
@@ -31,7 +29,7 @@
 :       ea ea
 
 $main-set-flag
-:       a9 jun-index-highwind 00
+:       a9 {{jun-index-highwind}} 00
 :       22 $jun-checker
 :       d0 main-set-highwind
 :       bd 18 30
@@ -44,7 +42,7 @@ $main-set-flag
 :       6b
 
 $main-clear-flag
-:       a9 jun-index-highwind 00
+:       a9 {{jun-index-highwind}} 00
 :       22 $jun-checker
 :       d0 main-clear-highwind
 :       bd 18 30
@@ -57,7 +55,7 @@ $main-clear-flag
 :       6b
 
 $main-jump-command
-:       a9 jun-index-highwind
+:       a9 {{jun-index-highwind}}
 :       22 $jun-checker
 :       f0 exit-land
 :       bd 18 30
@@ -79,7 +77,7 @@ $main-jump-command
 :       5c $return-land
 
 $main-palidor
-:       a9 jun-index-highwind
+:       a9 {{jun-index-highwind}}
 :       22 $jun-checker
 :       f0 exit-palidor
 :       bd 4d 3e
@@ -131,7 +129,7 @@ $main-sky-die
 :       bd 18 30
 :       2c 2c 3f
 :       f0 exit-sky-die-normal
-:       a9 jun-index-highwind 00
+:       a9 {{jun-index-highwind}} 00
 :       22 $jun-checker
 :       d0 exit-sky-die-death
 :       bd 18 30

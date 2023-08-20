@@ -2,8 +2,6 @@
 .addr   main                            621580
 .addr   restore-normal-magic-points     620560
 
-.def    jun-index           3e
-
 025e2f: 22 $main
 :       ea
 
@@ -16,7 +14,7 @@ $main
 :       f0 exit-main
 
 :       48
-:       a9 jun-index
+:       a9 {{jun-index-double-ap}}
 :       22 $jun-checker-y
 :       f0 no-double
 :       68

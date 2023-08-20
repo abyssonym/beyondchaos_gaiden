@@ -78,7 +78,7 @@
         "leech":                "36",
         "sneeze_guard":         "37",
         "critical_morph":       "38",
-        "critical_revenge":     "39",
+        "meatbone_cut":         "39",
         "critical_escape":      "3a",
         "boost_crit":           "3b",
         "loner":                "3c",
@@ -246,7 +246,7 @@
         "critical_gprain":      "SOS GP Rain",
         "critical_esper":       "SOS Summon",
         "critical_jump":        "SOS Jump",
-        "critical_revenge":     "Meatbone Cut",
+        "meatbone_cut":         "Meatbone Cut",
         "boost_crit":           "Crit Boost",
         "loner":                "Loner",
         "crisis_arm":           "Crisis Arm",
@@ -412,7 +412,7 @@
         "leech":                ["drain", "status", "debuff", "poison", "seizure", "regen"],
         "sneeze_guard":         ["hide"],
         "critical_morph":       ["buff"],
-        "critical_revenge":     ["death"],
+        "meatbone_cut":         ["death"],
         "critical_escape":      ["hide"],
         "boost_crit":           ["luck"],
         "loner":                ["death"],
@@ -760,7 +760,7 @@
         "berserker-index":                  "0d",
         "monster-equip-steal-enabled":      "01",
         "monster-equip-drop-enabled":       "01",
-        "every_monster_index":              "180"
+        "every-monster-index":              "180"
     },
 
     "core_patch_list": [
@@ -945,8 +945,8 @@
             "patch_junction_critical_trigger.txt",
             "patch_junction_command_jump.txt"
         ],
-        "critical_revenge": [
-            "patch_junction_critical_trigger.txt"
+        "meatbone_cut": [
+            "patch_junction_damage_trigger.txt"
         ],
         "boost_crit": [
             "patch_junction_boost_crit.txt"

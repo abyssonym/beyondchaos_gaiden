@@ -1,8 +1,6 @@
 .addr   jun-checker                     610000
 .addr   main                            6210a0
 
-.def    jun-index-victory-cry       73
-
 026236: 22 $main
 :       ea
 
@@ -11,7 +9,7 @@ $main
 :       da
 :       bb
 
-:       a9 jun-index-victory-cry 00
+:       a9 {{jun-index-victory-cry}} 00
 :       22 $jun-checker
 :       f0 no-victory-cry
 :       bd e4 3e

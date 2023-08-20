@@ -1,8 +1,6 @@
 .addr   jun-checker                     610000
 .addr   main                            620ba0
 
-.def    jun-index-double-time       a3
-
 0201be: 22 $main
 :       ea ea ea ea
 
@@ -12,7 +10,7 @@ $main
 :       de 19 32
 :       6b
 .label check-double-time
-:       a9 jun-index-double-time
+:       a9 {{jun-index-double-time}}
 :       22 $jun-checker
 :       f0 exit-main
 :       a9 80

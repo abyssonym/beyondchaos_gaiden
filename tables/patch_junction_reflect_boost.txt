@@ -4,8 +4,6 @@
 .addr   boost-damage-quarter            621440
 .addr   main                            620a00
 
-.def    jun-index               0c
-
 0234bb: 22 $main
 :       ea
 
@@ -24,7 +22,7 @@ $main
 :       f0 test-for-boost
 :       80 skip
 .label test-for-boost
-:       a9 jun-index 00
+:       a9 {{jun-index-reflect-boost}} 00
 :       22 $jun-checker-y
 :       f0 skip
 

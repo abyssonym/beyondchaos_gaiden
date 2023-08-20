@@ -3,15 +3,13 @@
 
 .addr   main                            621b80
 
-.def    jun-index       9b
-
 0228ea: 22 $main
 :       ea
 
 $main
 :       da 08
 :       c2 30
-:       a9 jun-index 00
+:       a9 {{jun-index-barehanded}} 00
 :       22 $jun-checker
 :       f0 holding-equipment
 :       bd 10 30

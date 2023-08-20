@@ -10,9 +10,6 @@
 .addr   monster-drops                   0f3002
 .addr   jump-set-death                  020e32
 
-.def    jun-index-poach         0e
-.def    jun-index-imp-harvest   0f
-
 0213a1: 5c $main
 :       ea ea
 
@@ -43,12 +40,12 @@ $main
 :       89 20 00
 :       f0 check-poach
 
-:       a9 jun-index-imp-harvest 00
+:       a9 {{jun-index-imp-harvest}} 00
 :       22 $jun-checker
 :       d0 imp-harvest
 
 .label check-poach
-:       a9 jun-index-poach 00
+:       a9 {{jun-index-poach}} 00
 :       22 $jun-checker
 :       d0 poach
 

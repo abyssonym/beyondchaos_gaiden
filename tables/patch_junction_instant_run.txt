@@ -4,8 +4,6 @@
 .addr   return-found-runners            025be2
 .addr   return-found-no-runners         025be0
 
-.def    jun-index           05
-
 025bdb: 5c $main
 
 $main
@@ -37,7 +35,7 @@ $check-runner
 :       bd a0 3a
 :       4a
 :       90 check-runner-exit
-:       a9 jun-index
+:       a9 {{jun-index-instant-run}}
 :       22 $jun-checker
 :       f0 check-runner-exit
 :       bd 18 30

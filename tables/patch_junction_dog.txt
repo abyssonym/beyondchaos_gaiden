@@ -1,12 +1,10 @@
 .addr   jun-checker-y               6100e0
 .addr   main                        620240
 
-.def    jun-index           3f
-
 022282: 22 $main
 
 $main
-:       a9 jun-index
+:       a9 {{jun-index-dog}}
 :       22 $jun-checker-y
 :       f0 exit-normal
 :       b9 f9 3e

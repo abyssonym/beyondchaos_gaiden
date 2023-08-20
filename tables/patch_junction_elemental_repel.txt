@@ -12,24 +12,13 @@
 # This skips forward to 022259, the end of the vanish doom patch
 .addr   return-no-reflect               02224b
 
-.def    jun-index-null-reflect  0d
-.def    jun-index-fire          40
-.def    jun-index-ice           41
-.def    jun-index-bolt          42
-.def    jun-index-poison        43
-.def    jun-index-wind          44
-.def    jun-index-pearl         45
-.def    jun-index-earth         46
-.def    jun-index-water         47
-.def    jun-index-nuke          48
-
 022235: 5c $main
 :       ea
 
 $main
 :       da
 
-:       a9 jun-index-null-reflect
+:       a9 {{jun-index-null-reflect}}
 :       22 $jun-checker
 :       d0 no-reflect
 
@@ -47,28 +36,28 @@ $main
 
 :       bb
 :       85 10
-:       a9 jun-index-fire
+:       a9 {{jun-index-repel-fire}}
 :       20 $check-element,2
 :       d0 yes-reflect
-:       a9 jun-index-ice
+:       a9 {{jun-index-repel-ice}}
 :       20 $check-element,2
 :       d0 yes-reflect
-:       a9 jun-index-bolt
+:       a9 {{jun-index-repel-bolt}}
 :       20 $check-element,2
 :       d0 yes-reflect
-:       a9 jun-index-poison
+:       a9 {{jun-index-repel-poison}}
 :       20 $check-element,2
 :       d0 yes-reflect
-:       a9 jun-index-wind
+:       a9 {{jun-index-repel-wind}}
 :       20 $check-element,2
 :       d0 yes-reflect
-:       a9 jun-index-pearl
+:       a9 {{jun-index-repel-pearl}}
 :       20 $check-element,2
 :       d0 yes-reflect
-:       a9 jun-index-earth
+:       a9 {{jun-index-repel-earth}}
 :       20 $check-element,2
 :       d0 yes-reflect
-:       a9 jun-index-water
+:       a9 {{jun-index-repel-water}}
 :       20 $check-element,2
 :       d0 yes-reflect
 
@@ -98,7 +87,7 @@ $main
 :       d0 normal-reflect-check
 :       ad a6 11
 :       f0 normal-reflect-check
-:       a9 jun-index-nuke
+:       a9 {{jun-index-repel-nuke}}
 :       22 $jun-checker
 :       f0 normal-reflect-check
 :       80 yes-reflect

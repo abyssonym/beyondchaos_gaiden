@@ -16,9 +16,6 @@
 .addr       item-properties-status-byte     185015
 .addr   do-auto-item                    622280
 
-.def    jun-index-auto-down         81
-.def    jun-index-auto-revivify     82
-.def    jun-index-auto-remedy       83
 .def    wound-status                80 00
 .def    zombie-status               02 00
 .def    remedy-status               65 48
@@ -50,7 +47,7 @@ $main-auto-item
 :       29 wound-status
 :       f0 no-fenix
 :       83 01
-:       a9 jun-index-auto-down 00
+:       a9 {{jun-index-auto-down}} 00
 :       20 $do-auto-item,2
 
 .label no-fenix
@@ -58,7 +55,7 @@ $main-auto-item
 :       29 zombie-status
 :       f0 no-revivify
 :       83 01
-:       a9 jun-index-auto-revivify 00
+:       a9 {{jun-index-auto-revivify}} 00
 :       20 $do-auto-item,2
 
 .label no-revivify
@@ -66,7 +63,7 @@ $main-auto-item
 :       29 remedy-status
 :       f0 no-remedy
 :       83 01
-:       a9 jun-index-auto-remedy 00
+:       a9 {{jun-index-auto-remedy}} 00
 :       20 $do-auto-item,2
 
 .label no-remedy

@@ -9,8 +9,6 @@
 
 .addr   living-characters               7e3a74
 
-.def    jun-index           36
-
 025b74: 22 $main
 :       ea ea
 
@@ -82,7 +80,7 @@ $check-has-leech
 
 :       22 $jun-check-entity-living
 :       f0 has-leech-fail
-:       a9 jun-index
+:       a9 {{jun-index-leech}}
 :       22 $jun-checker
 :       f0 has-leech-fail
 

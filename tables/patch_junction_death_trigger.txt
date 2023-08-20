@@ -10,10 +10,6 @@
 .addr   character-died-flag             7e3a56
 .addr   monster-died-flag               7e3a58
 
-.def    jun-index-immortal          90
-.def    jun-index-spiraler          91
-.def    jun-index-esper             92
-.def    jun-index-rippler           93
 .def    chokesmoke-index            a6
 .def    spiraler-index              63
 .def    rippler-index               9e
@@ -49,14 +45,14 @@ $main
 :       85 b8
 :       e2 20
 
-:       a9 jun-index-immortal
+:       a9 {{jun-index-immortal}}
 :       22 $jun-checker
 :       f0 no-immortal
 :       a9 chokesmoke-index
 :       20 @queue-final-attack,2
 
 .label no-immortal
-:       a9 jun-index-spiraler
+:       a9 {{jun-index-final-spiral}}
 :       22 $jun-checker
 :       f0 no-spiraler
 :       a9 spiraler-index
@@ -68,7 +64,7 @@ $main
 :       d0 already-death-trigger
 :       e2 20
 
-:       a9 jun-index-esper
+:       a9 {{jun-index-final-esper}}
 :       22 $jun-checker
 :       f0 no-esper
 
@@ -82,7 +78,7 @@ $main
 :       22 $jun-queue-command
 
 .label no-esper
-:       a9 jun-index-rippler
+:       a9 {{jun-index-final-ripple}}
 :       22 $jun-checker
 :       f0 no-rippler
 

@@ -9,16 +9,13 @@
 .addr   command-indexes-address         620590
 .def    command-indexes-list    0b 18 40 41 15
 
-.def    first-spell-index           20
+.def    first-spell-index           {{jun-index-critical-haste:20}}
 .def    overflow-spell-index        2e
-.def    first-command-index         30
+.def    first-command-index         {{jun-index-critical-runic:30}}
 .def    overflow-command-index      35
 
 .addr   do-self-spell                   625000
 .addr   do-command                      626000
-
-.def    jun-index-morph             38
-.def    jun-index-escape            3a
 
 .def    escape-spell-index          c2
 
@@ -58,7 +55,7 @@ $main
 :       ad f6 1c
 :       c9 10
 :       90 no-morph
-:       a9 jun-index-morph
+:       a9 {{jun-index-critical-morph}}
 :       22 $jun-checker
 :       f0 no-morph
 :       a9 03
@@ -69,7 +66,7 @@ $main
 :       a9 06
 :       24 b1
 :       d0 cant-escape
-:       a9 jun-index-escape
+:       a9 {{jun-index-critical-escape}}
 :       22 $jun-checker
 :       f0 cant-escape
 :       a9 escape-spell-index

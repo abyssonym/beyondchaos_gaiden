@@ -4,9 +4,6 @@
 .addr   main                            622000
 .addr   main-initialize                 6220a0
 
-.def    jun-index-time-font     8b
-.def    jun-index-time-sink     8c
-
 0209e4: 22 $main
 
 0224c1: 22 $main-initialize
@@ -20,10 +17,10 @@ $main
 :       0a 0a 0a 0a 0a
 
 :       48
-:       a9 jun-index-time-sink 00
+:       a9 {{jun-index-time-sink}} 00
 :       22 $jun-check-count-all-living
 :       48
-:       a9 jun-index-time-font 00
+:       a9 {{jun-index-time-font}} 00
 :       22 $jun-check-count-all-living
 :       38
 :       e3 01

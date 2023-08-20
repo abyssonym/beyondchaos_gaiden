@@ -30,21 +30,6 @@
 .addr   return-normal                   022215
 .addr   return-miss                     0222d1
 
-.def    jun-index-null-freeze       5a
-.def    jun-index-firestarter       74
-.def    jun-index-null-sleep        a6
-
-.def    jun-index-counter-all       84
-.def    jun-index-hamedo            85
-.def    jun-index-return-magic      86
-.def    jun-index-esper-counter     87
-.def    jun-index-resonate          8d
-.def    jun-index-sunken-state      8e
-.def    jun-index-decisive          9c
-.def    jun-index-gaia-assist       a1
-.def    jun-index-flinch            a2
-.def    jun-index-discordant        a5
-
 .def    vanish-spell-index          26
 .def    spell-proc-command-index    43
 .def    final-attack-command-index  44
@@ -74,7 +59,7 @@ $main
 :       b9 f9 3e
 :       29 02
 :       f0 no-freeze
-:       a9 jun-index-null-freeze
+:       a9 {{jun-index-null-freeze}}
 :       22 $jun-checker-y
 :       d0 freeze-exit-miss
 
@@ -84,14 +69,14 @@ $main
 :       f0 no-sleep
 :       b9 f9 3c
 :       f0 no-sleep
-:       a9 jun-index-null-sleep
+:       a9 {{jun-index-null-sleep}}
 :       22 $jun-checker-y
 :       d0 freeze-exit-miss
 
 .label no-sleep
 :       fa
 
-:       a9 jun-index-resonate
+:       a9 {{jun-index-resonate}}
 :       22 $jun-checker
 :       d0 resonate
 :       22 $jun-checker-y
@@ -102,7 +87,7 @@ $main
 :       e2 20
 
 .label no-resonate
-:       a9 jun-index-decisive
+:       a9 {{jun-index-decisive}}
 :       22 $jun-checker
 :       f0 no-decisive
 :       9c 1a 34
@@ -137,7 +122,7 @@ $main-firestarter
 :       25 b8
 :       e2 20
 :       f0 firestarter-skip
-:       a9 jun-index-firestarter
+:       a9 {{jun-index-firestarter}}
 :       22 $jun-checker
 :       f0 firestarter-skip
 :       a9 02
@@ -178,7 +163,7 @@ $main-counter
 
 :       22 $jun-rng1
 :       90 no-flinch
-:       a9 jun-index-flinch
+:       a9 {{jun-index-flinch}}
 :       22 $jun-checker
 :       f0 no-flinch
 :       b9 19 32
@@ -190,13 +175,13 @@ $main-counter
 :       22 $jun-rng2
 :       29 03
 :       d0 no-counter-all
-:       a9 jun-index-counter-all
+:       a9 {{jun-index-counter-all}}
 :       22 $jun-checker-y
 :       f0 no-counter-all
 :       20 $queue-counter,2
 
 .label no-counter-all
-:       a9 jun-index-discordant
+:       a9 {{jun-index-discordant}}
 :       22 $jun-checker
 :       f0 no-discordant
 :       20 $do-discordant,2
@@ -210,7 +195,7 @@ $main-counter
 :       d9 08 3c
 :       b0 no-return-magic
 .label monsters-ignore-mp
-:       a9 jun-index-return-magic
+:       a9 {{jun-index-return-magic}}
 :       22 $jun-checker-y
 :       f0 no-return-magic
 :       c2 20
@@ -239,7 +224,7 @@ $main-counter
 :       89 10
 :       d0 no-sunken-state
 
-:       a9 jun-index-sunken-state
+:       a9 {{jun-index-sunken-state}}
 :       22 $jun-checker-y
 :       f0 no-sunken-state
 :       da
@@ -253,7 +238,7 @@ $main-counter
 :       d0 no-hamedo
 :       22 $jun-rng1
 :       90 no-hamedo
-:       a9 jun-index-hamedo
+:       a9 {{jun-index-hamedo}}
 :       22 $jun-checker-y
 :       f0 no-hamedo
 :       20 $queue-counter,2
@@ -329,7 +314,7 @@ $main-resonate
 :       60
 
 $main-esper-counter
-:       a9 jun-index-esper-counter
+:       a9 {{jun-index-esper-counter}}
 :       22 $jun-checker-y
 :       f0 no-esper-counter
 :       c2 20
@@ -368,14 +353,14 @@ $main-gaia
 :       f0 no-gaia-defender
 :       22 $jun-check-is-damage-over-time
 :       d0 no-gaia-defender
-:       a9 jun-index-gaia-assist
+:       a9 {{jun-index-gaia-assist}}
 :       22 $jun-checker
 :       f0 no-gaia-attacker
 :       20 @do-gaia,2
 
 .label no-gaia-attacker
 :       8a bb a8
-:       a9 jun-index-gaia-assist
+:       a9 {{jun-index-gaia-assist}}
 :       22 $jun-checker
 :       f0 no-gaia-defender
 :       20 @do-gaia,2

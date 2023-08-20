@@ -7,12 +7,6 @@
 .addr   check-focus                     620d80
 .addr   check-able-bodied               620d40
 
-.def    jun-index-focus         08
-.def    jun-index-lucid-dead    09
-.def    jun-index-commander     56
-.def    jun-index-necromancer   57
-.def    jun-index-highwind      8a
-
 020956: 5c $main-focus
 :       ea ea
 
@@ -46,7 +40,7 @@ $main-focus
 :       bd 18 30
 :       2c 2c 3f
 :       f0 main-focus-exit
-:       a9 jun-index-highwind
+:       a9 {{jun-index-highwind}}
 :       22 $jun-checker
 :       f0 main-focus-exit
 :       c2 20
@@ -94,7 +88,7 @@ $check-lucid-dead
 :       48
 :       86 10
 
-:       a9 jun-index-lucid-dead
+:       a9 {{jun-index-lucid-dead}}
 :       22 $jun-checker
 :       d0 exit-has-lucid-dead
 
@@ -104,7 +98,7 @@ $check-lucid-dead
 :       f0 necromancer-skip
 :       20 $check-able-bodied,2
 :       f0 necromancer-skip
-:       a9 jun-index-necromancer
+:       a9 {{jun-index-necromancer}}
 :       22 $jun-checker
 :       d0 exit-has-lucid-dead
 .label necromancer-skip
@@ -129,7 +123,7 @@ $check-focus
 :       48
 :       86 10
 
-:       a9 jun-index-focus
+:       a9 {{jun-index-focus}}
 :       22 $jun-checker
 :       d0 exit-has-focus
 
@@ -139,7 +133,7 @@ $check-focus
 :       f0 commander-skip
 :       20 $check-able-bodied,2
 :       f0 commander-skip
-:       a9 jun-index-commander
+:       a9 {{jun-index-commander}}
 :       22 $jun-checker
 :       d0 exit-has-focus
 .label commander-skip

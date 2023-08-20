@@ -3,8 +3,6 @@
 .addr   return-dead                     021390
 .addr   return-alive                    02133c
 
-.def    jun-index-gilgam-heart  54
-
 02134a: 5c $main
 
 $main
@@ -13,7 +11,7 @@ $main
 
 :       da
 :       bb
-:       a9 jun-index-gilgam-heart 00
+:       a9 {{jun-index-gilgam-heart}} 00
 :       22 $jun-checker
 :       f0 still-alive
 

@@ -2,8 +2,6 @@
 .addr   jun-check-count-all-living      610680
 .addr   main                            620c80
 
-.def    jun-index-deaths-door           55
-
 0233bd: 22 $main
 
 $main
@@ -19,7 +17,7 @@ $main
 :       c9 01
 :       f0 condemned-case
 
-:       a9 jun-index-deaths-door
+:       a9 {{jun-index-deaths-door}}
 :       22 $jun-checker
 :       f0 exit-miss
 
@@ -45,7 +43,7 @@ $main
 :       6b
 
 .label condemned-case
-:       a9 jun-index-deaths-door
+:       a9 {{jun-index-deaths-door}}
 :       22 $jun-check-count-all-living
 :       c9 00
 :       f0 exit-miss

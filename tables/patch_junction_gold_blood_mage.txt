@@ -13,9 +13,6 @@
 .addr   return-enough-mp                0232e0
 .addr   return-not-enough-mp            0232c2
 
-.def    jun-index-blood         0a
-.def    jun-index-gold          0b
-
 025d39: 5c $menu-load-mp
 
 0232b6: 5c $cast-check-deduct-mp
@@ -33,13 +30,13 @@ $menu-load-mp
 :       5c $menu-return
 
 $cast-check-deduct-mp
-:       a9 jun-index-blood 00
+:       a9 {{jun-index-blood-mage}} 00
 :       22 $jun-checker
 :       d0 blood-mage-check-mp
 
 :       e0 08
 :       b0 is-monster-no-gold
-:       a9 jun-index-gold 00
+:       a9 {{jun-index-gold-mage}} 00
 :       22 $jun-checker
 :       d0 gold-mage-check-mp
 
@@ -77,11 +74,11 @@ $cast-check-deduct-mp
 :       5c $return-enough-mp
 
 $set-end-battle-mp
-:       a9 jun-index-blood 00
+:       a9 {{jun-index-blood-mage}} 00
 :       22 $jun-checker
 :       d0 skip-set-mp
 
-:       a9 jun-index-gold 00
+:       a9 {{jun-index-gold-mage}} 00
 :       22 $jun-checker
 :       d0 skip-set-mp
 
@@ -95,11 +92,11 @@ $load-mp-routine
 :       08
 :       c2 20
 
-:       a9 jun-index-blood 00
+:       a9 {{jun-index-blood-mage}} 00
 :       22 $jun-checker
 :       d0 blood-mage-load-mp
 
-:       a9 jun-index-gold 00
+:       a9 {{jun-index-gold-mage}} 00
 :       22 $jun-checker
 :       d0 gold-mage-load-mp
 
@@ -162,13 +159,13 @@ $do-mp-critical
 :       bb
 :       c2 20
 
-:       a9 jun-index-blood 00
+:       a9 {{jun-index-blood-mage}} 00
 :       22 $jun-checker
 :       f0 no-blood
 :       20 $deduct-blood,2
 
 .label no-blood
-:       a9 jun-index-gold 00
+:       a9 {{jun-index-gold-mage}} 00
 :       22 $jun-checker
 :       f0 no-gold
 :       20 $deduct-gold,2

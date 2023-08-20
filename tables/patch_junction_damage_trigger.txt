@@ -38,25 +38,9 @@
 .addr   current-hp-address              7e3bf4
 .addr   max-hp-address                  7e3c1c
 
-.def    jun-index-blood             0a
-.def    jun-index-heal-boost        53
-.def    jun-index-heal-font         70
-.def    jun-index-heal-sink         71
-.def    jun-index-reverse           52
-.def    jun-index-chemist           5e
-.def    jun-index-nihopalaoa        5f
-.def    jun-index-precision         5b
-.def    jun-index-catch             77
-.def        throw-index                 08
-.def    jun-index-brace             7f
-.def    jun-index-damage-split      88
-.def    jun-index-distribute        89
-.def    jun-index-auto-potion       80
-.def        jun-index-salve             07
-.def        jun-index-meatbone          39
-.def            revenge-spell-index         92
-.def        potion-index                e9
-.def    jun-index-double-time       a3
+.def    throw-index                 08
+.def    revenge-spell-index         92
+.def    potion-index                e9
 
 
 
@@ -84,7 +68,7 @@ $main
 :       20 $check-brace,2
 :       20 $check-catch,2
 
-:       a9 jun-index-double-time 00
+:       a9 {{jun-index-double-time}} 00
 :       22 $jun-checker
 :       f0 no-double-time
 :       20 $reduce-damage-half,2
@@ -95,7 +79,7 @@ $main
 :       29 ff 00
 :       c9 01 00
 :       d0 no-chemist
-:       a9 jun-index-chemist 00
+:       a9 {{jun-index-chemist}} 00
 :       22 $jun-checker
 :       f0 no-chemist
 :       20 $boost-healing-double,2
@@ -106,7 +90,7 @@ $main
 :       29 ff 00
 :       c9 22 00
 :       f0 no-reverse
-:       a9 jun-index-reverse 00
+:       a9 {{jun-index-reverse}} 00
 :       22 $jun-checker
 :       f0 no-reverse
 :       20 $reverse-damage,2
@@ -135,13 +119,13 @@ $main-nihopalaoa
 :       6b
 
 $check-heal
-:       a9 jun-index-heal-boost 00
+:       a9 {{jun-index-heal-boost}} 00
 :       22 $jun-checker
 :       f0 no-heal-boost
 :       20 $boost-healing-half,2
 .label no-heal-boost
 
-:       a9 jun-index-heal-font 00
+:       a9 {{jun-index-heal-font}} 00
 :       22 $jun-check-count-all-living
 .label heal-font-loop
 :       3a
@@ -150,7 +134,7 @@ $check-heal
 :       80 heal-font-loop
 .label end-heal-font-loop
 
-:       a9 jun-index-heal-sink 00
+:       a9 {{jun-index-heal-sink}} 00
 :       22 $jun-check-count-all-living
 .label heal-sink-loop
 :       3a
@@ -172,7 +156,7 @@ $do-blood-restriction
 :       a9 01
 :       2c a4 11
 :       f0 no-blood
-:       a9 jun-index-blood
+:       a9 {{jun-index-blood-mage}}
 :       22 $jun-checker
 :       f0 no-blood
 :       c2 20
@@ -197,7 +181,7 @@ $check-brace
 :       b9 a1 3a
 :       89 02 00
 :       f0 no-brace
-:       a9 jun-index-brace 00
+:       a9 {{jun-index-brace}} 00
 :       22 $jun-checker
 :       f0 no-brace
 :       20 $reduce-damage-half,2
@@ -211,7 +195,7 @@ $check-nihopalaoa
 :       a5 b5
 :       c9 01
 :       d0 not-nihopalaoa
-:       a9 jun-index-nihopalaoa
+:       a9 {{jun-index-nihopalaoa}}
 :       22 $jun-checker
 :       f0 not-nihopalaoa
 :       28 68
@@ -240,7 +224,7 @@ $check-precision
 :       fa
 
 :       e2 20
-:       a9 jun-index-precision
+:       a9 {{jun-index-precision}}
 :       22 $jun-checker
 :       f0 no-precision
 
@@ -270,7 +254,7 @@ $check-calc
 :       20 $check-nonzero-nonlethal-damage,2
 :       f0 no-damage-split
 :       bb
-:       a9 jun-index-damage-split 00
+:       a9 {{jun-index-damage-split}} 00
 :       22 $jun-checker
 :       f0 no-damage-split
 :       fa da
@@ -297,7 +281,7 @@ $check-calc
 :       1a
 :       f0 no-distribute
 :       bb
-:       a9 jun-index-distribute 00
+:       a9 {{jun-index-distribute}} 00
 :       22 $jun-checker
 :       f0 no-distribute
 :       b9 e4 33
@@ -435,7 +419,7 @@ $check-catch
 :       c9 throw-index 00
 :       d0 catch-exit
 :       bb
-:       a9 jun-index-catch 00
+:       a9 {{jun-index-catch}} 00
 :       22 $jun-checker
 :       f0 catch-exit
 :       9e d0 33
@@ -565,7 +549,7 @@ $check-nonzero-nonlethal-damage
 :       60
 
 $retarget-salve
-:       a9 jun-index-salve
+:       a9 {{jun-index-salve}}
 :       22 $jun-checker
 :       f0 no-salve
 :       22 $jun-set-target-allies
@@ -599,7 +583,7 @@ $do-meatbone-auto-potion
 :       4a 4a 4a
 :       d9 $current-hp-address,2
 :       90 no-meatbone
-:       a9 jun-index-meatbone 00
+:       a9 {{jun-index-meatbone-cut}} 00
 :       22 $jun-checker
 :       f0 no-meatbone
 :       22 $jun-set-target-counter
@@ -612,7 +596,7 @@ $do-meatbone-auto-potion
 
 .label no-meatbone
 :       bb
-:       a9 jun-index-auto-potion 00
+:       a9 {{jun-index-auto-potion}} 00
 :       22 $jun-checker
 :       f0 auto-potion-exit
 

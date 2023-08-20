@@ -15,13 +15,6 @@
 .addr   current-max-hp-address          7e3c1c
 .addr   current-max-mp-address          7e3c30
 
-.def    jun-index-add-steal     2f
-.def    jun-index-astral        7d
-.def    jun-index-vorpal        7e
-.def    jun-index-vampire       8f
-.def    jun-index-quickening    94
-.def    jun-index-gunblade      95
-
 .def    super-ball-item-index       fa
 .def    hyperdrive-index            d1
 .def    custom-mp-command-index     42
@@ -43,7 +36,7 @@ $main
 :       d0 no-add-steal
 :       22 $jun-rng1
 :       90 no-add-steal
-:       a9 jun-index-add-steal
+:       a9 {{jun-index-add-steal}}
 :       22 $jun-checker
 :       f0 no-add-steal
 :       a9 a4
@@ -53,7 +46,7 @@ $main
 :       a9 01
 :       2c a2 11
 :       f0 not-physical
-:       a9 jun-index-vorpal
+:       a9 {{jun-index-vorpal}}
 :       22 $jun-checker
 :       f0 no-vorpal
 :       a9 20
@@ -62,7 +55,7 @@ $main
 .label no-vorpal
 :       a5 b5
 :       d0 no-gunblade
-:       a9 jun-index-gunblade
+:       a9 {{jun-index-gunblade}}
 :       22 $jun-checker
 :       f0 no-gunblade
 :       a9 super-ball-item-index
@@ -93,7 +86,7 @@ $main
 :       c2 20
 :       bd $current-current-hp-address,2
 :       f0 no-quickening
-:       a9 jun-index-quickening 00
+:       a9 {{jun-index-quickening}} 00
 :       22 $jun-checker
 :       f0 no-quickening
 :       a5 b8
@@ -128,7 +121,7 @@ $main
 
 .label no-quickening
 :       e2 20
-:       a9 jun-index-astral
+:       a9 {{jun-index-astral}}
 :       22 $jun-checker
 :       f0 no-astral
 :       a9 80
@@ -138,7 +131,7 @@ $main
 :       a9 01
 :       2c a4 11
 :       d0 no-vampire
-:       a9 jun-index-vampire
+:       a9 {{jun-index-vampire}}
 :       22 $jun-checker
 :       f0 no-vampire
 :       a9 02
