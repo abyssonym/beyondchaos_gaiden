@@ -189,7 +189,9 @@
         "discordant":           "a5",
         "null_sleep":           "a6",
         "luck_font":            "a7",
-        "luck_sink":            "a8"
+        "luck_sink":            "a8",
+        "juggernaut":           "a9",
+        "burst":                "aa"
     },
 
     "junction_short_names": {
@@ -358,7 +360,9 @@
         "discordant":           "Discordant",
         "null_sleep":           "Null Sleep?",
         "luck_font":            "Luck Font",
-        "luck_sink":            "Luck Sink"
+        "luck_sink":            "Luck Sink",
+        "juggernaut":           "Juggernaut",
+        "burst":                "Burst"
     },
 
     "junction_tags": {
@@ -527,7 +531,9 @@
         "discordant":           ["luck", "buff", "debuff"],
         "null_sleep":           ["status", "sleep"],
         "luck_font":            ["luck"],
-        "luck_sink":            ["-luck"]
+        "luck_sink":            ["-luck"],
+        "juggernaut":           ["buff", "slow"],
+        "burst":                ["buff", "haste"]
     },
 
     "esper_tags":       "tags_esper.json",
@@ -827,6 +833,7 @@
         "reload-character-commands":        "610f80",
         "rng1":                             "610a00",
         "rng2":                             "610a40",
+        "rng2-noluck":                      "610aa0",
         "rng3":                             "610a20",
         "select-bit":                       "6108a0",
         "set-target-allies":                "610780",
@@ -1361,6 +1368,14 @@
         "luck_sink": [
             "patch_junction_core.txt",
             "patch_junction_luck_font_sink.txt"
+        ],
+        "juggernaut": [
+            "patch_junction_miasma.txt",
+            "patch_junction_initiative.txt"
+        ],
+        "burst": [
+            "patch_junction_miasma.txt",
+            "patch_junction_initiative.txt"
         ]
     }
 }

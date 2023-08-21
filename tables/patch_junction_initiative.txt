@@ -6,11 +6,17 @@
 .addr   return-loop                     022594
 .addr   return-terminate                022600
 
+.addr   do-juggernaut-burst             622900
+
+.addr   current-level-address           7e3b18
+
 0225fa: 5c $main
 :       ea ea
 
 $main
 :       bb
+
+:       20 $do-juggernaut-burst,2
 
 :       a9 {{jun-index-regenerator}}
 :       22 $jun-checker
@@ -91,6 +97,29 @@ $main
 :       88 88
 :       10 plague-loop
 :       7a
+:       60
+
+$do-juggernaut-burst
+:       a9 {{jun-index-juggernaut}}
+:       22 $jun-checker
+:       f0 no-juggernaut
+:       bd $current-level-address,2
+:       1a
+:       4a
+:       9d $current-level-address,2
+
+.label no-juggernaut
+:       a9 {{jun-index-burst}}
+:       22 $jun-checker
+:       f0 no-burst
+:       bd $current-level-address,2
+:       1a
+:       4a
+:       18
+:       7d $current-level-address,2
+:       9d $current-level-address,2
+
+.label no-burst
 :       60
 
 VALIDATION

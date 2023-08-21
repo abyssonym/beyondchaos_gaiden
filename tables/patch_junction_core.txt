@@ -37,6 +37,7 @@
 .addr   jun-divide                          {{jun-global-divide}}
 .addr   jun-rng1                            {{jun-global-rng1}}
 .addr   jun-rng2                            {{jun-global-rng2}}
+.addr   jun-rng2-noluck                     {{jun-global-rng2-noluck}}
 .addr   jun-rng3                            {{jun-global-rng3}}
 .addr   jun-select-bit                      {{jun-global-select-bit}}
 .addr   jun-bit-to-index                    {{jun-global-bit-to-index}}
@@ -742,6 +743,14 @@ $jun-rng2
 :   bf 00 fd c0
 :   28 fa
 :   60
+
+$jun-rng2-noluck
+:   da
+:   e6 be
+:   a6 be
+:   bf 00 fd c0
+:   fa
+:   6b
 
 # 0 to A-1
 $jun-rng3

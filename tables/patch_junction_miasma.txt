@@ -2,14 +2,26 @@
 .addr   jun-check-entity-living         {{jun-global-check-entity-living}}
 .addr   jun-rng1                        {{jun-global-rng1}}
 .addr   jun-rng2                        {{jun-global-rng2}}
+.addr   jun-rng2-noluck                 {{jun-global-rng2-noluck}}
+.addr   jun-rng3                        {{jun-global-rng3}}
 .addr   main                            620b40
+.addr   main-level-modulation           622860
+
+.addr   monster-indexes                 7e1ff9
+.addr   character-info                  7e3010
+.addr   current-level-address           7e3b18
+.addr   character-base-level-address    7e1608
+.addr   monster-base-level-address      0f0010
 
 .def    miasma-success-rate             40
+.def    level-modulation-rate           80
 
 025ad6: 22 $main
 
 $main
 :       9b
+:       20 $main-level-modulation,2
+
 :       bd e4 3e
 :       29 04
 :       f0 not-poisoned
@@ -53,6 +65,85 @@ $main
 :       bb
 :       a9 00
 :       6b
+
+$main-level-modulation
+:       20 @get-base-level,2
+:       48
+:       22 $jun-rng2-noluck
+:       c9 level-modulation-rate
+:       b0 no-burst
+
+:       a9 {{jun-index-juggernaut}}
+:       22 $jun-checker
+:       f0 no-juggernaut
+:       20 @do-juggernaut,2
+
+.label no-juggernaut
+:       a9 {{jun-index-burst}}
+:       22 $jun-checker
+:       f0 no-burst
+:       20 @do-burst,2
+
+.label no-burst
+:       68
+:       60
+
+.label get-base-level
+:       08
+:       c2 30
+:       da
+:       e0 08 00
+:       b0 get-base-level-monster
+:       bd $character-info,2
+:       aa
+:       bf $character-base-level-address
+:       80 get-base-level-exit
+.label get-base-level-monster
+:       bd $monster-indexes,2
+:       0a 0a 0a 0a 0a
+:       aa
+:       bf $monster-base-level-address
+.label get-base-level-exit
+:       29 ff 00
+:       fa 28
+:       60
+
+.label do-juggernaut
+:       bd $current-level-address,2
+:       c3 03
+:       90 do-juggernaut-levelup
+:       e3 03
+:       1a
+:       22 $jun-rng3
+:       c9 00
+:       d0 do-juggernaut-exit
+.label do-juggernaut-levelup
+:       bd $current-level-address,2
+:       1a
+:       c9 64
+:       b0 do-juggernaut-exit
+:       9d $current-level-address,2
+.label do-juggernaut-exit
+:       60
+
+.label do-burst
+:       bd $current-level-address,2
+:       c3 03
+:       b0 do-burst-leveldown
+:       e3 03
+:       49 ff
+:       1a 1a
+:       22 $jun-rng3
+:       c9 00
+:       d0 do-burst-exit
+.label do-burst-leveldown
+:       bd $current-level-address,2
+:       3a
+:       f0 do-burst-exit
+:       30 do-burst-exit
+:       9d $current-level-address,2
+.label do-burst-exit
+:       60
 
 VALIDATION
 025ad6: bd f0 3a
