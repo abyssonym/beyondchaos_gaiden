@@ -4,6 +4,8 @@
 .addr   jun-rng2                        {{jun-global-rng2}}
 .addr   main                            620b40
 
+.def    miasma-success-rate             40
+
 025ad6: 22 $main
 
 $main
@@ -18,8 +20,8 @@ $main
 :       22 $jun-check-entity-living
 :       f0 miasma-fail-rng
 :       22 $jun-rng2
-:       29 03
-:       d0 miasma-fail-rng
+:       c9 miasma-success-rate
+:       b0 miasma-fail-rng
 :       a9 {{jun-index-miasma}}
 :       22 $jun-checker
 :       d0 trigger-miasma
@@ -32,7 +34,7 @@ $main
 :       29 02
 :       f0 no-junction
 :       22 $jun-rng1
-:       90 no-junction
+:       b0 no-junction
 :       a9 {{jun-index-regenerator}}
 :       22 $jun-checker
 :       d0 trigger-regen

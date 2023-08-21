@@ -4,6 +4,9 @@
 
 .addr   old-rng2                        024b5a
 
+.def    first-desperation-rate          80
+.def    second-desperation-rate         40
+
 0215e9: 22 $main
 :       ea
 
@@ -17,12 +20,14 @@ $main
 :       2c 2f 3f
 :       d0 desperation-repeat
 :       22 $jun-rng2
-:       29 01
+:       c9 first-desperation-rate
+:       b0 exit
+:       a9 00
 :       80 exit
 .label desperation-repeat
 :       22 $jun-rng2
-:       29 03
-:       d0 exit
+:       c9 second-desperation-rate
+:       b0 exit
 :       b9 18 30
 :       1c 2f 3f
 :       a9 00

@@ -35,7 +35,7 @@ $main
 :       ad a9 11
 :       d0 no-add-steal
 :       22 $jun-rng1
-:       90 no-add-steal
+:       b0 no-add-steal
 :       a9 {{jun-index-add-steal}}
 :       22 $jun-checker
 :       f0 no-add-steal

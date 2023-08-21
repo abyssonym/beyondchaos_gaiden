@@ -17,6 +17,8 @@
 .addr   return-force-field-nullify              020bfa
 .addr   bits                                    00bafc
 
+.def    esper-attack-rate                       40
+
 020b8e: 5c $main-esper-attack-misc-effect
 :       ea
 
@@ -41,8 +43,8 @@ $main-esper-attack-misc-effect
 :       29 03
 :       0c a4 11
 :       22 $jun-rng2
-:       29 03
-:       d0 esper-attack-misc-cleanup
+:       c9 esper-attack-rate
+:       b0 esper-attack-misc-cleanup
 
 :       c2 20
 :       bf 04 00 c4

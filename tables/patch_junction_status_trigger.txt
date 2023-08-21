@@ -28,7 +28,7 @@ $main
 :       c0 08
 :       90 main-is-human
 :       22 $jun-rng1
-:       90 exit-main
+:       b0 exit-main
 .label main-is-human
 :       20 $main-auto-item,2
 

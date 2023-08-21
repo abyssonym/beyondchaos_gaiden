@@ -107,7 +107,7 @@ $get-potential-bodyguards
 :       1f $wide-bits
 :       5f $wide-bits
 :       22 $jun-rng1
-:       90 potential-force-allies-only
+:       b0 potential-force-allies-only
 :       48
 :       a9 {{jun-index-popular}} 00
 :       22 $jun-checker

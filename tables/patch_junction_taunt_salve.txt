@@ -126,7 +126,7 @@ $main-taunt
 :       e0 08
 :       b0 taunt-is-monster
 :       22 $jun-rng1
-:       90 main-taunt-unset
+:       b0 main-taunt-unset
 .label taunt-is-monster
 :       a3 05
 :       22 $jun-checker

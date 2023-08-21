@@ -37,6 +37,9 @@
 .def    rippler-allowed-statuses1   37 fd
 .def    rippler-allowed-statuses2   fe 84
 
+.def    flinch-rate                 40
+.def    gaia-assist-rate            40
+
 022211: 5c $main
 
 024692: 22 $main-firestarter
@@ -162,7 +165,7 @@ $main-counter
 :       d0 no-counter-all
 
 :       22 $jun-rng1
-:       90 no-flinch
+:       b0 no-flinch
 :       a9 {{jun-index-flinch}}
 :       22 $jun-checker
 :       f0 no-flinch
@@ -173,8 +176,8 @@ $main-counter
 
 .label no-flinch
 :       22 $jun-rng2
-:       29 03
-:       d0 no-counter-all
+:       c9 flinch-rate
+:       b0 no-counter-all
 :       a9 {{jun-index-counter-all}}
 :       22 $jun-checker-y
 :       f0 no-counter-all
@@ -237,7 +240,7 @@ $main-counter
 :       a5 b5
 :       d0 no-hamedo
 :       22 $jun-rng1
-:       90 no-hamedo
+:       b0 no-hamedo
 :       a9 {{jun-index-hamedo}}
 :       22 $jun-checker-y
 :       f0 no-hamedo
@@ -373,8 +376,8 @@ $main-gaia
 :       b9 e1 32
 :       48
 :       22 $jun-rng2
-:       29 03
-:       d0 do-gaia-exit
+:       c9 gaia-assist-rate
+:       b0 do-gaia-exit
 :       da
 :       ae e2 11
 :       bf $background-dances-address

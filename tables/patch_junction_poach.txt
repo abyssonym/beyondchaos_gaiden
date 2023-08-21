@@ -1,5 +1,4 @@
 .addr   jun-checker                     {{jun-global-checker}}
-.addr   jun-rng1                        {{jun-global-rng1}}
 .addr   jun-rng2                        {{jun-global-rng2}}
 .addr   main                            620a40
 .addr   get-steal-or-drop               620ab0
@@ -9,6 +8,8 @@
 .addr   monster-steals                  0f3000
 .addr   monster-drops                   0f3002
 .addr   jump-set-death                  020e32
+
+.def    poach-rare-rate                 20
 
 0213a1: 5c $main
 :       ea ea
@@ -67,8 +68,9 @@ $main
 # choose rare item 1/8 of the time
 :       aa
 :       22 $jun-rng2
-:       29 07 00
-:       f0 poach-choose-rare
+:       29 ff 00
+:       c9 poach-rare-rate 00
+:       90 poach-choose-rare
 :       8a
 :       eb
 :       80 poach-item-chosen
@@ -82,7 +84,8 @@ $get-steal-or-drop
 :       b9 $monster-indexes,2
 :       0a 0a
 :       aa
-:       22 $jun-rng1
+:       22 $jun-rng2
+:       4a
 :       b0 choose-drop
 :       bf $monster-steals
 :       60

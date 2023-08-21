@@ -187,7 +187,9 @@
         "double_time":          "a3",
         "plague":               "a4",
         "discordant":           "a5",
-        "null_sleep":           "a6"
+        "null_sleep":           "a6",
+        "luck_font":            "a7",
+        "luck_sink":            "a8"
     },
 
     "junction_short_names": {
@@ -354,7 +356,9 @@
         "double_time":          "Double Time",
         "plague":               "Plague",
         "discordant":           "Discordant",
-        "null_sleep":           "Null Sleep?"
+        "null_sleep":           "Null Sleep?",
+        "luck_font":            "Luck Font",
+        "luck_sink":            "Luck Sink"
     },
 
     "junction_tags": {
@@ -521,7 +525,9 @@
         "double_time":          ["haste", "buff"],
         "plague":               ["condemned", "death", "status", "debuff", "haste", "slow"],
         "discordant":           ["luck", "buff", "debuff"],
-        "null_sleep":           ["status", "sleep"]
+        "null_sleep":           ["status", "sleep"],
+        "luck_font":            ["luck"],
+        "luck_sink":            ["-luck"]
     },
 
     "esper_tags":       "tags_esper.json",
@@ -819,9 +825,9 @@
         "queue-command":                    "610ff0",
         "queue-self-spell":                 "610fc0",
         "reload-character-commands":        "610f80",
-        "rng1":                             "610820",
-        "rng2":                             "610830",
-        "rng3":                             "610840",
+        "rng1":                             "610a00",
+        "rng2":                             "610a40",
+        "rng3":                             "610a20",
         "select-bit":                       "6108a0",
         "set-target-allies":                "610780",
         "set-target-counter":               "6107c0"
@@ -1347,6 +1353,14 @@
         ],
         "null_sleep": [
             "patch_junction_prehit_trigger.txt"
+        ],
+        "luck_font": [
+            "patch_junction_core.txt",
+            "patch_junction_luck_font_sink.txt"
+        ],
+        "luck_sink": [
+            "patch_junction_core.txt",
+            "patch_junction_luck_font_sink.txt"
         ]
     }
 }

@@ -33,7 +33,7 @@ $main
 :       d9 $current-hp-address,2
 :       b0 exit-normal
 :       22 $jun-rng1
-:       90 exit-normal
+:       b0 exit-normal
 
 :       a9 {{jun-index-mp-switch}} 00
 :       22 $jun-checker

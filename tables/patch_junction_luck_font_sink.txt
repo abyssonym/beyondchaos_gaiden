@@ -1,0 +1,27 @@
+.addr   jun-rng1                            {{jun-global-rng1}}
+.addr   jun-rng2                            {{jun-global-rng2}}
+.addr   jun-rng3                            {{jun-global-rng3}}
+
+024b53: 22 $jun-rng1
+:       60
+
+024b5a: 22 $jun-rng2
+:       60
+
+024b65: 22 $jun-rng3
+:       60
+
+VALIDATION
+
+024b53: 48
+:       20 5a 4b
+:       4a
+
+024b5a: da
+:       e6 be
+:       a6 be
+
+024b65: da
+:       08
+:       e2 30
+:       eb
