@@ -191,7 +191,8 @@
         "luck_font":            "a7",
         "luck_sink":            "a8",
         "juggernaut":           "a9",
-        "burst":                "aa"
+        "burst":                "aa",
+        "life_force":           "ab"
     },
 
     "junction_short_names": {
@@ -362,7 +363,8 @@
         "luck_font":            "Luck Font",
         "luck_sink":            "Luck Sink",
         "juggernaut":           "Juggernaut",
-        "burst":                "Burst"
+        "burst":                "Burst",
+        "life_force":           "Life Force"
     },
 
     "junction_tags": {
@@ -533,7 +535,8 @@
         "luck_font":            ["luck"],
         "luck_sink":            ["-luck"],
         "juggernaut":           ["buff", "slow"],
-        "burst":                ["buff", "haste"]
+        "burst":                ["buff", "haste"],
+        "life_force":           ["life", "-death", "heal"]
     },
 
     "esper_tags":       "tags_esper.json",
@@ -1376,6 +1379,9 @@
         "burst": [
             "patch_junction_miasma.txt",
             "patch_junction_initiative.txt"
+        ],
+        "life_force": [
+            "patch_junction_damage_modification.txt"
         ]
     }
 }

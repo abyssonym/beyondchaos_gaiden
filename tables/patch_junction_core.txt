@@ -1072,8 +1072,9 @@ $jun-force-update
 :       6b
 
 $jun-generic-dispatch
-:       48 08
+:       08
 :       c2 20
+:       48
 :       62 generic-dispatch-reentry,2
 :       f4 $jun-dispatcher-address-c2,2
 # push bank (high byte)
@@ -1082,14 +1083,16 @@ $jun-generic-dispatch
 :       48
 # push low bytes of target routine
 :       c2 20
-:       a3 0b
+:       a3 0c
 :       3a
 :       48
 # restore status register and accumulator
 :       e2 20
-:       a3 08
-:       48 28
+:       a3 0a
+:       48
+:       c2 20
 :       a3 09
+:       28
 :       6b
 .label generic-dispatch-reentry
 # automatically handle removing target from stack
@@ -1098,10 +1101,10 @@ $jun-generic-dispatch
 :       c2 20
 :       48
 # shift call address
+:       a3 08
+:       83 0a
 :       a3 07
 :       83 09
-:       a3 06
-:       83 08
 # shift accumulator
 :       a3 01
 :       83 04
@@ -1110,10 +1113,11 @@ $jun-generic-dispatch
 :       e2 20
 :       a3 03
 :       83 07
+:       83 08
 :       c2 20
 :       68 68 68
 :       eb
-:       28
+:       28 28
 :       6b
 
 $jun-check-are-same-team
