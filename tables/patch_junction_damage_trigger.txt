@@ -12,12 +12,12 @@
 .addr   jun-compare-x-y                 {{jun-global-compare-x-y}}
 
 .addr   main                            620c00
-.addr   main-nihopalaoa                 6210e0
+.addr   main-nihopalaoa                 622960
 .addr   main-calc                       621dc0
 .addr   check-calc                      621c80
 .addr   do-distribute-characters        621d00
 .addr   do-distribute-monsters          621d60
-.addr   check-nihopalaoa                620e80
+.addr   check-nihopalaoa                622940
 .addr   check-heal                      6217a0
 .addr   check-brace                     621280
 .addr   check-catch                     6212a0
@@ -113,6 +113,15 @@ $main-nihopalaoa
 :       1c a4 11
 :       a9 04
 :       1c a2 11
+:       a9 80
+:       2c a4 11
+:       d0 nihopalaoa-miss-death-prot
+:       2c aa 11
+:       d0 nihopalaoa-miss-death-prot
+:       80 exit-no-nihopalaoa
+.label nihopalaoa-miss-death-prot
+:       a9 02
+:       0c a2 11
 .label exit-no-nihopalaoa
 :       fa
 :       bf 00 50 d8
