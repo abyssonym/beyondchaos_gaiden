@@ -192,7 +192,7 @@
         "luck_sink":            "a8",
         "juggernaut":           "a9",
         "burst":                "aa",
-        "life_force":           "ab"
+        "atma_force":           "ab"
     },
 
     "junction_short_names": {
@@ -364,7 +364,7 @@
         "luck_sink":            "Luck Sink",
         "juggernaut":           "Juggernaut",
         "burst":                "Burst",
-        "life_force":           "Life Force"
+        "atma_force":           "Atma Force"
     },
 
     "junction_tags": {
@@ -536,7 +536,7 @@
         "luck_sink":            ["-luck"],
         "juggernaut":           ["buff", "slow"],
         "burst":                ["buff", "haste"],
-        "life_force":           ["life", "-death", "heal"]
+        "atma_force":           ["life", "-death", "heal"]
     },
 
     "esper_tags":       "tags_esper.json",
@@ -1380,7 +1380,7 @@
             "patch_junction_miasma.txt",
             "patch_junction_initiative.txt"
         ],
-        "life_force": [
+        "atma_force": [
             "patch_junction_damage_modification.txt"
         ]
     }

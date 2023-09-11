@@ -9,7 +9,7 @@
 
 .addr   main                            620300
 .addr   main-misc                       620600
-.addr   do-life-force                   622a00
+.addr   do-atma-force                   622a00
 .addr   multiply-damage                 6205e0
 .addr   check-element                   6212e0
 .addr   check-esper                     620e20
@@ -91,12 +91,12 @@ $main
 :       20 $boost-damage-half,2
 
 .label no-gaia-boost
-:       a9 {{jun-index-life-force}}
+:       a9 {{jun-index-atma-force}}
 :       22 $jun-checker
-:       f0 no-life-force
-:       20 $do-life-force,2
+:       f0 no-atma-force
+:       20 $do-atma-force,2
 
-.label no-life-force
+.label no-atma-force
 :       7a fa 68
 :       ad a2 11
 :       4a
@@ -170,37 +170,37 @@ $main-misc
 :       28 fa
 :       60
 
-$do-life-force
+$do-atma-force
 :       08
 :       c2 30
 :       48 da 5a
-:       20 @lf-get-expected-hp,2
+:       20 @af-get-expected-hp,2
 :       48
-:       20 @lf-get-current-hp,2
+:       20 @af-get-current-hp,2
 :       48
 :       ad b0 11
 :       c3 01
-:       90 lf-damage-is-less
+:       90 af-damage-is-less
 :       fa
-:       80 lf-begin-multiply
-.label lf-damage-is-less
+:       80 af-begin-multiply
+.label af-damage-is-less
 :       aa
 :       68
-.label lf-begin-multiply
+.label af-begin-multiply
 :       7a
-:       20 @lf-multiply-damage,2
+:       20 @af-multiply-damage,2
 
 :       48
 :       18
 :       63 01
-:       90 lf-no-carry-1
+:       90 af-no-carry-1
 :       a9 ff ff
-.label lf-no-carry-1
+.label af-no-carry-1
 :       18
 :       63 01
-:       90 lf-no-carry-2
+:       90 af-no-carry-2
 :       a9 ff ff
-.label lf-no-carry-2
+.label af-no-carry-2
 :       83 01
 :       68
 :       8d b0 11
@@ -210,51 +210,51 @@ $do-life-force
 :       60
 
 # hp-growths-address
-.label lf-get-expected-hp
+.label af-get-expected-hp
 :       da
 :       a9 00 00
 :       48
 :       e0 08 00
-:       b0 lf-get-expected-is-monster
+:       b0 af-get-expected-is-monster
 :       a0 06 00
-.label lf-get-expected-human-loop
+.label af-get-expected-human-loop
 :       bb
 :       22 $jun-check-entity-present
-:       d0 lf-get-expected-human-is-present
+:       d0 af-get-expected-human-is-present
 :       a3 03
 :       aa
-.label lf-get-expected-human-is-present
-:       20 @lf-calculate-expected-hp,2
+.label af-get-expected-human-is-present
+:       20 @af-calculate-expected-hp,2
 :       63 01
 :       83 01
 :       88 88
-:       10 lf-get-expected-human-loop
-:       80 lf-get-expected-exit
-.label lf-get-expected-is-monster
+:       10 af-get-expected-human-loop
+:       80 af-get-expected-exit
+.label af-get-expected-is-monster
 :       a0 0a 00
-.label lf-get-expected-monster-loop
+.label af-get-expected-monster-loop
 :       98
 :       18
 :       69 08 00
 :       aa
 :       22 $jun-check-entity-present
-:       f0 lf-get-expected-monster-skip
+:       f0 af-get-expected-monster-skip
 :       bd $max-hp-address,2
 :       4a 4a 4a
 :       63 01
 :       83 01
-.label lf-get-expected-monster-skip
+.label af-get-expected-monster-skip
 :       88 88
-:       10 lf-get-expected-monster-loop
-.label lf-get-expected-exit
+:       10 af-get-expected-monster-loop
+.label af-get-expected-exit
 :       68
-:       d0 lf-get-expected-nonzero
+:       d0 af-get-expected-nonzero
 :       1a
-.label lf-get-expected-nonzero
+.label af-get-expected-nonzero
 :       fa
 :       60
 
-.label lf-calculate-expected-hp
+.label af-calculate-expected-hp
 :       5a
 :       a9 23 00
 :       48
@@ -262,85 +262,85 @@ $do-life-force
 :       b9 $character-base-level-address,2
 :       29 ff 00
 :       3a 3a
-:       30 lf-calculate-expected-exit
+:       30 af-calculate-expected-exit
 :       aa
-.label lf-calculate-expected-loop
+.label af-calculate-expected-loop
 :       bf $hp-growths-address
 :       29 ff 00
 :       18
 :       63 01
-:       90 lf-calculate-expected-no-overflow
+:       90 af-calculate-expected-no-overflow
 :       a9 0f 27
-.label lf-calculate-expected-no-overflow
+.label af-calculate-expected-no-overflow
 :       83 01
 :       ca
-:       10 lf-calculate-expected-loop
-.label lf-calculate-expected-exit
+:       10 af-calculate-expected-loop
+.label af-calculate-expected-exit
 :       68
 :       7a
 :       60
 
-.label lf-get-current-hp
+.label af-get-current-hp
 :       da
 :       a9 00 00
 :       48
 :       e0 08 00
-:       b0 lf-get-current-is-monster
+:       b0 af-get-current-is-monster
 :       a0 06 00
-.label lf-get-current-human-loop
+.label af-get-current-human-loop
 :       bb
 :       22 $jun-check-entity-present
-:       f0 lf-get-current-human-skip
+:       f0 af-get-current-human-skip
 :       a3 01
 :       7d $current-hp-address,2
 :       83 01
-.label lf-get-current-human-skip
+.label af-get-current-human-skip
 :       88 88
-:       10 lf-get-current-human-loop
-:       80 lf-get-current-exit
-.label lf-get-current-is-monster
+:       10 af-get-current-human-loop
+:       80 af-get-current-exit
+.label af-get-current-is-monster
 :       a0 0a 00
-.label lf-get-current-monster-loop
+.label af-get-current-monster-loop
 :       98
 :       18
 :       69 08 00
 :       aa
 :       22 $jun-check-entity-present
-:       f0 lf-get-current-monster-skip
+:       f0 af-get-current-monster-skip
 :       bd $current-hp-address,2
 :       4a 4a 4a
 :       63 01
 :       83 01
-.label lf-get-current-monster-skip
+.label af-get-current-monster-skip
 :       88 88
-:       10 lf-get-current-monster-loop
-.label lf-get-current-exit
+:       10 af-get-current-monster-loop
+.label af-get-current-exit
 :       68
 :       fa
 :       60
 
-.label lf-multiply-damage
+.label af-multiply-damage
 :       48
 :       8a
-.label lf-multiply-damage-loop
+.label af-multiply-damage-loop
 :       4a
 :       89 00 ff
-:       f0 lf-multiply-damage-end-loop
+:       f0 af-multiply-damage-end-loop
 :       48
 :       98
 :       4a
 :       a8
 :       68
-:       80 lf-multiply-damage-loop
-.label lf-multiply-damage-end-loop
+:       80 af-multiply-damage-loop
+.label af-multiply-damage-end-loop
 :       85 e8
 :       68
 :       f4 $long-multiplication-address,2
 :       22 $jun-generic-dispatch
-.label lf-multiply-damage-2nd-loop
+.label af-multiply-damage-2nd-loop
 :       a5 e9
 :       89 00 ff
-:       f0 lf-multiply-damage-end-2nd-loop
+:       f0 af-multiply-damage-end-2nd-loop
 :       e2 20
 :       18
 :       46 ea
@@ -350,15 +350,15 @@ $do-life-force
 :       98
 :       4a
 :       a8
-:       80 lf-multiply-damage-2nd-loop
-.label lf-multiply-damage-end-2nd-loop
+:       80 af-multiply-damage-2nd-loop
+.label af-multiply-damage-end-2nd-loop
 :       a5 e8
 :       85 2c
 :       98
 :       c9 00 00
-:       d0 lf-nonzero-divisor
+:       d0 af-nonzero-divisor
 :       1a
-.label lf-nonzero-divisor
+.label af-nonzero-divisor
 :       85 2e
 :       f4 $long-division-address,2
 :       22 $jun-generic-dispatch
