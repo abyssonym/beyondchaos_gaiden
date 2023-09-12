@@ -121,6 +121,8 @@ $jun-checker
 .label jun-checker-body
 :   48 eb 48 eb da 5a 8b 08
 :   e2 30
+:   e0 13
+:   b0 final-exit-check-failed
 :   e0 08
 :   b0 is-monster
 :   c2 30

@@ -193,7 +193,8 @@
         "juggernaut":           "a9",
         "burst":                "aa",
         "atma_force":           "ab",
-        "corrode":              "ac"
+        "corrode":              "ac",
+        "overheal":             "ad"
     },
 
     "junction_short_names": {
@@ -366,7 +367,8 @@
         "juggernaut":           "Juggernaut",
         "burst":                "Burst",
         "atma_force":           "Atma Force",
-        "corrode":              "Corrosive"
+        "corrode":              "Corrosive",
+        "overheal":             "Overheal"
     },
 
     "junction_tags": {
@@ -539,7 +541,8 @@
         "juggernaut":           ["buff", "slow"],
         "burst":                ["buff", "haste"],
         "atma_force":           ["life", "-death", "heal"],
-        "corrode":              ["poison", "debuff", "-heal"]
+        "corrode":              ["poison", "debuff", "-heal"],
+        "overheal":             ["heal"]
     },
 
     "esper_tags":       "tags_esper.json",
@@ -1388,6 +1391,10 @@
         ],
         "corrode": [
             "patch_junction_damage_trigger.txt"
+        ],
+        "overheal": [
+            "patch_junction_overheal.txt",
+            "patch_over_9999_maxhp.txt"
         ]
     }
 }

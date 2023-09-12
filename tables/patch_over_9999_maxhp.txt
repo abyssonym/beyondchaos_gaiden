@@ -1,0 +1,29 @@
+.addr   main                    57f040
+
+011b6b: 22 $main
+
+$main
+:       c9 3e
+:       b0 do-over-overmax-digits
+:       c9 0a
+:       b0 do-overmax-digits
+:       65 68
+:       85 69
+:       6b
+.label do-overmax-digits
+:       65 68
+:       38
+:       e9 3f
+:       85 69
+:       6b
+.label do-over-overmax-digits
+:       65 68
+:       38
+:       e9 35
+:       85 69
+:       6b
+
+VALIDATION
+
+011b6b: 65 68
+:       85 69
