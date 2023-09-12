@@ -194,7 +194,8 @@
         "burst":                "aa",
         "atma_force":           "ab",
         "corrode":              "ac",
-        "overheal":             "ad"
+        "overheal":             "ad",
+        "juggler":              "ae"
     },
 
     "junction_short_names": {
@@ -368,7 +369,8 @@
         "burst":                "Burst",
         "atma_force":           "Atma Force",
         "corrode":              "Corrosive",
-        "overheal":             "Overheal"
+        "overheal":             "Overheal",
+        "juggler":              "Juggler"
     },
 
     "junction_tags": {
@@ -542,7 +544,8 @@
         "burst":                ["buff", "haste"],
         "atma_force":           ["life", "-death", "heal"],
         "corrode":              ["poison", "debuff", "-heal"],
-        "overheal":             ["heal"]
+        "overheal":             ["heal"],
+        "juggler":              ["defend"]
     },
 
     "esper_tags":       "tags_esper.json",
@@ -1395,6 +1398,9 @@
         "overheal": [
             "patch_junction_overheal.txt",
             "patch_over_9999_maxhp.txt"
+        ],
+        "juggler": [
+            "patch_junction_damage_trigger.txt"
         ]
     }
 }

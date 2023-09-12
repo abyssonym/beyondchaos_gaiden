@@ -1,4 +1,5 @@
 .addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-checker-y                   {{jun-global-checker-y}}
 .addr   jun-divide                      {{jun-global-divide}}
 .addr   jun-rng1                        {{jun-global-rng1}}
 .addr   jun-queue-command               {{jun-global-queue-command}}
@@ -35,15 +36,19 @@
 .addr   retarget-salve                  621080
 .addr   do-blood-restriction            6207c0
 .addr   do-corrode                      6229a0
+.addr   do-juggler                      622c00
 
 .addr   current-hp-address              7e3bf4
 .addr   max-hp-address                  7e3c1c
 
+.addr   current-defense-address         7e3bb8
+.addr   current-mdef-address            7e3bb9
+.addr   current-evade-address           7e3b54
+.addr   current-mblock-address          7e3b55
+
 .def    throw-index                 08
 .def    revenge-spell-index         92
 .def    potion-index                e9
-
-
 
 022af2: 22 $main-nihopalaoa
 
@@ -98,8 +103,12 @@ $main
 
 .label no-reverse
 :       20 $check-precision,2
+:       22 $jun-check-is-damage-over-time
+:       d0 no-junction
+
 :       20 $do-meatbone-auto-potion,2
 :       20 $do-corrode,2
+:       20 $do-juggler,2
 
 .label no-junction
 :       b9 d0 33
@@ -583,9 +592,6 @@ $do-meatbone-auto-potion
 :       20 $check-nonzero-nonlethal-damage,2
 :       f0 auto-potion-exit-all
 
-:       22 $jun-check-is-damage-over-time
-:       d0 auto-potion-exit-all
-
 :       22 $jun-compare-x-y
 :       f0 no-meatbone
 
@@ -646,8 +652,6 @@ $do-meatbone-auto-potion
 :       60
 
 $do-corrode
-:       22 $jun-check-is-damage-over-time
-:       d0 no-corrode
 :       a9 {{jun-index-corrode}} 00
 :       22 $jun-checker
 :       f0 no-corrode
@@ -667,6 +671,66 @@ $do-corrode
 :       99 $max-hp-address,2
 :       68
 .label no-corrode
+:       60
+
+$do-juggler
+:       e2 20
+:       a9 {{jun-index-juggler}}
+:       22 $jun-checker-y
+:       f0 no-juggler
+
+:       a9 01
+:       2c a2 11
+
+:       d0 juggler-physical-attack
+
+:       b9 $current-mdef-address,2
+:       d9 $current-defense-address,2
+:       b0 juggler-ma-mdef-greater
+:       20 @swap-defense-mdef,2
+.label juggler-ma-mdef-greater
+:       b9 $current-mblock-address,2
+:       d9 $current-evade-address,2
+# internally, a LOWER value in the evade byte is BETTER
+:       90 juggler-ma-mblock-greater
+:       20 @swap-evade-mblock,2
+.label juggler-ma-mblock-greater
+
+:       80 no-juggler
+.label juggler-physical-attack
+
+:       b9 $current-defense-address,2
+:       d9 $current-mdef-address,2
+:       b0 juggler-pa-defense-greater
+:       20 @swap-defense-mdef,2
+.label juggler-pa-defense-greater
+:       b9 $current-evade-address,2
+:       d9 $current-mblock-address,2
+# internally, a LOWER value in the evade byte is BETTER
+:       90 juggler-pa-evade-greater
+:       20 @swap-evade-mblock,2
+.label juggler-pa-evade-greater
+
+.label no-juggler
+:       c2 20
+:       60
+
+.label swap-defense-mdef
+:       b9 $current-defense-address,2
+:       48
+:       b9 $current-mdef-address,2
+:       99 $current-defense-address,2
+:       68
+:       99 $current-mdef-address,2
+:       60
+
+.label swap-evade-mblock
+:       b9 $current-evade-address,2
+:       48
+:       b9 $current-mblock-address,2
+:       99 $current-evade-address,2
+:       68
+:       99 $current-mblock-address,2
 :       60
 
 VALIDATION

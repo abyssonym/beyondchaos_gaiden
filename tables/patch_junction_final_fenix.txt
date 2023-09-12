@@ -1,7 +1,7 @@
 .addr   jun-checker                     {{jun-global-checker}}
 .addr   jun-set-target-allies           {{jun-global-set-target-allies}}
 .addr   jun-queue-command               {{jun-global-queue-command}}
-.addr   main                            6237a0
+.addr   main                            622b40
 .addr   return-normal                   0207a8
 .addr   return-fenix                    020798
 
