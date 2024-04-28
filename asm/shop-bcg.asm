@@ -477,10 +477,10 @@ ele_weakness:
 
 ;Window layout data
 shop_gear_window:
-dw $718B : db $1C,$06
+dw $718B : db $1C,$07
 shop_gear_window_actors:
 dw $750B : db $1C,$06
 shop_gear_weapon_name:
 dw $708B : db $1C,$02
 shop_gear_description:
-dw $738B : db $1c,$04
+dw $73CB : db $1C,$03
