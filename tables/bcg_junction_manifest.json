@@ -827,7 +827,7 @@
         "command-summon":                   "61f180",
         "command-table-address":            "61f100",
         "compare-x-y":                      "6109a0",
-        "count-bits":                       "6108c0",
+        "count-bits":                       "6108f0",
         "deduct-item-if-possible":          "610740",
         "dispatcher-return":                "610fff",
         "divide":                           "610860",

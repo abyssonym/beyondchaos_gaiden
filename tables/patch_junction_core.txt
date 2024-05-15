@@ -794,8 +794,8 @@ $jun-bit-to-index
 
 $jun-count-bits
 :   08
-:   e2 10
-:   a2 00
+:   c2 10
+:   a2 00 00
 :   4a
 :   90 01
 :   e8
@@ -806,11 +806,15 @@ $jun-count-bits
 $jun-select-bit
 :   5a
 :   08
-:   c2 20
+:   c2 30
+
+:   a6 ee
+:   da
+
 :   85 ee
 :   22 $jun-count-bits
 :   8a
-:   f0 0e
+:   f0 0f
 :   22 $jun-rng3
 :   aa
 :   38
@@ -820,6 +824,10 @@ $jun-select-bit
 :   f0 fb
 :   ca
 :   10 f8
+
+:   7a
+:   84 ee
+
 :   28
 :   7a
 :   6b
