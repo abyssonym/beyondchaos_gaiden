@@ -117,6 +117,10 @@ $do-juggernaut-burst
 :       4a
 :       18
 :       7d $current-level-address,2
+:       c9 80
+:       90 no-burst-overflow
+:       a9 7f
+.label no-burst-overflow
 :       9d $current-level-address,2
 
 .label no-burst
