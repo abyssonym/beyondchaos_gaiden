@@ -125,7 +125,8 @@ $main
 :       22 $jun-checker
 :       f0 no-astral
 :       a9 80
-:       0c a3 11
+:       4d a3 11
+:       8d a3 11
 
 .label no-astral
 :       a9 01
