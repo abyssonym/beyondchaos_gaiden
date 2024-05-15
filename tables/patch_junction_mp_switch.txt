@@ -1,4 +1,4 @@
-.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-checker-y                   {{jun-global-checker-y}}
 .addr   jun-rng1                        {{jun-global-rng1}}
 .addr   jun-queue-command               {{jun-global-queue-command}}
 .addr   main                            621480
@@ -36,13 +36,13 @@ $main
 :       b0 exit-normal
 
 :       a9 {{jun-index-mp-switch}} 00
-:       22 $jun-checker
+:       22 $jun-checker-y
 :       f0 exit-normal
 :       a9 {{jun-index-blood-mage}} 00
-:       22 $jun-checker
+:       22 $jun-checker-y
 :       d0 exit-normal
 :       a9 {{jun-index-gold-mage}} 00
-:       22 $jun-checker
+:       22 $jun-checker-y
 :       d0 exit-normal
 
 :       da
