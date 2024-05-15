@@ -13,6 +13,7 @@
 .addr   jun-compare-x-y                 {{jun-global-compare-x-y}}
 
 .addr   main                            620c00
+.addr   do-cap-damage                   620f30
 .addr   main-nihopalaoa                 622960
 .addr   main-calc                       621dc0
 .addr   check-calc                      621c80
@@ -104,16 +105,40 @@ $main
 .label no-reverse
 :       20 $check-precision,2
 :       22 $jun-check-is-damage-over-time
-:       d0 no-junction
+:       d0 cap-damage
 
 :       20 $do-meatbone-auto-potion,2
 :       20 $do-corrode,2
 :       20 $do-juggler,2
 
+.label cap-damage
+:       20 $do-cap-damage,2
+
 .label no-junction
 :       b9 d0 33
 :       d9 e4 33
 :       6b
+
+$do-cap-damage
+:       b9 d0 33
+:       c9 10 27
+:       90 cap-damage-no-damage-overflow
+:       c9 ff ff
+:       f0 cap-damage-no-damage-overflow
+:       a9 0f 27
+:       99 d0 33
+
+.label cap-damage-no-damage-overflow
+:       b9 e4 33
+:       c9 10 27
+:       90 cap-damage-no-healing-overflow
+:       c9 ff ff
+:       f0 cap-damage-no-healing-overflow
+:       a9 0f 27
+:       99 e4 33
+
+.label cap-damage-no-healing-overflow
+:       60
 
 $main-nihopalaoa
 :       da
