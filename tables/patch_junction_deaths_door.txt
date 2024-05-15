@@ -1,6 +1,6 @@
 .addr   jun-checker                     {{jun-global-checker}}
 .addr   jun-check-count-all-living      {{jun-global-check-count-all-living}}
-.addr   main                            620c80
+.addr   main                            627c80
 
 0233bd: 22 $main
 
@@ -28,8 +28,23 @@ $main
 :       38
 :       bd 1c 3c
 :       fd f4 3b
+
+:       e0 08
+:       90 damage-and-miss
+:       89 00 80
+:       d0 damage-and-miss
+:       4a 4a 4a
+
 .label damage-and-miss
+:       89 00 80
+:       f0 damage-is-positive
+:       49 ff ff
+:       1a
+:       99 e4 33
+:       80 damage-is-negative-skip
+.label damage-is-positive
 :       99 d0 33
+.label damage-is-negative-skip
 :       68
 :       e2 20
 
