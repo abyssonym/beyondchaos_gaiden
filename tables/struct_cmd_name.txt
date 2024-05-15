@@ -1,1 +1,1 @@
-name_text,7
+name_text,7,str

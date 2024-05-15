@@ -1,1 +1,1 @@
-special_name,10,str
+name_text,10,str

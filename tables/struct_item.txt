@@ -1,28 +1,28 @@
 itemtype,1
-equipability,2
+equipability,bit:terra locke cyan shadow edgar sabin celes strago relm setzer mog gau gogo umaro imp_equip merit_equip
 learnrate,1
 learnspell,1
-fieldeffect,1
-statusprotect,1
-statusprotect2,1
-statusacquire3,1
-statboost1,1
+fieldeffect,bit:charm_bangle moogle_charm field2 field3 field4 sprint_shoes field6 tintinabar
+statusprotect1,bit:protect_blind protect_zombie protect_poison protect_magitek protect_clear protect_imp protect_petrify protect_death
+statusprotect2,bit:protect_condemned protect_nearfatal protect_image protect_silence protect_berserk protect_muddle protect_seizure protect_sleep
+statusacquire3,bit:acquire_float acquire_regen acquire_slow acquire_haste acquire_stop acquire_shell acquire_safe acquire_reflect
+statboost1,bit:atlas_armlet earrings hp_25 hp_50 hp_13 mp_25 mp_50 mp_13
 special1,bit:gale_hairpin back_guard dragoon_boots gem_box fake_mustache coin_toss thief_glove dragon_horn
 statboost2,bit:sneak_ring sb21 beret coronet sniper_sight gold_hairpin economizer hyper_wrist
-special2,1
-special3,1
-targeting,1
-elements,1
+special2,bit:offering black_belt beads gauntlet genji_glove merit_award true_knight sp27
+special3,bit:lowhp_shell lowhp_safe lowhp_rflect double_xp double_gp sp35 sp36 relic_ring
+targeting,bit:target_one target_one_side_only target_everyone target_group_default target_auto target_group target_enemy_default target_random
+elements,bit:fire ice bolt poison wind pearl earth water
 speedvigor,1
 magstam,1
 breakeffect,1
 otherproperties,bit:weapon_death_protect swdtech op2 restore_hp restore_mp back_row_remove_status two_hand_causes_damage runic_percentage
 power,1
 hitmdef,1
-elemabsorbs,1
-elemnulls,1
-elemweaks,1
-statusacquire2,1
+elemabsorbs,bit:absorb_fire absorb_ice absorb_bolt absorb_poison absorb_wind absorb_pearl absorb_earth absorb_water
+elemnulls,bit:null_fire null_ice null_bolt null_poison null_wind null_pearl null_earth null_water
+elemweaks,bit:weak_fire weak_ice weak_bolt weak_poison weak_wind weak_pearl weak_earth weak_water
+statusacquire2,bit:acquire_condemned acquire_nearfatal acquire_image acquire_silence acquire_berserk acquire_muddle acquire_seizure acquire_sleep
 mblockevade,1
 specialaction,1
 price,2

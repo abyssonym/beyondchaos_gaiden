@@ -90,6 +90,45 @@ def int_to_bytelist(value, length):
     return value_list
 
 
+class EncodeDecodeMixin(TableObject):
+    TABLE = {
+        0x80: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        0x9a: 'abcdefghijklmnopqrstuvwxyz',
+        0xb4: '0123456789!?',
+        0xc0: '/:"\'-.,…;#+()%~',
+        0xff: ' ',
+        }
+
+    for index, s in sorted(TABLE.items()):
+        for i, c in enumerate(s):
+            TABLE[index + i] = c
+            TABLE[c] = index + i
+
+    def encode_bytes(self, word):
+        s = []
+        i = 0
+        while i < len(word):
+            c = word[i]
+            if c == '<':
+                assert word[i+3] == '>'
+                code = int(word[i+1:i+3], 0x10)
+                s.append(code)
+                i += 4
+            else:
+                s.append(self.TABLE[c])
+                i += 1
+        return bytes(s)
+
+    def decode_bytes(self, bytestring):
+        s = ''
+        for c in bytestring:
+            if c in self.TABLE:
+                s += self.TABLE[c]
+            else:
+                s += '<{0:0>2x}>'.format(c)
+        return s
+
+
 class PaletteMixin(TableObject):
     @classmethod
     def color_to_rgb(cls, color):
@@ -911,7 +950,7 @@ class SkillObject(TableObject):
         return sorted(tags)
 
 
-class CharNameObject(TableObject): pass
+class CharNameObject(EncodeDecodeMixin): pass
 class BlitzInputObject(TableObject): pass
 
 class InitialRageObject(TableObject):
@@ -1957,7 +1996,7 @@ class MonsterAIObject(TableObject):
         return s.strip()
 
 
-class MonsterNameObject(TableObject):
+class MonsterNameObject(EncodeDecodeMixin):
     @property
     def name(self):
         return to_ascii(self.name_text)
@@ -1981,7 +2020,7 @@ class MonsterNameObject(TableObject):
         super(MonsterNameObject, cls).full_cleanup()
 
 
-class SpecialNameObject(TableObject): pass
+class SpecialNameObject(EncodeDecodeMixin): pass
 class DanceObject(TableObject): pass
 
 
@@ -2053,7 +2092,7 @@ class MonsterPaletteObject(PaletteMixin):
             self.colors[8:] = self.get(self.index+1).colors[:8]
 
 
-class ItemNameObject(TableObject):
+class ItemNameObject(EncodeDecodeMixin):
     @property
     def name(self):
         return to_ascii(self.name_text)
@@ -2169,7 +2208,7 @@ class ItemObject(TableObject):
             if self.statusacquire3 & bitmask:
                 tags |= {'status', 'buff'}
                 tags.add(SkillObject.STATUS_NAMES[16:24][i])
-            if self.statusprotect & bitmask:
+            if self.statusprotect1 & bitmask:
                 tags |= {'status', 'heal'}
                 tags.add(SkillObject.STATUS_NAMES[0:8][i])
             if self.statusprotect2 & bitmask:
@@ -2619,6 +2658,10 @@ class EsperObject(TableObject):
 
     randomize_attributes = ['bonus']
 
+    export_blacklist = [
+        'ranked_spell_candidates',
+        ]
+
     def __repr__(self):
         s = 'ESPER %x\n' % self.index
         for i in range(1, 6):
@@ -2692,6 +2735,15 @@ class EsperObject(TableObject):
             spell_learns.append(
                 (getattr(self, 'spell%s' % i), getattr(self, 'learn%s' % i)))
         return spell_learns
+
+    @property
+    def pretty_spell_learns(self):
+        psls = []
+        for spell, learn in self.spell_learns:
+            if spell == 0xFF:
+                continue
+            psls.append('{0} x{1}'.format(SkillObject.get(spell).name, learn))
+        return psls
 
     @classproperty
     def spell_freq(cls):
@@ -2793,7 +2845,7 @@ class EsperObject(TableObject):
             self.bonus = 0xff
 
 
-class CmdNameObject(TableObject): pass
+class CmdNameObject(EncodeDecodeMixin): pass
 
 
 class ShopPaletteObject(TableObject):
@@ -3495,6 +3547,11 @@ class CharEsperObject(TableObject):
                 'Kirin', 'ZoneSeek', 'Carbunkl', 'Phantom', 'Sraphim', 'Golem',
                 'Unicorn', 'Fenrir', 'Starlet', 'Phoenix']
 
+    @property
+    def name(self):
+        if len(CharEsperObject.every) > 16:
+            return self.esper_names[self.index]
+
     def __repr__(self):
         if len(CharEsperObject.every) <= 16:
             s = ''
@@ -3510,7 +3567,8 @@ class CharEsperObject(TableObject):
             return s.strip()
 
     def cleanup(self):
-        if 'BNW' not in get_global_label() and 'a' not in get_flags():
+        if ('BNW' not in get_global_label() and 'a' not in get_flags() and
+                self.allocations == self.old_data['allocations'] == 0):
             if len(CharEsperObject.every) <= 16:
                 self.allocations = 0xFFFFFFFF
             else:
@@ -4584,6 +4642,41 @@ def test_junctions(num_trials=20):
         print('{0:13} {1}'.format(junction_name, counter[junction_name]))
 
 
+def export_all(object_list):
+    from os import mkdir
+    import json
+    EXPORT_DIRECTORY = 'exported'
+    try:
+        mkdir(EXPORT_DIRECTORY)
+    except FileExistsError:
+        pass
+    for obj in object_list:
+        if not hasattr(obj, 'specs'):
+            continue
+        name = obj.__name__
+        print(name)
+        fn = path.join(EXPORT_DIRECTORY, 'data.%s.json' % name)
+        data = obj.export_all()
+        with open(fn, 'w+') as f:
+            f.write(json.dumps(data, indent=4))
+
+
+def import_all(object_list, dirname='import'):
+    from os import listdir
+    import json
+    for fn in listdir(dirname):
+        if not (fn.startswith('data.') and fn.endswith('.json')):
+            continue
+        _, name, _ = fn.split('.')
+        objs = [o for o in object_list if o.__name__ == name]
+        assert len(objs) == 1
+        obj = objs[0]
+        fpath = path.join(dirname, fn)
+        with open(fpath) as f:
+            data = json.loads(f.read())
+        obj.import_all(data)
+
+
 if __name__ == '__main__':
     try:
         print('You are using the Beyond Chaos Gaiden '
@@ -4605,10 +4698,15 @@ if __name__ == '__main__':
             'treaffect':    ['treaffect'],
             'espercutegf':  ['espercutegf'],
             'naturalstats': ['naturalstats'],
+            'export':       ['export'],
+            'import':       ['import'],
         }
 
         run_interface(ALL_OBJECTS, snes=True, codes=codes,
                       custom_degree=True, custom_difficulty=True)
+
+        if 'export' in get_activated_codes():
+            export_all(ALL_OBJECTS)
 
         for code in sorted(get_activated_codes()):
             print('Code "%s" activated.' % code)
@@ -4647,9 +4745,8 @@ if __name__ == '__main__':
         if hasattr(JunctionObject, 'specs'):
             JunctionObject.junction()
 
-        hexify = lambda x: ' '.join(['{0:0>2x}'.format(c) for c in x])
-        numify = lambda x: '{0: >3}'.format(x)
-        minmax = lambda x: (min(x), max(x))
+        if 'import' in get_activated_codes():
+            import_all(ALL_OBJECTS)
 
         write_seed()
         handle_exhirom()
