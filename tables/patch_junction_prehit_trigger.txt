@@ -30,6 +30,8 @@
 .addr   return-normal                   022215
 .addr   return-miss                     0222d1
 
+.addr   current-mp-address              7e3c08
+
 .def    vanish-spell-index          26
 .def    spell-proc-command-index    {{jun-command-index-spell-proc}}
 .def    final-attack-command-index  {{jun-command-index-final-attack}}
@@ -190,18 +192,22 @@ $main-counter
 :       20 $do-discordant,2
 
 .label no-discordant
+:       7b
+:       a9 01
+:       24 b1
+:       d0 no-return-magic
 :       ad a5 11
 :       f0 no-return-magic
 :       c0 08
 :       b0 monsters-ignore-mp
 :       3a
-:       d9 08 3c
+:       c2 20
+:       d9 $current-mp-address,2
 :       b0 no-return-magic
 .label monsters-ignore-mp
-:       a9 {{jun-index-return-magic}}
+:       a9 {{jun-index-return-magic}} 00
 :       22 $jun-checker-y
 :       f0 no-return-magic
-:       c2 20
 :       bd 18 30
 :       85 b8
 :       a5 b5
@@ -215,6 +221,7 @@ $main-counter
 :       fa
 
 .label no-return-magic
+:       e2 20
 :       20 $main-esper-counter,2
 :       20 $main-gaia,2
 
