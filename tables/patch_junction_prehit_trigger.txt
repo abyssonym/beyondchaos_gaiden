@@ -198,10 +198,10 @@ $main-counter
 :       d0 no-return-magic
 :       ad a5 11
 :       f0 no-return-magic
+:       c2 20
 :       c0 08
 :       b0 monsters-ignore-mp
 :       3a
-:       c2 20
 :       d9 $current-mp-address,2
 :       b0 no-return-magic
 .label monsters-ignore-mp
