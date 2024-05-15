@@ -2,12 +2,17 @@
 .addr   jun-queue-command               {{jun-global-queue-command}}
 .addr   jun-queue-self-spell            {{jun-global-queue-self-spell}}
 .addr   jun-set-target-counter          {{jun-global-set-target-counter}}
-.addr   main                            620480
+.addr   jun-generic-dispatch            {{jun-global-generic-dispatch}}
+.addr   main                            622d00
+.addr   main-update-battle-timer        6205a0
 
 .addr   spell-indexes-address           620580
 .def    spell-indexes-list      1f 21 22 26 2a 2b 2f 33 34 35 4c 4e fe cf
 .addr   command-indexes-address         620590
 .def    command-indexes-list    0b 18 40 41 15
+
+.addr   update-battle-state             02083f
+.addr   global-battle-timer             7e3a44
 
 .def    first-spell-index           {{jun-index-critical-haste=20}}
 .def    overflow-spell-index        2e
@@ -19,6 +24,9 @@
 
 .def    escape-spell-index          c2
 
+025bff: 22 $main-update-battle-timer
+:       ea
+
 020a5d: 22 $main
 :       ea ea
 
@@ -28,7 +36,29 @@ $spell-indexes-address
 $command-indexes-address
 :       command-indexes-list
 
+$main-update-battle-timer
+:       ee $global-battle-timer,2
+:       ad $global-battle-timer,2
+:       c9 01 00
+:       d0 nonzero-battle-timer
+:       08
+:       e2 20
+:       f4 $update-battle-state,2
+:       22 $jun-generic-dispatch
+:       28
+.label nonzero-battle-timer
+:       a2 12
+:       6b
+
 $main
+:       a5 b1
+:       30 cant-escape
+:       c2 20
+:       ad $global-battle-timer,2
+:       f0 cant-escape
+:       e2 20
+
+:       a9 02
 :       5d 05 32
 :       9d 05 32
 
@@ -72,7 +102,7 @@ $main
 :       a9 escape-spell-index
 :       22 $jun-queue-self-spell
 .label cant-escape
-
+:       e2 20
 :       6b
 
 $do-self-spell
