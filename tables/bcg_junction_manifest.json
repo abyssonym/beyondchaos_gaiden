@@ -193,7 +193,7 @@
         "juggernaut":           "a9",
         "burst":                "aa",
         "atma_force":           "ab",
-        "corrode":              "ac",
+        "corrosive":            "ac",
         "overheal":             "ad",
         "juggler":              "ae"
     },
@@ -368,7 +368,7 @@
         "juggernaut":           "Juggernaut",
         "burst":                "Burst",
         "atma_force":           "Atma Force",
-        "corrode":              "Corrosive",
+        "corrosive":            "Corrosive",
         "overheal":             "Overheal",
         "juggler":              "Juggler"
     },
@@ -543,7 +543,7 @@
         "juggernaut":           ["buff", "slow"],
         "burst":                ["buff", "haste"],
         "atma_force":           ["life", "-death", "heal"],
-        "corrode":              ["poison", "debuff", "-heal"],
+        "corrosive":            ["poison", "debuff", "-heal"],
         "overheal":             ["heal"],
         "juggler":              ["defend"]
     },
@@ -1392,7 +1392,7 @@
         "atma_force": [
             "patch_junction_damage_modification.txt"
         ],
-        "corrode": [
+        "corrosive": [
             "patch_junction_damage_trigger.txt"
         ],
         "overheal": [
