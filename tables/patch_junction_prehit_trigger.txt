@@ -100,7 +100,7 @@ $main
 .label no-decisive
 :       ad 1a 34
 :       f0 no-counter
-:       4c $main-counter
+:       4c $main-counter,2
 
 .label no-counter
 :       5c $return-normal

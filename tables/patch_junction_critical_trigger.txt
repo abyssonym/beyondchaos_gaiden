@@ -24,6 +24,9 @@
 
 .def    escape-spell-index          c2
 
+.addr   pick-dance-move                 02059c
+.addr   background-dances-address       2d8e5b
+
 025bff: 22 $main-update-battle-timer
 :       ea
 
@@ -52,10 +55,14 @@ $main-update-battle-timer
 
 $main
 :       a5 b1
-:       30 cant-escape
+:       30 cant-escape-hop
 :       c2 20
 :       ad $global-battle-timer,2
-:       f0 cant-escape
+:       f0 cant-escape-hop
+:       80 cant-escape-hop-skip
+.label cant-escape-hop
+:       4c @cant-escape,2
+.label cant-escape-hop-skip
 :       e2 20
 
 :       a9 02
@@ -93,6 +100,22 @@ $main
 :       22 $jun-queue-command
 
 .label no-morph
+:       a9 {{jun-index-critical-dance}}
+:       22 $jun-checker
+:       f0 no-dance
+:       da
+:       ae e2 11
+:       bf $background-dances-address
+:       99 e1 32
+:       fa
+:       f4 $pick-dance-move,2
+:       22 $jun-generic-dispatch
+:       8d 7b 3a
+:       a9 13
+:       8d 7a 3a
+:       22 $jun-queue-command
+
+.label no-dance
 :       a9 06
 :       24 b1
 :       d0 cant-escape

@@ -75,6 +75,7 @@
         "critical_esper":       "32",
         "critical_jump":        "33",
         "critical_defend":      "34",
+        "critical_dance":       "35",
         "leech":                "36",
         "sneeze_guard":         "37",
         "critical_morph":       "38",
@@ -249,6 +250,7 @@
         "critical_morph":       "SOS Morph",
         "critical_runic":       "SOS Runic",
         "critical_defend":      "SOS Defend",
+        "critical_dance":       "SOS Dance",
         "leech":                "Leech",
         "sneeze_guard":         "Sneeze Guard",
         "critical_gprain":      "SOS GP Rain",
@@ -425,6 +427,7 @@
         "critical_esper":       ["esper"],
         "critical_jump":        ["hide"],
         "critical_defend":      ["defend"],
+        "critical_dance":       ["luck"],
         "leech":                ["drain", "status", "debuff", "poison", "seizure", "regen"],
         "sneeze_guard":         ["hide"],
         "critical_morph":       ["buff"],
@@ -1015,6 +1018,9 @@
             "patch_junction_critical_trigger.txt"
         ],
         "critical_defend": [
+            "patch_junction_critical_trigger.txt"
+        ],
+        "critical_dance": [
             "patch_junction_critical_trigger.txt"
         ],
         "leech": [
