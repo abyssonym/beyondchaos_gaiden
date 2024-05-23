@@ -4,6 +4,8 @@
 .addr   jun-set-target-counter          {{jun-global-set-target-counter}}
 .addr   jun-generic-dispatch            {{jun-global-generic-dispatch}}
 .addr   main                            622d00
+.addr   return-trigger                  020a63
+.addr   return-stall                    020a90
 .addr   main-update-battle-timer        6205a0
 
 .addr   spell-indexes-address           620580
@@ -30,7 +32,7 @@
 025bff: 22 $main-update-battle-timer
 :       ea
 
-020a5d: 22 $main
+020a5d: 5c $main
 :       ea ea
 
 $spell-indexes-address
@@ -55,15 +57,14 @@ $main-update-battle-timer
 
 $main
 :       a5 b1
-:       30 cant-escape-hop
+:       30 timer-stall
 :       c2 20
 :       ad $global-battle-timer,2
-:       f0 cant-escape-hop
-:       80 cant-escape-hop-skip
-.label cant-escape-hop
-:       4c @cant-escape,2
-.label cant-escape-hop-skip
 :       e2 20
+:       d0 timer-no-stall
+.label timer-stall
+:       5c $return-stall
+.label timer-no-stall
 
 :       a9 02
 :       5d 05 32
@@ -74,6 +75,12 @@ $main
 :       22 $jun-checker
 :       f0 skip-spell
 :       20 $do-self-spell,2
+:       c9 {{jun-index-critical-quick}}
+:       d0 skip-spell
+:       48
+:       a9 00
+:       9d 19 32
+:       68
 .label skip-spell
 :       1a
 :       c9 overflow-spell-index
@@ -126,7 +133,7 @@ $main
 :       22 $jun-queue-self-spell
 .label cant-escape
 :       e2 20
-:       6b
+:       5c $return-trigger
 
 $do-self-spell
 :       48 da
