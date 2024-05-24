@@ -5,12 +5,10 @@
 .addr   jun-bit-to-index                {{jun-global-bit-to-index}}
 
 .addr   main                            621e00
-.addr   check-paladins                  621ea0
-.addr   check-popular                   621ee0
-.addr   get-potential-bodyguards        621e40
 .addr   return-love-token               021259
 .addr   return-no-bodyguards            02125f
 .addr   wide-bits                       00b4f3
+.addr   acting-as-enemies               7e3a42
 
 021254: 5c $main
 
@@ -20,21 +18,21 @@ $main
 .label exit-with-bodyguard
 :       5c $return-love-token
 .label check-junctions
-:       20 $check-paladins,2
+:       20 @check-paladins,2
 :       10 exit-with-bodyguard
 .label no-paladins
 :       bb
 :       a9 {{jun-index-popular}} 00
 :       22 $jun-checker
 :       f0 no-bodyguards
-:       20 $check-popular,2
+:       20 @check-popular,2
 :       10 exit-with-bodyguard
 .label no-bodyguards
 :       a2 ff
 :       5c $return-no-bodyguards
 
-$check-paladins
-:       20 $get-potential-bodyguards,2
+.label check-paladins
+:       20 @get-potential-bodyguards,2
 :       a2 12
 
 .label paladins-loop
@@ -63,8 +61,8 @@ $check-paladins
 :       a2 ff
 :       60
 
-$check-popular
-:       20 $get-potential-bodyguards,2
+.label check-popular
+:       20 @get-potential-bodyguards,2
 :       c9 00 00
 :       f0 popular-fail
 :       22 $jun-select-bit
@@ -75,7 +73,7 @@ $check-popular
 :       a2 ff
 :       60
 
-$get-potential-bodyguards
+.label get-potential-bodyguards
 :       a9 00 00
 :       a2 12
 :       48
@@ -114,11 +112,18 @@ $get-potential-bodyguards
 :       d0 potential-pull-exit
 :       68
 .label potential-force-allies-only
+:       48
 :       c0 08
 :       b0 potential-is-monster
+:       bb
+:       bf $wide-bits
+:       2d $acting-as-enemies,2
+:       d0 potential-is-monster
+:       68
 :       29 0f 00
 :       60
 .label potential-is-monster
+:       68
 :       29 f0 ff
 :       60
 .label potential-pull-exit
