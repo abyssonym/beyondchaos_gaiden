@@ -75,12 +75,6 @@ $main
 :       22 $jun-checker
 :       f0 skip-spell
 :       20 $do-self-spell,2
-:       c9 {{jun-index-critical-quick}}
-:       d0 skip-spell
-:       48
-:       a9 00
-:       9d 19 32
-:       68
 .label skip-spell
 :       1a
 :       c9 overflow-spell-index

@@ -1,0 +1,19 @@
+.addr   main-atb                        57f0e0
+
+0211bb: 22 $main-atb
+:       ea
+
+$main-atb:
+:       ec 04 34
+:       d0 not-quick
+:       a9 ff
+:       9d 19 32
+.label not-quick
+:       c2 21
+:       bd 18 32
+:       6b
+
+VALIDATION
+
+0211bb: c2 21
+:       bd 18 32

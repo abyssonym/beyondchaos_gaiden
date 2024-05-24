@@ -979,7 +979,8 @@
             "patch_junction_critical_trigger.txt"
         ],
         "critical_quick":  [
-            "patch_junction_critical_trigger.txt"
+            "patch_junction_critical_trigger.txt",
+            "patch_instant_enemy_quick.txt"
         ],
         "critical_cure3":  [
             "patch_junction_critical_trigger.txt"
