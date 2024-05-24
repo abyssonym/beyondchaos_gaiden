@@ -4,10 +4,12 @@
 .addr   jun-rng1                        {{jun-global-rng1}}
 .addr   jun-queue-command               {{jun-global-queue-command}}
 .addr   jun-check-is-damage-over-time   {{jun-global-check-is-damage-over-time}}
-.addr   main                            622400
+.addr   jun-check-are-same-team         {{jun-global-check-are-same-team}}
+.addr   main                            622e00
 .addr   null-secondary-data             6227e0
 .addr   do-quickening-penalty           622780
 
+.addr   stolen-item                     7e32f4
 .addr   living-characters               7e3a74
 .addr   current-level-address           7e3b18
 .addr   current-current-hp-address      7e3bf4
@@ -24,14 +26,22 @@
 
 0231b6: 22 $main
 
+0239a1: 5c @main-steal,3
+:       ea
+.label return-steal
+:       e0 08
+:       b0 5f
+
+0239fd: ee 01 34
+.label return-no-steal
+023a00: 60
+
 $main
 :       22 $jun-check-is-damage-over-time
 :       f0 not-damage-over-time
 :       82 no-junction,2
 
 .label not-damage-over-time
-:       a5 b8
-:       d0 no-add-steal
 :       ad a9 11
 :       d0 no-add-steal
 :       22 $jun-rng1
@@ -146,6 +156,21 @@ $main
 :       14 b2
 :       6b
 
+.label main-steal
+:       22 $jun-check-are-same-team
+:       d0 main-return-no-steal
+:       e0 08
+:       b0 main-return-steal
+:       bd $stolen-item,2
+:       1a
+:       d0 main-return-no-steal
+:       a9 01
+:       8d 01 34
+.label main-return-steal
+:       5c @return-steal,3
+.label main-return-no-steal
+:       5c @return-no-steal,3
+
 $do-quickening-penalty
 :       5a
 
@@ -213,3 +238,11 @@ VALIDATION
 
 0231b6: a9 20
 :       14 b2
+
+0239a1: a9 01
+:       8d 01 34
+:       e0 08
+:       b0 5f
+
+0239fd: ee 01 34
+023a00: 60
