@@ -22,7 +22,7 @@
 .addr   check-nihopalaoa                622940
 .addr   check-heal                      6217a0
 .addr   check-brace                     621280
-.addr   check-catch                     6212a0
+.addr   check-catch                     620c80
 .addr   boost-healing-half              620ea0
 .addr   boost-healing-double            620ec0
 .addr   boost-damage-double             620ee0
@@ -472,6 +472,11 @@ $check-catch
 :       9e d0 33
 :       e0 08
 :       b0 catch-exit
+
+:       ad 7a 3a
+:       29 ff 00
+:       c9 throw-index 00
+:       d0 catch-exit
 
 :       22 $jun-rng1
 :       b0 catch-exit

@@ -10,9 +10,13 @@
 
 $main
 :       08
-:       ad 7c 3a
-:       c9 09
-:       f0 exit-no-freebie
+:       ad 7a 3a
+:       c9 01
+:       f0 freebie-valid-command
+:       c9 08
+:       f0 freebie-valid-command
+:       80 exit-no-freebie
+.label freebie-valid-command
 :       22 $jun-rng2
 :       c9 freebie-rate
 :       b0 exit-no-freebie
