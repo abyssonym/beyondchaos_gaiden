@@ -1,0 +1,1841 @@
+byte_order:               "little"
+opcode_size:              1
+pointer_size:             3
+virtual_address:          0
+terminators:              [0xfe]
+text_terminators:         []
+text_char_size:           1
+text_decode_table:
+  0xffff: "{endline}"
+default_context:          "standard"
+instructions:
+  standard:
+    0x00:
+      comment:              "Action queue ({queue_length} bytes): Character 00"
+      parameter_order:      ['queue_length', 'asynchronous']
+      parameters:
+          queue_length:
+            length:         0.7
+          asynchronous:
+            length:         0.1
+    0x01:
+      comment:              "Action queue ({queue_length} bytes): Character 01"
+      inherit:              0x00
+    0x02:
+      comment:              "Action queue ({queue_length} bytes): Character 02"
+      inherit:              0x00
+    0x03:
+      comment:              "Action queue ({queue_length} bytes): Character 03"
+      inherit:              0x00
+    0x04:
+      comment:              "Action queue ({queue_length} bytes): Character 04"
+      inherit:              0x00
+    0x05:
+      comment:              "Action queue ({queue_length} bytes): Character 05"
+      inherit:              0x00
+    0x06:
+      comment:              "Action queue ({queue_length} bytes): Character 06"
+      inherit:              0x00
+    0x07:
+      comment:              "Action queue ({queue_length} bytes): Character 07"
+      inherit:              0x00
+    0x08:
+      comment:              "Action queue ({queue_length} bytes): Character 08"
+      inherit:              0x00
+    0x09:
+      comment:              "Action queue ({queue_length} bytes): Character 09"
+      inherit:              0x00
+    0x0a:
+      comment:              "Action queue ({queue_length} bytes): Character 0a"
+      inherit:              0x00
+    0x0b:
+      comment:              "Action queue ({queue_length} bytes): Character 0B"
+      inherit:              0x00
+    0x0c:
+      comment:              "Action queue ({queue_length} bytes): Character 0C"
+      inherit:              0x00
+    0x0d:
+      comment:              "Action queue ({queue_length} bytes): Character 0D"
+      inherit:              0x00
+    0x0e:
+      comment:              "Action queue ({queue_length} bytes): Character 0E"
+      inherit:              0x00
+    0x0f:
+      comment:              "Action queue ({queue_length} bytes): Character 0F"
+      inherit:              0x00
+    0x10:
+      comment:              "Action queue ({queue_length} bytes): Character 10"
+      inherit:              0x00
+    0x11:
+      comment:              "Action queue ({queue_length} bytes): Character 11"
+      inherit:              0x00
+    0x12:
+      comment:              "Action queue ({queue_length} bytes): Character 12"
+      inherit:              0x00
+    0x13:
+      comment:              "Action queue ({queue_length} bytes): Character 13"
+      inherit:              0x00
+    0x14:
+      comment:              "Action queue ({queue_length} bytes): Character 14"
+      inherit:              0x00
+    0x15:
+      comment:              "Action queue ({queue_length} bytes): Character 15"
+      inherit:              0x00
+    0x16:
+      comment:              "Action queue ({queue_length} bytes): Character 16"
+      inherit:              0x00
+    0x17:
+      comment:              "Action queue ({queue_length} bytes): Character 17"
+      inherit:              0x00
+    0x18:
+      comment:              "Action queue ({queue_length} bytes): Character 18"
+      inherit:              0x00
+    0x19:
+      comment:              "Action queue ({queue_length} bytes): Character 19"
+      inherit:              0x00
+    0x1a:
+      comment:              "Action queue ({queue_length} bytes): Character 1a"
+      inherit:              0x00
+    0x1b:
+      comment:              "Action queue ({queue_length} bytes): Character 1b"
+      inherit:              0x00
+    0x1c:
+      comment:              "Action queue ({queue_length} bytes): Character 1c"
+      inherit:              0x00
+    0x1d:
+      comment:              "Action queue ({queue_length} bytes): Character 1d"
+      inherit:              0x00
+    0x1e:
+      comment:              "Action queue ({queue_length} bytes): Character 1e"
+      inherit:              0x00
+    0x1f:
+      comment:              "Action queue ({queue_length} bytes): Character 1f"
+      inherit:              0x00
+    0x20:
+      comment:              "Action queue ({queue_length} bytes): Character 20"
+      inherit:              0x00
+    0x21:
+      comment:              "Action queue ({queue_length} bytes): Character 21"
+      inherit:              0x00
+    0x22:
+      comment:              "Action queue ({queue_length} bytes): Character 22"
+      inherit:              0x00
+    0x23:
+      comment:              "Action queue ({queue_length} bytes): Character 23"
+      inherit:              0x00
+    0x24:
+      comment:              "Action queue ({queue_length} bytes): Character 24"
+      inherit:              0x00
+    0x25:
+      comment:              "Action queue ({queue_length} bytes): Character 25"
+      inherit:              0x00
+    0x30:
+      comment:              "Action queue ({queue_length} bytes): Character 30"
+      inherit:              0x00
+    0x31:
+      comment:              "Action queue ({queue_length} bytes): Party Member 0"
+      inherit:              0x00
+    0x32:
+      comment:              "Action queue ({queue_length} bytes): Party Member 1"
+      inherit:              0x00
+    0x33:
+      comment:              "Action queue ({queue_length} bytes): Party Member 2"
+      inherit:              0x00
+    0x34:
+      comment:              "Action queue ({queue_length} bytes): Party Member 3"
+      inherit:              0x00
+    0x35:
+      comment:              "Wait for action queue {queue_index:0>2x}"
+      parameters:
+        queue_index:
+          length:           1
+    0x36:
+      comment:              "Character {character:0>2x}: disable phasing"
+      parameters:
+        character:
+          length:           1
+    0x37:
+      comment:              "Assign sprite {sprite:0>2x} to character {character:0>2x}"
+      parameter_order:      ['character', 'sprite']
+      parameters:
+        character:
+          length:           1
+        sprite:
+          length:           1
+    0x38:
+      comment:              "Hold screen"
+    0x39:
+      comment:              "Free screen"
+    0x3a:
+      comment:              "Player can move during event execution"
+    0x3b:
+      comment:              "Ready-to-go stance"
+    0x3c:
+      comment:              "Temporarily rearrange party for cutscene"
+      parameter_order:      ['character1', 'character2', 'character3', 'character4']
+      parameters:
+        character1:
+          length:           1
+        character2:
+          length:           1
+        character3:
+          length:           1
+        character4:
+          length:           1
+    0x3d:
+      comment:              "Create object {object:0>2x}"
+      parameters:
+        object:
+          length:           1
+    0x3e:
+      inherit:              0x3d
+      comment:              "Delete object {object:0>2x}"
+    0x3f:
+      comment:              "Assign character {character:0>2x} to party {party}"
+      parameter_order:      ['character', 'party']
+      parameters:
+        character:
+          length:           1
+        party:
+          length:           1
+    0x40:
+      comment:              "Assign character {character:0>2x} properties {properties:0>2x}"
+      parameter_order:      ['character', 'properties']
+      parameters:
+        character:
+          length:           1
+        properties:
+          length:           1
+    0x41:
+      comment:              "Show object {object:0>2x}"
+      parameters:
+        object:
+          length:           1
+    0x42:
+      inherit:              0x41
+      comment:              "Hide object {object:0>2x}"
+    0x43:
+      comment:              "Assign palette {palette:0>2x} to character {character:0>2x}"
+      parameter_order:      ['character', 'palette']
+      parameters:
+        character:
+          length:           1
+        palette:
+          length:           1
+    0x44:
+      comment:              "Place character {character:0>2x} on vehicle {vehicle:0>2x}, visibility {visibility}"
+      parameter_order:      ['character', 'vehicle', 'visibility']
+      parameters:
+        character:
+          length:           1
+        vehicle:
+          length:           0.7
+        visibility:
+          length:           0.1
+    0x45:
+      comment:              "Refresh objects"
+    0x46:
+      comment:              "Make party {party} the active party"
+      parameters:
+        party:
+          length:           1
+    0x47:
+      comment:              "Make party member 0 the leader"
+    0x48:
+      comment:              "Display message {message:0>3x} and continue"
+      parameter_order:      ['message', 'window_position', 'window_visibility']
+      parameters:
+        message:
+          length:           1.6
+        window_position:
+          length:           0.1
+        window_visibility:
+          length:           0.1
+    0x49:
+      comment:              "Dialogue wait for input"
+    0x4b:
+      inherit:              0x48
+      comment:              "Display message {message:0>3x} and wait"
+    0x4c:
+      comment:              "Invoke battle with formation {formation:0>2x}, background {background:0>2x}, swish {swish}, mosaic {mosaic}, center camera"
+      parameter_order:      ['formation', 'background', 'swish', 'mosaic']
+      parameters:
+        formation:
+          length:           1
+        background:
+          length:           0.6
+        swish:
+          length:           0.1
+        mosaic:
+          length:           0.1
+    0x4d:
+      inherit:              0x4c
+      comment:              "Invoke battle with formation {formation:0>2x}, background {background:0>2x}, swish {swish}, mosaic {mosaic}"
+    0x4e:
+      comment:              "Rewind and invoke battle"
+    0x50:
+      comment:              "Tint screen (color: {color:0>2x}, cumulative)"
+      parameters:
+        color:
+          length:           1
+    0x51:
+      comment:              "Tint palette range {start:0>2x}-{finish:0>2x} (color: {color:0>2x})"
+      parameter_order:      ['color', 'start', 'finish']
+      parameters:
+        color:
+          length:           1
+        start:
+          length:           1
+        finish:
+          length:           1
+    0x52:
+      inherit:              0x50
+      comment:              "Tint sprites (color: {color:0>2x}, cumulative)"
+    0x53:
+      inherit:              0x51
+      comment:              "Tint sprite palette range {start:0>2x}-{finish:0>2x} (color: {color:0>2x})"
+    0x54:
+      comment:              "Return screen colors to normal"
+    0x55:
+      comment:              "Flash screen (color: {color:x}, intensity: {intensity:0>2x})"
+      parameter_order:      ['intensity', 'color']
+      parameters:
+        intensity:
+          length:           0.5
+        color:
+          length:           0.3
+    0x56:
+      inherit:              0x55
+      comment:              "Colorize screen (color: {color:x}, intensity: {intensity:0>2x})"
+    0x58:
+      comment:              "Shake screen, intensity {intensity}, layers {layers:x}, permanence {permanent}"
+      parameter_order:     ['intensity', 'permanent', 'layers']
+      parameters:
+        intensity:
+          length:           0.2
+        permanent:
+          length:           0.2
+        layers:
+          length:           0.4
+    0x59:
+      comment:              "Fade in with speed {speed:0>2x}"
+      parameters:
+        speed:
+          length:           1
+    0x5a:
+      inherit:              0x59
+      comment:              "Fade out with speed {speed:0>2x}"
+    0x5c:
+      comment:              "Wait for fade"
+    0x5d:
+      comment:              "Scroll Layer 1 (speed: {x:0>2x},{y:0>2x})"
+      parameter_order:      ['x', 'y']
+      parameters:
+        x:
+          length:           1
+        y:
+          length:           1
+    0x5e:
+      inherit:              0x5d
+      comment:              "Scroll Layer 2 (speed: {x:0>2x},{y:0>2x})"
+    0x5f:
+      inherit:              0x5d
+      comment:              "Scroll Layer 3 (speed: {x:0>2x},{y:0>2x})"
+    0x60:
+      comment:              "For object type {objects:0>2x}, set palette to {palette:0>2x}"
+      parameter_order:      ['objects', 'palette']
+      parameters:
+        objects:
+          length:           1
+        palette:
+          length:           1
+    0x61:
+      inherit:              0x51
+      comment:              "Colorize palette range {start:0>2x}-{finish:0>2x} (color: {color:0>2x})"
+    0x65:
+      comment:              "Unknown {a:0>2x} {b:0>2x}"
+      parameter_order:      ['x', 'y']
+      parameters:
+        x:
+          length:           1
+        y:
+          length:           1
+    0x6a:
+      comment:              "Fade out & load map {map_index:0>3x} ({x:0>2x},{y:0>2x})"
+      parameter_order:      ['map_index', 'unknown1', 'continuous_music', 'unknown2', 'facing', 'unused3', 'x', 'y', 'in_airship', 'on_chocobo', 'unused4', 'wait_fade', 'run_map_event']
+      parameters:
+        map_index:
+          length:           1.1
+        unknown1:
+          length:           0.1
+        continuous_music:
+          length:           0.1
+        unknown2:
+          length:           0.1
+        facing:
+          length:           0.2
+        unused3:
+          length:           0.2
+        x:
+          length:           1
+        y:
+          length:           1
+        in_airship:
+          length:           0.1
+        on_chocobo:
+          length:           0.1
+        unused4:
+          length:           0.4
+        wait_fade:
+          length:           0.1
+        run_map_event:
+          length:           0.1
+    0x6b:
+      inherit:              0x6a
+      comment:              "Load map {map_index:0>3x} ({x:0>2x},{y:0>2x})"
+    0x6c:
+      comment:              "Set parent location to {map_index:0>3x} ({x:0>2x},{y:0>2x}) facing {facing:x}"
+      parameter_order:      ['map_index', 'x', 'y', 'facing']
+      parameters:
+        map_index:
+          length:           2
+        x:
+          length:           1
+        y:
+          length:           1
+        facing:
+          length:           0.2
+    0x70:
+      inherit:              0x5d
+      comment:              "Scroll Layer 1 (speed: {x:0>2x},{y:0>2x}) (duplicate)"
+    0x71:
+      inherit:              0x5e
+      comment:              "Scroll Layer 2 (speed: {x:0>2x},{y:0>2x}) (duplicate)"
+    0x72:
+      inherit:              0x5f
+      comment:              "Scroll Layer 3 (speed: {x:0>2x},{y:0>2x}) (duplicate)"
+    0x73:
+      comment:              "Replace {width}x{height} tiles at layer {layer} ({x:0>2x},{y:0>2x}) (immediately)"
+      parameter_order:      ['x', 'y', 'layer', 'width', 'height', 'data']
+      parameters:
+        x:
+          length:           1
+        y:
+          length:           0.6
+        layer:
+          length:           0.2
+        width:
+          length:           1
+        height:
+          length:           1
+        data:
+          length:           "variable"
+          is_text:          True
+    0x74:
+      inherit:              0x73
+      comment:              "Replace {width}x{height} tiles at layer {layer} ({x:0>2x},{y:0>2x}) (after refresh)"
+    0x75:
+      comment:              "Refresh map"
+    0x77:
+      comment:              "Do level averaging for character {character:0>2x}"
+      parameters:
+        character:
+          length:           1
+    0x78:
+      comment:              "Character {character:0>2x}: enable phasing"
+      parameters:
+        character:
+          length:           1
+    0x79:
+      comment:              "Place party {party:x} on map {map_index:0>3x}"
+      parameter_order:      ['party', 'unknown', 'map_index']
+      parameters:
+        party:
+          length:           0.2
+        unknown:
+          length:           0.6
+        map_index:
+          length:           1.1
+    0x7f:
+      comment:              "Assign name {name:0>2x} to character {character:0>2x}"
+      parameter_order:      ['character', 'name']
+      parameters:
+        character:
+          length:           1
+        name:
+          length:           1
+    0x80:
+      comment:              "Receive item {item:0>2x}"
+      parameters:
+        item:
+          length:           1
+    0x81:
+      comment:              "Lose item {item:0>2x}"
+      parameters:
+        item:
+          length:           1
+    0x85:
+      comment:              "Lose {gp} GP"
+      parameters:
+        gp:
+          length:           3
+    0x86:
+      comment:              "Receive esper {esper:0>2x}"
+      parameters:
+        esper:
+          length:           1
+    0x88:
+      comment:              "Remove ailments {ailments:0>4x} from character {character:0>2x}"
+      parameter_order:      ['character', 'ailments']
+      parameters:
+        character:
+          length:           1
+        ailments:
+          length:           2
+    0x8b:
+      comment:              "Modify HP of character {character:0>2x}, value {value:0>2x}, negative flag {negative}"
+      parameter_order:      ['character', 'value', 'negative']
+      parameters:
+        character:
+          length:           1
+        value:
+          length:           0.7
+        negative:
+          length:           0.1
+    0x8c:
+      inherit:              0x8b
+      comment:              "Modify MP of character {character:0>2x}, value {value:0>2x}, negative flag {negative}"
+    0x8d:
+      comment:              "Remove equipment from character {character:0>2x}"
+      parameters:
+        character:
+          length:           1
+    0x91:
+      comment:              "Wait 15 frames"
+    0x92:
+      comment:              "Wait 30 frames"
+    0x93:
+      comment:              "Wait 45 frames"
+    0x94:
+      comment:              "Wait 60 frames"
+    0x95:
+      comment:              "Wait 120 frames"
+    0x96:
+      comment:              "Fade in"
+    0x97:
+      comment:              "Fade out"
+    0x98:
+      comment:              "Invoke name change screen for character {character:0>2x}"
+      parameters:
+        character:
+          length:           1
+    0x99:
+      comment:              "Party selection ({num_groups} groups, {fixed_members:0>4x} fixed)"
+      parameter_order:      ['num_groups', 'unknown1', 'unknown_bit', 'fixed_members']
+      parameters:
+        num_groups:
+          length:           0.2
+        unknown1:
+          length:           0.5
+        unknown_bit:
+          length:           0.1
+        fixed_members:
+          length:           2
+    0x9b:
+      comment:              "Call shop {shop:0>2x}"
+      parameters:
+        shop:
+          length:           1
+    0x9c:
+      comment:              "Optimize character {character:0>2x}'s equipment"
+      parameters:
+        character:
+          length:           1
+    0x9d:
+      comment:              "Invoke final battle party selection"
+    0xa0:
+      comment:              "Start timer {timer}, {frames} frames, call {address}, flags {menu_visibility}/{interrupt_menu}/{field_visibility}/{menu_pause}"
+      parameter_order:      ['frames', 'address', 'timer', 'menu_visibility', 'interrupt_menu', 'field_visibility', 'menu_pause']
+      parameters:
+        frames:
+          length:           2
+        address:
+          length:           2.2
+          track_pointer:    True
+          virtual_address:  0
+        timer:
+          length:           0.2
+        menu_visibility:
+          length:           0.1
+        interrupt_menu:
+          length:           0.1
+        field_visibility:
+          length:           0.1
+        menu_pause:
+          length:           0.1
+    0xa1:
+      comment:              "Reset timer {timer}"
+      parameters:
+        timer:
+          length:           1
+    0xa2:
+      comment:              "Unknown"
+    0xa6:
+      comment:              "Remove pyramid effect"
+    0xa7:
+      comment:              "Create pyramid around character {character:0>2x}"
+      parameters:
+        character:
+          length:           1
+    0xa8:
+      comment:              "Show floating island rising"
+    0xad:
+      comment:              "Show world getting torn apart cutscene"
+    0xb0:
+      comment:              "Repeat until end of block {repeat} times"
+      parameters:
+        repeat:
+          length:           1
+    0xb1:
+      comment:              "End repeat block"
+    0xb2:
+      comment:              "Call subroutine: {address:x}"
+      parameters:
+        address:
+          length:           3
+          track_pointer:    True
+          virtual_address:  0
+    0xb3:
+      comment:              "Call subroutine {times} times: {address:x}"
+      parameter_order:      ['times', 'address']
+      parameters:
+        times:
+          length:           1
+        address:
+          length:           3
+          track_pointer:    True
+          virtual_address:  0
+    0xb4:
+      comment:              "Wait {delay} frames"
+      parameters:
+        delay:
+          length:           1
+    0xb5:
+      comment:              "Wait 15 * {delay} frames"
+      parameters:
+        delay:
+          length:           1
+    0xb6:
+      comment:              "Call subroutine by dialogue choice"
+      parameters:
+        selections:
+          length:           "variable"
+    0xb7:
+      comment:              "If battle flag {flag:0>2x}, jump to {address:x}"
+      parameter_order:      ['flag', 'address']
+      parameters:
+        flag:
+          length:           1
+        address:
+          length:           3
+          track_pointer:    True
+          virtual_address:  0
+    0xb8:
+      comment:              "Set battle flag {flag:0>2x}"
+      parameters:
+        flag:
+          length:           1
+    0xb9:
+      comment:              "Clear battle flag {flag:0>2x}"
+      parameters:
+        flag:
+          length:           1
+    0xba:
+      comment:              "Play cinematic {cinematic:0>2x}"
+      parameters:
+        cinematic:
+          length:           1
+    0xbb:
+      comment:              "Wait for ending theme before showing THE END"
+    0xbc:
+      comment:              "Break repeat loop on flag {flag:0>3x}"
+      parameters:
+        flag:
+          length:           2
+    0xbd:
+      comment:              "Randomly jump to: {address:x} (50% odds)"
+      parameters:
+        address:
+          length:           3
+          track_pointer:    True
+          virtual_address:  0
+    0xbe:
+      comment:              "Call subroutine by CaseWord ({num_selections} options)"
+      parameter_order:      ['num_selections', 'selections']
+      parameters:
+        num_selections:
+          length:           1
+        selections:
+          length:           "variable"
+    0xbf:
+      comment:              "Show ending airship cutscene"
+    0xc0:
+      comment:              "If flag {flag1:0>2x} is {status1}, jump to {address:x}"
+      parameter_order:      ['flag1', 'status1', 'address']
+      parameters:
+        flag1:
+          length:           1.7
+        status1:
+          length:           0.1
+        address:
+          length:           3
+          track_pointer:    True
+          virtual_address:  0
+    0xc1:
+      inherit:              0xc0
+      comment:              "If either condition, jump to {address:x}"
+      parameter_order:      ['flag1', 'status1', 'flag2', 'status2', 'address']
+      parameters:
+        flag2:
+          length:           1.7
+        status2:
+          length:           0.1
+    0xc2:
+      inherit:              0xc1
+      comment:              "If any of 3 conditions, jump to {address:x}"
+      parameter_order:      ['flag1', 'status1', 'flag2', 'status2', 'flag3', 'status3', 'address']
+      parameters:
+        flag3:
+          length:           1.7
+        status3:
+          length:           0.1
+    0xc3:
+      inherit:              0xc2
+      comment:              "If any of 4 conditions, jump to {address:x}"
+      parameter_order:      ['flag1', 'status1', 'flag2', 'status2', 'flag3', 'status3', 'flag4', 'status4', 'address']
+      parameters:
+        flag4:
+          length:           1.7
+        status4:
+          length:           0.1
+    0xc4:
+      inherit:              0xc3
+      comment:              "If any of 5 conditions, jump to {address:x}"
+      parameter_order:      ['flag1', 'status1', 'flag2', 'status2', 'flag3', 'status3', 'flag4', 'status4', 'flag5', 'status5', 'address']
+      parameters:
+        flag5:
+          length:           1.7
+        status5:
+          length:           0.1
+    0xc5:
+      inherit:              0xc4
+      comment:              "If any of 6 conditions, jump to {address:x}"
+      parameter_order:      ['flag1', 'status1', 'flag2', 'status2', 'flag3', 'status3', 'flag4', 'status4', 'flag5', 'status5', 'flag6', 'status6', 'address']
+      parameters:
+        flag6:
+          length:           1.7
+        status6:
+          length:           0.1
+    0xc9:
+      inherit:              0xc1
+      comment:              "If both conditions, jump to {address:x}"
+    0xca:
+      inherit:              0xc2
+      comment:              "If all 3 conditions, jump to {address:x}"
+    0xcb:
+      inherit:              0xc3
+      comment:              "If all 4 conditions, jump to {address:x}"
+    0xcc:
+      inherit:              0xc4
+      comment:              "If all 5 conditions, jump to {address:x}"
+    0xcd:
+      inherit:              0xc5
+      comment:              "If all 6 conditions, jump to {address:x}"
+    0xd0:
+      comment:              "Set flag 0{flag:0>2x}"
+      parameters:
+        flag:
+          length:           1
+    0xd1:
+      comment:              "Clear flag 0{flag:0>2x}"
+      inherit:              0xd0
+    0xd2:
+      comment:              "Set flag 1{flag:0>2x}"
+      inherit:              0xd0
+    0xd3:
+      comment:              "Clear flag 1{flag:0>2x}"
+      inherit:              0xd0
+    0xd4:
+      comment:              "Set flag 2{flag:0>2x}"
+      inherit:              0xd0
+    0xd5:
+      comment:              "Clear flag 2{flag:0>2x}"
+      inherit:              0xd0
+    0xd6:
+      comment:              "Set flag 3{flag:0>2x}"
+      inherit:              0xd0
+    0xd7:
+      comment:              "Clear flag 3{flag:0>2x}"
+      inherit:              0xd0
+    0xd8:
+      comment:              "Set flag 4{flag:0>2x}"
+      inherit:              0xd0
+    0xd9:
+      comment:              "Clear flag 4{flag:0>2x}"
+      inherit:              0xd0
+    0xde:
+      comment:              "CaseWord: set bits of active party members"
+    0xe0:
+      comment:              "Load CaseWord: encountered characters"
+    0xe1:
+      comment:              "Load CaseWord: recruited characters"
+    0xe2:
+      comment:              "CaseWord: set party leader bit"
+    0xe3:
+      comment:              "Load CaseWord: available characters"
+    0xe4:
+      comment:              "CaseWord: set bit of active party group"
+    0xe7:
+      comment:              "Show portrait {portrait:0>2x}"
+      parameters:
+        portrait:
+          length:           1
+    0xe8:
+      comment:              "Set event word {word:0>2x} to {value:0>2x}"
+      parameter_order:      ['word', 'value']
+      parameters:
+        word:
+          length:           1
+        value:
+          length:           2
+    0xe9:
+      comment:              "Increment event word {word:0>2x} to {value:0>2x}"
+      parameter_order:      ['word', 'value']
+      parameters:
+        word:
+          length:           1
+        value:
+          length:           2
+    0xea:
+      comment:              "Decrement event word {word:0>2x} to {value:0>2x}"
+      parameter_order:      ['word', 'value']
+      parameters:
+        word:
+          length:           1
+        value:
+          length:           2
+    0xeb:
+      comment:              "Compare word {word:0>2x} to {value:0>2x} and store result in flags 1a0-1a2"
+      parameter_order:      ['word', 'value']
+      parameters:
+        word:
+          length:           1
+        value:
+          length:           2
+    0xef:
+      comment:              "Play song {song:0>2x} at volume {volume:0>2x}"
+      parameter_order:      ['song', 'high_bit', 'volume']
+      parameters:
+        song:
+          length:           0.7
+        high_bit:
+          length:           0.1
+        volume:
+          length:           1
+    0xf0:
+      comment:              "Play song {song:0>2x} (full volume)"
+      parameter_order:      ['song', 'high_bit']
+      parameters:
+        song:
+          length:           0.7
+        high_bit:
+          length:           0.1
+    0xf1:
+      comment:              "Fade in BGM {song:0>2x} (interval {interval:0>2x})"
+      parameter_order:      ['song', 'interval']
+      parameters:
+        song:
+          length:           1
+        interval:
+          length:           1
+    0xf2:
+      comment:              "Fade out BGM (interval {interval:0>2x})"
+      parameters:
+        interval:
+          length:           1
+    0xf3:
+      comment:              "Fade in default BGM (interval {interval:0>2x})"
+      parameters:
+        interval:
+          length:           1
+    0xf4:
+      comment:              "Play sound {sound:0>2x}"
+      parameters:
+        sound:
+          length:           1
+    0xf6:
+      comment:              "Modify song or sound effect"
+      parameter_order:      ['modification', 'parameter1', 'parameter2']
+      parameters:
+        modification:
+          length:           1
+        parameter1:
+          length:           1
+        parameter2:
+          length:           1
+    0xf9:
+      comment:              "Wait for song to reach point: {unknown:0>2x}"
+      parameters:
+        unknown:
+          length:           1
+    0xfa:
+      comment:              "Stop playing song"
+    0xfb:
+      comment:              "Add unknown effect to current sound effect"
+    0xfe:
+      comment:              "Return"
+    0xff:
+      comment:              "Terminate all"
+  movement:
+    0x00:
+      comment:              "Graphical action 00"
+    0x01:
+      comment:              "Graphical action 01"
+    0x02:
+      comment:              "Graphical action 02"
+    0x03:
+      comment:              "Graphical action 03"
+    0x04:
+      comment:              "Graphical action 04"
+    0x05:
+      comment:              "Graphical action 05"
+    0x06:
+      comment:              "Graphical action 06"
+    0x07:
+      comment:              "Graphical action 07"
+    0x08:
+      comment:              "Graphical action 08"
+    0x09:
+      comment:              "Graphical action 09"
+    0x0a:
+      comment:              "Graphical action 0a"
+    0x0b:
+      comment:              "Graphical action 0b"
+    0x0c:
+      comment:              "Graphical action 0c"
+    0x0d:
+      comment:              "Graphical action 0d"
+    0x0e:
+      comment:              "Graphical action 0e"
+    0x0f:
+      comment:              "Graphical action 0f"
+    0x10:
+      comment:              "Graphical action 10"
+    0x11:
+      comment:              "Graphical action 11"
+    0x12:
+      comment:              "Graphical action 12"
+    0x13:
+      comment:              "Graphical action 13"
+    0x14:
+      comment:              "Graphical action 14"
+    0x15:
+      comment:              "Graphical action 15"
+    0x16:
+      comment:              "Graphical action 16"
+    0x17:
+      comment:              "Graphical action 17"
+    0x18:
+      comment:              "Graphical action 18"
+    0x19:
+      comment:              "Graphical action 19"
+    0x1a:
+      comment:              "Graphical action 1a"
+    0x1b:
+      comment:              "Graphical action 1b"
+    0x1c:
+      comment:              "Graphical action 1c"
+    0x1d:
+      comment:              "Graphical action 1d"
+    0x1e:
+      comment:              "Graphical action 1e"
+    0x1f:
+      comment:              "Graphical action 1f"
+    0x20:
+      comment:              "Graphical action 20"
+    0x21:
+      comment:              "Graphical action 21"
+    0x22:
+      comment:              "Graphical action 22"
+    0x23:
+      comment:              "Graphical action 23"
+    0x24:
+      comment:              "Graphical action 24"
+    0x25:
+      comment:              "Graphical action 25"
+    0x26:
+      comment:              "Graphical action 26"
+    0x27:
+      comment:              "Graphical action 27"
+    0x28:
+      comment:              "Graphical action 28"
+    0x29:
+      comment:              "Graphical action 29"
+    0x2a:
+      comment:              "Graphical action 2a"
+    0x2b:
+      comment:              "Graphical action 2b"
+    0x2c:
+      comment:              "Graphical action 2c"
+    0x2d:
+      comment:              "Graphical action 2d"
+    0x2e:
+      comment:              "Graphical action 2e"
+    0x2f:
+      comment:              "Graphical action 2f"
+    0x30:
+      comment:              "Graphical action 30"
+    0x31:
+      comment:              "Graphical action 31"
+    0x32:
+      comment:              "Graphical action 32"
+    0x33:
+      comment:              "Graphical action 33"
+    0x34:
+      comment:              "Graphical action 34"
+    0x35:
+      comment:              "Graphical action 35"
+    0x36:
+      comment:              "Graphical action 36"
+    0x37:
+      comment:              "Graphical action 37"
+    0x38:
+      comment:              "Graphical action 38"
+    0x39:
+      comment:              "Graphical action 39"
+    0x3a:
+      comment:              "Graphical action 3a"
+    0x3b:
+      comment:              "Graphical action 3b"
+    0x3c:
+      comment:              "Graphical action 3c"
+    0x3d:
+      comment:              "Graphical action 3d"
+    0x3e:
+      comment:              "Graphical action 3e"
+    0x3f:
+      comment:              "Graphical action 3f"
+    0x40:
+      comment:              "Graphical action 40 (mirrored)"
+    0x41:
+      comment:              "Graphical action 41 (mirrored)"
+    0x42:
+      comment:              "Graphical action 42 (mirrored)"
+    0x43:
+      comment:              "Graphical action 43 (mirrored)"
+    0x44:
+      comment:              "Graphical action 44 (mirrored)"
+    0x45:
+      comment:              "Graphical action 45 (mirrored)"
+    0x46:
+      comment:              "Graphical action 46 (mirrored)"
+    0x47:
+      comment:              "Graphical action 47 (mirrored)"
+    0x48:
+      comment:              "Graphical action 48 (mirrored)"
+    0x49:
+      comment:              "Graphical action 49 (mirrored)"
+    0x4a:
+      comment:              "Graphical action 4a (mirrored)"
+    0x4b:
+      comment:              "Graphical action 4b (mirrored)"
+    0x4c:
+      comment:              "Graphical action 4c (mirrored)"
+    0x4d:
+      comment:              "Graphical action 4d (mirrored)"
+    0x4e:
+      comment:              "Graphical action 4e (mirrored)"
+    0x4f:
+      comment:              "Graphical action 4f (mirrored)"
+    0x50:
+      comment:              "Graphical action 50 (mirrored)"
+    0x51:
+      comment:              "Graphical action 51 (mirrored)"
+    0x52:
+      comment:              "Graphical action 52 (mirrored)"
+    0x53:
+      comment:              "Graphical action 53 (mirrored)"
+    0x54:
+      comment:              "Graphical action 54 (mirrored)"
+    0x55:
+      comment:              "Graphical action 55 (mirrored)"
+    0x56:
+      comment:              "Graphical action 56 (mirrored)"
+    0x57:
+      comment:              "Graphical action 57 (mirrored)"
+    0x58:
+      comment:              "Graphical action 58 (mirrored)"
+    0x59:
+      comment:              "Graphical action 59 (mirrored)"
+    0x5a:
+      comment:              "Graphical action 5a (mirrored)"
+    0x5b:
+      comment:              "Graphical action 5b (mirrored)"
+    0x5c:
+      comment:              "Graphical action 5c (mirrored)"
+    0x5d:
+      comment:              "Graphical action 5d (mirrored)"
+    0x5e:
+      comment:              "Graphical action 5e (mirrored)"
+    0x5f:
+      comment:              "Graphical action 5f (mirrored)"
+    0x60:
+      comment:              "Graphical action 60 (mirrored)"
+    0x61:
+      comment:              "Graphical action 61 (mirrored)"
+    0x62:
+      comment:              "Graphical action 62 (mirrored)"
+    0x63:
+      comment:              "Graphical action 63 (mirrored)"
+    0x64:
+      comment:              "Graphical action 64 (mirrored)"
+    0x65:
+      comment:              "Graphical action 65 (mirrored)"
+    0x66:
+      comment:              "Graphical action 66 (mirrored)"
+    0x67:
+      comment:              "Graphical action 67 (mirrored)"
+    0x68:
+      comment:              "Graphical action 68 (mirrored)"
+    0x69:
+      comment:              "Graphical action 69 (mirrored)"
+    0x6a:
+      comment:              "Graphical action 6a (mirrored)"
+    0x6b:
+      comment:              "Graphical action 6b (mirrored)"
+    0x6c:
+      comment:              "Graphical action 6c (mirrored)"
+    0x6d:
+      comment:              "Graphical action 6d (mirrored)"
+    0x6e:
+      comment:              "Graphical action 6e (mirrored)"
+    0x6f:
+      comment:              "Graphical action 6f (mirrored)"
+    0x70:
+      comment:              "Graphical action 70 (mirrored)"
+    0x71:
+      comment:              "Graphical action 71 (mirrored)"
+    0x72:
+      comment:              "Graphical action 72 (mirrored)"
+    0x73:
+      comment:              "Graphical action 73 (mirrored)"
+    0x74:
+      comment:              "Graphical action 74 (mirrored)"
+    0x75:
+      comment:              "Graphical action 75 (mirrored)"
+    0x76:
+      comment:              "Graphical action 76 (mirrored)"
+    0x77:
+      comment:              "Graphical action 77 (mirrored)"
+    0x78:
+      comment:              "Graphical action 78 (mirrored)"
+    0x79:
+      comment:              "Graphical action 79 (mirrored)"
+    0x7a:
+      comment:              "Graphical action 7a (mirrored)"
+    0x7b:
+      comment:              "Graphical action 7b (mirrored)"
+    0x7c:
+      comment:              "Graphical action 7c (mirrored)"
+    0x7d:
+      comment:              "Graphical action 7d (mirrored)"
+    0x7e:
+      comment:              "Graphical action 7e (mirrored)"
+    0x7f:
+      comment:              "Graphical action 7f (mirrored)"
+    0x80:
+      comment:              "  Move entity up 1 tile"
+    0x81:
+      comment:              "  Move entity right 1 tile"
+    0x82:
+      comment:              "  Move entity down 1 tile"
+    0x83:
+      comment:              "  Move entity left 1 tile"
+    0x84:
+      comment:              "  Move entity up 2 tiles"
+    0x85:
+      comment:              "  Move entity right 2 tiles"
+    0x86:
+      comment:              "  Move entity down 2 tiles"
+    0x87:
+      comment:              "  Move entity left 2 tiles"
+    0x88:
+      comment:              "  Move entity up 3 tiles"
+    0x89:
+      comment:              "  Move entity right 3 tiles"
+    0x8a:
+      comment:              "  Move entity down 3 tiles"
+    0x8b:
+      comment:              "  Move entity left 3 tiles"
+    0x8c:
+      comment:              "  Move entity up 4 tiles"
+    0x8d:
+      comment:              "  Move entity right 4 tiles"
+    0x8e:
+      comment:              "  Move entity down 4 tiles"
+    0x8f:
+      comment:              "  Move entity left 4 tiles"
+    0x90:
+      comment:              "  Move entity up 5 tiles"
+    0x91:
+      comment:              "  Move entity right 5 tiles"
+    0x92:
+      comment:              "  Move entity down 5 tiles"
+    0x93:
+      comment:              "  Move entity left 5 tiles41"
+    0x94:
+      comment:              "  Move entity up 6 tiles"
+    0x95:
+      comment:              "  Move entity right 6 tiles"
+    0x96:
+      comment:              "  Move entity down 6 tiles"
+    0x97:
+      comment:              "  Move entity left 6 tiles"
+    0x98:
+      comment:              "  Move entity up 7 tiles"
+    0x99:
+      comment:              "  Move entity right 7 tiles"
+    0x9a:
+      comment:              "  Move entity down 7 tiles"
+    0x9b:
+      comment:              "  Move entity left 7 tiles"
+    0x9c:
+      comment:              "  Move entity up 8 tiles"
+    0x9d:
+      comment:              "  Move entity right 8 tiles"
+    0x9e:
+      comment:              "  Move entity down 8 tiles"
+    0x9f:
+      comment:              "  Move entity left 8 tiles"
+    0xa0:
+      comment:              "  Move entity right/up 1x1 tiles"
+    0xa1:
+      comment:              "  Move entity right/down 1x1 tiles"
+    0xa2:
+      comment:              "  Move entity left/down 1x1 tiles"
+    0xa3:
+      comment:              "  Move entity left/up 1x1 tiles"
+    0xa4:
+      comment:              "  Move entity right/up 1x2 tiles"
+    0xa5:
+      comment:              "  Move entity right/up 2x1 tiles"
+    0xa6:
+      comment:              "  Move entity right/down 2x1 tiles"
+    0xa7:
+      comment:              "  Move entity right/down 1x2 tiles"
+    0xa8:
+      comment:              "  Move entity left/down 1x2 tiles"
+    0xa9:
+      comment:              "  Move entity left/down 2x1 tiles"
+    0xaa:
+      comment:              "  Move entity left/up 2x1 tiles"
+    0xab:
+      comment:              "  Move entity left/up 1x2 tiles"
+    0xc0:
+      comment:              "  Set entity's speed to slowest"
+    0xc1:
+      comment:              "  Set entity's speed to slow"
+    0xc2:
+      comment:              "  Set entity's speed to normal"
+    0xc3:
+      comment:              "  Set entity's speed to fast"
+    0xc4:
+      comment:              "  Set entity's speed to faster"
+    0xc5:
+      comment:              "  Set entity's speed to fastest"
+    0xc6:
+      comment:              "  Set entity to walk when moving"
+    0xc7:
+      comment:              "  Set entity to stay still when moving"
+    0xc8:
+      comment:              "  Set entity layering priority to {priority:0>2x}"
+      parameters:
+        priority:
+          length:           1
+    0xc9:
+      comment:              "  Place entity on vehicle {vehicle:0>2x}"
+      parameters:
+        vehicle:
+          length:           1
+    0xcc:
+      comment:              "  Turn current entity up"
+    0xcd:
+      comment:              "  Turn current entity right"
+    0xce:
+      comment:              "  Turn current entity down"
+    0xcf:
+      comment:              "  Turn current entity left"
+    0xd0:
+      comment:              "  Toggle entity visibility"
+    0xd1:
+      comment:              "  Hide current entity"
+    0xd2:
+      comment:              "  Load map {map_index:0>3x} ({x:0>2x},{y:0>2x})"
+      parameter_order:      ['map_index', 'unknown1', 'continuous_music', 'unknown2', 'facing', 'unused3', 'x', 'y', 'in_airship', 'on_chocobo', 'unused4', 'wait_fade', 'run_map_event']
+      parameters:
+        map_index:
+          length:           1.1
+        unknown1:
+          length:           0.1
+        continuous_music:
+          length:           0.1
+        unknown2:
+          length:           0.1
+        facing:
+          length:           0.2
+        unused3:
+          length:           0.2
+        x:
+          length:           1
+        y:
+          length:           1
+        in_airship:
+          length:           0.1
+        on_chocobo:
+          length:           0.1
+        unused4:
+          length:           0.4
+        wait_fade:
+          length:           0.1
+        run_map_event:
+          length:           0.1
+    0xd5:
+      comment:              "  Set position to ({x:0>2x}, {y:0>2x})"
+      parameter_order:      ['x', 'y']
+      parameters:
+        x:
+          length:           1
+        y:
+          length:           1
+    0xd7:
+      comment:              "  Center entity on screen"
+    0xdc:
+      comment:              "  Make entity jump (low)"
+    0xdd:
+      comment:              "  Make entity jump (high)"
+    0xdf:
+      comment:              "  Hide mini-map?"
+    0xe0:
+      comment:              "  Pause for {frames}/60 seconds"
+      parameters:
+        frames:
+          length:           1
+    0xe1:
+      comment:              "  Set flag 0{flag:0>2x}"
+      parameters:
+        flag:
+          length:           1
+    0xe2:
+      comment:              "  Set flag 1{flag:0>2x}"
+      parameters:
+        flag:
+          length:           1
+    0xe3:
+      comment:              "  Set flag 2{flag:0>2x}"
+      parameters:
+        flag:
+          length:           1
+    0xe4:
+      comment:              "  Clear flag 0{flag:0>2x}"
+      parameters:
+        flag:
+          length:           1
+    0xe5:
+      comment:              "  Clear flag 1{flag:0>2x}"
+      parameters:
+        flag:
+          length:           1
+    0xe6:
+      comment:              "  Clear flag 2{flag:0>2x}"
+      parameters:
+        flag:
+          length:           1
+    0xf9:
+      comment:              "  Jump out of the queue to {address:x}"
+      parameters:
+        address:
+          length:           3
+    0xfa:
+      comment:              "  Randomly branch backward {distance:x} bytes in the queue"
+      parameters:
+        distance:
+          length:           1
+    0xfb:
+      comment:              "  Randomly branch forward {distance:x} bytes in the queue"
+      parameters:
+        distance:
+          length:           1
+    0xfc:
+      comment:              "  Branch backward {distance:x} bytes in the queue"
+      parameters:
+        distance:
+          length:           1
+    0xfd:
+      comment:              "  Branch forward {distance:x} bytes in the queue"
+      parameters:
+        distance:
+          length:           1
+    0xfe:
+      comment:              "  Show Figaro Castle emerging"
+    0xff:
+      comment:              "  End queue"
+  vehicle:
+    0x02:
+      comment: "  Move (?) {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x04:
+      comment: "  Move forward {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x06:
+      comment: "  Move forward {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x08:
+      comment: "  Move right {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x09:
+      comment: "  Move right {units:0>2x} units, turn quickly"
+      parameters:
+        units:
+          length: 1
+    0x0a:
+      comment: "  Move right {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x0b:
+      comment: "  Move right {units:0>2x} units, turn quickly, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x0c:
+      comment: "  Move right/forward {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x0d:
+      comment: "  Move right/forward {units:0>2x} units, turn quickly"
+      parameters:
+        units:
+          length: 1
+    0x0e:
+      comment: "  Move right/forward {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x0f:
+      comment: "  Move right/forward {units:0>2x} units, turn quickly, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x10:
+      comment: "  Move left {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x11:
+      comment: "  Move left {units:0>2x} units, turn quickly"
+      parameters:
+        units:
+          length: 1
+    0x12:
+      comment: "  Move left {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x13:
+      comment: "  Move left {units:0>2x} units, turn quickly, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x14:
+      comment: "  Move left/forward {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x15:
+      comment: "  Move left/forward {units:0>2x} units, turn quickly"
+      parameters:
+        units:
+          length: 1
+    0x16:
+      comment: "  Move left/forward {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x17:
+      comment: "  Move left/forward {units:0>2x} units, turn quickly, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x20:
+      comment: "  Move up {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x22:
+      comment: "  Move up {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x24:
+      comment: "  Move up/forward {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x26:
+      comment: "  Move up/forward {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x28:
+      comment: "  Move up/right {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x29:
+      comment: "  Move up/right {units:0>2x} units, turn quickly"
+      parameters:
+        units:
+          length: 1
+    0x2a:
+      comment: "  Move up/right {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x2b:
+      comment: "  Move up/right {units:0>2x} units, turn quickly, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x2c:
+      comment: "  Move up/right/forward {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x2d:
+      comment: "  Move up/right/forward {units:0>2x} units, turn quickly"
+      parameters:
+        units:
+          length: 1
+    0x2e:
+      comment: "  Move up/right/forward {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x2f:
+      comment: "  Move up/right/forward {units:0>2x} units, turn quickly, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x30:
+      comment: "  Move up/left {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x31:
+      comment: "  Move up/left {units:0>2x} units, turn quickly"
+      parameters:
+        units:
+          length: 1
+    0x32:
+      comment: "  Move up/left {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x33:
+      comment: "  Move up/left {units:0>2x} units, turn quickly, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x34:
+      comment: "  Move up/left/forward {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x35:
+      comment: "  Move up/left/forward {units:0>2x} units, turn quickly"
+      parameters:
+        units:
+          length: 1
+    0x36:
+      comment: "  Move up/left/forward {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x37:
+      comment: "  Move up/left/forward {units:0>2x} units, turn quickly, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x40:
+      comment: "  Move down {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x42:
+      comment: "  Move down {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x44:
+      comment: "  Move down/forward {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x46:
+      comment: "  Move down/forward {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x48:
+      comment: "  Move down/right {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x49:
+      comment: "  Move down/right {units:0>2x} units, turn quickly"
+      parameters:
+        units:
+          length: 1
+    0x4a:
+      comment: "  Move down/right {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x4b:
+      comment: "  Move down/right {units:0>2x} units, turn quickly, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x4c:
+      comment: "  Move down/right/forward {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x4d:
+      comment: "  Move down/right/forward {units:0>2x} units, turn quickly"
+      parameters:
+        units:
+          length: 1
+    0x4e:
+      comment: "  Move down/right/forward {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x4f:
+      comment: "  Move down/right/forward {units:0>2x} units, turn quickly, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x50:
+      comment: "  Move down/left {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x51:
+      comment: "  Move down/left {units:0>2x} units, turn quickly"
+      parameters:
+        units:
+          length: 1
+    0x52:
+      comment: "  Move down/left {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x53:
+      comment: "  Move down/left {units:0>2x} units, turn quickly, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x54:
+      comment: "  Move down/left/forward {units:0>2x} units"
+      parameters:
+        units:
+          length: 1
+    0x55:
+      comment: "  Move down/left/forward {units:0>2x} units, turn quickly"
+      parameters:
+        units:
+          length: 1
+    0x56:
+      comment: "  Move down/left/forward {units:0>2x} units, decelerate"
+      parameters:
+        units:
+          length: 1
+    0x57:
+      comment: "  Move down/left/forward {units:0>2x} units, turn quickly, decelerate"
+      parameters:
+        units:
+          length: 1
+    0xb0:
+      comment:              "If flag {flag1:0>2x} is {status1}, jump to {address:x}"
+      parameter_order:      ['flag1', 'status1', 'address']
+      parameters:
+        flag1:
+          length:           1.7
+        status1:
+          length:           0.1
+        address:
+          length:           3
+          track_pointer:    True
+          virtual_address:  0
+    0xc0:
+      comment:              "  Modify vehicle script behavior"
+      parameter_order:      ['unknown0', 'mode7', 'strafe', 'unknown1']
+      parameters:
+        unknown0:
+          length:           0.4
+        mode7:
+          length:           0.1
+        strafe:
+          length:           0.1
+        unknown1:
+          length:           0.2
+    0xc1:
+      comment:              "  Set vehicle direction to {direction:0>4x}"
+      parameters:
+        direction:
+          length:           2
+    0xc2:
+      comment:              "  Set strafe direction to {direction:0>4x}"
+      parameters:
+        direction:
+          length:           2
+    0xc5:
+      comment:              "  Set altitude to {altitude:0>2x}"
+      parameter_order:      ['unknown', 'altitude']
+      parameters:
+        unknown:
+          length:           1
+        altitude:
+          length:           1
+    0xc6:
+      comment:              "  Propel vehicle at speed {speed:0>4x}"
+      parameters:
+        speed:
+          length:           2
+    0xc7:
+      comment:              "  Place vehicle at {x:0>2x},{y:0>2x}"
+      parameter_order:      ['x', 'y']
+      parameters:
+        x:
+          length:           1
+        y:
+          length:           1
+    0xc8:
+      comment:              "  Set flag {flag:0>3x}"
+      parameters:
+        flag:
+          length:           2
+    0xc9:
+      comment:              "  Clear flag {flag:0>3x}"
+      parameters:
+        flag:
+          length:           2
+    0xcf:
+      comment:              "Invoke battle with formation {formation:0>2x}, background {background:0>2x}, swish {swish}, mosaic {mosaic}"
+      parameter_order:      ['formation', 'background', 'swish', 'mosaic']
+      parameters:
+        formation:
+          length:           1
+        background:
+          length:           0.6
+        swish:
+          length:           0.1
+        mosaic:
+          length:           0.1
+    0xd0:
+      comment:              "  Show vehicle"
+    0xd1:
+      comment:              "  Hide vehicle"
+    0xd2:
+      comment:              "  Load map {map_index:0>3x} ({x:0>2x},{y:0>2x})"
+      parameter_order:      ['map_index', 'unknown1', 'continuous_music', 'unknown2', 'facing', 'unused3', 'x', 'y', 'in_airship', 'on_chocobo', 'unused4', 'wait_fade', 'run_map_event']
+      parameters:
+        map_index:
+          length:           1.1
+        unknown1:
+          length:           0.1
+        continuous_music:
+          length:           0.1
+        unknown2:
+          length:           0.1
+        facing:
+          length:           0.2
+        unused3:
+          length:           0.2
+        x:
+          length:           1
+        y:
+          length:           1
+        in_airship:
+          length:           0.1
+        on_chocobo:
+          length:           0.1
+        unused4:
+          length:           0.4
+        wait_fade:
+          length:           0.1
+        run_map_event:
+          length:           0.1
+    0xd3:
+      inherit:              0xd2
+    0xd8:
+      comment:              "  Unfade screen"
+    0xd9:
+      comment:              "  Fade screen"
+    0xda:
+      comment:              "  Show serpent trench flashing arrows"
+    0xdb:
+      comment:              "  Lock in serpent trench direction input"
+    0xdc:
+      comment:              "  Hide serpent trench flashing arrows"
+    0xdd:
+      comment:              "  Hide mini-map"
+    0xdf:
+      comment:              "  Show mini-map"
+    0xe0:
+      comment:              "  Pause for {units:0>2x} units"
+      parameters:
+        units:
+          length:           1
+    0xf3:
+      comment:              "  Show part of world getting zapped"
+    0xf4:
+      comment:              "  Change graphic to Falcon"
+    0xf5:
+      comment:              "  Show part of world getting zapped"
+    0xf7:
+      comment:              "  Change graphic to pidgeon"
+    0xf8:
+      comment:              "  Show part of world getting blown up"
+    0xfa:
+      comment:              "  Show airship emerging from the ocean"
+    0xfb:
+      comment:              "  Show airship smoking"
+    0xfc:
+      comment:              "  Show airship crashing"
+    0xfd:
+      comment:              "  Change graphic to Esper Terra"
+    0xfe:
+      comment:              "  Show airship headed for Vector"
+    0xff:
+      comment:              "  End vehicle script"

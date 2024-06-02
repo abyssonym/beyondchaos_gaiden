@@ -108,6 +108,8 @@ $wob_choco_palette_address  12ee20
 $wor_choco_palette_address  12ef20
 $npc_choco_palette_address  2680e0
 $known_lores_address        26f564
+$locations                  names_locations.txt
+$npc_sprites                names_npc_sprites.txt
 $skills                     names_skills.txt
 .patch                      patch_always_sprint.txt
 .patch                      patch_behemoth_rows.txt

@@ -1,0 +1,414 @@
+World of Balance
+World of Ruin
+Serpent Trench
+Darkness (tent)
+Darkness (Shadow's dream)
+Darkness (narration)
+Blackjack, upper deck (general use)
+Blackjack, below decks, most rooms
+Blackjack, room where Setzer imprisons Celes
+Darkness (scenario split)
+Blackjack, upper deck (various cutscenes)
+Falcon, upper deck (general purpose)
+Falcon, below decks
+Blackjack, upper deck (end of the WoB)
+Hidden chocobo stables, outdoors (WoB)
+Hidden chocobo stables, indoors
+Hidden chocobo stables, outdoors (WoR)
+Falcon, upper deck (various cutscenes)
+Narshe, mountaintop (opening scene)
+Narshe, lower town
+Narshe, lower town (WoB)
+Narshe, upper town (WoB)
+Narshe, hills maze (WoB)
+Narshe, mountaintop (WoB)
+Narshe, weapon shop, including back room
+Narshe, armor shop
+Narshe, item shop
+Narshe, relic shop
+Narshe, inn
+<unknown map index>
+Narshe, residences
+<unknown map index>
+Narshe, lower town (WoR)
+Narshe, upper town (WoR)
+Narshe, hills maze (WoR)
+Narshe, mountaintop (WoR)
+Narshe, secret entrance / north caves (WoR)
+Narshe, moogle 3-party battle area (WoR)
+Narshe, caves, checkpoint areas (WoR)
+Narshe, upper town
+<unknown map index>
+Narshe, secret entrance / north caves (WoB)
+Narshe, Tritoch's cave
+Narshe, Whelk's empty cave / Tritoch's empty cave (WoB)
+Narshe, moogle cave (WoR)
+<unknown map index>
+<unknown map index>
+South Figaro, outdoors (smuggling)
+Narshe, cave south of the security checkpoint (WoB)
+Narshe, security checkpoint cave (WoB)
+Narshe, cave behind Arvis' house (WoB)
+Narshe, moogle 3-party battle area (WoB)
+Narshe, moogle cave (WoB)
+South Figaro Cave, second cave after turtle
+Figaro Castle, outdoors (submerging)
+Figaro Castle, outdoors
+Empty desert
+Figaro Castle, west tower
+Figaro Castle, throne room
+Figaro Castle, miscellaneous rooms
+Figaro Castle, library
+Figaro Castle, switch room and prison
+Figaro Castle, upper sub-basement
+Figaro Castle, lower sub-basement
+Figaro Castle, engine room
+Figaro Castle, treasury
+Figaro Castle, NW treasure room in basement
+Figaro Castle, outdoors, night, with sky
+South Figaro Cave, main cave (WoR)
+South Figaro Cave, main cave (Wob post-Celes)
+South Figaro Cave, recovery spring (WoB post-Celes)
+South Figaro Cave, outside west entrance
+South Figaro Cave, main cave (WoB pre-Celes)
+South Figaro Cave, recovery spring (WoB pre-Celes)
+South Figaro, outdoors (WoR)
+South Figaro, outdoors (WoB)
+South Figaro, inn and relic shop
+South Figaro, arsenal
+South Figaro, cafe and cafe basement
+<unknown map index>
+South Figaro, chocobo stable
+South Figaro, mansion, all non-hidden rooms
+<unknown map index>
+South Figaro, below mansion, stairwell rooms
+South Figaro, clock room and Duncan's basement
+South Figaro, item shop
+South Figaro, residences / tunnel ends
+South Figaro, escape tunnel
+South Figaro, save point near Celes' cell
+South Figaro, hidden "castle-like" sub-basements
+South Figaro Cave, turtle pond (WoR)
+South Figaro, docks
+South Figaro Cave, first cave after turtle
+Sabin's house, outdoors
+Sabin's house, indoors
+Mt. Kolts, south entrance
+Mt. Kolts, lower cliffs, without clouds
+Mt. Kolts, lower cliffs, with clouds
+Mt. Kolts, cliff path down to Vargas
+<unknown map index>
+Mt. Kolts, all caves except save point
+Mt. Kolts, north entrance
+Mt. Kolts, upper cliffs
+Mt. Kolts, save point cave
+Narshe, Beginner's House main room
+Narshe, Beginner's House west classroom
+Narshe, Beginner's House middle classroom
+Narshe, Beginner's House east classroom
+Returners' Hideout, entrance
+Returners' Hideout, main cave
+Returners' Hideout, various rooms
+Returners' Hideout, inn
+Returners' Hideout, tunnel to Lete River
+Lete River, outdoors
+Lete River, river caves
+Gau's father's house, outdoors (WoB)
+Gau's father's house, indoors
+Imperial Camp (before poisoning)
+<unknown map index>
+Imperial Camp (after poisoning)
+Doma Castle, outdoors (siege)
+Doma Castle, outdoors (poisoning)
+<unknown map index>
+Doma Castle, all rooms except Cyan's
+Doma Castle, Cyan's room
+Cyan's Dream, Doma Castle outdoors
+Cyan's Dream, Doma Castle all rooms
+Duncan's hidden house, outdoors
+Duncan's hidden house, indoors
+Mountaintop overlook with birds
+Forest pond with birds
+Gau's father's house, outdoors (WoR)
+Phantom Forest, first area
+Phantom Forest, recovery spring area
+Phantom Forest, crossroads area
+Phantom Forest, leading to train platform
+Waterfall cliff bridge with birds
+Phantom Train, station (train departed)
+Phantom Train, station (train arriving)
+Phantom Train, station (train departing)
+Departure platform for Phantom Train
+Phantom Train, exterior (after detaching)
+Phantom Train, exterior (before detaching)
+Cyan's Dream, Phantom Train exterior
+Cyan's Dream, Phantom Train first dining car
+Phantom Train, first 3 seating cars
+Phantom Train, caboose interior
+Phantom Train, dining car
+Mobliz, outdoors, Light of Judgement attack
+Phantom Train, car with detachment switch
+Mobliz, cave under soldier's house
+Phantom Train, hallways outside suites
+Phantom Train, caboose hallway
+Phantom Train, suite rooms and save point car
+Mobliz, children's cave under mailman's house
+Baren Falls, cave passageway
+Baren Falls, waterfall overlook
+Mobliz, outdoors (WoB)
+Mobliz, outdoors (WoR)
+Calm riverbank
+Mobliz, inn
+Mobliz, arsenal
+Mobliz, relic shop
+Mobliz, mailman's house, upstairs only
+Mobliz, item shop
+Mobliz, soldier's house / mailman's basement
+Baren Falls, entrance
+Crescent Mountain, caves
+Crescent Mountain, Serpent Trench overlook
+Nikeah, outdoors
+Calm riverbank, dark
+Nikeah, inn
+Nikeah, cafe
+Nikeah, chocobo stable
+Phantom Forest, leading to train platform, dark
+Serpent Trench, caves
+Mt. Zozo, cliffside bridge
+Mt. Zozo, small cliffside area
+Mt. Zozo, cliffside before Cyan's cave
+Mt. Zozo, all caves except Cyan's
+Mt. Zozo, Cyan's cave
+Mt. Zozo, Cyan's cliff overlook
+Thamasa, outdoors (Shadow Cutscenes)
+Mobliz, children's cave
+Mobliz, outdoors
+House at Dragon's Neck, outdoors
+House at Dragon's Neck, indoors
+Nikeah, docks / cargo ship at sea
+Kohlingen, outdoors (WoB)
+Kohlingen, outdoors (WoR)
+Whitewater river with birds
+Kohlingen, inn
+<unknown map index>
+<unknown map index>
+Kohlingen, general store
+Kohlingen, crazy man's house, both floors
+Maranda, Lola's house
+Kohlingen, Rachel's house
+Jidoor, outdoors
+<unknown map index>
+Jidoor, auction house
+Jidoor, item shop
+Jidoor, relic shop
+Jidoor, armor shop
+Jidoor, weapon shop
+Jidoor, chocobo stable
+Jidoor, inn
+Owzer's house, darkened basement rooms
+Owzer's house, Chadarnook's room
+Owzer's house, upper floor
+Doma Castle, dark
+Narshe, mountaintop (ending scenes)
+Gogo's Lair, bridges, dark
+Crescent Mountain, caves, dark
+Setzer and Darill's cliff
+Falcon in sky with birds
+Esper World, looking out through the gate
+Esper World, outdoors
+Esper World, cave to the exit
+Esper World, caves
+<unknown map index>
+Zozo, outdoors
+<unknown map index>
+<unknown map index>
+<unknown map index>
+Zozo, all rooms except tower top
+Zozo, room at tower top
+<unknown map index>
+<unknown map index>
+<unknown map index>
+<unknown map index>
+Opera House, theater (fight scene)
+Opera House, backstage & catwalk door, enabled
+Opera House, theater (dance scene)
+Opera House, theater (overture)
+Opera House, catwalks over stage
+Opera House, "Maria's castle" set
+Opera House, lobby
+Opera House, to catwalk / dressing room
+Opera House, theater (lights out)
+Vector, outdoors
+Imperial Castle, rooftop (cranes)
+Vector, outdoors, intact
+Imperial Castle, outdoors, lower level
+Imperial Castle, rooftop (opening)
+Vector, inn
+Vector, weapon shop
+Vector, cafe
+Vector, armor shop
+Vector, tiny house
+Imperial Castle, most rooms
+Imperial Castle, banquet hall
+Imperial Castle, western barracks
+Vector, outdoors, trashed
+Ending - Cyan / Mog / Gogo scenes
+Ending - Setzer scene
+Ending - Umaro scene
+<unknown map index>
+Ending - Edgar and Sabin scene
+Ending - Falcon flies out of Kefka's tower
+Ending - Locke and Celes' scene
+Ending - Gau / Shadow / Strago scenes
+Magitek Factory, first area
+Magitek Factory, second area
+Magitek Factory, garbage dump
+<unknown map index>
+Magitek Facility, descending elevator
+<unknown map index>
+Ending - Terra scene
+Magitek Factory, stairwell to Magitek Facility
+Magitek Factory, save point next to dump
+Magitek Facility, hallway with empty tubes
+Magitek Facility, subway station
+Magitek Facility, Number 024's room
+Magitek Facility, Esper extraction room
+<unknown map index>
+Gogo's Lair, entrance / bridges / pit
+Gogo's Lair, short passage past moving ceiling
+Gogo's Lair, Gogo's room
+Gogo's Lair, save point
+Gogo's Lair, moving ceiling room / chest jumping room
+Umaro's Cave, first cave and bridges cave
+Umaro's Cave, cave north of first cave
+Umaro's Cave, Umaro's lair
+Maranda, outdoors
+Doma Castle, outdoors (after poisoning)
+<unknown map index>
+<unknown map index>
+Maranda, inn
+Maranda, weapon shop
+Maranda, armor shop
+Kefka Tower, Guardian's room
+Kefka Tower, switch platform factory area
+Kefka Tower, third group third and fourth tunnels
+Kefka Tower, second group nondescript cave tunnel
+Kefka Tower, first group second cave
+Kefka Tower, catwalk in Inferno's room
+Darill's Tomb, outside entrance
+Darill's Tomb, first room
+Darill's Tomb, most upstairs rooms / grave
+Darill's Tomb, switches / downstairs rooms
+Darill's Tomb, long staircase to the Falcon
+Thamasa, outdoors (ending)
+Kefka Tower, first party first cave
+Kefka Tower, Fixed Dice room
+Tzen, outdoors (WoR)
+Tzen, outdoors (WoB)
+Tzen, item shop
+Tzen, inn
+Tzen, weapon shop
+Tzen, armor shop
+Tzen, collapsing house
+Tzen, relic shop
+Phoenix Cave, downstairs
+<unknown map index>
+Phoenix Cave, upstairs
+<unknown map index>
+Cyan's Dream, psychedelic stairs
+Phoenix Cave, outside entrance
+Cyan's Dream, cliffside
+Cyan's Dream, caves
+Cyan's Dream, Phantom Train second dining car
+Cyan's Dream, Phantom Train first seating car
+Albrook, outdoors
+Albrook, outdoors (WoR)
+Albrook, inn
+Albrook, weapon shop
+Albrook, armor shop
+Albrook, item shop
+Kefka Tower, second group metal area
+Albrook, cafe / relic shop
+Kefka Tower, prison
+Albrook, docks / Magitek ship at sea
+<unknown map index>
+Kefka Tower, exterior
+Kefka Tower, Gold Drgn's room
+Kefka Tower, Kefka's lair, red bg
+Kefka Tower, switches and weights room
+Kefka Tower, second group first cave
+Kefka Tower, third group, first and second tunnels
+Thamasa, outdoors (Leo Funeral / Gungho)
+Thamasa, outdoors (Kefka)
+<unknown map index>
+Thamasa, outdoors (WoB pre-Espers)
+Thamasa, outdoors (WoR)
+Thamasa, arsenal
+Thamasa, inn
+Thamasa, item shop
+Thamasa, elder's house
+Thamasa, both floors of Strago's house
+Thamasa, relic shop
+Thamasa, inside the burning house
+Kefka Tower, Magitek Research room
+Cave in the Veldt
+Kefka Tower, Skull Drgn / Goddess / pre-weights
+Kefka Tower, decision point / Doom
+Kefka Tower, Kefka's lair, blue bg
+Kefka Tower, Kefka's lair, black bg
+Floating Island, save point cave
+Fanatics' Tower, second set of stairs
+Fanatics' Tower, third set of stairs
+Fanatics' Tower, fourth set of stairs
+Fanatics' Tower, ground level
+Fanatics' Tower, first set of stairs
+Fanatics' Tower, top of tower, outdoors
+Fanatics' Tower, room on 7th floor
+Fanatics' Tower, room at top of tower
+Fanatics' Tower, room on 16th floor
+Fanatics' Tower, room on 25th floor
+Fanatics' Tower, room on 34th floor
+Fanatics' Tower, hidden room on 6th floor
+Espers' Gathering Place, cave with statues
+Espers' Gathering Place, cliffside without overlook
+Espers' Gathering Place, cliffside waterfall
+Espers' Gathering Place, cliffside mountains
+Espers' Gathering Place, most caves
+Floating Island, outdoors, without clouds
+Imperial Base near Sealed Gate, outdoors
+Imperial Base near Sealed Gate, indoors
+<unknown map index>
+<unknown map index>
+Mountain cliffs, collapsing
+Sealed Gate Cave, first cave
+Sealed Gate Cave, second cave
+Sealed Gate Cave, main areas
+Sealed Gate Cave, lava cave with moving bridges
+Sealed Gate Cave, save point cave
+<unknown map index>
+<unknown map index>
+Grassy area (end of the WoB fissure)
+Forested cliffs, rise and fall and split
+Sealed Gate Cave, sealed gate room
+Jidoor, outdoors (Floating Island scene)
+Floating Island, outdoors, dark bg
+Floating Island, outdoors, with clouds
+Grassy area (rise of the Floating Island)
+Solitary Island, outside house
+Solitary Island, inside house
+Solitary Island, beach with fish
+Solitary Island, north cliffs
+Solitary Island, beach w/o fish
+Cave to Ancient Castle, all caves except save point
+Cave to Ancient Castle, save point
+<unknown map index>
+Ebot's Rock, misc caves
+Ebot's Rock, important rooms
+Ancient Castle, most rooms
+Ancient Castle, exterior
+Ancient Castle, library / basement
+Kefka Tower, second group pipes area
+Kefka Tower, third group factory areas
+Kefka Tower, teleporters to Kefka
+Kefka Tower, room behind Poltergeist
+Colosseum, all rooms

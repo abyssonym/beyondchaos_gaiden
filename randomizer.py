@@ -748,14 +748,42 @@ class CmdChangeTBObject(TableObject, CmdChangeMixin):
 
 class PortraitPalObject(TableObject): pass
 class PortraitPtrObject(TableObject): pass
-class EventObject(TableObject): pass
+
+
+class EventObject(TableObject):
+    @property
+    def description(self):
+        return (f'EVENT {self.index:0>3x} {self.x:0>2x},{self.y:0>2x} '
+                f'{self.location.name}')
+
+    @property
+    def location(self):
+        return LocationObject.get(self.groupindex)
+
 
 class NpcObject(TableObject):
     done_pay_saves = {}
 
+    @property
+    def description(self):
+        return (f'NPC {self.index:0>3x} {self.x:0>2x},{self.y:0>2x} '
+                f'{self.sprite_name} at {self.location.name}')
+
+    @property
+    def sprite_name(self):
+        return names.npc_sprites[self.graphics]
+
+    @property
+    def location(self):
+        return LocationObject.get(self.groupindex)
+
     @classproperty
     def after_order(self):
         return [CharPaletteObject]
+
+    @property
+    def x(self):
+        return self.special_x & 0x7f
 
     @property
     def event_addr(self):
@@ -768,6 +796,14 @@ class NpcObject(TableObject):
     @property
     def membit(self):
         return self.misc >> 22
+
+    @property
+    def is_special(self):
+        return self.special_x >> 7
+
+    @property
+    def vehicle(self):
+        return self.graphics_index >> 6
 
     def set_event_addr(self, event_addr):
         self.misc |= 0x3FFFF
@@ -3475,6 +3511,10 @@ class ChestObject(TableObject):
 
 class LocationObject(TableObject):
     @property
+    def name(self):
+        return names.locations[self.index]
+
+    @property
     def events(self):
         return EventObject.getgroup(self.index)
 
@@ -4707,6 +4747,24 @@ if __name__ == '__main__':
 
         if 'export' in get_activated_codes():
             export_all(ALL_OBJECTS)
+
+        addresses = defaultdict(set)
+        for e in EventObject.every:
+            if e.location.index <= 2:
+                continue
+            s = f'{e.event_addr:0>5x}  # {e.description}'
+            addresses[e.event_addr].add(e.description)
+        for n in NpcObject.every:
+            if n.is_special and not n.vehicle:
+                continue
+            s = f'{n.event_addr:0>5x}  # {n.description}'
+            addresses[n.event_addr].add(n.description)
+        for addr in sorted(addresses):
+            for s in sorted(addresses[addr]):
+                print(f'# {s}')
+            print(f'{addr+0xa0000:0>5x}')
+            print()
+        exit(0)
 
         for code in sorted(get_activated_codes()):
             print('Code "%s" activated.' % code)
