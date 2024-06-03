@@ -45,7 +45,6 @@ org $c3b4bd
         jsr handle_shop_stats
         rts
 check_nmi:
-        ;jsr $1368        ; NMI
         jsr $7fd9        ; draw name (from BAC9)
         rts
 padbyte $FF : pad $c3b4e6
@@ -72,8 +71,8 @@ C3B985:    RTS
 org $c3b989
         ldy #help_text
         
-org $c3bac9
-        jsr check_nmi
+;org $c3bac9
+;        jsr check_nmi
         
 org $c3bfd3
 ;draw shop title, define shop index
@@ -155,7 +154,6 @@ clear_screen_bg3:
         rts
         
 draw_title_dupe:
-        ; jsr $02ff        ; draw title
 handle_shop_stats:
 handle_buy_item_list:
         lda #$10        ; reset/stop desc
@@ -164,7 +162,6 @@ handle_buy_item_list:
         bit #$40        ; holding Y?
         bne shop_handle_y ; branch if not
         jsr $0f39        ; queue text upload
-        ;jsr $1368
         jsr $b8a6        ; handle d-pad
         jsr check_stats
         jsr $bc84        ; draw quantity owned
@@ -208,7 +205,6 @@ not_pushing_a:
         rts
 
 buy_menu_exp:
-        ;jsr $1368
         jsr $c2f7        ; color: blue
         ldy #text_vigor    ; text: vigor
         jsr $02f9        ; draw text
@@ -232,7 +228,6 @@ buy_menu_exp:
         rts
         
 check_stats:
-        ;jsr $1368        ; trigger NMI
         pha
         phx
         phy

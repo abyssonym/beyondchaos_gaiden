@@ -23,7 +23,6 @@
 :       18 85 f3 20  82 05 a2 33  7a 20 ac 04  60           # 03b97d
 03b98a: 39 f7                                               # 03b98c
 03baba: ea ea ea                                            # 03babd
-03baca: c1 b4                                               # 03bacc
 03c038: 06                                                  # 03c039
 03c2e2: 31 f5                                               # 03c2e4
 03f480: 20 eb 87 20  f7 c2 a0 1d  8e 20 f9 02  4c a0 88 f0
@@ -80,8 +79,8 @@
 :       c4 00 bf 83  c4 c4 c4 00  8d 7b 91 9e  ac a2 ac ad
 :       c1 00 0d 7c  80 9b ac a8  ab 9b c1 00  8d 7c 8d ae
 :       a5 a5 a2 9f  b2 c1 00 0d  7d 96 9e 9a  a4 a7 9e ac
-:       ac c1 00 8b  71 1c 06 0b  75 1c 06 8b  70 1c 02 8b
-:       73 1c 04                                            # 03f7f3
+:       ac c1 00 8b  71 1c 07 0b  75 1c 06 8b  70 1c 02 cb
+:       73 1c 03                                            # 03f7f3
 
 VALIDATION
 
@@ -106,7 +105,6 @@ VALIDATION
 :       f2 c2 ac 60  18 84 f1 ad  62 18 85 f3  20           # 03b97d
 03b98a: 85 c3                                               # 03b98c
 03baba: 20 ec ba                                            # 03babd
-03baca: d9 7f                                               # 03bacc
 03c038: 04                                                  # 03c039
 03c2e2: f7 c2                                               # 03c2e4
 03f480: ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff

@@ -158,3 +158,5 @@ $skills                     names_skills.txt
 $myself_rages_address       30157d
 .patch                      patch_esper_allocation.txt
 $char_esper_address         307880
+
+.patch                      patch_crafting.txt
