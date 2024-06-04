@@ -844,7 +844,7 @@ $jun-check-entity-living
 :   bd f9 3e
 :   89 20
 :   d0 check-living-no
-:   bd f9 3e
+:   bd e4 3e
 :   89 80
 :   d0 check-living-no
 :   80 check-living-yes
