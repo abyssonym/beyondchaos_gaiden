@@ -4,17 +4,55 @@ table ff6_snes_menu_a.tbl,rtl
 ; BANK 57
 org $570000
 bank_start:
-org $57f200
+org $57e000
 
-; Crafting stuff
+shop_pointer_table:
+for i = 0..86
+    dw test_data
+endfor
+
+db $00,$00
+skip align $10
+
+get_shop_data_pointer:
+        pha
+        tdc
+        lda $0201
+        rep #$20
+        asl
+        tax
+        lda.l shop_pointer_table,x
+        tax
+        sep #$20
+        pla
+        rts
+
 get_material_data_pointer:
         pha
-        ldx #test_data2
+        phy
+        phb
+        jsr get_shop_data_pointer
+        tdc
         lda $4e
-        cmp #$00
-        bne use_test_data2
-        ldx #test_data1
-use_test_data2:
+        beq get_material_data_pointer_exit
+        tay
+        phk
+        plb
+get_material_data_pointer_loop:
+        lda $0000,x
+        inc
+        beq get_material_data_pointer_subdone
+        inx
+        inx
+        inx
+        bra get_material_data_pointer_loop
+get_material_data_pointer_subdone:
+        inx
+        dey
+        bne get_material_data_pointer_loop
+get_material_data_pointer_exit:
+        plb
+        ply
         pla
         rts
 
@@ -49,6 +87,7 @@ display_all_loop:
         beq display_all_terminate
         inx
         inx
+        inx
         iny
         bra display_all_loop
 display_all_terminate:
@@ -57,17 +96,14 @@ display_all_terminate:
         cpy #$0004
         bcs display_only_materials
         ldy #str_materials
-        pea $02f9
-        jsr remote_call
+        jsr draw_text
         ldy #$0001
         bra display_materials
 display_no_materials:
         ldy #str_no_materials_required1
-        pea $02f9
-        jsr remote_call
+        jsr draw_text
         ldy #str_no_materials_required2
-        pea $02f9
-        jsr remote_call
+        jsr draw_text
         rts
 display_only_materials:
         ldy #$0000
@@ -82,12 +118,13 @@ display_materials_loop:
         phx
         phy
         pha
-        lda.l bank_start+1,x
+        lda.l bank_start+2,x
         tax
         pla
         jsr display_craft_material
         ply
         plx
+        inx
         inx
         inx
         iny
@@ -226,7 +263,7 @@ check_all_materials:
         cmp #$ff
         beq check_all_materials_success
         pha
-        lda.l bank_start+1,x
+        lda.l bank_start+2,x
         jsr multiply_by_quantity
         tay
         pla
@@ -236,6 +273,7 @@ check_all_materials:
         jsr check_inventory
         bcs check_all_materials_failure
         tyx
+        inx
         inx
         inx
         bra check_all_materials
@@ -289,7 +327,7 @@ craft_buy_deduct_loop:
         cmp #$ff
         beq craft_buy_deduct_terminate
         pha
-        lda.l bank_start+1,x
+        lda.l bank_start+2,x
         jsr multiply_by_quantity
         phx
         tax
@@ -297,6 +335,7 @@ craft_buy_deduct_loop:
         jsr deduct_item
         plx
         pla
+        inx
         inx
         inx
         bra craft_buy_deduct_loop
@@ -321,12 +360,21 @@ store_tcolor:
         sta $29         ; color: user's
         rts
 
-test_data1:
-    db $6d,$01,$6e,$02,$6f,$01,$70,$03,$71,$04,$ff
-test_data2:
-    db $ff
+draw_text:
+        sty $e7
+        phk
+        pla
+        pea $02fd
+        jsr remote_call
+        rts
 
-org $57f400
+str_materials:
+    dw $7a0d : db "Materials:",$00
+str_no_materials_required1:
+    dw $7a8f : db "Materials",$00
+str_no_materials_required2:
+    dw $7b13 : db "not required.",$00
+
 remote_call:
         phk
         per remote_call_return-1
@@ -346,20 +394,28 @@ remote_call_return:
         php
         rep #$20
         pha
-
         lda $04,s
         sta $06,s
-        sep #$20
         lda $03,s
-        sta $04,s
         sta $05,s
-        rep #$20
-
         pla
         plp
         plp
         plp
         rts
+
+db $00,$00
+skip align $10
+
+test_data:
+test_data1:
+    ;db $6d,$01,$6e,$02,$6f,$01,$70,$03,$71,$04,$ff
+    ;db $6d,$01,$6e,$02,$6f,$01,$ff
+    db $6d,$00,$01,$6e,$00,$02,$6f,$00,$01,$ff
+    db $ff
+    db $6f,$00,$02,$6b,$00,$01,$ff
+test_data2:
+    db $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
 
 ; BANK C3
 
@@ -446,11 +502,3 @@ db $00
 
 org $c3c3bd
 dw $7921 : db "  Bye!"
-
-org $c3f900
-str_materials:
-    dw $7a0d : db "Materials:",$00
-str_no_materials_required1:
-    dw $7a8f : db "Materials",$00
-str_no_materials_required2:
-    dw $7b13 : db "not required.",$00
