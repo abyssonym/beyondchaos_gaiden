@@ -16,8 +16,8 @@
 .addr   jun-check-status-blacklist          {{jun-global-check-status-blacklist}}
 .addr   jun-check-monster-equip-whitelist   {{jun-global-check-monster-equip-whitelist}}
 .addr   jun-check-monster-equip-blacklist   {{jun-global-check-monster-equip-blacklist}}
-.addr       stealable-items-address         7e3308
-.addr       dropped-items-address           0f3002
+.addr       stealable-items-address             7e3308
+.addr       dropped-items-address               0f3002
 .addr       monster-equip-steal-enabled     {{jun-global-monster-equip-steal-enabled}}
 .addr       monster-equip-drop-enabled      {{jun-global-monster-equip-drop-enabled}}
 
@@ -44,15 +44,14 @@
 .addr   jun-count-bits                      {{jun-global-count-bits}}
 .addr   jun-bit-to-combatant-index          {{jun-global-bit-to-combatant-index}}
 
-.addr   jun-dispatcher-address-c2           02af18
-.addr   jun-dispatcher-return               {{jun-global-dispatcher-return}}
+.addr   bank-c2-rtl-minus-one               0200ca
 .addr   jun-queue-command                   {{jun-global-queue-command}}
 .addr       command-queue-routine               024eb2
 .addr   jun-queue-self-spell                {{jun-global-queue-self-spell}}
 .addr       self-spell-queue-routine            024e91
 .addr   jun-reload-character-commands       {{jun-global-reload-character-commands}}
 .addr       load-character-commands-routine     02532c
-.addr       command-change-byte-address     18500a
+.addr       command-change-byte-address         18500a
 .addr   jun-force-update                    {{jun-global-force-update}}
 .addr       force-update-routine                02083f
 .addr   jun-generic-dispatch                {{jun-global-generic-dispatch}}
@@ -1012,19 +1011,10 @@ $jun-set-target-counter
 :       fa 28 7a 68
 :       6b
 
-$jun-dispatcher-address-c2
-:       ea
-:       5c $jun-dispatcher-return
-
-$jun-dispatcher-return
-:       60
-
 $jun-queue-command
 :       08
-:       62 queue-command-reentry,2
-:       f4 $jun-dispatcher-address-c2,2
-:       5c $command-queue-routine
-.label queue-command-reentry
+:       f4 $command-queue-routine,2
+:       22 $jun-generic-dispatch
 :       28
 :       6b
 
@@ -1033,10 +1023,8 @@ $jun-queue-self-spell
 :       e2 20
 :       85 b8
 :       a9 26
-:       62 queue-self-spell-reentry,2
-:       f4 $jun-dispatcher-address-c2,2
-:       5c $self-spell-queue-routine
-.label queue-self-spell-reentry
+:       f4 $self-spell-queue-routine,2
+:       22 $jun-generic-dispatch
 :       28
 :       6b
 
@@ -1065,70 +1053,46 @@ $jun-reload-character-commands
 :       10 command-changer-loop
 :       fa
 
-:       62 reload-commands-reentry,2
-:       f4 $jun-dispatcher-address-c2,2
-:       5c $load-character-commands-routine
-.label reload-commands-reentry
+:       f4 $load-character-commands-routine,2
+:       22 $jun-generic-dispatch
 :       28 7a fa
 :       6b
 
 $jun-force-update
 :       08
-:       62 force-update-reentry,2
-:       f4 $jun-dispatcher-address-c2,2
-:       5c $force-update-routine
-.label force-update-reentry
+:       f4 $force-update-routine,2
+:       22 $jun-generic-dispatch
 :       28
 :       6b
 
-$jun-generic-dispatch
-:       08
-:       c2 20
-:       48
-:       62 generic-dispatch-reentry,2
-:       f4 $jun-dispatcher-address-c2,2
-# push bank (high byte)
-:       e2 20
-:       a9 c2
-:       48
-# push low bytes of target routine
-:       c2 20
-:       a3 0c
-:       3a
-:       48
-# restore status register and accumulator
-:       e2 20
-:       a3 0a
-:       48
-:       c2 20
-:       a3 09
-:       28
-:       6b
-.label generic-dispatch-reentry
-# automatically handle removing target from stack
-# this requires some rearranging of the stack
-:       08
-:       c2 20
-:       48
-# shift call address
-:       a3 08
-:       83 0a
-:       a3 07
-:       83 09
-# shift accumulator
-:       a3 01
-:       83 04
-:       83 06
-# shift status
-:       e2 20
-:       a3 03
-:       83 07
-:       83 08
-:       c2 20
-:       68 68 68
-:       eb
-:       28 28
-:       6b
+$jun-generic-dispatch                       #   remote_call:
+:       4b                                  #           phk
+:       62 remote-call-return,2             #           per remote_call_return-1
+:       f4 $bank-c2-rtl-minus-one,2         #           pea.w c2_rtl-1
+:       f4 ff c2                            #           pea $c2ff
+:       08                                  #           php
+:       08                                  #           php
+:       c2 20                               #           rep #$20
+:       48                                  #           pha
+:       a3 0f                               #           lda $0f,s
+:       3a                                  #           dec
+:       83 04                               #           sta $04,s
+:       68                                  #           pla
+:       28                                  #           plp
+:       6b                                  #           rtl
+.label remote-call-return                   #   remote_call_return:
+:       08                                  #           php
+:       c2 20                               #           rep #$20
+:       48                                  #           pha
+:       a3 05                               #           lda $05,s
+:       83 07                               #           sta $07,s
+:       a3 03                               #           lda $03,s
+:       83 05                               #           sta $05,s
+:       68                                  #           pla
+:       28                                  #           plp
+:       28                                  #           plp
+:       28                                  #           plp
+:       6b                                  #           rtl
 
 $jun-check-are-same-team
 :       08
@@ -1253,5 +1217,5 @@ $jun-bit-to-combatant-index
 
 VALIDATION
 
-$jun-dispatcher-address-c2
-:       ff ff ff ff ff
+$bank-c2-rtl-minus-one
+:       28 6b

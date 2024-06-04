@@ -832,10 +832,8 @@
         "compare-x-y":                      "6109a0",
         "count-bits":                       "6108f0",
         "deduct-item-if-possible":          "610740",
-        "dispatcher-return":                "610fff",
         "divide":                           "610860",
         "force-update":                     "610fe0",
-        "free-status-bytes-main":           "617fc0",
         "generic-dispatch":                 "610f00",
         "get-command-subroutine":           "61f000",
         "get-command-jump":                 "61f020",
@@ -858,7 +856,6 @@
     "core_patch_list": [
         "patch_junction_command_expansion.txt",
         "patch_junction_core.txt",
-        "patch_junction_free_status_bytes.txt",
         "patch_no_self_counter.txt",
         "patch_rom_expansion.txt",
         "patch_vanish_doom.txt"
