@@ -1,46 +1,60 @@
 .addr   jun-checker                     {{jun-global-checker}}
 .addr   main                            6221a0
-.addr   return-normal                   020e07
-.addr   return-ravenous                 020e1d
 
-020e02: 5c $main
+020e02: 22 $main
+:       ea ea ea ea ea
 
 $main
 :       da
 :       8a
 :       38
 :       e9 14 00
-:       30 using_hp
+:       30 using-hp
 :       aa
-.label using_hp
+.label using-hp
 :       a9 {{jun-index-ravenous}} 00
 :       22 $jun-checker
-:       f0 exit-normal
+:       f0 no-ravenous
 :       fa
 
+# ravenous x1.25 damage boost
 :       a5 f0
-:       4a
+:       4a 4a
 :       18
 :       65 f0
 :       90 no-overflow
 :       a9 fe ff
 .label no-overflow
 :       85 f0
-:       b9 f4 3b
-:       c5 f0
-:       b0 enough_hp
-:       85 f0
-.label enough_hp
-:       5c $return-ravenous
 
-.label exit-normal
+# uncap damage done (based on drainer's HP/MP)
+:       a9 00 80
+:       14 b1
+
+:       80 yes-ravenous
+.label no-ravenous
 :       fa
+.label yes-ravenous
+# cap damage done (based on drainee's HP/MP)
 :       b9 f4 3b
 :       c5 f0
-:       5c $return-normal
+:       b0 enough-hp
+:       85 f0
+.label enough-hp
+
+# deal minimum 1 damage for seize effect
+:       c9 00 00
+:       d0 nonzero-damage
+:       a5 b1
+:       30 nonzero-damage
+:       e6 f0
+
+.label nonzero-damage
+:       6b
 
 VALIDATION
 
 020e02: b9 f4 3b
 :       c5 f0
 :       b0 02
+:       85 f0

@@ -1310,7 +1310,8 @@
             "patch_junction_death_trigger.txt"
         ],
         "final_ripple": [
-            "patch_junction_death_trigger.txt"
+            "patch_junction_death_trigger.txt",
+            "patch_junction_seize_softlock_prevention.txt"
         ],
         "quickening": [
             "patch_junction_hit_trigger.txt",

@@ -1,0 +1,37 @@
+.addr   jun-queue-command       {{jun-global-queue-command}}
+.addr   main                            6220c0
+
+.def    magic-index     02
+.def    discard-index   db
+
+02081f: 22 $main
+:       ea ea ea ea
+:       ea ea ea ea
+:       ea
+
+$main
+:       ec 04 34
+:       d0 no-quick-status
+:       a9 ff
+:       8d 04 34
+:       8d 02 34
+
+.label no-quick-status
+:       a9 ff
+:       dd 58 33
+:       f0 no-seize-target
+:       a9 magic-index
+:       8d 7a 3a
+:       a9 discard-index
+:       8d 7b 3a
+:       22 $jun-queue-command
+.label no-seize-target
+:       6b
+
+VALIDATION
+
+02081f: ec 04 34
+:       d0 08
+:       a9 ff
+:       8d 04 34
+:       8d 02 34
