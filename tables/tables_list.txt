@@ -160,3 +160,4 @@ $myself_rages_address       30157d
 $char_esper_address         307880
 
 .patch                      patch_crafting.txt
+.patch                      patch_materials.txt
