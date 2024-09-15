@@ -43,7 +43,7 @@ org !toolbar_rare_text
 ; FREE SPACE
 
 !bank_start = $570000
-org $57d000
+org $57d800
 
 ; DATA
 
@@ -511,8 +511,7 @@ check_can_scroll_fail:
     sep #$02
     rts
 
-db $00,$00
-skip align $10
+org $57c000
 test_names:
     for i = 0..$10
         db "Test Item ",$80+!i,$00
