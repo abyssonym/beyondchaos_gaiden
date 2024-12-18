@@ -1,28 +1,45 @@
-from randomtools.tablereader import (
-    TableObject, get_global_label, addresses, names, gen_random_normal,
-    get_activated_patches, mutate_normal, shuffle_normal, write_patch,
-    get_random_degree, tblpath, get_open_file)
-from randomtools.utils import (
-    classproperty, cached_property, utilrandom as random)
-from randomtools.interface import (
-    get_outfile, get_seed, get_flags, get_activated_codes, activate_code,
-    run_interface, rewrite_snes_meta, clean_and_write, finish_interface)
-
-from bcg_junction import JunctionManager
-from ex_utils import generate_character_palette, hue_rgb
 from collections import Counter, defaultdict
-from time import time, gmtime
 from itertools import combinations
 from os import path
+from time import gmtime, time
 from traceback import format_exc
 
+from bcg_junction import JunctionManager
+from bcg_scriptparser import FF6Parser
+from ex_utils import generate_character_palette, hue_rgb
+from randomtools.interface import (activate_code, clean_and_write,
+                                   finish_interface, get_activated_codes,
+                                   get_flags, get_outfile, get_seed,
+                                   rewrite_snes_meta, run_interface)
+from randomtools.tablereader import (TableObject, addresses, gen_random_normal,
+                                     get_activated_patches, get_global_label,
+                                     get_open_file, get_random_degree,
+                                     mutate_normal, names, shuffle_normal,
+                                     tblpath, write_patch)
+from randomtools.utils import (cached_property, classproperty, hexify,
+                               read_lines_nocomment)
+from randomtools.utils import utilrandom as random
 
 VERSION = "7.4"
 ALL_OBJECTS = None
 DEBUG_MODE = False
 FOOLS = False
+EVENT_PARSER = None
+PARSE_UNUSED = True
 
 JP_MAPPING = path.join(tblpath, 'jp_address_mapping.txt')
+PARSER_CONFIG = path.join(tblpath, 'parser_config.yaml')
+
+ADDITIONAL_CONTEXTS = {
+    0x5ec2:     'vehicle',
+    0x5ecf:     'vehicle',
+    0x5ee3:     'vehicle',
+    0x5f0b:     'vehicle',
+    0x5f18:     'vehicle',
+    0x5f39:     'vehicle',
+    0x10bb7:    'vehicle',
+    0x1d308:    'vehicle',
+    }
 
 price_message_indexes = {
     10:     0xa6b,
@@ -534,10 +551,11 @@ class MusicObject(TableObject):
     flag_description = 'music'
 
     def randomize(self):
-        from johnnydmad.johnnydmad import (
-            BASEPATH,
-            process_music, process_formation_music_by_table, process_map_music,
-            add_music_player, get_music_spoiler, random as music_random)
+        from johnnydmad.johnnydmad import (BASEPATH, add_music_player,
+                                           get_music_spoiler,
+                                           process_formation_music_by_table,
+                                           process_map_music, process_music)
+        from johnnydmad.johnnydmad import random as music_random
 
         music_random.seed(get_seed())
 
@@ -582,6 +600,51 @@ class MusicObject(TableObject):
         spoiler_filename = 'music.{0}.txt'.format(get_seed())
         with open(spoiler_filename, 'w+') as f:
             f.write(spoiler)
+
+
+class EventMixin:
+    @property
+    def event_identifier(self):
+        return self.description.split('#')[0].strip()
+
+    @classmethod
+    def get_by_identifier(self, identifier):
+        if hasattr(EventMixin, 'EVENTS_BY_IDENTIFIER'):
+            return self.EVENTS_BY_IDENTIFIER[identifier]
+
+        events_by_identifier = {}
+        for ao in ALL_OBJECTS:
+            if not issubclass(ao, EventMixin):
+                continue
+            for o in ao.every:
+                assert o.event_identifier not in events_by_identifier
+                events_by_identifier[o.event_identifier] = o
+
+        EventMixin.EVENTS_BY_IDENTIFIER = events_by_identifier
+        return self.get_by_identifier(identifier)
+
+    def update_event_address(self, address):
+        if isinstance(self, FieldEventObject):
+            assert address == address & 0xffff
+            self.event_addr = address
+        if isinstance(self, EventObject):
+            self.event_addr = address
+        if isinstance(self, NpcObject):
+            self.set_event_addr(address)
+        if isinstance(self, MapEventObject):
+            self.event_addr = address
+        if isinstance(self, MenuEventObject):
+            self.event_addr = address
+
+
+class FieldEventObject(TableObject, EventMixin):
+    @property
+    def description(self):
+        return (f'FIELD EVENT {self.index:0>3x}  # {self.comment}')
+
+    @property
+    def comment(self):
+        return names.field_events[self.index]
 
 
 class OverworldRateObject(TableObject): pass
@@ -750,24 +813,24 @@ class PortraitPalObject(TableObject): pass
 class PortraitPtrObject(TableObject): pass
 
 
-class EventObject(TableObject):
+class EventObject(TableObject, EventMixin):
     @property
     def description(self):
-        return (f'EVENT {self.index:0>3x} {self.x:0>2x},{self.y:0>2x} '
-                f'{self.location.name}')
+        return (f'EVENT {self.index:0>3x} {self.x:0>2x},{self.y:0>2x}  '
+                f'# {self.location.name}')
 
     @property
     def location(self):
         return LocationObject.get(self.groupindex)
 
 
-class NpcObject(TableObject):
+class NpcObject(TableObject, EventMixin):
     done_pay_saves = {}
 
     @property
     def description(self):
-        return (f'NPC {self.index:0>3x} {self.x:0>2x},{self.y:0>2x} '
-                f'{self.sprite_name} at {self.location.name}')
+        return (f'NPC {self.index:0>3x} {self.x:0>2x},{self.y:0>2x}  '
+                f'# {self.sprite_name} at {self.location.name}')
 
     @property
     def sprite_name(self):
@@ -1165,6 +1228,33 @@ class EventSpriteObject(TableObject):
 
 
 class DialoguePtrObject(TableObject):
+    ENCODING_FILENAME = path.join(tblpath, 'encoding_dialogue.txt')
+    ENCODING = {}
+
+    with open(ENCODING_FILENAME) as f:
+        for line in f:
+            line = line.rstrip('\n')
+            if '=' not in line[1:]:
+                continue
+            code, glyph = line.split('=', 1)
+            code = int(code, 0x10)
+            if code >= 0x100:
+                code = code.to_bytes(length=2, byteorder='big')
+            else:
+                code = code.to_bytes(length=1)
+            assert code not in ENCODING
+            assert glyph not in ENCODING
+            ENCODING[code] = glyph
+            ENCODING[glyph] = code
+
+    MAX_PEEK = max(len(k) for k in ENCODING.keys()
+                   if isinstance(k, bytes))
+
+    TERMINATORS = {'<end>',}
+    NEWLINES = {'<line>', '<page>'}
+
+    GLYPH_CACHE = {}
+
     @classmethod
     def bring_back_auction_prices(cls):
         if 'BNW' not in get_global_label():
@@ -1190,6 +1280,220 @@ class DialoguePtrObject(TableObject):
             s = message_head + content + message_tail
             f.write(s)
             pointer += len(s)
+
+    @property
+    def bank_offset(self):
+        if hasattr(self, '_bank_offset'):
+            return self._bank_offset
+
+        if not hasattr(DialoguePtrObject, '_bank_wrap'):
+            f = get_open_file(get_outfile())
+            f.seek(addresses.dialogue_bank_wrap)
+            DialoguePtrObject._bank_wrap = int.from_bytes(
+                    f.read(2), byteorder='little')
+
+        if self.index < self._bank_wrap:
+            self._bank_offset = 0
+        else:
+            self._bank_offset = 1
+        return self.bank_offset
+
+    @property
+    def full_dialogue_pointer(self):
+        return addresses.dialogue_start + \
+                (self.dialogue_pointer | (self.bank_offset << 16))
+
+    @property
+    def text(self):
+        if self.glyphs is None:
+            return None
+
+        s = ''
+        for glyph in self.glyphs:
+            glyph = self.ENCODING[glyph]
+            for prefix in self.NEWLINES:
+                if glyph.startswith(prefix):
+                    s += glyph + '\n'
+                    break
+            else:
+                s += glyph
+
+        lines = s.split('\n')
+        while True:
+            end_loop = True
+            for i, line in enumerate(list(lines)):
+                if len(line) > 60:
+                    end_loop = False
+                    before, after = [], []
+                    words = line.split(' ')
+                    broken = False
+                    for word in words:
+                        if len(' '.join(before + [word])) <= 40 and not broken:
+                            before.append(word)
+                        else:
+                            broken = True
+                            after.append(word)
+                    before = ' '.join(before) + ' '
+                    after = ' '.join(after)
+                    before_lines = lines[:i] + [before]
+                    after_lines = [after] + lines[i+1:]
+                    new_lines = before_lines + after_lines
+                    if lines != new_lines:
+                        lines = new_lines
+                        assert f'{before}\n{after}' in '\n'.join(lines)
+                        break
+                    else:
+                        end_loop = True
+            if end_loop:
+                break
+        text = '\n'.join(lines)
+        return text
+
+    def set_text(self, text, check_conflict=False):
+        if check_conflict and hasattr(self, '_conflict_text'):
+            if text != self._conflict_text:
+                raise Exception(f'Message {self.index:x} text conflict:\n'
+                                f'|{self._conflict_text}|\n'
+                                f'|{text}|')
+        self._conflict_text = text
+
+        if text in self.GLYPH_CACHE:
+            self.glyphs = self.GLYPH_CACHE[text]
+            return
+
+        original_text = text
+
+        if '|' in text:
+            lines = text.split('\n')
+            new_lines = []
+            for line in lines:
+                test = line.lstrip()
+                if test and test[0] == '|':
+                    line = test[1:]
+                test = line.rstrip()
+                if test and test[-1] == '|':
+                    line = test[:-1]
+                new_lines.append(line)
+            text = '\n'.join(new_lines)
+
+        text = text.replace('\n', '')
+        glyphs = []
+        keys = sorted([k for k in self.ENCODING if isinstance(k, str)],
+                      key=lambda kk: (-len(kk), kk))
+
+        if '"' in text:
+            leftquote = True
+            s = ''
+            for c in text:
+                if c == '"':
+                    if leftquote:
+                        s += '“'
+                        leftquote = False
+                    else:
+                        s += '”'
+                        leftquote = True
+                    continue
+                elif c == '“':
+                    leftquote = False
+                elif c == '”':
+                    leftquote = True
+                s += c
+            text = s
+
+        while '...' in text:
+            text = text.replace('...', '…')
+
+        keyset = set(keys)
+        keylengths = list(reversed(sorted({len(k) for k in keys})))
+
+        while text:
+            for keylength in keylengths:
+                if len(text) < keylength:
+                    continue
+                key = text[:keylength]
+                if key in keyset:
+                    glyphs.append(self.ENCODING[key])
+                    text = text[len(key):]
+                    break
+            else:
+                raise Exception(f'Unable to encode text: `{text}`')
+        self.glyphs = glyphs
+        self.GLYPH_CACHE[original_text] = glyphs
+        self.GLYPH_CACHE[text] = glyphs
+
+    def set_full_dialogue_pointer(self, pointer):
+        self._bank_offset = (pointer - addresses.dialogue_start) >> 16
+        self.dialogue_pointer = pointer & 0xffff
+        assert self.full_dialogue_pointer == pointer
+
+    def preprocess(self):
+        self.glyphs = None
+        if (self.full_dialogue_pointer - addresses.dialogue_start) >= 0x1ffff:
+            return
+
+        self.glyphs = []
+        f = get_open_file(get_outfile())
+        f.seek(self.full_dialogue_pointer)
+        while True:
+            tell = f.tell()
+            for length in range(self.MAX_PEEK+1, -1, -1):
+                f.seek(tell)
+                peek = f.read(length)
+                assert isinstance(peek, bytes)
+                if peek in self.ENCODING:
+                    self.glyphs.append(peek)
+                    break
+            else:
+                raise Exception(f'Unable to parse dialogue at {tell:x}.')
+            if self.ENCODING[peek] in self.TERMINATORS:
+                break
+        #print(self.text)
+
+    @classmethod
+    def full_cleanup(cls):
+        f = get_open_file(get_outfile())
+        f.seek(addresses.dialogue_start)
+        f.write(b'\xff' * (addresses.dialogue_finish -
+                           addresses.dialogue_start))
+
+        dialogue_data = b''
+        DialoguePtrObject._bank_wrap = 0xfffff
+        for pdo in cls.every:
+            if pdo.glyphs is not None:
+                pdo_data = b''.join(pdo.glyphs)
+            else:
+                pdo_data = b'\x00'
+            if (not pdo_data) or pdo_data[-1] != 0:
+                pdo_data += b'\x00'
+
+            index = None
+            if pdo.index >= DialoguePtrObject._bank_wrap:
+                temp_data = dialogue_data[0x10000:]
+                if pdo_data in temp_data:
+                    index = temp_data.index(pdo_data) + 0x10000
+            elif pdo_data in dialogue_data:
+                index = dialogue_data.index(pdo_data)
+
+            if index is None:
+                index = len(dialogue_data)
+                dialogue_data += pdo_data
+
+            if index >= 0x10000:
+                DialoguePtrObject._bank_wrap = min(
+                        DialoguePtrObject._bank_wrap, pdo.index)
+
+            address = addresses.dialogue_start + index
+            pdo.set_full_dialogue_pointer(address)
+            assert pdo.full_dialogue_pointer == address
+
+        f = get_open_file(get_outfile())
+        f.seek(addresses.dialogue_start)
+        f.write(dialogue_data)
+        f.seek(addresses.dialogue_bank_wrap)
+        f.write(DialoguePtrObject._bank_wrap.to_bytes(
+            length=2, byteorder='little'))
+        if f.tell() >= addresses.dialogue_finish:
+            raise Exception(f'Dialogue exceeded allotted space: {f.tell():x}')
 
 
 class MonsterObject(TableObject):
@@ -2058,6 +2362,22 @@ class MonsterNameObject(EncodeDecodeMixin):
 
 class SpecialNameObject(EncodeDecodeMixin): pass
 class DanceObject(TableObject): pass
+
+
+class MapEventObject(TableObject, EventMixin):
+    @property
+    def description(self):
+        if self.location:
+            return (f'MAP EVENT {self.index:0>3x}  # {self.location.name}')
+        else:
+            return (f'MAP EVENT {self.index:0>3x}  # (Invalid Map)')
+
+    @property
+    def location(self):
+        try:
+            return LocationObject.get(self.index)
+        except KeyError:
+            return None
 
 
 class MonsterSpriteObject(TableObject):
@@ -3575,6 +3895,12 @@ class LocationObject(TableObject):
 class FieldPaletteObject(TableObject): pass
 class LongEntranceObject(TableObject): pass
 
+class MenuEventObject(TableObject, EventMixin):
+    @property
+    def description(self):
+        return f'MENU EVENT {self.index:x}'
+
+
 class CharEsperObject(TableObject):
     flag = 'a'
     flag_description = 'esper allocations'
@@ -3758,8 +4084,16 @@ fanatix_space_pointer = None
 
 
 def execute_fanatix_mode():
-    if not FOOLS:
-        print('FANATIX MODE ACTIVATED')
+    if get_global_label() in ['FF6_NA_1.0', 'FF6_NA_1.1']:
+        write_patch(get_outfile(), 'patch_auto_learn_rage.txt')
+    if 'JP' in get_global_label():
+        write_patch(get_outfile(), 'patch_let_banon_equip_jp.txt')
+        write_patch(get_outfile(), 'patch_auto_learn_rage_jp.txt')
+        write_patch(
+            get_outfile(), 'patch_can_always_access_esper_menu.txt',
+            mapping=JP_MAPPING)
+    elif 'SAFE_MODE' not in get_global_label():
+        write_patch(get_outfile(), 'patch_let_banon_equip.txt')
 
     for i in range(0x20):
         InitialMembitObject.get(i).membyte = 0xFF
@@ -4683,8 +5017,8 @@ def test_junctions(num_trials=20):
 
 
 def export_all(object_list):
-    from os import mkdir
     import json
+    from os import mkdir
     EXPORT_DIRECTORY = 'exported'
     try:
         mkdir(EXPORT_DIRECTORY)
@@ -4702,8 +5036,8 @@ def export_all(object_list):
 
 
 def import_all(object_list, dirname='import'):
-    from os import listdir
     import json
+    from os import listdir
     for fn in listdir(dirname):
         if not (fn.startswith('data.') and fn.endswith('.json')):
             continue
@@ -4715,6 +5049,168 @@ def import_all(object_list, dirname='import'):
         with open(fpath) as f:
             data = json.loads(f.read())
         obj.import_all(data)
+
+
+def gather_event_addresses():
+    event_addresses = defaultdict(set)
+    contexts = {}
+    for e in EventObject.every:
+        if e.location.index <= 2:
+            continue
+        event_addresses[e.event_addr].add(e.description)
+    for n in NpcObject.every:
+        if n.is_special and not n.vehicle:
+            continue
+        event_addresses[n.event_addr].add(n.description)
+    for meo in MapEventObject.every:
+        event_addresses[meo.event_addr].add(meo.description)
+    for meo in MenuEventObject.every:
+        event_addresses[meo.event_addr].add(meo.description)
+        assert meo.event_addr not in contexts
+        contexts[meo.event_addr] = 'vehicle'
+    for feo in FieldEventObject.every:
+        assert 0 <= feo.event_addr <= 0xffff
+        event_addresses[feo.event_addr].add(feo.description)
+
+    return event_addresses, contexts
+
+
+def get_event_parser():
+    global EVENT_PARSER
+    if EVENT_PARSER is not None:
+        return EVENT_PARSER
+    pointers_and_more, contexts = gather_event_addresses()
+    f = get_open_file(get_outfile())
+    f.seek(addresses.event_scripts_address)
+    data = f.read()
+
+    EVENT_PARSER = FF6Parser(PARSER_CONFIG, data, pointers_and_more.keys(),
+                             reserved_contexts=contexts)
+    EVENT_PARSER.format_length = 20
+
+    while PARSE_UNUSED:
+        end_loop = True
+        last_pointer = max(EVENT_PARSER.scripts)
+        for pointer in EVENT_PARSER.scripts:
+            if pointer == last_pointer:
+                continue
+            script = EVENT_PARSER.scripts[pointer]
+            if script.end_address not in EVENT_PARSER.scripts:
+                assert script.end_address not in pointers_and_more
+                pointers_and_more[script.end_address].add(
+                        '# UNUSED OR UNKNOWN USE')
+                p = EVENT_PARSER.add_pointer(script.end_address, script=True)
+                if script.end_address in ADDITIONAL_CONTEXTS:
+                    EVENT_PARSER.reserve_context(
+                            p, ADDITIONAL_CONTEXTS[script.end_address])
+                end_loop = False
+        if end_loop:
+            break
+        EVENT_PARSER.read_scripts()
+
+    for pointer in pointers_and_more:
+        script = EVENT_PARSER.scripts[pointer]
+        assert not hasattr(script, 'labels')
+        script.labels = pointers_and_more[pointer]
+
+    for dpo in DialoguePtrObject.every:
+        text = dpo.text
+        if text is None:
+            continue
+        EVENT_PARSER.MESSAGE_TEXTS[dpo.index] = dpo.text
+
+    return get_event_parser()
+
+
+def export_script(filename=None):
+    if filename is None:
+        filename = f'script.{get_outfile()}.export.txt'
+    parser = get_event_parser()
+
+    s = ''
+    for pointer, script in sorted(parser.scripts.items()):
+        ss = ''
+        if hasattr(script, 'labels'):
+            for label in sorted(script.labels):
+                if label.startswith('#'):
+                    ss += f'{label}\n'
+                else:
+                    ss += f'! {label}\n'
+        ss += str(script) + '\n'
+        while '\n\n' in ss:
+            ss = ss.replace('\n\n', '\n')
+        s = f'{s}\n\n{ss.strip()}'
+
+    while '\n\n\n' in s:
+        s = s.replace('\n\n\n', '\n\n')
+
+    with open(filename, 'w+') as f:
+        f.write(s.strip())
+
+
+def import_script(filename=None):
+    if filename is None:
+        filename = f'script.{get_outfile()}.import.txt'
+    parser = get_event_parser()
+    with open(filename) as f:
+        script = f.read()
+    cleaned = ''
+    event_identifiers = set()
+    event_addresses = {}
+    for line in script.split('\n'):
+        line = line.strip()
+        if line.startswith('!'):
+            line = line.lstrip('!').split('#')[0].strip()
+            event_identifiers.add(line)
+            continue
+        elif line.startswith('@'):
+            address = int(line.lstrip('@').split()[0], 0x10)
+            for eid in event_identifiers:
+                assert eid not in event_addresses
+                event_addresses[eid] = address
+            event_identifiers = set()
+        cleaned += line + '\n'
+    parser.import_script(cleaned)
+
+    bytecode = parser.to_bytecode()
+    f = get_open_file(get_outfile())
+    f.seek(addresses.event_scripts_address)
+    f.write(bytecode)
+    if f.tell() >= addresses.event_scripts_finish:
+        raise Exception(f'Event scripts exceeded allotted space: {f.tell():x}')
+
+    for eid in event_addresses:
+        event = EventMixin.get_by_identifier(eid)
+        old_address = event_addresses[eid]
+        new_address = parser.scripts[old_address].pointer.repointer
+        event.update_event_address(new_address)
+
+    for s in parser.scripts.values():
+        for i in s.instructions:
+            if i.text_parameters:
+                text = i.text_parameters[None]
+                message_index = i.parameters['message']
+                dpo = DialoguePtrObject.get(message_index)
+                dpo.set_text(text, check_conflict=True)
+
+
+def handle_april_fools():
+    tm = gmtime(get_seed())
+    if tm.tm_mon == 4 and tm.tm_mday == 1:
+        activate_code('fanatix')
+        FOOLS = True
+
+
+def handle_command_shuffle():
+    if CmdChangeFBObject.flag in get_flags():
+        if get_global_label() in ['FF6_NA_1.0', 'FF6_NA_1.1']:
+            write_patch(get_outfile(), 'patch_command_shuffle.txt')
+        elif 'FF6_JP' in get_global_label():
+            write_patch(get_outfile(), 'patch_command_shuffle_jp.txt')
+        elif 'BNW_1' in get_global_label():
+            write_patch(get_outfile(), 'patch_command_shuffle_bnw1.txt')
+        elif 'BNW_2' in get_global_label():
+            write_patch(get_outfile(), 'patch_command_shuffle_bnw2.txt')
 
 
 if __name__ == '__main__':
@@ -4740,64 +5236,29 @@ if __name__ == '__main__':
             'naturalstats': ['naturalstats'],
             'export':       ['export'],
             'import':       ['import'],
+            'screxport':    ['screxport'],
+            'scrimport':    ['scrimport'],
         }
 
         run_interface(ALL_OBJECTS, snes=True, codes=codes,
                       custom_degree=True, custom_difficulty=True)
 
-        if 'export' in get_activated_codes():
-            export_all(ALL_OBJECTS)
-
-        addresses = defaultdict(set)
-        for e in EventObject.every:
-            if e.location.index <= 2:
-                continue
-            s = f'{e.event_addr:0>5x}  # {e.description}'
-            addresses[e.event_addr].add(e.description)
-        for n in NpcObject.every:
-            if n.is_special and not n.vehicle:
-                continue
-            s = f'{n.event_addr:0>5x}  # {n.description}'
-            addresses[n.event_addr].add(n.description)
-        for addr in sorted(addresses):
-            for s in sorted(addresses[addr]):
-                print(f'# {s}')
-            print(f'{addr+0xa0000:0>5x}')
-            print()
-        exit(0)
-
         for code in sorted(get_activated_codes()):
             print('Code "%s" activated.' % code)
 
-        tm = gmtime(get_seed())
-        if tm.tm_mon == 4 and tm.tm_mday == 1:
-            activate_code('fanatix')
-            FOOLS = True
+        if 'export' in get_activated_codes():
+            export_all(ALL_OBJECTS)
 
-        if CmdChangeFBObject.flag in get_flags():
-            if get_global_label() in ['FF6_NA_1.0', 'FF6_NA_1.1']:
-                write_patch(get_outfile(), 'patch_command_shuffle.txt')
-            elif 'FF6_JP' in get_global_label():
-                write_patch(get_outfile(), 'patch_command_shuffle_jp.txt')
-            elif 'BNW_1' in get_global_label():
-                write_patch(get_outfile(), 'patch_command_shuffle_bnw1.txt')
-            elif 'BNW_2' in get_global_label():
-                write_patch(get_outfile(), 'patch_command_shuffle_bnw2.txt')
+        if 'scrimport' in get_activated_codes():
+            import_script()
 
-        if 'easymodo' in get_activated_codes():
-            'EASY MODE ACTIVATED'
+        if 'screxport' in get_activated_codes():
+            export_script()
+
+        handle_april_fools()
+        handle_command_shuffle()
 
         if 'fanatix' in get_activated_codes():
-            if get_global_label() in ['FF6_NA_1.0', 'FF6_NA_1.1']:
-                write_patch(get_outfile(), 'patch_auto_learn_rage.txt')
-            if 'JP' in get_global_label():
-                write_patch(get_outfile(), 'patch_let_banon_equip_jp.txt')
-                write_patch(get_outfile(), 'patch_auto_learn_rage_jp.txt')
-                write_patch(
-                    get_outfile(), 'patch_can_always_access_esper_menu.txt',
-                    mapping=JP_MAPPING)
-            elif 'SAFE_MODE' not in get_global_label():
-                write_patch(get_outfile(), 'patch_let_banon_equip.txt')
             execute_fanatix_mode()
 
         if hasattr(JunctionObject, 'specs'):

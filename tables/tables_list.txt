@@ -3,7 +3,7 @@ JunctionObject          empty.txt                       0       1
 MusicObject             empty.txt                       0       1
 EquipabilityObject      empty.txt                       0       1
 EquipmentStatsObject    empty.txt                       0       1
-NatMagCharObject        struct_nat_mag_char.txt         pointers_nat_mag_char.txt
+FieldEventObject        struct_2_event.txt              pointers_field_event.txt
 OverworldRateObject     struct_encounter_rate.txt       c29f    16
 DungeonRateObject       struct_encounter_rate.txt       c2bf    16
 InitialMembitObject     struct_initial_membit.txt       e0a0    128
@@ -15,6 +15,7 @@ CmdPtrObject            struct_cmd_ptr.txt              219c7   30
 SlotsObject             struct_slots.txt                24e4a   8
 CmdChangeFAObject       struct_cmd_change.txt           25452   5
 CmdChangeTAObject       struct_cmd_change.txt           25457   5
+NatMagCharObject        struct_nat_mag_char.txt         pointers_nat_mag_char.txt
 CharPaletteObject       struct_char_palette.txt         2ce2b   14
 MouldObject             struct_mould.txt                2d01a   13
 CmdChangeFBObject       struct_cmd_change.txt           36198   5
@@ -49,6 +50,7 @@ MonsterAIObject         struct_monster_ai.txt           f8400   384
 MonsterNameObject       struct_monster_name.txt         fc050   384
 SpecialNameObject       struct_special_name.txt         fd0d0   384
 DanceObject             struct_dance.txt                ffe80   8
+MapEventObject          struct_map_event.txt            11fa00  512
 MonsterSpriteObject     struct_monster_sprite.txt       127000  384
 MonsterPaletteObject    struct_monster_palette.txt      pointers_monster_palette.txt
 ItemNameObject          struct_item_name.txt            12b300  255
@@ -77,6 +79,7 @@ ChestObject             struct_chest.txt                2d82f4  414 pointed 2d86
 LocationObject          struct_location.txt             2d8f00  414
 FieldPaletteObject      struct_field_palette.txt        2dc480  48
 LongEntranceObject      struct_long_entrance.txt        2df480  414 pointed 2df480 2
+MenuEventObject         struct_map_event.txt            2eb269  7
 CharEsperObject         struct_char_esper.txt           307880  27
 $inn_ask_message            517
 $ask_message                524
@@ -84,6 +87,8 @@ $while_confused_cmd_address 204d0
 $while_berserk_cmd_address  204d4
 $retarget_cmd_address       24e46
 $magitek_palette_address    2cfd4
+$event_scripts_address      a0000
+$event_scripts_finish       ce600
 $final_pointer              a057d
 $ending_pointer             a1364
 $opening_crawl_pointer      a5e8e
@@ -98,6 +103,9 @@ $colosseum_pointer          b78cb
 $unequipper_pointer         c3510
 $opening_pointer            c9a4f
 $opening_jump_pointer       c9b1d
+$dialogue_bank_wrap         ce600
+$dialogue_start             d0000
+$dialogue_finish            ef100
 $location_names             ef100
 $location_names_max         ef600
 $ai_scripts_address         f8700
@@ -108,6 +116,7 @@ $wob_choco_palette_address  12ee20
 $wor_choco_palette_address  12ef20
 $npc_choco_palette_address  2680e0
 $known_lores_address        26f564
+$field_events               names_field_events.txt
 $locations                  names_locations.txt
 $npc_sprites                names_npc_sprites.txt
 $skills                     names_skills.txt
@@ -121,7 +130,7 @@ $skills                     names_skills.txt
 .patch                      patch_imp_skimp_fix.txt
 .patch                      patch_flip_gradient.txt
 .patch                      patch_magic_damage_overflow_fix.txt
-.patch                      patch_opening_skip.txt
+#.patch                      patch_opening_skip.txt
 .patch                      patch_rage_mute_fix.txt
 .patch                      patch_rom_expansion.txt
 .patch                      patch_running_animation_fix.txt

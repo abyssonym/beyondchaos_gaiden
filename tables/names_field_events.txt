@@ -1,0 +1,10 @@
+Null
+Chest: GP
+Chest: Item
+Chest: Monster
+Chest: Empty
+Null
+Intro
+Random Encounter
+Sleep
+Unknown

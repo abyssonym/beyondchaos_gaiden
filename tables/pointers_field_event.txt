@@ -1,0 +1,11 @@
+0000fc Null
+004c7c Chest: GP
+004c8f Chest: Item
+004c9f Chest: Monster
+004caa Chest: Empty
+0098a4 Null
+00be91 Intro
+00c442 Random Encounter
+00c660 Sleep
+00c671 Unknown
+#00d3ab ca004a

@@ -1,0 +1,2226 @@
+byteorder:                "little"
+opcode_size:              1
+max_pointer_size:         3
+virtual_address:          0
+text_terminators:         []
+text_char_size:           1
+text_decode_table:
+  0xffff: "{endline}"
+default_context:          "standard"
+expand_multiline:         2
+prettify:
+  character:
+    0x00: "Terra"
+    0x01: "Locke"
+    0x02: "Cyan"
+    0x03: "Shadow"
+    0x04: "Edgar"
+    0x05: "Sabin"
+    0x06: "Celes"
+    0x07: "Strago"
+    0x08: "Relm"
+    0x09: "Setzer"
+    0x0a: "Mog"
+    0x0b: "Gau"
+    0x0c: "Gogo"
+    0x0d: "Umaro"
+  character1: "character"
+  character2: "character"
+  character3: "character"
+  character4: "character"
+  flag:
+    0x000: "80:01 Unused?"
+    0x001: "80:02 Met Arvis (disables a Magitek Armor-related function in the mines)"
+    0x002: "80:04 Unused?"
+    0x003: "80:08 Initiated the tripartite battle with the Moogles (pointless?)"
+    0x004: "80:10 Named Edgar (affects Figaro Castle and Narshe)"
+    0x005: "80:20 Named Sabin"
+    0x006: "80:40 Met Kefka in Figaro Castle"
+    0x007: "80:80 Saw Sabin say he has to wander around Figaro Castle for a while"
+    0x008: "81:01 Locke is inside the library of Figaro Castle"
+    0x009: "81:02 Unused?"
+    0x00a: "81:04 Saw Shadow heading toward the café"
+    0x00b: "81:08 Named Shadow"
+    0x00c: "81:10 Unused?"
+    0x00d: "81:20 Saw shadowy \"Vargas\" 1"
+    0x00e: "81:40 Saw shadowy \"Vargas\" 2"
+    0x00f: "81:80 Saw shadowy \"Vargas\" 3"
+    0x010: "82:01 Defeated Vargas (affects South Figaro and Sabin's cabin)"
+    0x011: "82:02 Met Banon"
+    0x012: "82:04 Awakening plays in the Returners' Hideout; can find the scrap of paper"
+    0x013: "82:08 Accepted Banon's offer (useless?)"
+    0x014: "82:10 Declined Banon's offer 1"
+    0x015: "82:20 Declined Banon's offer 2"
+    0x016: "82:40 Declined Banon's offer 3 (useless?)"
+    0x017: "82:80 Got either Gauntlet or Genji Glove"
+    0x018: "83:01 Banon joined the party"
+    0x019: "83:02 Boarded the raft (affects Narshe and Lete River)"
+    0x01a: "83:04 Fought Ultros at Lete River (affects various locations)"
+    0x01b: "83:08 Celes asked Locke why he was helping her"
+    0x01c: "83:10 Named Celes"
+    0x01d: "83:20 Freed Celes"
+    0x01e: "83:40 Completed Locke's scenario"
+    0x01f: "83:80 Banon and the others were denied entry to Narshe"
+    0x020: "84:01 Discovered how to open the secret entrance in Narshe"
+    0x021: "84:02 Completed Terra's scenario"
+    0x022: "84:04 Saw the scene involving the stove of Gau's father"
+    0x023: "84:08 Unused?"
+    0x024: "84:10 Saw Shadow's dream 1"
+    0x025: "84:20 Unused? (It possibly had a connection with a dummy dream in Thamasa.)"
+    0x026: "84:40 Saw Shadow's dream 2"
+    0x027: "84:80 Saw Shadow's dream 3"
+    0x028: "85:01 Saw Shadow's dream 4"
+    0x029: "85:02 Saw the scene preceding the parties' entry into Kefka's Tower"
+    0x02a: "85:04 Met Shadow initially on the Floating Continent"
+    0x02b: "85:08 Saw the scene with Leo in the Imperial camp 1"
+    0x02c: "85:10 Saw the scene with Leo in the Imperial camp 2"
+    0x02d: "85:20 Chasing Kefka 1"
+    0x02e: "85:40 Chasing Kefka 2"
+    0x02f: "85:80 Chasing Kefka 3"
+    0x030: "86:01 The river surrounding Doma has been contaminated with poison"
+    0x031: "86:02 Cyan found the poisoned King of Doma"
+    0x032: "86:04 Cyan discovered his dead family"
+    0x033: "86:08 Cyan arrived at the Imperial camp (useless?)"
+    0x034: "86:10 Uncontrollable Cyan battle 1"
+    0x035: "86:20 Uncontrollable Cyan battle 2"
+    0x036: "86:40 Uncontrollable Cyan battle 3"
+    0x037: "86:80 Left the Imperial camp for good"
+    0x038: "87:01 Noticed the Phantom Train"
+    0x039: "87:02 Locked in the Phantom Train"
+    0x03a: "87:04 No train anymore in Phantom Forest"
+    0x03b: "87:08 Defeated GhostTrain (useless?)"
+    0x03c: "87:10 Reached Baren Falls"
+    0x03d: "87:20 Saw a ghost emerge from and obstruct an entryway (cleared eventually)"
+    0x03e: "87:40 Unused?"
+    0x03f: "87:80 Named Gau"
+    0x040: "88:01 Unused?"
+    0x041: "88:02 Unearthed the diving helmet"
+    0x042: "88:04 Unused?"
+    0x043: "88:08 Saw the scene with Cyan and the dancer in Nikeah"
+    0x044: "88:10 Completed Sabin's scenario (clears the rockslide at Nikeah)"
+    0x045: "88:20 The scenarios have concluded (useless?)"
+    0x046: "88:40 Defeated Kefka at Narshe (useless?)"
+    0x047: "88:80 Unused?"
+    0x048: "89:01 Searching for Terra (affects Narshe, Figaro Castle, South Figaro)"
+    0x049: "89:02 Enables the optional scene with Edgar and Sabin in Figaro Castle"
+    0x04a: "89:04 Saw the optional scene with Edgar and Sabin in Figaro Castle"
+    0x04b: "89:08 Unused?"
+    0x04c: "89:10 Saw the scene with Sabin and Duncan's wife"
+    0x04d: "89:20 Saw Locke's flashback inside Rachel's house"
+    0x04e: "89:40 Unused?"
+    0x04f: "89:80 Saw the flashback of Rachel in the doctor's basement"
+    0x050: "8a:01 Unused?"
+    0x051: "8a:02 Unused?"
+    0x052: "8a:04 Unused?"
+    0x053: "8a:08 Met Ramuh"
+    0x054: "8a:10 Formed a party in Zozo (affects Narshe and Jidoor)"
+    0x055: "8a:20 Watched the overture"
+    0x056: "8a:40 Celes is ready to go on stage"
+    0x057: "8a:80 Theater map variation featuring the wedding waltz"
+    0x058: "8b:01 Discovered Ultros's note"
+    0x059: "8b:02 Theater map reconfiguration 1"
+    0x05a: "8b:04 Theater map reconfiguration 2"
+    0x05b: "8b:08 Unused?"
+    0x05c: "8b:10 Setzer imprisoned Celes (needlessly affects the party change room)"
+    0x05d: "8b:20 Celes tossed Edgar's coin (affects Setzer, Kohlingen, Narshe)"
+    0x05e: "8b:40 Landed the airship near Albrook (affects the airship's exit door)"
+    0x05f: "8b:80 Kefka disposed of Ifrit and Shiva"
+    0x060: "8c:01 Fought Ifrit and Shiva"
+    0x061: "8c:02 Unused?"
+    0x062: "8c:04 Puts the metal platform on the right in Kefka's Tower"
+    0x063: "8c:08 Removes a barrier in Kefka's Tower 1"
+    0x064: "8c:10 Removes a barrier in Kefka's Tower 2"
+    0x065: "8c:20 Erects a barrier in Kefka's Tower 1"
+    0x066: "8c:40 Erects a barrier in Kefka's Tower 2"
+    0x067: "8c:80 Forms a passageway leading to Guardian in Kefka's Tower"
+    0x068: "8d:01 Threw the switch in the Magitek Research Facility"
+    0x069: "8d:02 Rode the mine cart (affects Vector, Albrook, and the Magitek Factory)"
+    0x06a: "8d:04 Setzer joined the party (affects the party change room of the airship)"
+    0x06b: "8d:08 Defeated the Cranes (affects Vector, Narshe, and the Auction House)"
+    0x06c: "8d:10 One day later in Esperville (brightens the outdoors map)"
+    0x06d: "8d:20 Unused?"
+    0x06e: "8d:40 Two days later in Esperville"
+    0x06f: "8d:80 Two years later in Esperville (darkens the outdoors map)"
+    0x070: "8e:01 Saw Maduin die (affects the airship's party change room and exit door)"
+    0x071: "8e:02 Forms a passageway leading to the balcony in Kefka's Tower"
+    0x072: "8e:04 Defeated Doom"
+    0x073: "8e:08 Defeated Goddess"
+    0x074: "8e:10 Defeated Poltrgeist"
+    0x075: "8e:20 Unused?"
+    0x076: "8e:40 Next stop, the sealed gate"
+    0x077: "8e:80 Affects the airship's exit door (always remains clear?)"
+    0x078: "8f:01 Unused?"
+    0x079: "8f:02 The Espers broke through the sealed gate (affects various locations)"
+    0x07a: "8f:04 The Espers attacked the Blackjack"
+    0x07b: "8f:08 The Espers attacked the Empire"
+    0x07c: "8f:10 Dinner preparations are underway"
+    0x07d: "8f:20 Dinner is over (affects various locations)"
+    0x07e: "8f:40 Recruited Umaro"
+    0x07f: "8f:80 Clears the rockslide in Kefka's Tower"
+    0x080: "90:01 Opens the gate in Kefka's Tower"
+    0x081: "90:02 Saw the scene with Cid and Setzer in the Blackjack"
+    0x082: "90:04 (Set at the same time as the previous bit. Seems useless.)"
+    0x083: "90:08 Boarded the ship in Albrook"
+    0x084: "90:10 (Set at the same time as the next bit. Seems useless.)"
+    0x085: "90:20 Met Leo and the others in Albrook"
+    0x086: "90:40 Saw the scene with Terra and Leo at night on the ship to Thamasa"
+    0x087: "90:80 Saw the scene with Locke and Celes at night in Albrook"
+    0x088: "91:01 Unused?"
+    0x089: "91:02 Received Leo's instructions before arriving at Crescent Island"
+    0x08a: "91:04 Unused?"
+    0x08b: "91:08 Saw the scene at Thamasa involving the child casting Fire"
+    0x08c: "91:10 Saw the scene at Thamasa involving the child needing Cure"
+    0x08d: "91:20 Named Strago and Relm"
+    0x08e: "91:40 Strago woke the party at night in Thamasa"
+    0x08f: "91:80 Saw the initial scene in the burning house (useless?)"
+    0x090: "92:01 Defeated FlameEater"
+    0x091: "92:02 Next stop, Gathering Place of the Espers"
+    0x092: "92:04 Shadow decided to search for the Espers in his own way"
+    0x093: "92:08 Unused?"
+    0x094: "92:10 Unused?"
+    0x095: "92:20 Fought Ultros at Gathering Place of the Espers"
+    0x096: "92:40 (Set at the same time as the next bit. Seems useless.)"
+    0x097: "92:80 Noticed the Statues at Gathering Place of the Espers"
+    0x098: "93:01 Gathering Place of the Espers is accessible from the world map"
+    0x099: "93:02 Found the Espers at Gathering Place of the Espers"
+    0x09a: "93:04 Shadow's theme plays in Albrook (set for when naming Shadow)"
+    0x09b: "93:08 Fought Kefka at Thamasa (affects Albrook and, needlessly, Thamasa)"
+    0x09c: "93:10 Leo is buried in Thamasa; disables the scene with the imprisoned Kefka"
+    0x09d: "93:20 Completed the mandatory Thamasa scenario (affects various locations)"
+    0x09e: "93:40 The Floating Continent exists (affects overworld, Blackjack, Albrook)"
+    0x09f: "93:80 Disables access to the Floating Continent (always remains clear?)"
+    0x0a0: "94:01 Disables the IAF sequence"
+    0x0a1: "94:02 Unused?"
+    0x0a2: "94:04 Unused?"
+    0x0a3: "94:08 Left Shadow behind on the Floating Continent"
+    0x0a4: "94:10 In the World of Ruin"
+    0x0a5: "94:20 Unused?"
+    0x0a6: "94:40 Hides the party on map 10 (always remains clear?)"
+    0x0a7: "94:80 Met Crimson Robber 1"
+    0x0a8: "95:01 Met Crimson Robber 2"
+    0x0a9: "95:02 Met Crimson Robber 3"
+    0x0aa: "95:04 Met Crimson Robber 4"
+    0x0ab: "95:08 Saw one of the Crimson Robbers leave the café"
+    0x0ac: "95:10 Boarded the Crimson Robbers' ship"
+    0x0ad: "95:20 Disables a music-related function in Figaro Cave"
+    0x0ae: "95:40 Noise in Figaro Cave 1"
+    0x0af: "95:80 Noise in Figaro Cave 2"
+    0x0b0: "96:01 Noise in Figaro Cave 3"
+    0x0b1: "96:02 Drank from the spring in Figaro Cave"
+    0x0b2: "96:04 Examined Cid's dead body"
+    0x0b3: "96:08 Cid recovered (enables access to the cliffs)"
+    0x0b4: "96:10 Cid succumbed (enables access to the cliffs)"
+    0x0b5: "96:20 Unused?"
+    0x0b6: "96:40 Got Ragnarok"
+    0x0b7: "96:80 Unused?"
+    0x0b8: "97:01 Got Cursed Shld"
+    0x0b9: "97:02 Unused?"
+    0x0ba: "97:04 Recruited Strago in the World of Ruin"
+    0x0bb: "97:08 Unused?"
+    0x0bc: "97:10 Defeated Guardian"
+    0x0bd: "97:20 Defeated Inferno"
+    0x0be: "97:40 Terra and Katarin went missing"
+    0x0bf: "97:80 Recruited Terra in the World of Ruin"
+    0x0c0: "98:01 Unused?"
+    0x0c1: "98:02 Unused?"
+    0x0c2: "98:04 Memorized \"DLRO\""
+    0x0c3: "98:08 Memorized \"ERAU\""
+    0x0c4: "98:10 Memorized \"QSSI\""
+    0x0c5: "98:20 Memorized \"WEHT\""
+    0x0c6: "98:40 Recruited Edgar in the World of Ruin"
+    0x0c7: "98:80 Saw Figaro Castle rise to the surface following the Tentacles battle"
+    0x0c8: "99:01 Got Odin"
+    0x0c9: "99:02 Unused?"
+    0x0ca: "99:04 Recruited Setzer in the World of Ruin"
+    0x0cb: "99:08 Uncovered the entrance to Darill's Tomb"
+    0x0cc: "99:10 Saw the flashback scene in Darill's Tomb"
+    0x0cd: "99:20 Acquired the Falcon (affects Mobliz and Figaro Castle)"
+    0x0ce: "99:40 Unused?"
+    0x0cf: "99:80 Unused?"
+    0x0d0: "9a:01 Generates two doorways in Kefka's Tower"
+    0x0d1: "9a:02 Unused?"
+    0x0d2: "9a:04 Recruited Cyan in the World of Ruin"
+    0x0d3: "9a:08 Unused?"
+    0x0d4: "9a:10 Recruited Gogo (useless?)"
+    0x0d5: "9a:20 Unused?"
+    0x0d6: "9a:40 Unused?"
+    0x0d7: "9a:80 Recruited Locke in the World of Ruin"
+    0x0d8: "9b:01 Unused?"
+    0x0d9: "9b:02 (Set upon acquiring Starlet. Seems useless.)"
+    0x0da: "9b:04 Cleansed Cyan's soul"
+    0x0db: "9b:08 Unused?"
+    0x0dc: "9b:10 Figaro Castle lies in the western desert in the World of Ruin"
+    0x0dd: "9b:20 Unused?"
+    0x0de: "9b:40 Sets Figaro Castle ablaze"
+    0x0df: "9b:80 Unused?"
+    0x0e0: "9c:01 Unused?"
+    0x0e1: "9c:02 Unused?"
+    0x0e2: "9c:04 Unused?"
+    0x0e3: "9c:08 Unused?"
+    0x0e4: "9c:10 Unused?"
+    0x0e5: "9c:20 Unused?"
+    0x0e6: "9c:40 Unused?"
+    0x0e7: "9c:80 Unused?"
+    0x0e8: "9d:01 Unused?"
+    0x0e9: "9d:02 Unused?"
+    0x0ea: "9d:04 Unused?"
+    0x0eb: "9d:08 Unused?"
+    0x0ec: "9d:10 Unused?"
+    0x0ed: "9d:20 Unused?"
+    0x0ee: "9d:40 Unused?"
+    0x0ef: "9d:80 Unused?"
+    0x0f0: "9e:01 Unused?"
+    0x0f1: "9e:02 Unused?"
+    0x0f2: "9e:04 Unused?"
+    0x0f3: "9e:08 Unused?"
+    0x0f4: "9e:10 Unused?"
+    0x0f5: "9e:20 Unused?"
+    0x0f6: "9e:40 Unused?"
+    0x0f7: "9e:80 Unused?"
+    0x0f8: "9f:01 Unused?"
+    0x0f9: "9f:02 Unused?"
+    0x0fa: "9f:04 Unused?"
+    0x0fb: "9f:08 Unused?"
+    0x0fc: "9f:10 Unused?"
+    0x0fd: "9f:20 Unused?"
+    0x0fe: "9f:40 Unused?"
+    0x0ff: "9f:80 Unused?"
+    0x100: "a0:01 Edgar commented on Sabin's cabin"
+    0x101: "a0:02 The cider deliveryman is heading toward the old man's house"
+    0x102: "a0:04 The cider deliveryman is heading toward the café"
+    0x103: "a0:08 Locke is dressed as an officer"
+    0x104: "a0:10 Locke is dressed as a merchant"
+    0x105: "a0:20 The Empire invaded South Figaro"
+    0x106: "a0:40 Figaro Castle lies in the eastern desert in the World of Ruin"
+    0x107: "a0:80 Delivered cider to the old man"
+    0x108: "a1:01 Can command the guard blocking the entrance to Figaro Cave to leave"
+    0x109: "a1:02 Unused?"
+    0x10a: "a1:04 Vargas made his entrance"
+    0x10b: "a1:08 Figaro Castle lies in the eastern desert in the World of Balance"
+    0x10c: "a1:10 Figaro Castle lies in the western desert in the World of Balance"
+    0x10d: "a1:20 Wound the clock"
+    0x10e: "a1:40 Named Setzer (useless?)"
+    0x10f: "a1:80 Unused?"
+    0x110: "a2:01 Ultros threatened to disrupt the opera"
+    0x111: "a2:02 Celes performed admirably"
+    0x112: "a2:04 Correctly assembled the message in Darill's Tomb"
+    0x113: "a2:08 Ejected from the Opera House 1"
+    0x114: "a2:10 Ejected from the Opera House 2"
+    0x115: "a2:20 Ejected from the Opera House 3"
+    0x116: "a2:40 The elder of Esperville unveiled his audacious plan"
+    0x117: "a2:80 Madonna took Terra to the gate"
+    0x118: "a3:01 A wind blew the soldiers and Gestahl through the gate"
+    0x119: "a3:02 Shadow left during the overture"
+    0x11a: "a3:04 Unused?"
+    0x11b: "a3:08 Unused?"
+    0x11c: "a3:10 Unused?"
+    0x11d: "a3:20 Unused?"
+    0x11e: "a3:40 Unused?"
+    0x11f: "a3:80 Unused?"
+    0x120: "a4:01 Unused?"
+    0x121: "a4:02 Unused?"
+    0x122: "a4:04 Unused?"
+    0x123: "a4:08 Can jump on the turtle in Figaro Cave"
+    0x124: "a4:10 Serves to determine the number of members in the active party 1"
+    0x125: "a4:20 Serves to determine the number of members in the active party 2"
+    0x126: "a4:40 Serves to determine the number of members in the active party 3"
+    0x127: "a4:80 Serves to ensure that branching always occurs 1 (always remains clear)"
+    0x128: "a5:01 Introductory battle 1"
+    0x129: "a5:02 Introductory battle 2"
+    0x12a: "a5:04 Introductory battle 3"
+    0x12b: "a5:08 Wedge commented on the mines"
+    0x12c: "a5:10 Vicks destroyed the gate"
+    0x12d: "a5:20 The Narshe guards spotted Terra on the bridge"
+    0x12e: "a5:40 Terra fell through a hole in the mines"
+    0x12f: "a5:80 Enables action queues for NPCs in the Moogle tripartite battle area"
+    0x130: "a6:01 Introductory battle 4"
+    0x131: "a6:02 Introductory battle 5"
+    0x132: "a6:04 Initiated the tripartite battle with Kefka"
+    0x133: "a6:08 Disables the Save Point tutorial"
+    0x134: "a6:10 Disables the Chocobo tutorial"
+    0x135: "a6:20 Defeated Whelk"
+    0x136: "a6:40 Fought Guard x2 at Vector"
+    0x137: "a6:80 Forces a battle with Guardian at the Imperial Castle"
+    0x138: "a7:01 Guardian is encountered differently at the Imperial Castle"
+    0x139: "a7:02 Disables action queues for the soldiers on the snowfield"
+    0x13a: "a7:04 Received word that the Emperor is expecting us"
+    0x13b: "a7:08 Saw the hooded man walk northward in the Imperial Castle"
+    0x13c: "a7:10 Dinner preparations have concluded"
+    0x13d: "a7:20 Unused?"
+    0x13e: "a7:40 Defeated green soldier 1 once on the snowfield"
+    0x13f: "a7:80 Defeated green soldier 2 once on the snowfield"
+    0x140: "a8:01 Defeated green soldier 3 once on the snowfield"
+    0x141: "a8:02 Defeated green soldier 4 once on the snowfield"
+    0x142: "a8:04 Defeated green soldier 5 once on the snowfield"
+    0x143: "a8:08 Defeated green soldier 6 once on the snowfield"
+    0x144: "a8:10 Defeated brown soldier 1 once on the snowfield"
+    0x145: "a8:20 Defeated brown soldier 2 once on the snowfield"
+    0x146: "a8:40 Defeated brown soldier 3 once on the snowfield"
+    0x147: "a8:80 Defeated brown soldier 4 once on the snowfield"
+    0x148: "a9:01 Defeated brown soldier 5 once on the snowfield"
+    0x149: "a9:02 Unused?"
+    0x14a: "a9:04 Unused?"
+    0x14b: "a9:08 Unused?"
+    0x14c: "a9:10 Unused?"
+    0x14d: "a9:20 Unused?"
+    0x14e: "a9:40 Unused?"
+    0x14f: "a9:80 Talked to 1 soldier"
+    0x150: "aa:01 Unused?"
+    0x151: "aa:02 Named Cyan"
+    0x152: "aa:04 Unused?"
+    0x153: "aa:08 Unused?"
+    0x154: "aa:10 Unused?"
+    0x155: "aa:20 Fought Templar x2, Soldier x2"
+    0x156: "aa:40 Fought Nightshade x3"
+    0x157: "aa:80 Unused?"
+    0x158: "ab:01 Unused?"
+    0x159: "ab:02 Unused?"
+    0x15a: "ab:04 Talked to Locke at the Returners' Hideout"
+    0x15b: "ab:08 Talked to Sabin at the Returners' Hideout"
+    0x15c: "ab:10 Talked to Edgar at the Returners' Hideout"
+    0x15d: "ab:20 The guard said Banon went outside (can be set repeatedly; useless?)"
+    0x15e: "ab:40 Abbreviates the exchange between Terra and Locke at Returners' Hideout"
+    0x15f: "ab:80 Unused?"
+    0x160: "ac:01 Unused?"
+    0x161: "ac:02 Unused?"
+    0x162: "ac:04 Recruited Shadow during Sabin's scenario (useless?)"
+    0x163: "ac:08 Unused?"
+    0x164: "ac:10 Unused?"
+    0x165: "ac:20 Unused?"
+    0x166: "ac:40 Unused?"
+    0x167: "ac:80 The party walked systematically after \"Uncontrollable Cyan battle 3\""
+    0x168: "ad:01 The party'll walk systematically after \"Uncontrollable Cyan battle 3\""
+    0x169: "ad:02 Met the mounted merchant"
+    0x16a: "ad:04 Left the scrap of paper on the floor"
+    0x16b: "ad:08 Noticed the scrap of paper"
+    0x16c: "ad:10 Bought ZoneSeek at the Auction House"
+    0x16d: "ad:20 Bought Golem at the Auction House"
+    0x16e: "ad:40 Threw the switch in the Cave in the Veldt"
+    0x16f: "ad:80 Learned how to operate the airship"
+    0x170: "ae:01 The world map is no longer loaded automatically when using the wheel"
+    0x171: "ae:02 Fought M-TekArmor x2 at the Imperial camp (optional)"
+    0x172: "ae:04 Noticed the absence of soldiers at the Imperial base"
+    0x173: "ae:08 Generates a doorway in the Cave to the Sealed Gate 1"
+    0x174: "ae:10 Constructs the \"grand stairway\" in the Cave to the Sealed Gate"
+    0x175: "ae:20 Generates a doorway in the Cave to the Sealed Gate 2"
+    0x176: "ae:40 Serves to ensure that branching always occurs 2 (always remains clear)"
+    0x177: "ae:80 (Set during an unused event involving Owzer. Seems useless.)"
+    0x178: "af:01 Met Gungho in the World of Balance (cleared eventually)"
+    0x179: "af:02 Multipurpose bit (cleared manually)"
+    0x17a: "af:04 Removes a barrier in the Phantom Train (World of Ruin)"
+    0x17b: "af:08 Multipurpose bit (cleared manually)"
+    0x17c: "af:10 Multipurpose bit (cleared manually)"
+    0x17d: "af:20 Multipurpose bit (cleared manually)"
+    0x17e: "af:40 Multipurpose bit (cleared manually)"
+    0x17f: "af:80 Removes a barrier in the Phantom Train (World of Balance)"
+    0x180: "b0:01 Multipurpose bit (cleared manually)"
+    0x181: "b0:02 The first warp point in Ebot's Rock pseudo-randomly selects a location"
+    0x182: "b0:04 Introduced the idea of detaching the rear train cars"
+    0x183: "b0:08 Detached the rear train cars"
+    0x184: "b0:10 Multipurpose bit (cleared manually)"
+    0x185: "b0:20 Multipurpose bit (cleared manually)"
+    0x186: "b0:40 Multipurpose bit (cleared manually)"
+    0x187: "b0:80 Multipurpose bit (cleared manually)"
+    0x188: "b1:01 Disables the scene with Siegfried in the Phantom Train (never set)"
+    0x189: "b1:02 Confronted Dream Stooge 1"
+    0x18a: "b1:04 The Empire invaded Thamasa (cleared eventually)"
+    0x18b: "b1:08 Confronted Dream Stooge 2"
+    0x18c: "b1:10 Extends two walkways in Gogo's lair"
+    0x18d: "b1:20 Returns Shadow to the party after leaving the train station"
+    0x18e: "b1:40 Shadow can no longer be found in Kohlingen"
+    0x18f: "b1:80 Unused? (Cleared at the beginning of the World of Ruin.)"
+    0x190: "b2:01 The house in Thamasa is burning (cleared eventually)"
+    0x191: "b2:02 (Set and subsequently cleared in Cyan's soul. Seems useless.)"
+    0x192: "b2:04 Drank from the spring in Phantom Forest"
+    0x193: "b2:08 Saw the flashback scene in Cyan's soul 1"
+    0x194: "b2:10 Saw the flashback scene in Cyan's soul 2"
+    0x195: "b2:20 Met Interceptor in the Cave in the Veldt"
+    0x196: "b2:40 Leaving Thamasa allows Shadow or Relm to recover from their wounds"
+    0x197: "b2:80 Saw Cyan escape from a ghost in Cyan's soul"
+    0x198: "b3:01 Saw the flashback scene in Cyan's soul 3"
+    0x199: "b3:02 Fought SrBehemot x2"
+    0x19a: "b3:04 Next stop, Ebot's Rock (reconfigures the world map)"
+    0x19b: "b3:08 Met the talking treasure chest"
+    0x19c: "b3:10 Defeated Hidon"
+    0x19d: "b3:20 Sabin ordered food on the Phantom Train"
+    0x19e: "b3:40 Either Shadow or Relm has partially recovered from his or her wounds"
+    0x19f: "b3:80 Either Shadow or Relm has recovered fully from his or her wounds"
+    0x1a0: "b4:01 Multipurpose bit for Terra; CaseWord bit 0"
+    0x1a1: "b4:02 Multipurpose bit for Locke; CaseWord bit 1"
+    0x1a2: "b4:04 Multipurpose bit for Cyan; CaseWord bit 2"
+    0x1a3: "b4:08 Multipurpose bit for Shadow; CaseWord bit 3"
+    0x1a4: "b4:10 Multipurpose bit for Edgar"
+    0x1a5: "b4:20 Multipurpose bit for Sabin"
+    0x1a6: "b4:40 Multipurpose bit for Celes"
+    0x1a7: "b4:80 Multipurpose bit for Strago"
+    0x1a8: "b5:01 Multipurpose bit for Relm"
+    0x1a9: "b5:02 Multipurpose bit for Setzer"
+    0x1aa: "b5:04 Multipurpose bit for Mog"
+    0x1ab: "b5:08 Multipurpose bit for Gau"
+    0x1ac: "b5:10 Multipurpose bit for Gogo"
+    0x1ad: "b5:20 Multipurpose bit for Umaro"
+    0x1ae: "b5:40 Multipurpose bit for guest 1"
+    0x1af: "b5:80 Multipurpose bit for guest 2"
+    0x1b0: "b6:01 Facing up"
+    0x1b1: "b6:02 Facing right"
+    0x1b2: "b6:04 Facing down"
+    0x1b3: "b6:08 Facing left"
+    0x1b4: "b6:10 Pressing the A button"
+    0x1b5: "b6:20 Multipurpose bit (cleared on each step)"
+    0x1b6: "b6:40 Maintains the state of NPCs (after a battle, for instance)"
+    0x1b7: "b6:80 Bear left at the fork in the Serpent Trench"
+    0x1b8: "b7:01 Alternate overworld music (extends to WoB and Serpent Trench)"
+    0x1b9: "b7:02 The airship is visible"
+    0x1ba: "b7:04 The airship is anchored"
+    0x1bb: "b7:08 Veldt music plays on the world map"
+    0x1bc: "b7:10 Unused?"
+    0x1bd: "b7:20 Unused?"
+    0x1be: "b7:40 Not enough money"
+    0x1bf: "b7:80 Enables \"Save\" in menu (cleared on each step)"
+    0x1c0: "b8:01 Unused?"
+    0x1c1: "b8:02 Disables dashing"
+    0x1c2: "b8:04 Disables menu access (cleared on Tent use)"
+    0x1c3: "b8:08 Unused?"
+    0x1c4: "b8:10 Unused?"
+    0x1c5: "b8:20 Unused?"
+    0x1c6: "b8:40 Enables the transfer of portrait data during the epilogue"
+    0x1c7: "b8:80 Unused?"
+    0x1c8: "b9:01 Unused?"
+    0x1c9: "b9:02 Unused?"
+    0x1ca: "b9:04 (This bit is manipulated in various situations. It seems useless.)"
+    0x1cb: "b9:08 Relm's theme plays in Thamasa (set for when naming Relm)"
+    0x1cc: "b9:10 Temporary song override 1 (maps only)"
+    0x1cd: "b9:20 Disables random encounters (cleared on Warp use)"
+    0x1ce: "b9:40 Enables party switching with the Y button"
+    0x1cf: "b9:80 Location event script is underway"
+    0x1d0: "ba:01 Rare item: Cider"
+    0x1d1: "ba:02 Rare item: Old Clock-Key"
+    0x1d2: "ba:04 Rare item: Fish (\"A yummy fish\")"
+    0x1d3: "ba:08 Rare item: Fish (\"Just a fish\")"
+    0x1d4: "ba:10 Rare item: Fish (\"A rotten fish\")"
+    0x1d5: "ba:20 Rare item: Fish (\"Fish\")"
+    0x1d6: "ba:40 Rare item: Lump of Metal"
+    0x1d7: "ba:80 Rare item: Lola's Letter"
+    0x1d8: "bb:01 Rare item: Coral"
+    0x1d9: "bb:02 Rare item: Books"
+    0x1da: "bb:04 Rare item: Royal Letter"
+    0x1db: "bb:08 Rare item: Rust-Rid"
+    0x1dc: "bb:10 Rare item: Autograph (unused)"
+    0x1dd: "bb:20 Rare item: Manicure (unused)"
+    0x1de: "bb:40 Rare item: Opera Record (unused)"
+    0x1df: "bb:80 Rare item: Magn.Glass (unused)"
+    0x1e0: "bc:01 Rare item: Eerie Stone (unused)"
+    0x1e1: "bc:02 Rare item: Odd Picture (unused)"
+    0x1e2: "bc:04 Rare item: Dull Picture (unused)"
+    0x1e3: "bc:08 Rare item: Pendant"
+    0x1e4: "bc:10 Unused (Stone Tablet in GBA versions)"
+    0x1e5: "bc:20 Unused (Master's Crown in GBA versions)"
+    0x1e6: "bc:40 Unused, as the SNES versions feature 20 rare item slots rather than 30"
+    0x1e7: "bc:80 Unused, as the SNES versions feature 20 rare item slots rather than 30"
+    0x1e8: "bd:01 Unused, as the SNES versions feature 20 rare item slots rather than 30"
+    0x1e9: "bd:02 Unused, as the SNES versions feature 20 rare item slots rather than 30"
+    0x1ea: "bd:04 Unused, as the SNES versions feature 20 rare item slots rather than 30"
+    0x1eb: "bd:08 Unused, as the SNES versions feature 20 rare item slots rather than 30"
+    0x1ec: "bd:10 Unused, as the SNES versions feature 20 rare item slots rather than 30"
+    0x1ed: "bd:20 Unused, as the SNES versions feature 20 rare item slots rather than 30"
+    0x1ee: "bd:40 Selected an item to bet at the colosseum"
+    0x1ef: "bd:80 Shadow is at the colosseum (cleared upon his recruitment)"
+    0x1f0: "be:01 Multipurpose bit (cleared on map load)"
+    0x1f1: "be:02 Multipurpose bit (cleared on map load)"
+    0x1f2: "be:04 Multipurpose bit (cleared on map load)"
+    0x1f3: "be:08 Multipurpose bit (cleared on map load)"
+    0x1f4: "be:10 Multipurpose bit (cleared on map load)"
+    0x1f5: "be:20 Multipurpose bit (cleared on map load)"
+    0x1f6: "be:40 Multipurpose bit (cleared on map load)"
+    0x1f7: "be:80 Multipurpose bit (cleared on map load)"
+    0x1f8: "bf:01 Multipurpose bit (cleared on map load)"
+    0x1f9: "bf:02 Multipurpose bit (cleared on map load)"
+    0x1fa: "bf:04 Multipurpose bit (cleared on map load)"
+    0x1fb: "bf:08 Multipurpose bit (cleared on map load)"
+    0x1fc: "bf:10 Multipurpose bit (cleared on map load)"
+    0x1fd: "bf:20 Multipurpose bit (cleared on map load)"
+    0x1fe: "bf:40 Multipurpose bit (cleared on map load)"
+    0x1ff: "bf:80 Multipurpose bit (cleared on map load)"
+    0x200: "c0:01 Talked to 2 soldiers"
+    0x201: "c0:02 Talked to 3 soldiers"
+    0x202: "c0:04 Talked to 4 soldiers"
+    0x203: "c0:08 Talked to 5 soldiers"
+    0x204: "c0:10 Talked to 6 soldiers"
+    0x205: "c0:20 Talked to 7 soldiers"
+    0x206: "c0:40 Talked to 8 soldiers"
+    0x207: "c0:80 Talked to 9 soldiers"
+    0x208: "c1:01 Talked to 10 soldiers"
+    0x209: "c1:02 Talked to 11 soldiers"
+    0x20a: "c1:04 Talked to 12 soldiers"
+    0x20b: "c1:08 Talked to 13 soldiers"
+    0x20c: "c1:10 Talked to 14 soldiers"
+    0x20d: "c1:20 Talked to 15 soldiers"
+    0x20e: "c1:40 Talked to 16 soldiers"
+    0x20f: "c1:80 Talked to 17 soldiers"
+    0x210: "c2:01 Talked to 18 soldiers"
+    0x211: "c2:02 Talked to 19 soldiers"
+    0x212: "c2:04 Talked to 20 soldiers"
+    0x213: "c2:08 Talked to 21 soldiers"
+    0x214: "c2:10 Talked to 22 soldiers"
+    0x215: "c2:20 Talked to 23 soldiers"
+    0x216: "c2:40 Talked to 24 soldiers"
+    0x217: "c2:80 Talked to soldier 1"
+    0x218: "c3:01 Talked to soldier 2"
+    0x219: "c3:02 Talked to soldier 3"
+    0x21a: "c3:04 Talked to soldier 4"
+    0x21b: "c3:08 Talked to soldier 5"
+    0x21c: "c3:10 Talked to soldier 6"
+    0x21d: "c3:20 Talked to soldier 7"
+    0x21e: "c3:40 Talked to soldier 8"
+    0x21f: "c3:80 Talked to soldier 9"
+    0x220: "c4:01 Talked to soldier 10"
+    0x221: "c4:02 Talked to soldier 11"
+    0x222: "c4:04 Talked to soldier 12"
+    0x223: "c4:08 Talked to soldier 13"
+    0x224: "c4:10 Talked to soldier 14"
+    0x225: "c4:20 Talked to soldier 15"
+    0x226: "c4:40 Talked to soldier 16"
+    0x227: "c4:80 Talked to soldier 17"
+    0x228: "c5:01 Talked to soldier 18"
+    0x229: "c5:02 Talked to soldier 19"
+    0x22a: "c5:04 Talked to soldier 20"
+    0x22b: "c5:08 Talked to soldier 21"
+    0x22c: "c5:10 Talked to soldier 22"
+    0x22d: "c5:20 Talked to soldier 23"
+    0x22e: "c5:40 Talked to soldier 24"
+    0x22f: "c5:80 Serves to ensure that branching always occurs 3 (always remains clear)"
+    0x230: "c6:01 Gestahl was asked one of three possible questions (pointless?)"
+    0x231: "c6:02 Gestahl was asked the first question initially"
+    0x232: "c6:04 Gestahl was asked the second question initially"
+    0x233: "c6:08 Gestahl was asked the third question initially"
+    0x234: "c6:10 Gestahl was asked the first question"
+    0x235: "c6:20 Gestahl was asked the second question"
+    0x236: "c6:40 Gestahl was asked the third question"
+    0x237: "c6:80 Fought Sp Forces x3"
+    0x238: "c7:01 Received rewards from Gestahl"
+    0x239: "c7:02 Chasing Lone Wolf 1"
+    0x23a: "c7:04 Chasing Lone Wolf 2"
+    0x23b: "c7:08 Chasing Lone Wolf 3"
+    0x23c: "c7:10 Chasing Lone Wolf 4"
+    0x23d: "c7:20 Chasing Lone Wolf 5"
+    0x23e: "c7:40 Chasing Lone Wolf 6"
+    0x23f: "c7:80 Chasing Lone Wolf 7"
+    0x240: "c8:01 Recruited Relm in the World of Ruin"
+    0x241: "c8:02 Unused?"
+    0x242: "c8:04 Saw the scene at the Imperial base leading to the airship crash"
+    0x243: "c8:08 Can climb the stairs to the art gallery without being pushed back"
+    0x244: "c8:10 Unused?"
+    0x245: "c8:20 (Set for when Gau meets his father. Its usefulness is questionable.)"
+    0x246: "c8:40 Trapped inside a flying airship (affects the Blackjack only)"
+    0x247: "c8:80 Gau met his father"
+    0x248: "c9:01 Unused?"
+    0x249: "c9:02 (Set after Gau meets his father. Seems useless.)"
+    0x24a: "c9:04 Owzer's diary can be read"
+    0x24b: "c9:08 Sabin introduced the idea that the aged man might be Gau's father"
+    0x24c: "c9:10 Brightens Owzer's basement"
+    0x24d: "c9:20 Unearthed Inviz Edge in the Cave to the Sealed Gate"
+    0x24e: "c9:40 Unearthed Water Edge in the Cave to the Sealed Gate"
+    0x24f: "c9:80 Unearthed Soft in the Cave to the Sealed Gate"
+    0x250: "ca:01 Unearthed 293 GP in the Cave to the Sealed Gate"
+    0x251: "ca:02 Turned the lights on in Owzer's house"
+    0x252: "ca:04 Fought Dahling x2"
+    0x253: "ca:08 Fought Chadarnook x2"
+    0x254: "ca:10 Fought Still Life"
+    0x255: "ca:20 Bought Hero Ring at the Auction House"
+    0x256: "ca:40 Asked Gau's father about Gestahl's map"
+    0x257: "ca:80 Boarded the raft but not for the first time"
+    0x258: "cb:01 Fought the monsters in the chair painting"
+    0x259: "cb:02 Floating chest 1"
+    0x25a: "cb:04 Floating chest 2"
+    0x25b: "cb:08 Floating chest 3"
+    0x25c: "cb:10 Floating chest 4"
+    0x25d: "cb:20 Bought Zephyr Cape at the Auction House"
+    0x25e: "cb:40 Returners plays in the Returners' Hideout; features in unused code"
+    0x25f: "cb:80 Relm has gone to Owzer's house, which is haunted (cleared eventually)"
+    0x260: "cc:01 Unused? (Terra...)"
+    0x261: "cc:02 Unused? (Locke...)"
+    0x262: "cc:04 Puts Cyan in a seat once Ultros is noticed on the girders (never set)"
+    0x263: "cc:08 Unused? (Shadow...)"
+    0x264: "cc:10 Puts Edgar in a seat once Ultros is noticed on the girders (never set)"
+    0x265: "cc:20 Puts Sabin in a seat once Ultros is noticed on the girders (never set)"
+    0x266: "cc:40 Celes was already in the party on the Floating Continent"
+    0x267: "cc:80 Unused? (Strago...)"
+    0x268: "cd:01 Unused? (Relm...)"
+    0x269: "cd:02 Unused? (Setzer...)"
+    0x26a: "cd:04 Unused? (Mog...)"
+    0x26b: "cd:08 Puts Gau in a seat once Ultros is noticed on the girders (never set)"
+    0x26c: "cd:10 Unused? (Gogo...)"
+    0x26d: "cd:20 Unused? (Umaro...)"
+    0x26e: "cd:40 Saw the scene with Gerad and the injured soldier"
+    0x26f: "cd:80 Figaro Castle bumped into something, claims the engineer"
+    0x270: "ce:01 Can grab the hook from the left side in the Magitek Factory"
+    0x271: "ce:02 Can grab the hook from the right side in the Magitek Factory"
+    0x272: "ce:04 Talked to Ifrit"
+    0x273: "ce:08 Disables the hook in the room with Ifrit and Shiva"
+    0x274: "ce:10 Talked to Shiva"
+    0x275: "ce:20 Unused?"
+    0x276: "ce:40 Imperial troops have withdrawn from South Figaro"
+    0x277: "ce:80 Imperial troops have withdrawn from Doma (useless?)"
+    0x278: "cf:01 Gained permission into the warehouse at the Imperial base (useless?)"
+    0x279: "cf:02 Adds a dummy entrance to the initial world map (set in Umaro's cave)"
+    0x27a: "cf:04 Defeated Umaro"
+    0x27b: "cf:08 Johnny C. Bad plays inside the café and the relic shop in Albrook"
+    0x27c: "cf:10 Got Sraphim"
+    0x27d: "cf:20 Kefka unleashed his Light of Judgment on Tzen"
+    0x27e: "cf:40 Another letter has arrived"
+    0x27f: "cf:80 Read Lola's letter 1"
+    0x280: "d0:01 Read Lola's letter 2"
+    0x281: "d0:02 Read Lola's letter 3"
+    0x282: "d0:04 Read Lola's letter 4"
+    0x283: "d0:08 Read Lola's letter 5"
+    0x284: "d0:10 Posted letter 1"
+    0x285: "d0:20 Posted record"
+    0x286: "d0:40 Posted Tonic"
+    0x287: "d0:80 Posted letter 2"
+    0x288: "d1:01 Posted book"
+    0x289: "d1:02 Met the injured lad"
+    0x28a: "d1:04 Recruited Sabin in the World of Ruin"
+    0x28b: "d1:08 Picked up the child"
+    0x28c: "d1:10 Met Sabin in Tzen"
+    0x28d: "d1:20 Got Tintinabar from the injured lad"
+    0x28e: "d1:40 Saw the scene with the barking dogs in Mobliz"
+    0x28f: "d1:80 Met Terra in Mobliz"
+    0x290: "d2:01 Saw the scene in which Terra claims she has lost her will to fight"
+    0x291: "d2:02 Fought Phunbaba the first time"
+    0x292: "d2:04 Saw the scene with Terra, Duane, and Katarin in the secret room"
+    0x293: "d2:08 Saw the dog walk behind the bookshelf"
+    0x294: "d2:10 Met Lola in the World of Ruin"
+    0x295: "d2:20 Noticed the resemblance to Cyan's handwriting"
+    0x296: "d2:40 Consented to attach Lola's reply to a carrier pigeon"
+    0x297: "d2:80 Found the key to Cyan's treasure chest"
+    0x298: "d3:01 Attached Lola's reply to a carrier pigeon"
+    0x299: "d3:02 Released Storm Drgn"
+    0x29a: "d3:04 Defeated Storm Drgn"
+    0x29b: "d3:08 Met Lone Wolf in the World of Ruin"
+    0x29c: "d3:10 Cyan and Lola met each other"
+    0x29d: "d3:20 Cyan exchanged the letters"
+    0x29e: "d3:40 Got Tritoch"
+    0x29f: "d3:80 Recruited Mog in the World of Balance"
+    0x2a0: "d4:01 (Set repeatedly in Narshe in the World of Ruin. Seems useless.)"
+    0x2a1: "d4:02 Unused?"
+    0x2a2: "d4:04 Party 1 is standing on a switch in Phoenix Cave 1"
+    0x2a3: "d4:08 Party 1 is standing on a switch in Phoenix Cave 2"
+    0x2a4: "d4:10 Spikes have been temporarily lowered 1"
+    0x2a5: "d4:20 Extends a bridge in Phoenix Cave"
+    0x2a6: "d4:40 Party 2 is standing on a switch in Phoenix Cave 1"
+    0x2a7: "d4:80 Party 2 is standing on a switch in Phoenix Cave 2"
+    0x2a8: "d5:01 Lays stepping stones over the lava in Phoenix Cave"
+    0x2a9: "d5:02 Spikes have been temporarily lowered 2"
+    0x2aa: "d5:04 Puts the platform on the left in Phoenix Cave"
+    0x2ab: "d5:08 Prevents resetting timers upon annihilation 1 (always remains clear?)"
+    0x2ac: "d5:10 Prevents resetting timers upon annihilation 2 (always remains clear?)"
+    0x2ad: "d5:20 Prevents resetting timers upon annihilation 3 (always remains clear?)"
+    0x2ae: "d5:40 Prevents resetting timers upon annihilation 4 (always remains clear?)"
+    0x2af: "d5:80 Sabin learned Bum Rush from Duncan"
+    0x2b0: "d6:01 (Set repeatedly in Nikeah in the World of Ruin. Seems useless.)"
+    0x2b1: "d6:02 Generates a doorway in Darill's Tomb 1"
+    0x2b2: "d6:04 Defeated Dullahan"
+    0x2b3: "d6:08 Raises the water level in Darill's Tomb 1"
+    0x2b4: "d6:10 Relocates a turtle in Darill's Tomb 1 (cleared on Warp use)"
+    0x2b5: "d6:20 Raises the water level in Darill's Tomb 2"
+    0x2b6: "d6:40 Relocates a turtle in Darill's Tomb 2 (cleared on Warp use)"
+    0x2b7: "d6:80 The prison door is open"
+    0x2b8: "d7:01 Generates a doorway in Darill's Tomb 2"
+    0x2b9: "d7:02 Figaro Castle continues its journey by travelling toward Kohlingen"
+    0x2ba: "d7:04 Saw the duel scene of the opera"
+    0x2bb: "d7:08 Bet Striker to fight Shadow (cleared with any other match-up)"
+    0x2bc: "d7:10 Temporary song override 2 (battles only)"
+    0x2bd: "d7:20 Hides the party on map 3 (set for rise of Floating Continent)"
+    0x2be: "d7:40 Warp handler for Kefka's Tower"
+    0x2bf: "d7:80 Warp handler for Phoenix Cave (useless; Dragon's Den in GBA versions)"
+    0x2c0: "d8:01 Cinematic effect from the epilogue"
+    0x2c1: "d8:02 Unused?"
+    0x2c2: "d8:04 Unused?"
+    0x2c3: "d8:08 Unused?"
+    0x2c4: "d8:10 Multipurpose bit (cleared on each step taken by party 1)"
+    0x2c5: "d8:20 Multipurpose bit (cleared on each step taken by party 1)"
+    0x2c6: "d8:40 Multipurpose bit (cleared on each step taken by party 1)"
+    0x2c7: "d8:80 Multipurpose bit (cleared on each step taken by party 1)"
+    0x2c8: "d9:01 Multipurpose bit (cleared on each step taken by party 2)"
+    0x2c9: "d9:02 Multipurpose bit (cleared on each step taken by party 2)"
+    0x2ca: "d9:04 Multipurpose bit (cleared on each step taken by party 2)"
+    0x2cb: "d9:08 Multipurpose bit (cleared on each step taken by party 2)"
+    0x2cc: "d9:10 Multipurpose bit (cleared on each step taken by party 3)"
+    0x2cd: "d9:20 Multipurpose bit (cleared on each step taken by party 3)"
+    0x2ce: "d9:40 Multipurpose bit (cleared on each step taken by party 3)"
+    0x2cf: "d9:80 Multipurpose bit (cleared on each step taken by party 3)"
+    0x2d0: "da:01 Drained the water in Phoenix Cave"
+    0x2d1: "da:02 Spikes have been temporarily lowered 3"
+    0x2d2: "da:04 Party 1 has temporarily rearranged stones in Phoenix Cave"
+    0x2d3: "da:08 Party 2 has temporarily rearranged stones in Phoenix Cave"
+    0x2d4: "da:10 Party 1 has temporarily created stepping stones in Phoenix Cave"
+    0x2d5: "da:20 Party 2 has temporarily created stepping stones in Phoenix Cave"
+    0x2d6: "da:40 Lowers a platform in Phoenix Cave"
+    0x2d7: "da:80 Got Fenrir"
+    0x2d8: "db:01 Saw the scene about the security checkpoint in Narshe"
+    0x2d9: "db:02 Disables music in Rachel's house"
+    0x2da: "db:04 Stepped in front of the Gem Box chest"
+    0x2db: "db:08 Defeated MagiMaster"
+    0x2dc: "db:10 Pressed the switch in the Fanatics' Tower"
+    0x2dd: "db:20 Got Raiden"
+    0x2de: "db:40 Pressed the switch in the Ancient Castle"
+    0x2df: "db:80 Saw the flashback scene in the Ancient Castle"
+    0x2e0: "dc:01 Terra is in shop, item menu, and Gogo's status screen"
+    0x2e1: "dc:02 Locke is in shop, item menu, and Gogo's status screen"
+    0x2e2: "dc:04 Cyan is in shop, item menu, and Gogo's status screen"
+    0x2e3: "dc:08 Shadow is in shop, item menu, and Gogo's status screen"
+    0x2e4: "dc:10 Edgar is in shop, item menu, and Gogo's status screen"
+    0x2e5: "dc:20 Sabin is in shop, item menu, and Gogo's status screen"
+    0x2e6: "dc:40 Celes is in shop, item menu, and Gogo's status screen"
+    0x2e7: "dc:80 Strago is in shop, item menu, and Gogo's status screen"
+    0x2e8: "dd:01 Relm is in shop, item menu, and Gogo's status screen"
+    0x2e9: "dd:02 Setzer is in shop, item menu, and Gogo's status screen"
+    0x2ea: "dd:04 Mog is in shop, item menu, and Gogo's status screen"
+    0x2eb: "dd:08 Gau is in shop, item menu, and Gogo's status screen"
+    0x2ec: "dd:10 Gogo is in shop, item menu, and Gogo's status screen"
+    0x2ed: "dd:20 Umaro is in shop, item menu, and Gogo's status screen"
+    0x2ee: "dd:40 Guest 1 is in shop, item menu, and Gogo's status screen"
+    0x2ef: "dd:80 Guest 2 is in shop, item menu, and Gogo's status screen"
+    0x2f0: "de:01 Terra is available"
+    0x2f1: "de:02 Locke is available"
+    0x2f2: "de:04 Cyan is available"
+    0x2f3: "de:08 Shadow is available"
+    0x2f4: "de:10 Edgar is available"
+    0x2f5: "de:20 Sabin is available"
+    0x2f6: "de:40 Celes is available"
+    0x2f7: "de:80 Strago is available"
+    0x2f8: "df:01 Relm is available"
+    0x2f9: "df:02 Setzer is available"
+    0x2fa: "df:04 Mog is available"
+    0x2fb: "df:08 Gau is available"
+    0x2fc: "df:10 Gogo is available"
+    0x2fd: "df:20 Umaro is available"
+    0x2fe: "df:40 The game proceeds normally after the opening credits"
+    0x2ff: "df:80 Interrupted opening credits"
+contexts:
+  standard:
+    instructions:
+      0x00:
+        comment: "Action queue ({queue_length} bytes): Character {character}"
+        mask: 0xc0
+        range: [0x00, 0x2f]
+        length: 2
+        fields:
+          character:
+            mask: 0xff00
+          queue_length:
+            mask: 0x007f
+          asynchronous:
+            mask: 0x0080
+        context: "movement"
+      0x30:
+        comment: "Action queue ({queue_length} bytes): Camera"
+        inherit: 0x00
+        mask: 0xff
+        range: null
+        context: "movement"
+      0x31:
+        comment: "Action queue ({queue_length} bytes): Party Member {party_member}"
+        inherit: 0x00
+        mask: 0xf8
+        range: [0x31, 0x34]
+        fields:
+          character: null
+          party_member:
+            mask: 0x0700
+          queue_length:
+            mask: 0x007f
+          asynchronous:
+            mask: 0x0080
+        context: "movement"
+      0x35:
+        comment: "Wait for action queue {queue_index:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          queue_index:
+            mask: 0x00ff
+      0x36:
+        comment: "Character {character:0>2x}: disable phasing"
+        mask: 0xff
+        length: 2
+        fields:
+          character:
+            mask: 0x00ff
+      0x37:
+        comment: "Assign sprite {sprite:0>2x} to character {character:0>2x}"
+        mask: 0xff
+        length: 3
+        fields:
+          character:
+            mask: 0x00ff00
+          sprite:
+            mask: 0x0000ff
+      0x38:
+        comment: "Hold screen"
+        mask: 0xff
+      0x39:
+        comment: "Free screen"
+        mask: 0xff
+      0x3a:
+        comment: "Player can move during event execution"
+        mask: 0xff
+      0x3b:
+        comment: "Ready-to-go stance"
+        mask: 0xff
+      0x3c:
+        comment: "Temporarily rearrange party for cutscene"
+        mask: 0xff
+        length: 5
+        fields:
+          character1:
+            mask: 0x00ff000000
+          character2:
+            mask: 0x0000ff0000
+          character3:
+            mask: 0x000000ff00
+          character4:
+            mask: 0x00000000ff
+      0x3d:
+        comment: "Create object {object:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          object:
+            mask: 0x00ff
+      0x3e:
+        comment: "Delete object {object:0>2x}"
+        inherit: 0x3d
+        mask: 0xff
+      0x3f:
+        comment: "Assign character {character:0>2x} to party {party}"
+        mask: 0xff
+        length: 3
+        fields:
+          character:
+            mask: 0x00ff00
+          party:
+            mask: 0x0000ff
+      0x40:
+        comment: "Assign character {character:0>2x} properties {properties:0>2x}"
+        mask: 0xff
+        length: 3
+        fields:
+          character:
+            mask: 0x00ff00
+          properties:
+            mask: 0x0000ff
+      0x41:
+        comment: "Show object {object:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          object:
+            mask: 0x00ff
+      0x42:
+        comment: "Hide object {object:0>2x}"
+        inherit: 0x41
+        mask: 0xff
+      0x43:
+        comment: "Assign palette {palette:0>2x} to character {character:0>2x}"
+        mask: 0xff
+        length: 3
+        fields:
+          character:
+            mask: 0x00ff00
+          palette:
+            mask: 0x0000ff
+      0x44:
+        comment: "Place character {character:0>2x} on vehicle {vehicle:0>2x}, visibility {visibility}"
+        mask: 0xff
+        length: 3
+        fields:
+          character:
+            mask: 0x00ff00
+          vehicle:
+            mask: 0x00007f
+          visibility:
+            mask: 0x000080
+      0x45:
+        comment: "Refresh objects"
+        mask: 0xff
+      0x46:
+        comment: "Make party {party} the active party"
+        mask: 0xff
+        length: 2
+        fields:
+          party:
+            mask: 0x00ff
+      0x47:
+        comment: "Make party member 0 the leader"
+        mask: 0xff
+      0x48:
+        comment: "Display message {message:0>3x} and continue"
+        mask: 0xff
+        length: 3
+        fields:
+          message:
+            mask: 0x00ff3f
+          window_position:
+            mask: 0x000040
+          window_visibility:
+            mask: 0x000080
+      0x49:
+        comment: "Dialogue wait for input"
+        mask: 0xff
+      0x4b:
+        comment: "Display message {message:0>3x} and wait"
+        inherit: 0x48
+        mask: 0xff
+      0x4c:
+        comment: "Invoke battle with formation {formation:0>2x}, background {background:0>2x}, swish {swish}, mosaic {mosaic}, center camera"
+        mask: 0xff
+        length: 3
+        fields:
+          formation:
+            mask: 0x00ff00
+          background:
+            mask: 0x00003f
+          swish:
+            mask: 0x000040
+          mosaic:
+            mask: 0x000080
+      0x4d:
+        comment: "Invoke battle with formation {formation:0>2x}, background {background:0>2x}, swish {swish}, mosaic {mosaic}"
+        inherit: 0x4c
+        mask: 0xff
+      0x4e:
+        comment: "Rewind and invoke battle"
+        mask: 0xff
+      0x4f:
+        comment: "Exit the current location"
+        mask: 0xff
+      0x50:
+        comment: "Tint screen (color: {color:0>2x}, cumulative)"
+        mask: 0xff
+        length: 2
+        fields:
+          color:
+            mask: 0x00ff
+      0x51:
+        comment: "Tint palette range {start:0>2x}-{finish:0>2x} (color: {color:0>2x})"
+        mask: 0xff
+        length: 4
+        fields:
+          color:
+            mask: 0x00ff0000
+          start:
+            mask: 0x0000ff00
+          finish:
+            mask: 0x000000ff
+      0x52:
+        comment: "Tint sprites (color: {color:0>2x}, cumulative)"
+        inherit: 0x50
+        mask: 0xff
+      0x53:
+        comment: "Tint sprite palette range {start:0>2x}-{finish:0>2x} (color: {color:0>2x})"
+        inherit: 0x51
+        mask: 0xff
+      0x54:
+        comment: "Return screen colors to normal"
+        mask: 0xff
+      0x55:
+        comment: "Flash screen (color: {color:x}, intensity: {intensity:0>2x})"
+        mask: 0xff
+        length: 2
+        fields:
+          intensity:
+            mask: 0x001f
+          color:
+            mask: 0x00e0
+      0x56:
+        comment: "Colorize screen (color: {color:x}, intensity: {intensity:0>2x})"
+        inherit: 0x55
+        mask: 0xff
+      0x57:
+        comment: "Decrease colors (color: {color:x}, intensity: {intensity:0>2x})"
+        inherit: 0x55
+        mask: 0xff
+      0x58:
+        comment: "Shake screen, intensity {intensity}, layers {layers:x}, permanence {permanent}"
+        mask: 0xff
+        length: 2
+        fields:
+          intensity:
+            mask: 0x0003
+          permanent:
+            mask: 0x000c
+          layers:
+            mask: 0x00f0
+      0x59:
+        comment: "Fade in with speed {speed:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          speed:
+            mask: 0x00ff
+      0x5a:
+        comment: "Fade out with speed {speed:0>2x}"
+        inherit: 0x59
+        mask: 0xff
+      0x5c:
+        comment: "Wait for fade"
+        mask: 0xff
+      0x5d:
+        comment: "Scroll Layer 1 (speed: {x:0>2x},{y:0>2x})"
+        mask: 0xff
+        length: 3
+        fields:
+          x:
+            mask: 0x00ff00
+          y:
+            mask: 0x0000ff
+      0x5e:
+        comment: "Scroll Layer 2 (speed: {x:0>2x},{y:0>2x})"
+        inherit: 0x5d
+        mask: 0xff
+      0x5f:
+        comment: "Scroll Layer 3 (speed: {x:0>2x},{y:0>2x})"
+        inherit: 0x5d
+        mask: 0xff
+      0x60:
+        comment: "For object type {objects:0>2x}, set palette to {palette:0>2x}"
+        mask: 0xff
+        length: 3
+        fields:
+          objects:
+            mask: 0x00ff00
+          palette:
+            mask: 0x0000ff
+      0x61:
+        comment: "Colorize palette range {start:0>2x}-{finish:0>2x} (color: {color:0>2x})"
+        inherit: 0x51
+        mask: 0xff
+      0x62:
+        comment: "Mosaic screen with speed {speed}"
+        mask: 0xff
+        length: 2
+        fields:
+          speed:
+            mask: 0x00ff
+      0x63:
+        comment: "Create spotlight with radius {radius}"
+        mask: 0xff
+        length: 2
+        fields:
+          radius:
+            mask: 0x00ff
+      0x65:
+        comment: "Unknown {a:0>2x} {b:0>2x}"
+        mask: 0xff
+        length: 3
+        fields:
+          a:
+            mask: 0x00ff00
+          b:
+            mask: 0x0000ff
+      0x6a:
+        comment: "Fade out & load map {map_index:0>3x} ({x:0>2x},{y:0>2x})"
+        mask: 0xff
+        length: 6
+        fields:
+          map_index:
+            mask: 0x00ff01000000
+          unknown1:
+            mask: 0x000002000000
+          continuous_music:
+            mask: 0x000004000000
+          unknown2:
+            mask: 0x000008000000
+          facing:
+            mask: 0x000030000000
+          x:
+            mask: 0x000000ff0000
+          y:
+            mask: 0x00000000ff00
+          in_airship:
+            mask: 0x000000000001
+          on_chocobo:
+            mask: 0x000000000002
+          wait_fade:
+            mask: 0x000000000040
+          run_map_event:
+            mask: 0x000000000080
+      0x6b:
+        comment: "Load map {map_index:0>3x} ({x:0>2x},{y:0>2x})"
+        inherit: 0x6a
+        mask: 0xff
+      0x6c:
+        comment: "Set parent location to {map_index:0>3x} ({x:0>2x},{y:0>2x}) facing {facing:x}"
+        mask: 0xff
+        length: 6
+        fields:
+          map_index:
+            mask: 0x00ffff000000
+          x:
+            mask: 0x000000ff0000
+          y:
+            mask: 0x00000000ff00
+          facing:
+            mask: 0x000000000003
+      0x70:
+        comment: "Scroll Layer 1 (speed: {x:0>2x},{y:0>2x}) (duplicate)"
+        inherit: 0x5d
+        mask: 0xff
+      0x71:
+        comment: "Scroll Layer 2 (speed: {x:0>2x},{y:0>2x}) (duplicate)"
+        inherit: 0x5e
+        mask: 0xff
+      0x72:
+        comment: "Scroll Layer 3 (speed: {x:0>2x},{y:0>2x}) (duplicate)"
+        inherit: 0x5f
+        mask: 0xff
+      0x73:
+        comment: "Replace {width}x{height} tiles at layer {layer} ({x:0>2x},{y:0>2x}) (immediately)"
+        mask: 0xff
+        length: 5+
+        fields:
+          x:
+            mask: 0x00ff000000
+          y:
+            mask: 0x00003f0000
+          layer:
+            mask: 0x0000c00000
+          height:
+            mask: 0x000000ff00
+          width:
+            mask: 0x00000000ff
+          data:
+            mask: variable
+            is_bytes: true
+      0x74:
+        comment: "Replace {width}x{height} tiles at layer {layer} ({x:0>2x},{y:0>2x}) (after refresh)"
+        inherit: 0x73
+        mask: 0xff
+      0x75:
+        comment: "Refresh map"
+        mask: 0xff
+      0x77:
+        comment: "Do level averaging for character {character:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          character:
+            mask: 0x00ff
+      0x78:
+        comment: "Character {character:0>2x}: enable phasing"
+        mask: 0xff
+        length: 2
+        fields:
+          character:
+            mask: 0x00ff
+      0x79:
+        comment: "Place party {party:x} on map {map_index:0>3x}"
+        mask: 0xff
+        length: 4
+        fields:
+          party:
+            mask: 0x00030000
+          unknown:
+            mask: 0x00fc0000
+          map_index:
+            mask: 0x0000ff01
+      0x7a:
+        comment: "Assign event address {event:0>5x} to NPC {object:0>2x}"
+        mask: 0xff
+        length: 5
+        fields:
+          object:
+            mask: 0x00ff000000
+          event:
+            mask: 0x0000ffffff
+            is_pointer: true
+            virtual_address: 0
+      0x7b:
+        comment: "Restore backup party to active status"
+        mask: 0xff
+      0x7c:
+        comment: "Enable contact event for NPC {object:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          object:
+            mask: 0x00ff
+      0x7e:
+        comment: "Move characters to ({x:0>2x}, {y:0>2x})"
+        mask: 0xff
+        length: 3
+        fields:
+          x:
+            mask: 0x00ff00
+          y:
+            mask: 0x0000ff
+      0x7f:
+        comment: "Assign name {name:0>2x} to character {character:0>2x}"
+        mask: 0xff
+        length: 3
+        fields:
+          character:
+            mask: 0x00ff00
+          name:
+            mask: 0x0000ff
+      0x80:
+        comment: "Receive item {item:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          item:
+            mask: 0x00ff
+      0x81:
+        comment: "Lose item {item:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          item:
+            mask: 0x00ff
+      0x82:
+        comment: "Store party 1 as backup party (in $055d)"
+        mask: 0xff
+      0x84:
+        comment: "Gain {gp} GP"
+        mask: 0xff
+        length: 3
+        fields:
+          gp:
+            mask: 0x00ffff
+      0x85:
+        comment: "Lose {gp} GP"
+        mask: 0xff
+        length: 3
+        fields:
+          gp:
+            mask: 0x00ffff
+      0x86:
+        comment: "Receive esper {esper:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          esper:
+            mask: 0x00ff
+      0x87:
+        comment: "Lose esper {esper:0>2x}"
+        inherit: 0x86
+      0x88:
+        comment: "Remove ailments {ailments:0>4x} from character {character:0>2x}"
+        mask: 0xff
+        length: 4
+        fields:
+          character:
+            mask: 0x00ff0000
+          ailments:
+            mask: 0x0000ffff
+      0x89:
+        comment: "Inflict ailments {ailments:0>4x} on character {character:0>2x}"
+        inherit: 0x88
+        mask: 0xff
+      0x8a:
+        comment: "Toggle ailments {ailments:0>4x} on character {character:0>2x}"
+        inherit: 0x88
+        mask: 0xff
+      0x8b:
+        comment: "Modify HP of character {character:0>2x}, value {value:0>2x}, negative flag {negative}"
+        mask: 0xff
+        length: 3
+        fields:
+          character:
+            mask: 0x00ff00
+          value:
+            mask: 0x00007f
+          negative:
+            mask: 0x000080
+      0x8c:
+        comment: "Modify MP of character {character:0>2x}, value {value:0>2x}, negative flag {negative}"
+        inherit: 0x8b
+        mask: 0xff
+      0x8d:
+        comment: "Remove equipment from character {character:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          character:
+            mask: 0x00ff
+      0x8e:
+        comment: "Invoke battle: Monster-in-a-Box"
+        mask: 0xff
+      0x8f:
+        comment: "Unlock all SwdTechs"
+        mask: 0xff
+      0x90:
+        comment: "Learn Bum Rush"
+        mask: 0xff
+      0x91:
+        comment: "Wait 15 frames"
+        mask: 0xff
+      0x92:
+        comment: "Wait 30 frames"
+        mask: 0xff
+      0x93:
+        comment: "Wait 45 frames"
+        mask: 0xff
+      0x94:
+        comment: "Wait 60 frames"
+        mask: 0xff
+      0x95:
+        comment: "Wait 120 frames"
+        mask: 0xff
+      0x96:
+        comment: "Fade in"
+        mask: 0xff
+      0x97:
+        comment: "Fade out"
+        mask: 0xff
+      0x98:
+        comment: "Invoke name change screen for character {character:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          character:
+            mask: 0x00ff
+      0x99:
+        comment: "Party selection ({num_groups} groups, {fixed_members:0>4x} fixed)"
+        mask: 0xff
+        length: 4
+        fields:
+          num_groups:
+            mask: 0x00030000
+          unknown1:
+            mask: 0x007c0000
+          unknown_bit:
+            mask: 0x00800000
+          fixed_members:
+            mask: 0x0000ffff
+      0x9a:
+        comment: "Invoke Colosseum item selection screen"
+        mask: 0xff
+      0x9b:
+        comment: "Call shop {shop:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          shop:
+            mask: 0x00ff
+      0x9c:
+        comment: "Optimize character {character:0>2x}'s equipment"
+        mask: 0xff
+        length: 2
+        fields:
+          character:
+            mask: 0x00ff
+      0x9d:
+        comment: "Invoke final battle party selection"
+        mask: 0xff
+      0xa0:
+        comment: "Start timer {timer}, {frames} frames, call {address}, flags {menu_visibility}/{interrupt_menu}/{field_visibility}/{menu_pause}"
+        mask: 0xff
+        length: 6
+        fields:
+          frames:
+            mask: 0x00ffff000000
+          address:
+            mask: 0x000000ffff03
+            is_pointer: true
+            virtual_address: 0
+          timer:
+            mask: 0x00000000000c
+          menu_visibility:
+            mask: 0x000000000010
+          interrupt_menu:
+            mask: 0x000000000020
+          field_visibility:
+            mask: 0x000000000040
+          menu_pause:
+            mask: 0x000000000080
+      0xa1:
+        comment: "Reset timer {timer}"
+        mask: 0xff
+        length: 2
+        fields:
+          timer:
+            mask: 0x00ff
+      0xa2:
+        comment: "Unknown"
+        mask: 0xff
+      0xa6:
+        comment: "Remove pyramid effect"
+        mask: 0xff
+      0xa7:
+        comment: "Create pyramid around character {character:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          character:
+            mask: 0x00ff
+      0xa8:
+        comment: "Show floating island rising"
+        mask: 0xff
+      0xa9:
+        comment: "Show title screen"
+        mask: 0xff
+      0xaa:
+        comment: "Play opening credits"
+        mask: 0xff
+      0xab:
+        comment: "Invoke game load screen"
+        mask: 0xff
+      0xac:
+        comment: "Unknown command AC"
+        mask: 0xff
+      0xad:
+        comment: "Show world getting torn apart cutscene"
+        mask: 0xff
+      0xae:
+        comment: "Show mine cart ride out of Magitek Facility"
+        mask: 0xff
+      0xaf:
+        comment: "Invoke Colosseum battle"
+        mask: 0xff
+      0xb0:
+        comment: "Repeat until end of block {repeat} times"
+        mask: 0xff
+        length: 2
+        fields:
+          repeat:
+            mask: 0x00ff
+      0xb1:
+        comment: "End repeat block"
+        mask: 0xff
+      0xb2:
+        comment: "Call subroutine: {address:x}"
+        mask: 0xff
+        length: 4
+        fields:
+          address:
+            mask: 0x00ffffff
+            is_pointer: true
+            virtual_address: 0
+      0xb3:
+        comment: "Call subroutine {times} times: {address:x}"
+        mask: 0xff
+        length: 5
+        fields:
+          times:
+            mask: 0x00ff000000
+          address:
+            mask: 0x0000ffffff
+            is_pointer: true
+            virtual_address: 0
+      0xb4:
+        comment: "Wait {delay} frames"
+        mask: 0xff
+        length: 2
+        fields:
+          delay:
+            mask: 0x00ff
+      0xb5:
+        comment: "Wait 15 * {delay} frames"
+        mask: 0xff
+        length: 2
+        fields:
+          delay:
+            mask: 0x00ff
+      0xb6:
+        comment: "Call subroutine by dialogue choice"
+        mask: 0xff
+        length: 1+
+        fields:
+          selections:
+            mask: variable
+            is_list: true
+      0xb7:
+        comment: "If battle flag {battle_flag:0>2x}, jump to {address:x}"
+        mask: 0xff
+        length: 5
+        fields:
+          battle_flag:
+            mask: 0x00ff000000
+          address:
+            mask: 0x0000ffffff
+            is_pointer: true
+            virtual_address: 0
+      0xb8:
+        comment: "Set battle flag {battle_flag:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          battle_flag:
+            mask: 0x00ff
+      0xb9:
+        comment: "Clear battle flag {battle_flag:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          battle_flag:
+            mask: 0x00ff
+      0xba:
+        comment: "Play cinematic {cinematic:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          cinematic:
+            mask: 0x00ff
+      0xbb:
+        comment: "Wait for ending theme before showing THE END"
+        mask: 0xff
+      0xbc:
+        comment: "Break repeat loop on flag {flag:0>3x}"
+        mask: 0xff
+        length: 3
+        fields:
+          flag:
+            mask: 0x00ffff
+      0xbd:
+        comment: "Randomly jump to: {address:x} (50% odds)"
+        mask: 0xff
+        length: 4
+        fields:
+          address:
+            mask: 0x00ffffff
+            is_pointer: true
+            virtual_address: 0
+      0xbe:
+        comment: "Call subroutine by CaseWord ({num_cases} options)"
+        mask: 0xff
+        length: 2+
+        fields:
+          num_cases:
+            mask: 0x00ff
+          cases:
+            mask: variable
+            is_list: true
+      0xbf:
+        comment: "Show ending airship cutscene"
+        mask: 0xff
+      0xc0:
+        comment: "If any of {num_conditions}+1 conditions, jump to {jump:x}"
+        mask: 0xf8
+        length: 1+
+        fields:
+          num_conditions:
+            mask: 0x07
+          conditions:
+            mask: variable
+            is_list: true
+          jump:
+            mask: variable
+            is_list: false
+            is_pointer: true
+      0xc8:
+        comment: "If all {num_conditions}+1 conditions, jump to {jump:x}"
+        inherit: 0xc0
+      0xd0:
+        comment: "Set/Clear flag {flag:0>3x}"
+        mask: 0xf0
+        range: [0xd0, 0xdd]
+        length: 2
+        fields:
+          value:
+            mask: 0x0100
+            prettify:
+              0: "set"
+              1: "clear"
+          flag:
+            mask: 0x0eff
+            compress_mask: true
+            byteorder: "big"
+      0xde:
+        comment: "CaseWord: set bits of active party members"
+        mask: 0xff
+      0xe0:
+        comment: "Load CaseWord: encountered characters"
+        mask: 0xff
+      0xe1:
+        comment: "Load CaseWord: recruited characters"
+        mask: 0xff
+      0xe2:
+        comment: "CaseWord: set party leader bit"
+        mask: 0xff
+      0xe3:
+        comment: "Load CaseWord: available characters"
+        mask: 0xff
+      0xe4:
+        comment: "CaseWord: set bit of active party group"
+        mask: 0xff
+      0xe7:
+        comment: "Show portrait {portrait:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          portrait:
+            mask: 0x00ff
+      0xe8:
+        comment: "Set event word {word:0>2x} to {value:0>2x}"
+        mask: 0xff
+        length: 4
+        fields:
+          word:
+            mask: 0x00ff0000
+          value:
+            mask: 0x0000ffff
+      0xe9:
+        comment: "Increment event word {word:0>2x} to {value:0>2x}"
+        mask: 0xff
+        length: 4
+        fields:
+          word:
+            mask: 0x00ff0000
+          value:
+            mask: 0x0000ffff
+      0xea:
+        comment: "Decrement event word {word:0>2x} to {value:0>2x}"
+        mask: 0xff
+        length: 4
+        fields:
+          word:
+            mask: 0x00ff0000
+          value:
+            mask: 0x0000ffff
+      0xeb:
+        comment: "Compare word {word:0>2x} to {value:0>2x} and store result in flags 1a0-1a2"
+        mask: 0xff
+        length: 4
+        fields:
+          word:
+            mask: 0x00ff0000
+          value:
+            mask: 0x0000ffff
+      0xef:
+        comment: "Play song {song:0>2x} at volume {volume:0>2x}"
+        mask: 0xff
+        length: 3
+        fields:
+          song:
+            mask: 0x007f00
+          high_bit:
+            mask: 0x008000
+          volume:
+            mask: 0x0000ff
+      0xf0:
+        comment: "Play song {song:0>2x} (full volume)"
+        mask: 0xff
+        length: 2
+        fields:
+          song:
+            mask: 0x007f
+          high_bit:
+            mask: 0x0080
+      0xf1:
+        comment: "Fade in BGM {song:0>2x} (interval {interval:0>2x})"
+        mask: 0xff
+        length: 3
+        fields:
+          song:
+            mask: 0x00ff00
+          interval:
+            mask: 0x0000ff
+      0xf2:
+        comment: "Fade out BGM (interval {interval:0>2x})"
+        mask: 0xff
+        length: 2
+        fields:
+          interval:
+            mask: 0x00ff
+      0xf3:
+        comment: "Fade in default BGM (interval {interval:0>2x})"
+        mask: 0xff
+        length: 2
+        fields:
+          interval:
+            mask: 0x00ff
+      0xf4:
+        comment: "Play sound {sound:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          sound:
+            mask: 0x00ff
+      0xf6:
+        comment: "Modify song or sound effect"
+        mask: 0xff
+        length: 4
+        fields:
+          modification:
+            mask: 0x00ff0000
+          parameter1:
+            mask: 0x0000ff00
+          parameter2:
+            mask: 0x000000ff
+      0xf7:
+        comment: "End most recent loop of currently playing song"
+        mask: 0xff
+      0xf9:
+        comment: "Wait for song to reach point: {unknown:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          unknown:
+            mask: 0x00ff
+      0xfa:
+        comment: "Stop playing song"
+        mask: 0xff
+      0xfb:
+        comment: "Add unknown effect to current sound effect"
+        mask: 0xff
+      0xfd:
+        comment: "Pause 1 frame (NOP)"
+        mask: 0xff
+      0xfe:
+        comment: "Return"
+        mask: 0xff
+        is_terminator: true
+      0xff:
+        comment: "(Conclude movement script?)"
+        mask: 0xff
+        context: "standard"
+  movement:
+    instructions:
+      0x00:
+        comment: "- Graphical action {action:x}"
+        mask: 0x80
+        fields:
+          action:
+            mask: 0x7f
+          mirrored:
+            mask: 0x80
+      0x80:
+        comment: "- Move entity"
+        mask: 0xe0
+        range: [0x80, 0x9f]
+        fields:
+          direction:
+            mask: 0x03
+          steps:
+            mask: 0x1c
+      0xa0:
+        comment: "- Move entity right/up 1x1 tiles"
+        mask: 0xff
+      0xa1:
+        comment: "- Move entity right/down 1x1 tiles"
+        mask: 0xff
+      0xa2:
+        comment: "- Move entity left/down 1x1 tiles"
+        mask: 0xff
+      0xa3:
+        comment: "- Move entity left/up 1x1 tiles"
+        mask: 0xff
+      0xa4:
+        comment: "- Move entity right/up 1x2 tiles"
+        mask: 0xff
+      0xa5:
+        comment: "- Move entity right/up 2x1 tiles"
+        mask: 0xff
+      0xa6:
+        comment: "- Move entity right/down 2x1 tiles"
+        mask: 0xff
+      0xa7:
+        comment: "- Move entity right/down 1x2 tiles"
+        mask: 0xff
+      0xa8:
+        comment: "- Move entity left/down 1x2 tiles"
+        mask: 0xff
+      0xa9:
+        comment: "- Move entity left/down 2x1 tiles"
+        mask: 0xff
+      0xaa:
+        comment: "- Move entity left/up 2x1 tiles"
+        mask: 0xff
+      0xab:
+        comment: "- Move entity left/up 1x2 tiles"
+        mask: 0xff
+      0xb0:
+        comment: "- If any of {num_conditions}+1 conditions, jump to {jump:x}"
+        mask: 0xf8
+        length: 1+
+        fields:
+          num_conditions:
+            mask: 0x07
+          conditions:
+            mask: variable
+            is_list: true
+          jump:
+            mask: variable
+            is_list: false
+            is_pointer: true
+      0xb8:
+        comment: "- If all {num_conditions}+1 conditions, jump to {jump:x}"
+        inherit: 0xb0
+      0xc0:
+        comment: "- Set entity speed"
+        mask: 0xf8
+        range: [0xc0, 0xc5]
+        fields:
+          speed:
+            mask: 0x07
+      0xc6:
+        comment: "- Set entity to walk when moving"
+        mask: 0xff
+      0xc7:
+        comment: "- Set entity to stay still when moving"
+        mask: 0xff
+      0xc8:
+        comment: "- Set entity layering priority to {priority:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          priority:
+            mask: 0x00ff
+      0xc9:
+        comment: "- Place entity on vehicle {vehicle:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          vehicle:
+            mask: 0x00ff
+      0xcc:
+        comment: "- Turn current entity up"
+        mask: 0xff
+      0xcd:
+        comment: "- Turn current entity right"
+        mask: 0xff
+      0xce:
+        comment: "- Turn current entity down"
+        mask: 0xff
+      0xcf:
+        comment: "- Turn current entity left"
+        mask: 0xff
+      0xd0:
+        comment: "- Toggle entity visibility"
+        mask: 0xff
+      0xd1:
+        comment: "- Hide current entity"
+        mask: 0xff
+      0xd2:
+        comment: "- Load map {map_index:0>3x} ({x:0>2x},{y:0>2x})"
+        mask: 0xff
+        length: 6
+        fields:
+          map_index:
+            mask: 0x00ff01000000
+          unknown1:
+            mask: 0x000002000000
+          continuous_music:
+            mask: 0x000004000000
+          unknown2:
+            mask: 0x000008000000
+          facing:
+            mask: 0x000030000000
+          x:
+            mask: 0x000000ff0000
+          y:
+            mask: 0x00000000ff00
+          in_airship:
+            mask: 0x000000000001
+          on_chocobo:
+            mask: 0x000000000002
+          wait_fade:
+            mask: 0x000000000040
+          run_map_event:
+            mask: 0x000000000080
+      0xd3:
+        inherit: 0xd2
+        mask: 0xff
+      0xd5:
+        comment: "- Set position to ({x:0>2x}, {y:0>2x})"
+        mask: 0xff
+        length: 3
+        fields:
+          x:
+            mask: 0x00ff00
+          y:
+            mask: 0x0000ff
+      0xd7:
+        comment: "- Center entity on screen"
+        mask: 0xff
+      0xd8:
+        comment: "- Unfade screen"
+        mask: 0xff
+      0xd9:
+        comment: "- Fade screen"
+        mask: 0xff
+      0xdc:
+        comment: "- Make entity jump (low)"
+        mask: 0xff
+      0xdd:
+        comment: "- Make entity jump (high)"
+        mask: 0xff
+      0xdf:
+        comment: "- Hide mini-map?"
+        mask: 0xff
+      0xe0:
+        comment: "- Pause for {frames}/60 seconds"
+        mask: 0xff
+        length: 2
+        fields:
+          frames:
+            mask: 0x00ff
+      0xe1:
+        comment: "- Set flag 0{flag:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          flag:
+            mask: 0x00ff
+      0xe2:
+        comment: "- Set flag 1{flag:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          flag:
+            mask: 0x00ff
+      0xe3:
+        comment: "- Set flag 2{flag:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          flag:
+            mask: 0x00ff
+      0xe4:
+        comment: "- Clear flag 0{flag:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          flag:
+            mask: 0x00ff
+      0xe5:
+        comment: "- Clear flag 1{flag:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          flag:
+            mask: 0x00ff
+      0xe6:
+        comment: "- Clear flag 2{flag:0>2x}"
+        mask: 0xff
+        length: 2
+        fields:
+          flag:
+            mask: 0x00ff
+      0xf9:
+        comment: "- Jump out of queue to {address:x} (for tactics battles)"
+        mask: 0xff
+        length: 4
+        fields:
+          address:
+            mask: 0x00ffffff
+            is_pointer: true
+            propagate_context: "standard"
+      0xfa:
+        comment: "- Randomly branch backward {distance:x} bytes in the queue"
+        mask: 0xff
+        length: 2
+        fields:
+          distance:
+            mask: 0x00ff
+      0xfb:
+        comment: "- Randomly branch forward {distance:x} bytes in the queue"
+        mask: 0xff
+        length: 2
+        fields:
+          distance:
+            mask: 0x00ff
+      0xfc:
+        comment: "- Branch backward {distance:x} bytes in the queue"
+        mask: 0xff
+        length: 2
+        fields:
+          distance:
+            mask: 0x00ff
+        context: "standard"
+      0xfd:
+        comment: "- Branch forward {distance:x} bytes in the queue"
+        mask: 0xff
+        length: 2
+        fields:
+          distance:
+            mask: 0x00ff
+        context: "standard"
+      0xfe:
+        comment: "- Show Figaro Castle emerging"
+        mask: 0xff
+      0xff:
+        comment: "- End queue"
+        mask: 0xff
+        context: "standard"
+  overworld:
+    inherit: "movement"
+    instructions:
+      0xfc:
+        comment: "- Become ship sprite"
+        mask: 0xff
+      0xfd:
+        comment: "- Show Figaro Castle submerging"
+        mask: 0xff
+      0xfe:
+        comment: "- Show Figaro Castle emerging"
+        mask: 0xff
+      0xc7:
+        comment: "- Place vehicle at {x:0>2x},{y:0>2x}"
+        mask: 0xff
+        length: 3
+        fields:
+          x:
+            mask: 0x00ff00
+          y:
+            mask: 0x0000ff
+  vehicle:
+    inherit: "movement"
+    instructions:
+      0x00:
+        comment: "- Move vehicle {units:0>2x} units"
+        mask: 0x80
+        length: 2
+        fields:
+          updown:
+            mask: 0x6000
+          leftright:
+            mask: 0x1800
+          forward:
+            mask: 0x0400
+          unknown:
+            mask: 0x0200
+          turnfast:
+            mask: 0x0100
+          units:
+            mask: 0x00ff
+      0xc0:
+        comment: "- Modify vehicle script behavior"
+        mask: 0xff
+        length: 2
+        fields:
+          mode7:
+            mask: 0x0010
+          strafe:
+            mask: 0x0020
+      0xc1:
+        comment: "- Set vehicle direction to {direction:0>4x}"
+        mask: 0xff
+        length: 3
+        fields:
+          direction:
+            mask: 0x00ffff
+      0xc2:
+        comment: "- Set strafe direction to {direction:0>4x}"
+        mask: 0xff
+        length: 3
+        fields:
+          direction:
+            mask: 0x00ffff
+      0xc4:
+        comment: "- Set mode 7 height to {height:0>4x}"
+        mask: 0xff
+        length: 3
+        fields:
+          height:
+            mask: 0x00ffff
+      0xc5:
+        comment: "- Set altitude to {altitude:0>2x}"
+        mask: 0xff
+        length: 3
+        fields:
+          unknown:
+            mask: 0x00ff00
+          altitude:
+            mask: 0x0000ff
+      0xc6:
+        comment: "- Propel vehicle at speed {speed:0>4x}"
+        mask: 0xff
+        length: 3
+        fields:
+          speed:
+            mask: 0x00ffff
+      0xc7:
+        comment: "- Place vehicle at {x:0>2x},{y:0>2x}"
+        mask: 0xff
+        length: 3
+        fields:
+          x:
+            mask: 0x00ff00
+          y:
+            mask: 0x0000ff
+      0xc8:
+        comment: "- Set flag {flag:0>3x}"
+        mask: 0xff
+        length: 3
+        fields:
+          flag:
+            mask: 0x00ffff
+      0xc9:
+        comment: "- Clear flag {flag:0>3x}"
+        mask: 0xff
+        length: 3
+        fields:
+          flag:
+            mask: 0x00ffff
+      0xcf:
+        comment: "Invoke battle with formation {formation:0>2x}, background {background:0>2x}, swish {swish}, mosaic {mosaic}"
+        mask: 0xff
+        length: 3
+        fields:
+          formation:
+            mask: 0x00ff00
+          background:
+            mask: 0x00003f
+          swish:
+            mask: 0x000040
+          mosaic:
+            mask: 0x000080
+      0xd0:
+        comment: "- Show vehicle"
+        mask: 0xff
+      0xd1:
+        comment: "- Hide vehicle"
+        mask: 0xff
+      0xda:
+        comment: "- Show serpent trench flashing arrows"
+        mask: 0xff
+      0xdb:
+        comment: "- Lock in serpent trench direction input"
+        mask: 0xff
+      0xdc:
+        comment: "- Hide serpent trench flashing arrows"
+        mask: 0xff
+      0xdd:
+        comment: "- Hide mini-map"
+        mask: 0xff
+      0xdf:
+        comment: "- Show mini-map"
+        mask: 0xff
+      0xf3:
+        comment: "- Show part of world getting zapped"
+        mask: 0xff
+      0xf4:
+        comment: "- Change graphic to Falcon"
+        mask: 0xff
+      0xf5:
+        comment: "- Show part of world getting zapped"
+        mask: 0xff
+      0xf7:
+        comment: "- Change graphic to pidgeon"
+        mask: 0xff
+      0xf8:
+        comment: "- Show part of world getting blown up"
+        mask: 0xff
+      0xfa:
+        comment: "- Show airship emerging from the ocean"
+        mask: 0xff
+      0xfb:
+        comment: "- Show airship smoking"
+        mask: 0xff
+      0xfc:
+        comment: "- Show airship crashing"
+        mask: 0xff
+      0xfd:
+        comment: "- Change graphic to Esper Terra"
+        mask: 0xff
+      0xfe:
+        comment: "- Show airship headed for Vector"
+        mask: 0xff
+      0xff:
+        comment: "- End vehicle script"
+        mask: 0xff
+        context: "standard"
+        is_terminator: true
