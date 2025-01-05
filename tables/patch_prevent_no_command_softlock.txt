@@ -15,4 +15,4 @@ $main
 VALIDATION
 
 02533b: b9 16 16
-        85 fc
+:       85 fc

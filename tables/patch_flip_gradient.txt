@@ -13,9 +13,9 @@
 
 # top line of battle menu is now affected by gradient
 112af:  bd f2 8b
-        99 61 eb
-        a9 82
-        99 60 eb
+:       99 61 eb
+:       a9 82
+:       99 60 eb
 
 # reverse gradient on battle messages
 1962b:  a9 ef
@@ -32,12 +32,12 @@
 
 # reverse gradient on save/load screen
 14cab3: 1f 82 10 02
-        1c 82 1c 02
-        1c 82 1c 02
-        1c 82 1c 02
+:       1c 82 1c 02
+:       1c 82 1c 02
+:       1c 82 1c 02
 
 14cac4: 17 82 76 02
-        26 82 24 02
+:       26 82 24 02
 
 VALIDATION
 342a:   d3 8a e3 8a f3 8a 03 8b 13 8b 23 8b 33 8b 43 8b 53 8b
@@ -48,9 +48,9 @@ VALIDATION
 112a1:  e6 10
 
 112af:  bd f6 8b
-        99 63 eb
-        a9 82
-        99 62 eb
+:       99 63 eb
+:       a9 82
+:       99 62 eb
 
 1962b:  a9 e0
 19650:  e6 10
@@ -63,9 +63,9 @@ VALIDATION
 14ca77: 70 02 70 82
 
 14cab3: 1f 02 10 82
-        1c 02 1c 82
-        1c 02 1c 82
-        1c 02 1c 82
+:       1c 02 1c 82
+:       1c 02 1c 82
+:       1c 02 1c 82
 
 14cac4: 17 02 78 82
-        24 02 24 82
+:       24 02 24 82
