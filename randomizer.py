@@ -844,9 +844,16 @@ class NpcObject(TableObject, EventMixin):
     def after_order(self):
         return [CharPaletteObject]
 
-    @property
-    def x(self):
+    def get_x(self):
         return self.special_x & 0x7f
+
+    def set_x(self, x):
+        self.special_x = (self.special_x & 0x80) | x
+
+    def del_x(self):
+        raise NotImplementedError
+
+    x = property(get_x, set_x, del_x)
 
     @property
     def event_addr(self):
