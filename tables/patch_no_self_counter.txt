@@ -1,27 +1,27 @@
 .addr   main        61e000
 
-023629: 22 $main
-023637: 22 $main
+023629: .jsl $main
+023637: .jsl $main
 
 $main
-:       6a
-:       48
-:       29 0f
-:       0a
-:       48
-:       98
-:       c3 01
-:       f0 is-self-so-skip
-:       68 68
-:       99 e0 32
-:       6b
+:       .ror
+:       .pha
+:       .and 0f
+:       .asl
+:       .pha
+:       .tya
+:       .cmp.sr 01
+:       .beq is-self-so-skip
+:       .pla .pla
+:       .sta.addr.y e0 32
+:       .rtl
 .label is-self-so-skip
-:       68 68
-:       6b
+:       .pla .pla
+:       .rtl
 
 VALIDATION
 
-023629: 6a
-:       99 e0 32
-023637: 6a
-:       99 e0 32
+023629: .ror
+:       .sta.addr.y e0 32
+023637: .ror
+:       .sta.addr.y e0 32

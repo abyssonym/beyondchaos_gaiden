@@ -11,140 +11,140 @@
 .addr           esper-data-learn                186e00
 .addr           esper-data-spell                186e01
 
-023250: 22 $main
-:       ea
+023250: .jsl $main
+:       .nop
 
 $main
-:       ad a5 11
-:       d0 is-valid-proc
-:       a9 02
-:       c5 b5
-:       f0 main-esper-proc-exit
-:       bd 18 30
-:       c5 b8
-:       d0 is-valid-proc
-:       a9 12
-:       c5 b5
-:       f0 main-esper-proc-exit
+:       .lda.addr a5 11
+:       .bne is-valid-proc
+:       .lda 02
+:       .cmp.dp b5
+:       .beq main-esper-proc-exit
+:       .lda.addr.x 18 30
+:       .cmp.dp b8
+:       .bne is-valid-proc
+:       .lda 12
+:       .cmp.dp b5
+:       .beq main-esper-proc-exit
 
 .label is-valid-proc
-:       a5 b5
-:       f0 skip-strikes-number-check
-:       ad 70 3a
-:       d0 main-esper-proc-exit
+:       .lda.dp b5
+:       .beq skip-strikes-number-check
+:       .lda.addr 70 3a
+:       .bne main-esper-proc-exit
 .label skip-strikes-number-check
-:       a9 {{jun-index-esper-magic}}
-:       22 $jun-checker
-:       f0 main-esper-proc-exit
-:       20 $get-esper-spell,2
-:       c9 ff
-:       f0 main-esper-proc-exit
-:       8d 00 34
-:       a9 10
-:       14 b2
-:       ee 70 3a
+:       .lda {{jun-index-esper-magic}}
+:       .jsl $jun-checker
+:       .beq main-esper-proc-exit
+:       .jsr.addr $get-esper-spell,2
+:       .cmp ff
+:       .beq main-esper-proc-exit
+:       .sta.addr 00 34
+:       .lda 10
+:       .trb.dp b2
+:       .inc.addr 70 3a
 
 .label main-esper-proc-exit
-:       ad 01 34
-:       c9 ff
-:       6b
+:       .lda.addr 01 34
+:       .cmp ff
+:       .rtl
 
 $get-esper-spell
-:       22 $jun-get-equipped-esper
-:       c9 ff
-:       f0 get-spell-exit-just-exit
-:       da 08
+:       .jsl $jun-get-equipped-esper
+:       .cmp ff
+:       .beq get-spell-exit-just-exit
+:       .phx .php
 
 # calculate esper spell list offset and save
-:       eb
-:       a9 0b
-:       c2 30
-:       22 $jun-mult
-:       48
+:       .xba
+:       .lda 0b
+:       .rep 30
+:       .jsl $jun-mult
+:       .pha
 
 # determine targeting
-:       e2 20
-:       a5 b8
-:       f0 targets-enemy
-:       a9 00
-:       80 targeting-chosen
+:       .sep 20
+:       .lda.dp b8
+:       .beq targets-enemy
+:       .lda 00
+:       .bra targeting-chosen
 .label targets-enemy
-:       a9 40
+:       .lda 40
 .label targeting-chosen
-:       48
+:       .pha
 
 # grab random value
-:       22 $jun-rng2
-:       4a 4a
-:       48
+:       .jsl $jun-rng2
+:       .lsr .lsr
+:       .pha
 
 # start from bottom of list
-:       c2 30
-:       a3 03
-:       18
-:       69 08 00
-:       aa
-:       e2 20
+:       .rep 30
+:       .lda.sr 03
+:       .clc
+:       .adc 08 00
+:       .tax
+:       .sep 20
 
 .label esper-spell-loop
-:       bf $esper-data-spell
-:       c9 ff
-:       f0 esper-spell-skip
-:       20 $check-esper-spell-targeting,2
-:       f0 esper-spell-skip
-:       a3 01
-:       38
-:       ff $esper-data-learn
-:       30 esper-spell-found
-:       83 01
+:       .lda.long.x $esper-data-spell
+:       .cmp ff
+:       .beq esper-spell-skip
+:       .jsr.addr $check-esper-spell-targeting,2
+:       .beq esper-spell-skip
+:       .lda.sr 01
+:       .sec
+:       .sbc.long.x $esper-data-learn
+:       .bmi esper-spell-found
+:       .sta.sr 01
 .label esper-spell-skip
-:       ca ca
-:       30 esper-spell-loop-exit
-:       8a
-:       c3 03
-:       b0 esper-spell-loop
+:       .dex .dex
+:       .bmi esper-spell-loop-exit
+:       .txa
+:       .cmp.sr 03
+:       .bcs esper-spell-loop
 
 .label esper-spell-loop-exit
-:       a9 ff
-:       80 get-spell-exit
+:       .lda ff
+:       .bra get-spell-exit
 .label esper-spell-found
-:       bf $esper-data-spell
+:       .lda.long.x $esper-data-spell
 .label get-spell-exit
-:       fa fa
-:       28 fa
+:       .plx .plx
+:       .plp .plx
 .label get-spell-exit-just-exit
-:       60
+:       .rts
 
 $check-esper-spell-targeting
-:       da
-:       eb
-:       a9 0e
-:       c2 20
-:       22 $jun-mult
-:       aa
-:       e2 20
-:       bf $spell-data
-:       89 84
-:       f0 no-force-enemy
-:       09 40
+:       .phx
+:       .xba
+:       .lda 0e
+:       .rep 20
+:       .jsl $jun-mult
+:       .tax
+:       .sep 20
+:       .lda.long.x $spell-data
+:       .bit 84
+:       .beq no-force-enemy
+:       .ora 40
 .label no-force-enemy
-:       29 40
-:       c3 06
-:       f0 check-target-pass
-:       fa
-:       e2 02
-:       80 check-target-exit
+:       .and 40
+:       .cmp.sr 06
+:       .beq check-target-pass
+:       .plx
+:       .sep 02
+:       .bra check-target-exit
 .label check-target-pass
-:       fa
-:       c2 02
+:       .plx
+:       .rep 02
 .label check-target-exit
-:       60
+:       .rts
 
 VALIDATION
 
-023250: ad 01 34
-:       c9 ff
+023250: .lda.addr 01 34
+:       .cmp ff
 
-023649: ad 89 3a
-:       89 40
-:       f0 15
+023649: .lda.addr 89 3a
+:       .bit 40
+:       .beq 15

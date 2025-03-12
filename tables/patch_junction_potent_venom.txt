@@ -7,65 +7,65 @@
 
 .def    poison-bit              04 00
 
-024456: 5c $main
-:       ea ea
+024456: .jml $main
+:       .nop .nop
 
 $main
-:       19 10 3e
-:       99 10 3e
+:       .ora.addr.y 10 3e
+:       .sta.addr.y 10 3e
 
 # check already poisoned
-:       a9 poison-bit
-:       24 f8
-:       d0 already-poisoned
+:       .lda poison-bit
+:       .bit.dp f8
+:       .bne already-poisoned
 
 # check intent to poison
-:       24 fc
-:       f0 exit-normal
+:       .bit.dp fc
+:       .beq exit-normal
 
-:       ad a9 11
-:       29 ff 00
-:       c9 42 00
-:       d0 not-rippler
-:       bd e4 3e
-:       89 poison-bit
-:       f0 exit-normal
+:       .lda.addr a9 11
+:       .and ff 00
+:       .cmp 42 00
+:       .bne not-rippler
+:       .lda.addr.x e4 3e
+:       .bit poison-bit
+:       .beq exit-normal
 
 .label not-rippler
-:       22 $jun-rng1
-:       b0 exit-normal
+:       .jsl $jun-rng1
+:       .bcs exit-normal
 
-:       b9 1c 33
-:       89 poison-bit
-:       d0 exit-normal
+:       .lda.addr.y 1c 33
+:       .bit poison-bit
+:       .bne exit-normal
 
-:       a9 {{jun-index-potent-venom}} 00
-:       22 $jun-checker
-:       f0 exit-normal
+:       .lda {{jun-index-potent-venom}} 00
+:       .jsl $jun-checker
+:       .beq exit-normal
 
-:       b9 e4 3e
-:       09 poison-bit
-:       99 e4 3e
-:       5c $return-poisoned
+:       .lda.addr.y e4 3e
+:       .ora poison-bit
+:       .sta.addr.y e4 3e
+:       .jml $return-poisoned
 
 .label exit-normal
-:       5c $return-normal
+:       .jml $return-normal
 
 .label already-poisoned
-:       ad 7c 3a
-:       29 ff 00
-:       c9 22 00
-:       d0 exit-normal
-:       5c $return-poisoned
+:       .lda.addr 7c 3a
+:       .and ff 00
+:       .cmp 22 00
+:       .bne exit-normal
+:       .jml $return-poisoned
 
 VALIDATION
 # Old validation, conflicts with "informative miss" patch
 #02445c: ad a7 11
 #:       4a
 
-024456: 19 10 3e
-:       99 10 3e
+024456: .ora.addr.y 10 3e
+:       .sta.addr.y 10 3e
 
 # Verify the exit in case of conflict with "informative miss" patch
 $return-poisoned
-:       28 60
+:       .plp .rts

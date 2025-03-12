@@ -12,76 +12,76 @@
 
 .def    fixed-damage-command-index      {{jun-command-index-fixed-damage}}
 
-0212f7: 22 $main
-:       ea
-:       ea ea
-:       ea ea
+0212f7: .jsl $main
+:       .nop
+:       .nop .nop
+:       .nop .nop
 
-025402: ea ea ea
-:       ea ea ea
+025402: .nop .nop .nop
+:       .nop .nop .nop
 
 $main
 # 16-bit A
 # target in Y
-:       a2 02
-:       ad a2 11
-:       30 exit-normal-concerns-mp
-:       b9 $current-mp-address,2
-:       f0 exit-normal
-:       b9 d0 33
-:       f0 exit-normal
-:       1a
-:       f0 exit-normal
-:       3a
-:       d9 $current-hp-address,2
-:       b0 exit-normal
-:       22 $jun-rng1
-:       b0 exit-normal
+:       .ldx 02
+:       .lda.addr a2 11
+:       .bmi exit-normal-concerns-mp
+:       .lda.addr.y $current-mp-address,2
+:       .beq exit-normal
+:       .lda.addr.y d0 33
+:       .beq exit-normal
+:       .inc
+:       .beq exit-normal
+:       .dec
+:       .cmp.addr.y $current-hp-address,2
+:       .bcs exit-normal
+:       .jsl $jun-rng1
+:       .bcs exit-normal
 
-:       a9 {{jun-index-mp-switch}} 00
-:       22 $jun-checker-y
-:       f0 exit-normal
-:       a9 {{jun-index-blood-mage}} 00
-:       22 $jun-checker-y
-:       d0 exit-normal
-:       a9 {{jun-index-gold-mage}} 00
-:       22 $jun-checker-y
-:       d0 exit-normal
+:       .lda {{jun-index-mp-switch}} 00
+:       .jsl $jun-checker-y
+:       .beq exit-normal
+:       .lda {{jun-index-blood-mage}} 00
+:       .jsl $jun-checker-y
+:       .bne exit-normal
+:       .lda {{jun-index-gold-mage}} 00
+:       .jsl $jun-checker-y
+:       .bne exit-normal
 
-:       da
-:       bb
-:       ad 7a 3a
-:       48
-:       a5 b8
-:       48
-:       b9 d0 33
-:       09 00 40
-:       85 b8
-:       a9 fixed-damage-command-index 00
-:       8d 7a 3a
-:       22 $jun-queue-command
+:       .phx
+:       .tyx
+:       .lda.addr 7a 3a
+:       .pha
+:       .lda.dp b8
+:       .pha
+:       .lda.addr.y d0 33
+:       .ora 00 40
+:       .sta.dp b8
+:       .lda fixed-damage-command-index 00
+:       .sta.addr 7a 3a
+:       .jsl $jun-queue-command
 
-:       68
-:       85 b8
-:       68
-:       8d 7a 3a
-:       fa
+:       .pla
+:       .sta.dp b8
+:       .pla
+:       .sta.addr 7a 3a
+:       .plx
 
-:       a9 ff ff
-:       99 d0 33
+:       .lda ff ff
+:       .sta.addr.y d0 33
 
-:       6b
+:       .rtl
 .label exit-normal
-:       a2 00
+:       .ldx 00
 .label exit-normal-concerns-mp
-:       6b
+:       .rtl
 
 VALIDATION
 
-0212f7: a2 02
-:       ad a2 11
-:       30 02
-:       a2 00
+0212f7: .ldx 02
+:       .lda.addr a2 11
+:       .bmi 02
+:       .ldx 00
 
-025402: 9e 08 3c
-:       9e 30 3c
+025402: .stz.addr.x 08 3c
+:       .stz.addr.x 30 3c

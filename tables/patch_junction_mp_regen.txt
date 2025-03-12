@@ -1,32 +1,32 @@
 .addr   jun-checker                     {{jun-global-checker}}
 .addr   main                            621500
 
-025056: 22 $main
-:       ea
+025056: .jsl $main
+:       .nop
 
 $main
-:       da
-:       bb
-:       ad a1 11
-:       d0 normal-regen
-:       a9 {{jun-index-mp-regen}}
-:       22 $jun-checker
-:       d0 mp-regen
+:       .phx
+:       .tyx
+:       .lda.addr a1 11
+:       .bne normal-regen
+:       .lda {{jun-index-mp-regen}}
+:       .jsl $jun-checker
+:       .bne mp-regen
 
 .label normal-regen
-:       fa
-:       c2 20
-:       b9 1c 3c
-:       6b
+:       .plx
+:       .rep 20
+:       .lda.addr.y 1c 3c
+:       .rtl
 .label mp-regen
-:       a9 80
-:       0c a3 11
-:       fa
-:       c2 20
-:       b9 30 3c
-:       6b
+:       .lda 80
+:       .tsb.addr a3 11
+:       .plx
+:       .rep 20
+:       .lda.addr.y 30 3c
+:       .rtl
 
 VALIDATION
 
-025056: c2 20
-:       b9 1c 3c
+025056: .rep 20
+:       .lda.addr.y 1c 3c

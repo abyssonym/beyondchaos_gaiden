@@ -20,153 +20,153 @@
 .def    zombie-status               02 00
 .def    remedy-status               65 48
 
-024585: 22 $main
-:       ea
+024585: .jsl $main
+:       .nop
 
 $main
-:       da 08
-:       c0 08
-:       90 main-is-human
-:       22 $jun-rng1
-:       b0 exit-main
+:       .phx .php
+:       .cpy 08
+:       .bcc main-is-human
+:       .jsl $jun-rng1
+:       .bcs exit-main
 .label main-is-human
-:       20 $main-auto-item,2
+:       .jsr.addr $main-auto-item,2
 
 .label exit-main
-:       28 fa
-:       a5 fc
-:       89 02 00
-:       6b
+:       .plp .plx
+:       .lda.dp fc
+:       .bit 02 00
+:       .rtl
 
 $main-auto-item
-:       a5 fc
-:       19 e4 3e
-:       59 e4 3e
-:       48
+:       .lda.dp fc
+:       .ora.addr.y e4 3e
+:       .eor.addr.y e4 3e
+:       .pha
 
-:       29 wound-status
-:       f0 no-fenix
-:       83 01
-:       a9 {{jun-index-auto-down}} 00
-:       20 $do-auto-item,2
+:       .and wound-status
+:       .beq no-fenix
+:       .sta.sr 01
+:       .lda {{jun-index-auto-down}} 00
+:       .jsr.addr $do-auto-item,2
 
 .label no-fenix
-:       a3 01
-:       29 zombie-status
-:       f0 no-revivify
-:       83 01
-:       a9 {{jun-index-auto-revivify}} 00
-:       20 $do-auto-item,2
+:       .lda.sr 01
+:       .and zombie-status
+:       .beq no-revivify
+:       .sta.sr 01
+:       .lda {{jun-index-auto-revivify}} 00
+:       .jsr.addr $do-auto-item,2
 
 .label no-revivify
-:       a3 01
-:       29 remedy-status
-:       f0 no-remedy
-:       83 01
-:       a9 {{jun-index-auto-remedy}} 00
-:       20 $do-auto-item,2
+:       .lda.sr 01
+:       .and remedy-status
+:       .beq no-remedy
+:       .sta.sr 01
+:       .lda {{jun-index-auto-remedy}} 00
+:       .jsr.addr $do-auto-item,2
 
 .label no-remedy
-:       68
-:       60
+:       .pla
+:       .rts
 
 $do-auto-item
-:       48
+:       .pha
 
-:       a2 12
+:       .ldx 12
 .label auto-item-loop
-:       22 $jun-check-are-same-team
-:       f0 auto-item-skip
-:       22 $jun-check-entity-can-act
-:       f0 auto-item-skip
-:       a3 01
-:       22 $jun-checker
-:       f0 auto-item-skip
-:       20 $use-best-item,2
-:       f0 auto-item-skip
-:       e2 20
-:       9d f4 32
-:       8d 7b 3a
-:       a9 01
-:       8d 7a 3a
-:       c2 20
-:       b9 18 30
-:       85 b8
-:       22 $jun-queue-command
+:       .jsl $jun-check-are-same-team
+:       .beq auto-item-skip
+:       .jsl $jun-check-entity-can-act
+:       .beq auto-item-skip
+:       .lda.sr 01
+:       .jsl $jun-checker
+:       .beq auto-item-skip
+:       .jsr.addr $use-best-item,2
+:       .beq auto-item-skip
+:       .sep 20
+:       .sta.addr.x f4 32
+:       .sta.addr 7b 3a
+:       .lda 01
+:       .sta.addr 7a 3a
+:       .rep 20
+:       .lda.addr.y 18 30
+:       .sta.dp b8
+:       .jsl $jun-queue-command
 .label auto-item-skip
-:       ca ca
-:       10 auto-item-loop
+:       .dex .dex
+:       .bpl auto-item-loop
 
-:       68
-:       60
+:       .pla
+:       .rts
 
 $use-best-item
-:       da 08
-:       c2 30
-:       5a
-:       a9 ff 00
-:       48
+:       .phx .php
+:       .rep 30
+:       .phy
+:       .lda ff 00
+:       .pha
 
-:       a0 00 00
+:       .ldy 00 00
 .label use-best-inventory-loop
-:       b9 $inventory-quantity-address,2
-:       29 ff 00
-:       f0 use-best-inventory-skip
-:       b9 $inventory-address,2
-:       29 ff 00
-:       09 00 1e
-:       22 $jun-mult
-:       aa
-:       bf $item-properties-type
-:       29 2f 00
-:       c9 26 00
-:       d0 use-best-inventory-skip
-:       bf $item-properties-status-byte
-:       c3 0d
-:       f0 use-best-inventory-found-best
-:       23 0d
-:       f0 use-best-inventory-skip
-:       da
-:       a2 00 00
-:       22 $jun-count-bits
-:       8a
-:       fa
-:       eb
-:       c3 01
-:       90 use-best-inventory-skip
-:       e2 20
-:       b9 $inventory-address,2
-:       c2 20
-:       83 01
+:       .lda.addr.y $inventory-quantity-address,2
+:       .and ff 00
+:       .beq use-best-inventory-skip
+:       .lda.addr.y $inventory-address,2
+:       .and ff 00
+:       .ora 00 1e
+:       .jsl $jun-mult
+:       .tax
+:       .lda.long.x $item-properties-type
+:       .and 2f 00
+:       .cmp 26 00
+:       .bne use-best-inventory-skip
+:       .lda.long.x $item-properties-status-byte
+:       .cmp.sr 0d
+:       .beq use-best-inventory-found-best
+:       .and.sr 0d
+:       .beq use-best-inventory-skip
+:       .phx
+:       .ldx 00 00
+:       .jsl $jun-count-bits
+:       .txa
+:       .plx
+:       .xba
+:       .cmp.sr 01
+:       .bcc use-best-inventory-skip
+:       .sep 20
+:       .lda.addr.y $inventory-address,2
+:       .rep 20
+:       .sta.sr 01
 .label use-best-inventory-skip
-:       c8 c8 c8 c8 c8
-:       c0 00 05
-:       d0 use-best-inventory-loop
+:       .iny .iny .iny .iny .iny
+:       .cpy 00 05
+:       .bne use-best-inventory-loop
 
 .label exit-use-best
-:       68
-:       7a
-:       28 fa
-:       29 ff 00
-:       c9 ff 00
-:       f0 use-best-nothing-found
-:       c0 08
-:       b0 use-best-monster-success
-:       22 $jun-deduct-item-if-possible
+:       .pla
+:       .ply
+:       .plp .plx
+:       .and ff 00
+:       .cmp ff 00
+:       .beq use-best-nothing-found
+:       .cpy 08
+:       .bcs use-best-monster-success
+:       .jsl $jun-deduct-item-if-possible
 .label use-best-nothing-found
-:       60
+:       .rts
 .label use-best-monster-success
-:       c2 02
-:       60
+:       .rep 02
+:       .rts
 
 .label use-best-inventory-found-best
-:       e2 20
-:       b9 $inventory-address,2
-:       c2 20
-:       83 01
-:       80 exit-use-best
+:       .sep 20
+:       .lda.addr.y $inventory-address,2
+:       .rep 20
+:       .sta.sr 01
+:       .bra exit-use-best
 
 VALIDATION
 
-024585: a5 fc
-:       89 02 00
+024585: .lda.dp fc
+:       .bit 02 00

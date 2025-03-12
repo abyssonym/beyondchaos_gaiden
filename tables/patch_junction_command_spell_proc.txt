@@ -11,56 +11,56 @@
 .addr   pointer-address                     {{jun-global-command-spell-proc}}
 
 $main
-:       bb
-:       c2 20
-:       b9 18 30
-:       2c $living-characters,2
-:       f0 exit-fail
-:       a5 b8
-:       2c $living-characters,2
-:       f0 exit-fail
+:       .tyx
+:       .rep 20
+:       .lda.addr.y 18 30
+:       .bit.addr $living-characters,2
+:       .beq exit-fail
+:       .lda.dp b8
+:       .bit.addr $living-characters,2
+:       .beq exit-fail
 
-:       e2 20
-:       a9 ff
-:       85 bb
-:       64 ba
+:       .sep 20
+:       .lda ff
+:       .sta.dp bb
+:       .stz.dp ba
 
-:       ad 7d 3a
-:       85 b6
+:       .lda.addr 7d 3a
+:       .sta.dp b6
 
-:       da 5a 48
-:       f4 $spell-load-address,2
-:       22 $jun-generic-dispatch
-:       68 7a fa
+:       .phx .phy .pha
+:       .pea $spell-load-address,2
+:       .jsl $jun-generic-dispatch
+:       .pla .ply .plx
 
-:       f4 $setup-damage-parameters-address,2
-:       22 $jun-generic-dispatch
+:       .pea $setup-damage-parameters-address,2
+:       .jsl $jun-generic-dispatch
 
 # use magic command for animation
-:       a9 02
-:       85 b5
+:       .lda 02
+:       .sta.dp b5
 # restrict targeting and do not retarget
-:       ad a0 11
-:       29 40
-:       09 03
-:       85 bb
+:       .lda.addr a0 11
+:       .and 40
+:       .ora 03
+:       .sta.dp bb
 # stops character from standing up
-:       a9 10
-:       14 b0
+:       .lda 10
+:       .trb.dp b0
 # prevents attack name from being displayed
-:       a9 01
-:       14 b2
+:       .lda 01
+:       .trb.dp b2
 # don't retarget if target invalid
-:       a9 04
-:       04 ba
+:       .lda 04
+:       .tsb.dp ba
 # disable randomize target
-:       a9 40
-:       14 ba
+:       .lda 40
+:       .trb.dp ba
 
-:       5c $reentry-address
+:       .jml $reentry-address
 .label exit-fail
-:       e2 20
-:       5c $reentry-fail-address
+:       .sep 20
+:       .jml $reentry-fail-address
 
 $pointer-address
 :       $main,2

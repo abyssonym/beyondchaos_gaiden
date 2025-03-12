@@ -2,28 +2,28 @@
 .addr   return-miss             0222b5
 .addr   return-hit              0222e8
 
-022226: 5c $main
+022226: .jml $main
 
 $main
-:       ad a2 11
-:       4a
-:       b0 exit-miss-physical
-:       ad a2 11
-:       89 02
-:       f0 exit-hit
-:       b9 a1 3a
-:       89 04
-:       d0 exit-miss-instant-death
+:       .lda.addr a2 11
+:       .lsr
+:       .bcs exit-miss-physical
+:       .lda.addr a2 11
+:       .bit 02
+:       .beq exit-hit
+:       .lda.addr.y a1 3a
+:       .bit 04
+:       .bne exit-miss-instant-death
 .label exit-hit
-:       5c $return-hit
+:       .jml $return-hit
 .label exit-miss-instant-death
-:       b9 fc 3d
-:       09 10
-:       99 fc 3d
+:       .lda.addr.y fc 3d
+:       .ora 10
+:       .sta.addr.y fc 3d
 .label exit-miss-physical
-:       5c $return-miss
+:       .jml $return-miss
 
 VALIDATION
 
-022226: ad a2 11
-:       4a
+022226: .lda.addr a2 11
+:       .lsr

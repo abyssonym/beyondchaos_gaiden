@@ -7,40 +7,40 @@
 .def    first-desperation-rate          80
 .def    second-desperation-rate         40
 
-0215e9: 22 $main
-:       ea
+0215e9: .jsl $main
+:       .nop
 
 $main
-:       da
-:       bb
-:       a9 {{jun-index-unlimited}}
-:       22 $jun-checker
-:       f0 no-junction
-:       b9 18 30
-:       2c 2f 3f
-:       d0 desperation-repeat
-:       22 $jun-rng2
-:       c9 first-desperation-rate
-:       b0 exit
-:       a9 00
-:       80 exit
+:       .phx
+:       .tyx
+:       .lda {{jun-index-unlimited}}
+:       .jsl $jun-checker
+:       .beq no-junction
+:       .lda.addr.y 18 30
+:       .bit.addr 2f 3f
+:       .bne desperation-repeat
+:       .jsl $jun-rng2
+:       .cmp first-desperation-rate
+:       .bcs exit
+:       .lda 00
+:       .bra exit
 .label desperation-repeat
-:       22 $jun-rng2
-:       c9 second-desperation-rate
-:       b0 exit
-:       b9 18 30
-:       1c 2f 3f
-:       a9 00
-:       80 exit
+:       .jsl $jun-rng2
+:       .cmp second-desperation-rate
+:       .bcs exit
+:       .lda.addr.y 18 30
+:       .trb.addr 2f 3f
+:       .lda 00
+:       .bra exit
 .label no-junction
-:       22 $jun-rng2
+:       .jsl $jun-rng2
 .label exit
-:       fa
-:       29 0f
-:       6b
+:       .plx
+:       .and 0f
+:       .rtl
 
 VALIDATION
 
-0215e9: 20 $old-rng2,2
-:       29 0f
-:       d0 20
+0215e9: .jsr.addr $old-rng2,2
+:       .and 0f
+:       .bne 20

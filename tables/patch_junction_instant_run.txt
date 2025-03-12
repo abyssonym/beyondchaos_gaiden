@@ -4,46 +4,46 @@
 .addr   return-found-runners            025be2
 .addr   return-found-no-runners         025be0
 
-025bdb: 5c $main
+025bdb: .jml $main
 
 $main
-:       da
+:       .phx
 
-:       64 10
-:       a2 00
-:       20 $check-runner,2
-:       a2 02
-:       20 $check-runner,2
-:       a2 04
-:       20 $check-runner,2
-:       a2 06
-:       20 $check-runner,2
-:       a5 10
-:       c9 00
-:       d0 found-runners
+:       .stz.dp 10
+:       .ldx 00
+:       .jsr.addr $check-runner,2
+:       .ldx 02
+:       .jsr.addr $check-runner,2
+:       .ldx 04
+:       .jsr.addr $check-runner,2
+:       .ldx 06
+:       .jsr.addr $check-runner,2
+:       .lda.dp 10
+:       .cmp 00
+:       .bne found-runners
 
-:       fa
-:       ad 91 3a
-:       29 70
-:       5c $return-found-no-runners
+:       .plx
+:       .lda.addr 91 3a
+:       .and 70
+:       .jml $return-found-no-runners
 .label found-runners
-:       0c 38 3a
-:       fa
-:       5c $return-found-runners
+:       .tsb.addr 38 3a
+:       .plx
+:       .jml $return-found-runners
 
 $check-runner
-:       bd a0 3a
-:       4a
-:       90 check-runner-exit
-:       a9 {{jun-index-instant-run}}
-:       22 $jun-checker
-:       f0 check-runner-exit
-:       bd 18 30
-:       04 10
+:       .lda.addr.x a0 3a
+:       .lsr
+:       .bcc check-runner-exit
+:       .lda {{jun-index-instant-run}}
+:       .jsl $jun-checker
+:       .beq check-runner-exit
+:       .lda.addr.x 18 30
+:       .tsb.dp 10
 .label check-runner-exit
-:       60
+:       .rts
 
 VALIDATION
 
-025bdb: ad 91 3a
-:       29 70
+025bdb: .lda.addr 91 3a
+:       .and 70

@@ -13,214 +13,214 @@
 .addr   return-enough-mp                0232e0
 .addr   return-not-enough-mp            0232c2
 
-025d39: 5c $menu-load-mp
+025d39: .jml $menu-load-mp
 
-0232b6: 5c $cast-check-deduct-mp
+0232b6: .jml $cast-check-deduct-mp
 
-023f47: 22 $do-mp-critical
-:       ea ea
+023f47: .jsl $do-mp-critical
+:       .nop .nop
 
-024973: 22 $set-end-battle-mp
-:       ea ea
+024973: .jsl $set-end-battle-mp
+:       .nop .nop
 
 $menu-load-mp
-:       da bb
-:       20 $load-mp-routine,2
-:       fa
-:       5c $menu-return
+:       .phx .tyx
+:       .jsr.addr $load-mp-routine,2
+:       .plx
+:       .jml $menu-return
 
 $cast-check-deduct-mp
-:       a9 {{jun-index-blood-mage}} 00
-:       22 $jun-checker
-:       d0 blood-mage-check-mp
+:       .lda {{jun-index-blood-mage}} 00
+:       .jsl $jun-checker
+:       .bne blood-mage-check-mp
 
-:       e0 08
-:       b0 is-monster-no-gold
-:       a9 {{jun-index-gold-mage}} 00
-:       22 $jun-checker
-:       d0 gold-mage-check-mp
+:       .cpx 08
+:       .bcs is-monster-no-gold
+:       .lda {{jun-index-gold-mage}} 00
+:       .jsl $jun-checker
+:       .bne gold-mage-check-mp
 
-:       80 no-junction-check-mp
+:       .bra no-junction-check-mp
 
 .label blood-mage-check-mp
-:       20 $load-mp-routine,2
-:       bd 08 3c
-:       cd 4c 3a
-:       90 not-enough-mp
-:       20 $deduct-blood,2
-:       80 enough-mp
+:       .jsr.addr $load-mp-routine,2
+:       .lda.addr.x 08 3c
+:       .cmp.addr 4c 3a
+:       .bcc not-enough-mp
+:       .jsr.addr $deduct-blood,2
+:       .bra enough-mp
 
 .label gold-mage-check-mp
-:       20 $load-mp-routine,2
-:       bd 08 3c
-:       cd 4c 3a
-:       90 not-enough-mp
-:       20 $deduct-gold,2
-:       80 enough-mp
+:       .jsr.addr $load-mp-routine,2
+:       .lda.addr.x 08 3c
+:       .cmp.addr 4c 3a
+:       .bcc not-enough-mp
+:       .jsr.addr $deduct-gold,2
+:       .bra enough-mp
 
 .label is-monster-no-gold
 .label no-junction-check-mp
-:       ad 4c 3a
-:       38
-:       bd 08 3c
-:       5c $return-no-junction-check-mp
+:       .lda.addr 4c 3a
+:       .sec
+:       .lda.addr.x 08 3c
+:       .jml $return-no-junction-check-mp
 
 .label not-enough-mp
-:       9c 4c 3a
-:       5c $return-not-enough-mp
+:       .stz.addr 4c 3a
+:       .jml $return-not-enough-mp
 
 .label enough-mp
-:       9c 4c 3a
-:       5c $return-enough-mp
+:       .stz.addr 4c 3a
+:       .jml $return-enough-mp
 
 $set-end-battle-mp
-:       a9 {{jun-index-blood-mage}} 00
-:       22 $jun-checker
-:       d0 skip-set-mp
+:       .lda {{jun-index-blood-mage}} 00
+:       .jsl $jun-checker
+:       .bne skip-set-mp
 
-:       a9 {{jun-index-gold-mage}} 00
-:       22 $jun-checker
-:       d0 skip-set-mp
+:       .lda {{jun-index-gold-mage}} 00
+:       .jsl $jun-checker
+:       .bne skip-set-mp
 
-:       bd 08 3c
-:       99 0d 16
+:       .lda.addr.x 08 3c
+:       .sta.addr.y 0d 16
 
 .label skip-set-mp
-:       6b
+:       .rtl
 
 $load-mp-routine
-:       08
-:       c2 20
+:       .php
+:       .rep 20
 
-:       a9 {{jun-index-blood-mage}} 00
-:       22 $jun-checker
-:       d0 blood-mage-load-mp
+:       .lda {{jun-index-blood-mage}} 00
+:       .jsl $jun-checker
+:       .bne blood-mage-load-mp
 
-:       a9 {{jun-index-gold-mage}} 00
-:       22 $jun-checker
-:       d0 gold-mage-load-mp
+:       .lda {{jun-index-gold-mage}} 00
+:       .jsl $jun-checker
+:       .bne gold-mage-load-mp
 
-:       80 no-junction-load-mp
+:       .bra no-junction-load-mp
 
 .label blood-mage-load-mp
-:       20 $blood-to-mp,2
-:       99 08 3c
-:       99 88 2e
-:       a9 e7 03
-:       99 30 3c
-:       99 90 2e
-:       80 exit-load-mp
+:       .jsr.addr $blood-to-mp,2
+:       .sta.addr.y 08 3c
+:       .sta.addr.y 88 2e
+:       .lda e7 03
+:       .sta.addr.y 30 3c
+:       .sta.addr.y 90 2e
+:       .bra exit-load-mp
 
 .label gold-mage-load-mp
-:       20 $gold-to-mp,2
-:       99 08 3c
-:       99 88 2e
-:       a9 e7 03
-:       99 30 3c
-:       99 90 2e
-:       80 exit-load-mp
+:       .jsr.addr $gold-to-mp,2
+:       .sta.addr.y 08 3c
+:       .sta.addr.y 88 2e
+:       .lda e7 03
+:       .sta.addr.y 30 3c
+:       .sta.addr.y 90 2e
+:       .bra exit-load-mp
 
 .label no-junction-load-mp
-:       b9 08 3c
-:       99 88 2e
-:       b9 30 3c
-:       99 90 2e
+:       .lda.addr.y 08 3c
+:       .sta.addr.y 88 2e
+:       .lda.addr.y 30 3c
+:       .sta.addr.y 90 2e
 
 .label exit-load-mp
-:       28
-:       60
+:       .plp
+:       .rts
 
 $blood-to-mp
-:       b9 f4 3b
-:       4a 4a 4a
-:       60
+:       .lda.addr.y f4 3b
+:       .lsr .lsr .lsr
+:       .rts
 
 $gold-to-mp
-:       ad 62 18
-:       29 ff 00
-:       d0 max-gold
-:       ad 60 18
-:       4a 4a 4a 4a 4a
-:       c9 e7 03
-:       b0 max-gold
-:       60
+:       .lda.addr 62 18
+:       .and ff 00
+:       .bne max-gold
+:       .lda.addr 60 18
+:       .lsr .lsr .lsr .lsr .lsr
+:       .cmp e7 03
+:       .bcs max-gold
+:       .rts
 .label max-gold
-:       a9 e7 03
-:       60
+:       .lda e7 03
+:       .rts
 
 $do-mp-critical
-:       48 da 5a 08
-:       ad 4c 3a
-:       48
+:       .pha .phx .phy .php
+:       .lda.addr 4c 3a
+:       .pha
 
-:       e2 20
-:       a5 ee
-:       8d 4c 3a
-:       bb
-:       c2 20
+:       .sep 20
+:       .lda.dp ee
+:       .sta.addr 4c 3a
+:       .tyx
+:       .rep 20
 
-:       a9 {{jun-index-blood-mage}} 00
-:       22 $jun-checker
-:       f0 no-blood
-:       20 $deduct-blood,2
+:       .lda {{jun-index-blood-mage}} 00
+:       .jsl $jun-checker
+:       .beq no-blood
+:       .jsr.addr $deduct-blood,2
 
 .label no-blood
-:       a9 {{jun-index-gold-mage}} 00
-:       22 $jun-checker
-:       f0 no-gold
-:       20 $deduct-gold,2
+:       .lda {{jun-index-gold-mage}} 00
+:       .jsl $jun-checker
+:       .beq no-gold
+:       .jsr.addr $deduct-gold,2
 
 .label no-gold
-:       68
-:       8d 4c 3a
+:       .pla
+:       .sta.addr 4c 3a
 
-:       28 7a fa 68
-:       99 08 3c
-:       a9 00 02
-:       6b
+:       .plp .ply .plx .pla
+:       .sta.addr.y 08 3c
+:       .lda 00 02
+:       .rtl
 
 $deduct-blood
-:       ad 4c 3a
-:       48
-:       0a 0a 0a
-:       8d 4c 3a
-:       bd f4 3b
-:       38
-:       ed 4c 3a
-:       9d f4 3b
-:       68
-:       8d 4c 3a
-:       60
+:       .lda.addr 4c 3a
+:       .pha
+:       .asl .asl .asl
+:       .sta.addr 4c 3a
+:       .lda.addr.x f4 3b
+:       .sec
+:       .sbc.addr 4c 3a
+:       .sta.addr.x f4 3b
+:       .pla
+:       .sta.addr 4c 3a
+:       .rts
 
 $deduct-gold
-:       ad 4c 3a
-:       48
-:       0a 0a 0a 0a 0a
-:       8d 4c 3a
-:       ad 60 18
-:       38
-:       ed 4c 3a
-:       8d 60 18
-:       e2 20
-:       ad 62 18
-:       e9 00
-:       8d 62 18
-:       c2 20
-:       68
-:       8d 4c 3a
-:       60
+:       .lda.addr 4c 3a
+:       .pha
+:       .asl .asl .asl .asl .asl
+:       .sta.addr 4c 3a
+:       .lda.addr 60 18
+:       .sec
+:       .sbc.addr 4c 3a
+:       .sta.addr 60 18
+:       .sep 20
+:       .lda.addr 62 18
+:       .sbc 00
+:       .sta.addr 62 18
+:       .rep 20
+:       .pla
+:       .sta.addr 4c 3a
+:       .rts
 
 VALIDATION
-0232b6: 38
-:       bd 08 3c
+0232b6: .sec
+:       .lda.addr.x 08 3c
 
-023f47: 99 08 3c
-:       a9 00 02
+023f47: .sta.addr.y 08 3c
+:       .lda 00 02
 
-024973: bd 08 3c
-:       99 0d 16
+024973: .lda.addr.x 08 3c
+:       .sta.addr.y 0d 16
 
-025d39: b9 08 3c
-:       99 88 2e
-:       b9 30 3c
-:       99 90 2e
+025d39: .lda.addr.y 08 3c
+:       .sta.addr.y 88 2e
+:       .lda.addr.y 30 3c
+:       .sta.addr.y 90 2e

@@ -4,83 +4,83 @@
 .addr   main                            622000
 .addr   main-initialize                 6220a0
 
-0209e4: 22 $main
+0209e4: .jsl $main
 
-0224c1: 22 $main-initialize
-:       ea
+0224c1: .jsl $main-initialize
+:       .nop
 
 $main
-:       98
-:       da
-:       c2 20
-:       29 ff 00
-:       0a 0a 0a 0a 0a
+:       .tya
+:       .phx
+:       .rep 20
+:       .and ff 00
+:       .asl .asl .asl .asl .asl
 
-:       48
-:       a9 {{jun-index-time-sink}} 00
-:       22 $jun-check-count-all-living
-:       48
-:       a9 {{jun-index-time-font}} 00
-:       22 $jun-check-count-all-living
-:       38
-:       e3 01
-:       aa
-:       68 68
-:       e0 00
-:       f0 exit-main
-:       30 decrease-modification-loop
+:       .pha
+:       .lda {{jun-index-time-sink}} 00
+:       .jsl $jun-check-count-all-living
+:       .pha
+:       .lda {{jun-index-time-font}} 00
+:       .jsl $jun-check-count-all-living
+:       .sec
+:       .sbc.sr 01
+:       .tax
+:       .pla .pla
+:       .cpx 00
+:       .beq exit-main
+:       .bmi decrease-modification-loop
 
 .label increase-modification-loop
-:       48
-:       4a 4a
-:       18
-:       63 01
-:       83 01
-:       68
-:       ca
-:       d0 increase-modification-loop
-:       80 exit-main
+:       .pha
+:       .lsr .lsr
+:       .clc
+:       .adc.sr 01
+:       .sta.sr 01
+:       .pla
+:       .dex
+:       .bne increase-modification-loop
+:       .bra exit-main
 
 .label decrease-modification-loop
-:       4a
-:       48
-:       4a
-:       18
-:       63 01
-:       83 01
-:       68
-:       e8
-:       30 decrease-modification-loop
+:       .lsr
+:       .pha
+:       .lsr
+:       .clc
+:       .adc.sr 01
+:       .sta.sr 01
+:       .pla
+:       .inx
+:       .bmi decrease-modification-loop
 
 .label exit-main
-:       4a 4a 4a 4a 4a
-:       89 00 ff
-:       f0 no-overflow
-:       a9 ff 00
+:       .lsr .lsr .lsr .lsr .lsr
+:       .bit 00 ff
+:       .beq no-overflow
+:       .lda ff 00
 .label no-overflow
-:       e2 20
-:       fa
-:       9d dd 3a
-:       6b
+:       .sep 20
+:       .plx
+:       .sta.addr.x dd 3a
+:       .rtl
 
 $main-initialize
-:       a2 12
+:       .ldx 12
 .label initialize-loop
-:       a9 04
-:       1d 04 32
-:       9d 04 32
-:       ca ca
-:       10 initialize-loop
-:       22 $jun-force-update
+:       .lda 04
+:       .ora.addr.x 04 32
+:       .sta.addr.x 04 32
+:       .dex .dex
+:       .bpl initialize-loop
+:       .jsl $jun-force-update
 
-:       a2 00
-:       ad 4b 2f
-:       6b
+:       .ldx 00
+:       .lda.addr 4b 2f
+:       .rtl
 
 VALIDATION
 
-0209e4: 98
-:       9d dd 3a
+0209e4: .tya
+:       .sta.addr.x dd 3a
 
-0224c1: a2 00
-:       ad 4b 2f
+0224c1: .ldx 00
+:       .lda.addr 4b 2f

@@ -12,112 +12,112 @@
 # This skips forward to 022259, the end of the vanish doom patch
 .addr   return-no-reflect               02224b
 
-022235: 5c $main
-:       ea
+022235: .jml $main
+:       .nop
 
 $main
-:       da
+:       .phx
 
-:       a9 {{jun-index-null-reflect}}
-:       22 $jun-checker
-:       d0 no-reflect
+:       .lda {{jun-index-null-reflect}}
+:       .jsl $jun-checker
+:       .bne no-reflect
 
 # check for physical
-:       a9 01
-:       2c a2 11
-:       d0 no-reflect
+:       .lda 01
+:       .bit.addr a2 11
+:       .bne no-reflect
 
-:       22 $jun-check-is-damage-over-time
-:       d0 no-reflect
+:       .jsl $jun-check-is-damage-over-time
+:       .bne no-reflect
 .label not-targeting-self
 
-:       20 $check-prism,2
-:       f0 non-elemental
+:       .jsr.addr $check-prism,2
+:       .beq non-elemental
 
-:       bb
-:       85 10
-:       a9 {{jun-index-repel-fire}}
-:       20 $check-element,2
-:       d0 yes-reflect
-:       a9 {{jun-index-repel-ice}}
-:       20 $check-element,2
-:       d0 yes-reflect
-:       a9 {{jun-index-repel-bolt}}
-:       20 $check-element,2
-:       d0 yes-reflect
-:       a9 {{jun-index-repel-poison}}
-:       20 $check-element,2
-:       d0 yes-reflect
-:       a9 {{jun-index-repel-wind}}
-:       20 $check-element,2
-:       d0 yes-reflect
-:       a9 {{jun-index-repel-pearl}}
-:       20 $check-element,2
-:       d0 yes-reflect
-:       a9 {{jun-index-repel-earth}}
-:       20 $check-element,2
-:       d0 yes-reflect
-:       a9 {{jun-index-repel-water}}
-:       20 $check-element,2
-:       d0 yes-reflect
+:       .tyx
+:       .sta.dp 10
+:       .lda {{jun-index-repel-fire}}
+:       .jsr.addr $check-element,2
+:       .bne yes-reflect
+:       .lda {{jun-index-repel-ice}}
+:       .jsr.addr $check-element,2
+:       .bne yes-reflect
+:       .lda {{jun-index-repel-bolt}}
+:       .jsr.addr $check-element,2
+:       .bne yes-reflect
+:       .lda {{jun-index-repel-poison}}
+:       .jsr.addr $check-element,2
+:       .bne yes-reflect
+:       .lda {{jun-index-repel-wind}}
+:       .jsr.addr $check-element,2
+:       .bne yes-reflect
+:       .lda {{jun-index-repel-pearl}}
+:       .jsr.addr $check-element,2
+:       .bne yes-reflect
+:       .lda {{jun-index-repel-earth}}
+:       .jsr.addr $check-element,2
+:       .bne yes-reflect
+:       .lda {{jun-index-repel-water}}
+:       .jsr.addr $check-element,2
+:       .bne yes-reflect
 
 .label normal-reflect-check
-:       ad a3 11
-:       89 02
-:       d0 no-reflect
-:       b9 f8 3e
-:       10 no-reflect
+:       .lda.addr a3 11
+:       .bit 02
+:       .bne no-reflect
+:       .lda.addr.y f8 3e
+:       .bpl no-reflect
 
 .label yes-reflect
-:       a9 80
-:       14 ba
-:       fa
-:       5c $return-reflect
+:       .lda 80
+:       .trb.dp ba
+:       .plx
+:       .jml $return-reflect
 
 .label no-reflect
-:       fa
-:       5c $return-no-reflect
+:       .plx
+:       .jml $return-no-reflect
 
 .label non-elemental
-:       ad a2 11
-:       89 01
-:       d0 normal-reflect-check
-:       ad a4 11
-:       89 81
-:       d0 normal-reflect-check
-:       ad a6 11
-:       f0 normal-reflect-check
-:       a9 {{jun-index-repel-nuke}}
-:       22 $jun-checker
-:       f0 normal-reflect-check
-:       80 yes-reflect
+:       .lda.addr a2 11
+:       .bit 01
+:       .bne normal-reflect-check
+:       .lda.addr a4 11
+:       .bit 81
+:       .bne normal-reflect-check
+:       .lda.addr a6 11
+:       .beq normal-reflect-check
+:       .lda {{jun-index-repel-nuke}}
+:       .jsl $jun-checker
+:       .beq normal-reflect-check
+:       .bra yes-reflect
 
 $check-element
-:       48 da
-:       29 07
-:       aa
-:       bf $bits
-:       85 11
-:       fa
-:       24 10
-:       f0 check-element-pull-exit
-:       68
-:       22 $jun-checker
-:       60
+:       .pha .phx
+:       .and 07
+:       .tax
+:       .lda.long.x $bits
+:       .sta.dp 11
+:       .plx
+:       .bit.dp 10
+:       .beq check-element-pull-exit
+:       .pla
+:       .jsl $jun-checker
+:       .rts
 .label check-element-pull-exit
-:       68
-:       e2 02
-:       60
+:       .pla
+:       .sep 02
+:       .rts
 
 VALIDATION
 
 # in unmodified roms this code is at c2/2235
 # the vanish doom patch moves it to c2/2243
-022235: ad a3 11
-:       89 02
+022235: .lda.addr a3 11
+:       .bit 02
 
-022241: c2 20
-:       b9 18 30
+022241: .rep 20
+:       .lda.addr.y 18 30
 
-02224b: ad a2 11
-:       89 02
+02224b: .lda.addr a2 11
+:       .bit 02

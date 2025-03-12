@@ -7,23 +7,23 @@
 .addr   living-characters               7e3a74
 
 $main
-:       c2 20
-:       a5 b8
-:       2c $living-characters,2
-:       e2 20
-:       f0 reentry-fail
-:       a9 02
-:       85 b5
+:       .rep 20
+:       .lda.dp b8
+:       .bit.addr $living-characters,2
+:       .sep 20
+:       .beq reentry-fail
+:       .lda 02
+:       .sta.dp b5
 
-:       a5 b7
-:       8d 4c 3a
-:       8d a5 11
-:       a9 ff
-:       85 b7
+:       .lda.dp b7
+:       .sta.addr 4c 3a
+:       .sta.addr a5 11
+:       .lda ff
+:       .sta.dp b7
 
-:       5c $reentry-address
+:       .jml $reentry-address
 .label reentry-fail
-:       5c $reentry-fail-address
+:       .jml $reentry-fail-address
 
 $pointer-address
 :       $main,2

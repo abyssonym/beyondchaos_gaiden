@@ -1,31 +1,31 @@
 .addr   jun-checker                     {{jun-global-checker}}
 .addr   main                            620400
 
-0203f5: 22 $main
-:       ea
+0203f5: .jsl $main
+:       .nop
 
 $main
-:       48
-:       c9 16
-:       d0 no-highwind
-:       a9 {{jun-index-highwind}}
-:       22 $jun-checker
-:       d0 exit-no-delay
+:       .pha
+:       .cmp 16
+:       .bne no-highwind
+:       .lda {{jun-index-highwind}}
+:       .jsl $jun-checker
+:       .bne exit-no-delay
 .label no-highwind
-:       a9 {{jun-index-instant-act}}
-:       22 $jun-checker
-:       d0 exit-no-delay
+:       .lda {{jun-index-instant-act}}
+:       .jsl $jun-checker
+:       .bne exit-no-delay
 .label exit-normal-delay
-:       68
-:       aa
-:       bf 7b 06 c2
-:       6b
+:       .pla
+:       .tax
+:       .lda.long.x 7b 06 c2
+:       .rtl
 .label exit-no-delay
-:       68
-:       a9 00
-:       6b
+:       .pla
+:       .lda 00
+:       .rtl
 
 VALIDATION
 
-0203f5: aa
-:       bf 7b 06 c2
+0203f5: .tax
+:       .lda.long.x 7b 06 c2

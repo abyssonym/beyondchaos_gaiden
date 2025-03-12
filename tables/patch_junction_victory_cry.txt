@@ -1,32 +1,32 @@
 .addr   jun-checker                     {{jun-global-checker}}
 .addr   main                            6210a0
 
-026236: 22 $main
-:       ea
+026236: .jsl $main
+:       .nop
 
 $main
-:       c2 21
-:       da
-:       bb
+:       .rep 21
+:       .phx
+:       .tyx
 
-:       a9 {{jun-index-victory-cry}} 00
-:       22 $jun-checker
-:       f0 no-victory-cry
-:       bd e4 3e
-:       29 30 00
-:       9d e4 3e
+:       .lda {{jun-index-victory-cry}} 00
+:       .jsl $jun-checker
+:       .beq no-victory-cry
+:       .lda.addr.x e4 3e
+:       .and 30 00
+:       .sta.addr.x e4 3e
 
-:       bd 1c 3c
-:       9d f4 3b
-:       bd 30 3c
-:       9d 08 3c
+:       .lda.addr.x 1c 3c
+:       .sta.addr.x f4 3b
+:       .lda.addr.x 30 3c
+:       .sta.addr.x 08 3c
 
 .label no-victory-cry
-:       fa
-:       ad 35 2f
-:       6b
+:       .plx
+:       .lda.addr 35 2f
+:       .rtl
 
 VALIDATION
 
-026236: c2 21
-:       ad 35 2f
+026236: .rep 21
+:       .lda.addr 35 2f

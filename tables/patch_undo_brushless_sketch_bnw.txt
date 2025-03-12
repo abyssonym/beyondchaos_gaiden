@@ -1,7 +1,7 @@
-02529b: ea ea ea
-035f44: ea ea
+02529b: .nop .nop .nop
+035f44: .nop .nop
 
 VALIDATION
 
-02529b: 20 e8 53
-035f44: b0 04
+02529b: .jsr.addr e8 53
+035f44: .bcs 04

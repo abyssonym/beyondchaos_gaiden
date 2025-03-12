@@ -8,41 +8,41 @@
 .addr   old-rng2                        024b5a
 .addr   old-rng3                        024b65
 
-023a0c: 22 $main-enemy-steal
-:       ea ea
+023a0c: .jsl $main-enemy-steal
+:       .nop .nop
 
-023ee4: 22 $main-ogre-nix
+023ee4: .jsl $main-ogre-nix
 
 $main-enemy-steal
-:       da
-:       bb
-:       ee 01 34
-:       a9 {{jun-index-maintenance}}
-:       22 $jun-checker
-:       f0 steal-no-maintenance
-:       a9 ff
-:       fa
-:       6b
+:       .phx
+:       .tyx
+:       .inc.addr 01 34
+:       .lda {{jun-index-maintenance}}
+:       .jsl $jun-checker
+:       .beq steal-no-maintenance
+:       .lda ff
+:       .plx
+:       .rtl
 .label steal-no-maintenance
-:       22 $jun-rng2
-:       fa
-:       6b
+:       .jsl $jun-rng2
+:       .plx
+:       .rtl
 
 $main-ogre-nix
-:       bb
-:       a9 {{jun-index-maintenance}}
-:       22 $jun-checker
-:       f0 ogre-nix-no-maintenance
-:       a9 00
-:       6b
+:       .tyx
+:       .lda {{jun-index-maintenance}}
+:       .jsl $jun-checker
+:       .beq ogre-nix-no-maintenance
+:       .lda 00
+:       .rtl
 .label ogre-nix-no-maintenance
-:       22 $jun-rng3
-:       3a
-:       6b
+:       .jsl $jun-rng3
+:       .dec
+:       .rtl
 
 VALIDATION
-023a0c: ee 01 34
-:       20 $old-rng2,2
+023a0c: .inc.addr 01 34
+:       .jsr.addr $old-rng2,2
 
-023ee4: 20 $old-rng3,2
-:       3a
+023ee4: .jsr.addr $old-rng3,2
+:       .dec

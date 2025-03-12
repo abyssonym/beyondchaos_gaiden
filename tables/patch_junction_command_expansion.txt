@@ -59,42 +59,42 @@
 .addr   cmd-32  02151e
 .addr   cmd-33  02151e
 
-0213fc: 5c $get-command-subroutine
-02155b: 5c $get-command-jump
+0213fc: .jml $get-command-subroutine
+02155b: .jml $get-command-jump
 
 $get-command-subroutine
-:       aa
-:       f4 $return-addr,2
-:       8a
-:       4c $get-command-jump,2
+:       .tax
+:       .pea $return-addr,2
+:       .txa
+:       .jmp $get-command-jump,2
 
 $get-command-jump
-:       aa
-:       c9 34
-:       b0 new-command
-:       a9 c2
-:       80 main-body
+:       .tax
+:       .cmp 34
+:       .bcs new-command
+:       .lda c2
+:       .bra main-body
 .label new-command
-:       a9 62
+:       .lda 62
 .label main-body
-:       85 12
-:       8a
-:       0a aa
-:       c2 20
-:       bf $jun-command-table-address
-:       85 10
-:       e2 20
-:       dc 10 00
+:       .sta.dp 12
+:       .txa
+:       .asl .tax
+:       .rep 20
+:       .lda.long.x $jun-command-table-address
+:       .sta.dp 10
+:       .sep 20
+:       .jmp.addr.i.long 10 00
 
 VALIDATION
 
 .addr   command-pointers        0219c7
 
-0213fc: 0a aa
-:       fc $command-pointers,2
+0213fc: .asl .tax
+:       .jsr.addr.x.i $command-pointers,2
 
-02155b: 0a aa
-:       7c $command-pointers,2
+02155b: .asl .tax
+:       .jmp.addr.x.i $command-pointers,2
 
 0219c7: $cmd-00,2
 :       $cmd-01,2

@@ -4,49 +4,49 @@
 .addr   return-not-umaro                02092a
 .addr   check-able-bodied               620d40
 
-020926: 5c $main-umaro
+020926: .jml $main-umaro
 
 $main-umaro
-:       48 da
-:       c9 {{berserker-index:0d}}
-:       d0 exit-just-exit
-:       a9 {{jun-index-focus}}
-:       22 $jun-checker
-:       d0 exit-not-berserk
+:       .pha .phx
+:       .cmp {{berserker-index:0d}}
+:       .bne exit-just-exit
+:       .lda {{jun-index-focus}}
+:       .jsl $jun-checker
+:       .bne exit-not-berserk
 .label not-focus
-:       a2 06
+:       .ldx 06
 .label commander-loop
-:       8a
-:       c3 01
-:       f0 commander-skip
-:       20 $check-able-bodied,2
-:       f0 commander-skip
-:       a9 {{jun-index-commander}}
-:       22 $jun-checker
-:       f0 commander-skip
-:       80 exit-not-berserk
+:       .txa
+:       .cmp.sr 01
+:       .beq commander-skip
+:       .jsr.addr $check-able-bodied,2
+:       .beq commander-skip
+:       .lda {{jun-index-commander}}
+:       .jsl $jun-checker
+:       .beq commander-skip
+:       .bra exit-not-berserk
 .label commander-skip
-:       ca ca
-:       10 commander-loop
+:       .dex .dex
+:       .bpl commander-loop
 .label exit-berserk
-:       fa
-:       a9 fd
-:       3d a0 3a
-:       9d a0 3a
-:       68
-:       5c $return-umaro
+:       .plx
+:       .lda fd
+:       .and.addr.x a0 3a
+:       .sta.addr.x a0 3a
+:       .pla
+:       .jml $return-umaro
 .label exit-not-berserk
-:       fa
-:       a9 02
-:       1d a0 3a
-:       9d a0 3a
-:       68
-:       5c $return-not-umaro
+:       .plx
+:       .lda 02
+:       .ora.addr.x a0 3a
+:       .sta.addr.x a0 3a
+:       .pla
+:       .jml $return-not-umaro
 .label exit-just-exit
-:       fa 68
-:       5c $return-not-umaro
+:       .plx .pla
+:       .jml $return-not-umaro
 
 VALIDATION
 
-020926: c9 {{berserker-index:0d}}
-020928: f0 9b
+020926: .cmp {{berserker-index:0d}}
+020928: .beq 9b

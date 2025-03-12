@@ -22,227 +22,227 @@
 .def    custom-mp-command-index     {{jun-command-index-custom-mp-spell}}
 .def    fixed-damage-command-index  {{jun-command-index-fixed-damage}}
 
-021771: 22 $null-secondary-data
+021771: .jsl $null-secondary-data
 
-0231b6: 22 $main
+0231b6: .jsl $main
 
-0239a1: 5c @main-steal,3
-:       ea
+0239a1: .jml @main-steal,3
+:       .nop
 .label return-steal
-:       e0 08
-:       b0 5f
+:       .cpx 08
+:       .bcs 5f
 
-0239fd: ee 01 34
+0239fd: .inc.addr 01 34
 .label return-no-steal
-023a00: 60
+023a00: .rts
 
 $main
-:       22 $jun-check-is-damage-over-time
-:       f0 not-damage-over-time
-:       82 no-junction,2
+:       .jsl $jun-check-is-damage-over-time
+:       .beq not-damage-over-time
+:       .brl no-junction,2
 
 .label not-damage-over-time
-:       ad a9 11
-:       d0 no-add-steal
-:       22 $jun-rng1
-:       b0 no-add-steal
-:       a9 {{jun-index-add-steal}}
-:       22 $jun-checker
-:       f0 no-add-steal
-:       a9 a4
-:       8d a9 11
+:       .lda.addr a9 11
+:       .bne no-add-steal
+:       .jsl $jun-rng1
+:       .bcs no-add-steal
+:       .lda {{jun-index-add-steal}}
+:       .jsl $jun-checker
+:       .beq no-add-steal
+:       .lda a4
+:       .sta.addr a9 11
 
 .label no-add-steal
-:       a9 01
-:       2c a2 11
-:       f0 not-physical
-:       a9 {{jun-index-vorpal}}
-:       22 $jun-checker
-:       f0 no-vorpal
-:       a9 20
-:       0c a2 11
+:       .lda 01
+:       .bit.addr a2 11
+:       .beq not-physical
+:       .lda {{jun-index-vorpal}}
+:       .jsl $jun-checker
+:       .beq no-vorpal
+:       .lda 20
+:       .tsb.addr a2 11
 
 .label no-vorpal
-:       a5 b5
-:       d0 no-gunblade
-:       a9 {{jun-index-gunblade}}
-:       22 $jun-checker
-:       f0 no-gunblade
-:       a9 super-ball-item-index
-:       22 $jun-deduct-item-if-possible
-:       f0 no-gunblade
-:       a9 92
-:       14 b3
-:       a9 20
-:       04 b3
-:       0c a4 11
-:       ee 70 3a
-:       a9 10
-:       14 b2
-:       a9 hyperdrive-index
-:       8d 00 34
+:       .lda.dp b5
+:       .bne no-gunblade
+:       .lda {{jun-index-gunblade}}
+:       .jsl $jun-checker
+:       .beq no-gunblade
+:       .lda super-ball-item-index
+:       .jsl $jun-deduct-item-if-possible
+:       .beq no-gunblade
+:       .lda 92
+:       .trb.dp b3
+:       .lda 20
+:       .tsb.dp b3
+:       .tsb.addr a4 11
+:       .inc.addr 70 3a
+:       .lda 10
+:       .trb.dp b2
+:       .lda hyperdrive-index
+:       .sta.addr 00 34
 
 .label no-gunblade
 .label not-physical
-:       ad a5 11
-:       f0 no-quickening
-:       ad 4c 3a
-:       f0 no-quickening
-:       a5 b7
-:       1a
-:       d0 no-quickening
-:       22 $jun-check-entity-can-act
-:       f0 no-quickening
-:       c2 20
-:       bd $current-current-hp-address,2
-:       f0 no-quickening
-:       a9 {{jun-index-quickening}} 00
-:       22 $jun-checker
-:       f0 no-quickening
-:       a5 b8
-:       2c $living-characters,2
-:       e2 20
-:       f0 no-quickening
-:       ad 4c 3a
-:       4a
-:       6d 4c 3a
-:       90 quickening-no-overflow
-:       20 $do-quickening-penalty,2
-:       a9 ff
+:       .lda.addr a5 11
+:       .beq no-quickening
+:       .lda.addr 4c 3a
+:       .beq no-quickening
+:       .lda.dp b7
+:       .inc
+:       .bne no-quickening
+:       .jsl $jun-check-entity-can-act
+:       .beq no-quickening
+:       .rep 20
+:       .lda.addr.x $current-current-hp-address,2
+:       .beq no-quickening
+:       .lda {{jun-index-quickening}} 00
+:       .jsl $jun-checker
+:       .beq no-quickening
+:       .lda.dp b8
+:       .bit.addr $living-characters,2
+:       .sep 20
+:       .beq no-quickening
+:       .lda.addr 4c 3a
+:       .lsr
+:       .adc.addr 4c 3a
+:       .bcc quickening-no-overflow
+:       .jsr.addr $do-quickening-penalty,2
+:       .lda ff
 .label quickening-no-overflow
-:       cd a5 11
-:       b0 not-economizer-case
-:       ad a5 11
+:       .cmp.addr a5 11
+:       .bcs not-economizer-case
+:       .lda.addr a5 11
 .label not-economizer-case
-:       c2 20
-:       29 ff 00
-:       3a
-:       dd 08 3c
-:       e2 20
-:       b0 no-quickening
-:       1a
-:       85 b7
-:       20 @quickening-add-hp-damage,2
-:       a9 custom-mp-command-index
-:       8d 7a 3a
-:       a5 b6
-:       8d 7b 3a
-:       22 $jun-queue-command
+:       .rep 20
+:       .and ff 00
+:       .dec
+:       .cmp.addr.x 08 3c
+:       .sep 20
+:       .bcs no-quickening
+:       .inc
+:       .sta.dp b7
+:       .jsr.addr @quickening-add-hp-damage,2
+:       .lda custom-mp-command-index
+:       .sta.addr 7a 3a
+:       .lda.dp b6
+:       .sta.addr 7b 3a
+:       .jsl $jun-queue-command
 
 .label no-quickening
-:       e2 20
-:       a9 {{jun-index-astral}}
-:       22 $jun-checker
-:       f0 no-astral
-:       a9 80
-:       4d a3 11
-:       8d a3 11
+:       .sep 20
+:       .lda {{jun-index-astral}}
+:       .jsl $jun-checker
+:       .beq no-astral
+:       .lda 80
+:       .eor.addr a3 11
+:       .sta.addr a3 11
 
 .label no-astral
-:       a9 01
-:       2c a4 11
-:       d0 no-vampire
-:       a9 {{jun-index-vampire}}
-:       22 $jun-checker
-:       f0 no-vampire
-:       a9 02
-:       0c a4 11
-:       a9 08
-:       0c a2 11
+:       .lda 01
+:       .bit.addr a4 11
+:       .bne no-vampire
+:       .lda {{jun-index-vampire}}
+:       .jsl $jun-checker
+:       .beq no-vampire
+:       .lda 02
+:       .tsb.addr a4 11
+:       .lda 08
+:       .tsb.addr a2 11
 
 .label no-vampire
 .label no-junction
-:       a9 20
-:       14 b2
-:       6b
+:       .lda 20
+:       .trb.dp b2
+:       .rtl
 
 .label main-steal
-:       22 $jun-check-are-same-team
-:       d0 main-return-no-steal
-:       e0 08
-:       b0 main-return-steal
-:       bd $stolen-item,2
-:       1a
-:       d0 main-return-no-steal
-:       a9 01
-:       8d 01 34
+:       .jsl $jun-check-are-same-team
+:       .bne main-return-no-steal
+:       .cpx 08
+:       .bcs main-return-steal
+:       .lda.addr.x $stolen-item,2
+:       .inc
+:       .bne main-return-no-steal
+:       .lda 01
+:       .sta.addr 01 34
 .label main-return-steal
-:       5c @return-steal,3
+:       .jml @return-steal,3
 .label main-return-no-steal
-:       5c @return-no-steal,3
+:       .jml @return-no-steal,3
 
 $do-quickening-penalty
-:       5a
+:       .phy
 
-:       c2 20
-:       bd $current-max-hp-address,2
-:       20 @reduce-three-quarters,2
-:       9d $current-max-hp-address,2
-:       bd $current-current-hp-address,2
-:       20 @reduce-three-quarters,2
-:       9d $current-current-hp-address,2
-:       bd $current-max-mp-address,2
-:       20 @reduce-three-quarters,2
-:       9d $current-max-mp-address,2
-:       bd $current-current-mp-address,2
-:       20 @reduce-three-quarters,2
-:       9d $current-current-mp-address,2
-:       a9 00 00
-:       e2 20
-:       bd $current-level-address,2
-:       20 @reduce-three-quarters,2
-:       9d $current-level-address,2
-:       7a
-:       60
+:       .rep 20
+:       .lda.addr.x $current-max-hp-address,2
+:       .jsr.addr @reduce-three-quarters,2
+:       .sta.addr.x $current-max-hp-address,2
+:       .lda.addr.x $current-current-hp-address,2
+:       .jsr.addr @reduce-three-quarters,2
+:       .sta.addr.x $current-current-hp-address,2
+:       .lda.addr.x $current-max-mp-address,2
+:       .jsr.addr @reduce-three-quarters,2
+:       .sta.addr.x $current-max-mp-address,2
+:       .lda.addr.x $current-current-mp-address,2
+:       .jsr.addr @reduce-three-quarters,2
+:       .sta.addr.x $current-current-mp-address,2
+:       .lda 00 00
+:       .sep 20
+:       .lda.addr.x $current-level-address,2
+:       .jsr.addr @reduce-three-quarters,2
+:       .sta.addr.x $current-level-address,2
+:       .ply
+:       .rts
 
 .label reduce-three-quarters
-:       1a 4a
-:       48
-:       4a
-:       18
-:       63 01
-:       83 01
-:       68
-:       60
+:       .inc .lsr
+:       .pha
+:       .lsr
+:       .clc
+:       .adc.sr 01
+:       .sta.sr 01
+:       .pla
+:       .rts
 
 .label quickening-add-hp-damage
-:       a9 fixed-damage-command-index
-:       8d 7a 3a
-:       c2 20
-:       a5 b8
-:       48
-:       a5 b7
-:       29 ff 00
-:       85 b8
-:       22 $jun-queue-command
-:       68
-:       85 b8
-:       e2 20
-:       60
+:       .lda fixed-damage-command-index
+:       .sta.addr 7a 3a
+:       .rep 20
+:       .lda.dp b8
+:       .pha
+:       .lda.dp b7
+:       .and ff 00
+:       .sta.dp b8
+:       .jsl $jun-queue-command
+:       .pla
+:       .sta.dp b8
+:       .sep 20
+:       .rts
 
 $null-secondary-data
-:       a5 b5
-:       c9 13
-:       f0 is-dance
-:       a9 ff
-:       85 b7
-:       a5 b5
+:       .lda.dp b5
+:       .cmp 13
+:       .beq is-dance
+:       .lda ff
+:       .sta.dp b7
+:       .lda.dp b5
 .label  is-dance
-:       c9 0f
-:       6b
+:       .cmp 0f
+:       .rtl
 
 VALIDATION
 
-021771: a5 b5
-:       c9 0f
+021771: .lda.dp b5
+:       .cmp 0f
 
-0231b6: a9 20
-:       14 b2
+0231b6: .lda 20
+:       .trb.dp b2
 
-0239a1: a9 01
-:       8d 01 34
-:       e0 08
-:       b0 5f
+0239a1: .lda 01
+:       .sta.addr 01 34
+:       .cpx 08
+:       .bcs 5f
 
-0239fd: ee 01 34
-023a00: 60
+0239fd: .inc.addr 01 34
+023a00: .rts

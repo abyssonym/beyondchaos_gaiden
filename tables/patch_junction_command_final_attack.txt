@@ -4,15 +4,15 @@
 .addr   pointer-address                 {{jun-global-command-final-attack}}
 
 $main
-:       a9 02
-:       85 b5
+:       .lda 02
+:       .sta.dp b5
 # stops character from standing up
-:       a9 10
-:       14 b0
+:       .lda 10
+:       .trb.dp b0
 # prevents attack name from being displayed
-:       a9 01
-:       14 b2
-:       5c $reentry-address
+:       .lda 01
+:       .trb.dp b2
+:       .jml $reentry-address
 
 $pointer-address
 :       $main,2

@@ -6,102 +6,102 @@
 .addr   current-hp-address              7e3bf4
 .addr   max-hp-address                  7e3c1c
 
-02132a: 22 $main
-:       80 end_nops
-:       ea ea ea
-:       ea ea
-:       ea ea ea
-:       ea ea ea
-.label end_nops
-:       18
-:       60
+02132a: .jsl $main
+:       .bra end-nops
+:       .nop .nop .nop
+:       .nop .nop
+:       .nop .nop .nop
+:       .nop .nop .nop
+.label end-nops
+:       .clc
+:       .rts
 
-0241ec: 22 $main-revenge
-:       60
+0241ec: .jsl $main-revenge
+:       .rts
 
 $main
-:       18
-:       79 $current-hp-address,2
-:       90 no-hp-overflow
-:       a9 ff ff
+:       .clc
+:       .adc.addr.y $current-hp-address,2
+:       .bcc no-hp-overflow
+:       .lda ff ff
 .label no-hp-overflow
-:       d9 $max-hp-address,2
-:       90 below-max-hp
+:       .cmp.addr.y $max-hp-address,2
+:       .bcc below-max-hp
 
-:       48
-:       a3 09
-:       29 ff 00
-:       aa
+:       .pha
+:       .lda.sr 09
+:       .and ff 00
+:       .tax
 #:       a9 22 02
 #:       cd 7a 3a
 #:       d0 not-regen
 #:       bb
 #.label not-regen
-:       a9 {{jun-index-overheal}} 00
-:       22 $jun-checker
-:       f0 no-overheal
+:       .lda {{jun-index-overheal}} 00
+:       .jsl $jun-checker
+:       .beq no-overheal
 
-:       b9 $current-hp-address,2
-:       48
-:       b9 $max-hp-address,2
-:       c3 01
-:       90 max-hp-less-than-current-hp
-:       83 01
+:       .lda.addr.y $current-hp-address,2
+:       .pha
+:       .lda.addr.y $max-hp-address,2
+:       .cmp.sr 01
+:       .bcc max-hp-less-than-current-hp
+:       .sta.sr 01
 .label max-hp-less-than-current-hp
-:       a3 03
-:       38
-:       e3 01
-:       d9 $max-hp-address,2
-:       90 difference-less-than-max-hp
-:       b9 $max-hp-address,2
+:       .lda.sr 03
+:       .sec
+:       .sbc.sr 01
+:       .cmp.addr.y $max-hp-address,2
+:       .bcc difference-less-than-max-hp
+:       .lda.addr.y $max-hp-address,2
 .label difference-less-than-max-hp
-:       1a 1a
-:       4a 4a
-:       18
-:       63 01
-:       90 no-overheal-hp-overflow
-:       a9 ff ff
+:       .inc .inc
+:       .lsr .lsr
+:       .clc
+:       .adc.sr 01
+:       .bcc no-overheal-hp-overflow
+:       .lda ff ff
 .label no-overheal-hp-overflow
-:       83 03
-:       68
+:       .sta.sr 03
+:       .pla
 
-:       68
+:       .pla
 .label choose-current-or-max-hp
-:       d9 $current-hp-address,2
-:       b0 below-max-hp
-:       b9 $current-hp-address,2
+:       .cmp.addr.y $current-hp-address,2
+:       .bcs below-max-hp
+:       .lda.addr.y $current-hp-address,2
 
 .label below-max-hp
-:       99 $current-hp-address,2
-:       6b
+:       .sta.addr.y $current-hp-address,2
+:       .rtl
 
 .label no-overheal
-:       68
-:       b9 $max-hp-address,2
-:       80 choose-current-or-max-hp
+:       .pla
+:       .lda.addr.y $max-hp-address,2
+:       .bra choose-current-or-max-hp
 
 $main-revenge
-:       b9 1c 3c
-:       f9 f4 3b
-:       30 revenge-heal
-:       8d b0 11
-:       6b
+:       .lda.addr.y 1c 3c
+:       .sbc.addr.y f4 3b
+:       .bmi revenge-heal
+:       .sta.addr b0 11
+:       .rtl
 .label revenge-heal
-:       49 ff ff
-:       1a
-:       8d b0 11
-:       a9 01 00
-:       0c a4 11
-:       6b
+:       .eor ff ff
+:       .inc
+:       .sta.addr b0 11
+:       .lda 01 00
+:       .tsb.addr a4 11
+:       .rtl
 
 VALIDATION
 
-02132a: 18
-:       79 $current-hp-address,2
-:       b0 05
-:       d9 $max-hp-address,2
-:       90 03
-:       b9 $max-hp-address,2
-:       99 $current-hp-address,2
-:       18
-:       60
+02132a: .clc
+:       .adc.addr.y $current-hp-address,2
+:       .bcs 05
+:       .cmp.addr.y $max-hp-address,2
+:       .bcc 03
+:       .lda.addr.y $max-hp-address,2
+:       .sta.addr.y $current-hp-address,2
+:       .clc
+:       .rts

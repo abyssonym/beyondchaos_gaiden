@@ -2,75 +2,75 @@
 .addr   jun-check-count-all-living      {{jun-global-check-count-all-living}}
 .addr   main                            627c80
 
-0233bd: 22 $main
+0233bd: .jsl $main
 
 $main
-:       08
-:       90 exit-hit
+:       .php
+:       .bcc exit-hit
 
-:       e2 20
-:       ad a2 11
-:       89 02
-:       f0 exit-miss
+:       .sep 20
+:       .lda.addr a2 11
+:       .bit 02
+:       .beq exit-miss
 
-:       bd 05 3b
-:       c9 01
-:       f0 condemned-case
+:       .lda.addr.x 05 3b
+:       .cmp 01
+:       .beq condemned-case
 
-:       a9 {{jun-index-deaths-door}}
-:       22 $jun-checker
-:       f0 exit-miss
+:       .lda {{jun-index-deaths-door}}
+:       .jsl $jun-checker
+:       .beq exit-miss
 
 # duplicated Revenge code
-:       9c 14 34
-:       c2 20
-:       48
-:       38
-:       bd 1c 3c
-:       fd f4 3b
+:       .stz.addr 14 34
+:       .rep 20
+:       .pha
+:       .sec
+:       .lda.addr.x 1c 3c
+:       .sbc.addr.x f4 3b
 
-:       e0 08
-:       90 damage-and-miss
-:       89 00 80
-:       d0 damage-and-miss
-:       4a 4a 4a
+:       .cpx 08
+:       .bcc damage-and-miss
+:       .bit 00 80
+:       .bne damage-and-miss
+:       .lsr .lsr .lsr
 
 .label damage-and-miss
-:       89 00 80
-:       f0 damage-is-positive
-:       49 ff ff
-:       1a
-:       99 e4 33
-:       80 damage-is-negative-skip
+:       .bit 00 80
+:       .beq damage-is-positive
+:       .eor ff ff
+:       .inc
+:       .sta.addr.y e4 33
+:       .bra damage-is-negative-skip
 .label damage-is-positive
-:       99 d0 33
+:       .sta.addr.y d0 33
 .label damage-is-negative-skip
-:       68
-:       e2 20
+:       .pla
+:       .sep 20
 
 .label exit-miss
-:       28
-:       b9 18 30
-:       14 a4
-:       6b
+:       .plp
+:       .lda.addr.y 18 30
+:       .trb.dp a4
+:       .rtl
 .label exit-hit
-:       28
-:       6b
+:       .plp
+:       .rtl
 
 .label condemned-case
-:       a9 {{jun-index-deaths-door}}
-:       22 $jun-check-count-all-living
-:       c9 00
-:       f0 exit-miss
-:       9c 14 34
-:       c2 20
-:       48
-:       a9 0f 27
-:       80 damage-and-miss
+:       .lda {{jun-index-deaths-door}}
+:       .jsl $jun-check-count-all-living
+:       .cmp 00
+:       .beq exit-miss
+:       .stz.addr 14 34
+:       .rep 20
+:       .pha
+:       .lda 0f 27
+:       .bra damage-and-miss
 
 VALIDATION
-0233bd: 90 02
-:       14 a4
+0233bd: .bcc 02
+:       .trb.dp a4
 
-025bc7: a9 0d
-:       85 b8
+025bc7: .lda 0d
+:       .sta.dp b8

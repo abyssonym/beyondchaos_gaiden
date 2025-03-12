@@ -13,147 +13,147 @@
 .addr   return-highwind-menu-normal     014849
 .addr   return-highwind-menu-highwind   014855
 
-020144: 22 $main-clear-flag
-:       ea ea
+020144: .jsl $main-clear-flag
+:       .nop .nop
 
-020710: 22 $main-sky-die
-:       ea
+020710: .jsl $main-sky-die
+:       .nop
 
-020b7d: 22 $main-palidor
-:       ea
+020b7d: .jsl $main-palidor
+:       .nop
 
-02180b: 5c $main-jump-command
-:       ea
+02180b: .jml $main-jump-command
+:       .nop
 
-0221d3: 22 $main-set-flag
-:       ea ea
+0221d3: .jsl $main-set-flag
+:       .nop .nop
 
 $main-set-flag
-:       a9 {{jun-index-highwind}} 00
-:       22 $jun-checker
-:       d0 main-set-highwind
-:       bd 18 30
-:       0c 2c 3f
-:       6b
+:       .lda {{jun-index-highwind}} 00
+:       .jsl $jun-checker
+:       .bne main-set-highwind
+:       .lda.addr.x 18 30
+:       .tsb.addr 2c 3f
+:       .rtl
 .label main-set-highwind
-:       bd 18 30
-:       4d 2c 3f
-:       8d 2c 3f
-:       6b
+:       .lda.addr.x 18 30
+:       .eor.addr 2c 3f
+:       .sta.addr 2c 3f
+:       .rtl
 
 $main-clear-flag
-:       a9 {{jun-index-highwind}} 00
-:       22 $jun-checker
-:       d0 main-clear-highwind
-:       bd 18 30
-:       1c 2c 3f
-:       6b
+:       .lda {{jun-index-highwind}} 00
+:       .jsl $jun-checker
+:       .bne main-clear-highwind
+:       .lda.addr.x 18 30
+:       .trb.addr 2c 3f
+:       .rtl
 .label main-clear-highwind
-:       bd 18 30
-:       0c 58 3a
-:       c2 02
-:       6b
+:       .lda.addr.x 18 30
+:       .tsb.addr 58 3a
+:       .rep 02
+:       .rtl
 
 $main-jump-command
-:       a9 {{jun-index-highwind}}
-:       22 $jun-checker
-:       f0 exit-land
-:       bd 18 30
-:       2c 2c 3f
-:       f0 exit-land-highwind
-:       20 $set-menu-jump,2
-:       bd 4d 3e
-:       09 40
-:       9d 4d 3e
-:       5c $return-hang
+:       .lda {{jun-index-highwind}}
+:       .jsl $jun-checker
+:       .beq exit-land
+:       .lda.addr.x 18 30
+:       .bit.addr 2c 3f
+:       .beq exit-land-highwind
+:       .jsr.addr $set-menu-jump,2
+:       .lda.addr.x 4d 3e
+:       .ora 40
+:       .sta.addr.x 4d 3e
+:       .jml $return-hang
 .label exit-land-highwind
-:       bd 4d 3e
-:       29 bf
-:       9d 4d 3e
-:       22 $jun-reload-character-commands
+:       .lda.addr.x 4d 3e
+:       .and bf
+:       .sta.addr.x 4d 3e
+:       .jsl $jun-reload-character-commands
 .label exit-land
-:       a9 20
-:       8d a4 11
-:       5c $return-land
+:       .lda 20
+:       .sta.addr a4 11
+:       .jml $return-land
 
 $main-palidor
-:       a9 {{jun-index-highwind}}
-:       22 $jun-checker
-:       f0 exit-palidor
-:       bd 4d 3e
-:       09 40
-:       9d 4d 3e
-:       20 $set-menu-jump,2
-:       bd 18 30
-:       0c 58 3a
-:       bc cc 32
-:       b9 84 31
-:       30 palidor-nothing-queued
-:       c2 20
-:       29 ff 00
-:       0a
-:       a8
-:       e2 20
-:       a9 15
-:       99 20 34
+:       .lda {{jun-index-highwind}}
+:       .jsl $jun-checker
+:       .beq exit-palidor
+:       .lda.addr.x 4d 3e
+:       .ora 40
+:       .sta.addr.x 4d 3e
+:       .jsr.addr $set-menu-jump,2
+:       .lda.addr.x 18 30
+:       .tsb.addr 58 3a
+:       .ldy.addr.x cc 32
+:       .lda.addr.y 84 31
+:       .bmi palidor-nothing-queued
+:       .rep 20
+:       .and ff 00
+:       .asl
+:       .tay
+:       .sep 20
+:       .lda 15
+:       .sta.addr.y 20 34
 .label palidor-nothing-queued
-:       a9 00
-:       80 exit-palidor-no-wait
+:       .lda 00
+:       .bra exit-palidor-no-wait
 .label exit-palidor
-:       a9 e0
+:       .lda e0
 .label exit-palidor-no-wait
-:       9d 2c 32
-:       6b
+:       .sta.addr.x 2c 32
+:       .rtl
 
 $set-menu-jump
-:       da 08
-:       c2 20
-:       8a
-:       09 00 06
-:       22 $jun-mult
-:       aa
-:       a9 16 0b
-:       9d 2e 20
-:       a9 43 ff
-:       9d 30 20
-:       a9 ff ff
-:       9d 32 20
-:       9d 34 20
-:       9d 36 20
-:       9d 38 20
-:       28 fa
-:       60
+:       .phx .php
+:       .rep 20
+:       .txa
+:       .ora 00 06
+:       .jsl $jun-mult
+:       .tax
+:       .lda 16 0b
+:       .sta.addr.x 2e 20
+:       .lda 43 ff
+:       .sta.addr.x 30 20
+:       .lda ff ff
+:       .sta.addr.x 32 20
+:       .sta.addr.x 34 20
+:       .sta.addr.x 36 20
+:       .sta.addr.x 38 20
+:       .plp .plx
+:       .rts
 
 $main-sky-die
-:       c2 20
-:       bd 18 30
-:       2c 2c 3f
-:       f0 exit-sky-die-normal
-:       a9 {{jun-index-highwind}} 00
-:       22 $jun-checker
-:       d0 exit-sky-die-death
-:       bd 18 30
+:       .rep 20
+:       .lda.addr.x 18 30
+:       .bit.addr 2c 3f
+:       .beq exit-sky-die-normal
+:       .lda {{jun-index-highwind}} 00
+:       .jsl $jun-checker
+:       .bne exit-sky-die-death
+:       .lda.addr.x 18 30
 .label exit-sky-die-normal
-:       6b
+:       .rtl
 .label exit-sky-die-death
-:       a9 00 00
-:       6b
+:       .lda 00 00
+:       .rtl
 
 VALIDATION
 
-0200e3: 60
+0200e3: .rts
 
-020144: bd 18 30
-:       1c 2c 3f
+020144: .lda.addr.x 18 30
+:       .trb.addr 2c 3f
 
-020710: c2 20
-:       bd 18 30
+020710: .rep 20
+:       .lda.addr.x 18 30
 
-02180b: a9 20
-:       8d a4 11
+02180b: .lda 20
+:       .sta.addr a4 11
 
-020b7d: a9 e0
-:       9d 2c 32
+020b7d: .lda e0
+:       .sta.addr.x 2c 32
 
-0221d3: bd 18 30
-:       0c 2c 3f
+0221d3: .lda.addr.x 18 30
+:       .tsb.addr 2c 3f

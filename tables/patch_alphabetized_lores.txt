@@ -14,11 +14,11 @@
 .addr   main-c3f        03ff4c
 .addr   lore-order      57f800
 
-025564: e8
-:       bf $lore-order
+025564: .inx
+:       .lda.long.x $lore-order
 :       a8 da 18 20  17 52 3c 29  1d f0 0e ad  87 3a 69 37
 :       99 0f 31 ee  87 3a
-:       20 $main-c26,2
+:       .jsr.addr $main-c26,2
 :       fa e0 17 d0  dd                                     # 025587
 
 $main-c26
@@ -27,30 +27,30 @@ $main-c26
 .label main-c2f
 :       20 17 52 6b
 
-03520f: 4c $main-c3f,2
+03520f: .jmp $main-c3f,2
 :       ff ff                                               # 035214
-035290: 48 ea                                               # 035292
-0352a0: 68 ea                                               # 0352a2
+035290: .pha .nop                                           # 035292
+0352a0: .pla .nop                                           # 0352a2
 
 $main-c3f
-:       7b
-:       a2 89 9d
-:       8e 81 21
-:       a6 00
-:       bf $lore-order
-:       a8 da 18
-:       22 @main-c2f,3
-:       3c 29 1d
-:       f0 03
-:       98
-:       80 02
-:       a9 ff
-:       8d 80 21
-:       fa
-:       e8
-:       e0 18 00
-:       d0 e1
-:       60
+:       .tdc
+:       .ldx 89 9d
+:       .stx.addr 81 21
+:       .ldx.dp 00
+:       .lda.long.x $lore-order
+:       .tay .phx .clc
+:       .jsl @main-c2f,3
+:       .bit.addr.x 29 1d
+:       .beq 03
+:       .tya
+:       .bra 02
+:       .lda ff
+:       .sta.addr 80 21
+:       .plx
+:       .inx
+:       .cpx 18 00
+:       .bne e1
+:       .rts
 
 $lore-order
 :       04 03 06 05  02 00 10 17  0f 16 0b 0a  09 0d 08 12
@@ -67,8 +67,8 @@ $main-c26
 :       ff ff ff ff
 
 03520f: a2 89 9d 8e  81                                     # 035214
-035290: a5 e5                                               # 035292
-0352a0: a5 e5                                               # 0352a2
+035290: .lda.dp e5                                          # 035292
+0352a0: .lda.dp e5                                          # 0352a2
 
 $main-c3f
 :       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff

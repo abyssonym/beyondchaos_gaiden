@@ -10,18 +10,18 @@
 # Bank is calculated as 0xCA + 0x97 = 0x61
 .def        fake-bank               97
 
-031e6e: c9 {{first-unequipable-character:0f}}
-031e83: c9 {{first-unequipable-character:0f}}
+031e6e: .cmp {{first-unequipable-character:0f}}
+031e83: .cmp {{first-unequipable-character:0f}}
 
-039c4c: 22 $main-equip-anything
+039c4c: .jsl $main-equip-anything
 
 $main-equip-anything
-:       bf $bits
-:       29 ff 3f
-:       d0 has-equip-set
-:       09 ff 3f
+:       .lda.long.x $bits
+:       .and ff 3f
+:       .bne has-equip-set
+:       .ora ff 3f
 .label has-equip-set
-:       6b
+:       .rtl
 
 0c3513: b6 $main-unequip-not-party,2 fake-bank
 :       $main-unequip-everyone,2 fake-bank
@@ -45,9 +45,9 @@ $main-unequip-everyone
 VALIDATION
 
 031e6e: c9
-031e83: c9 0e
+031e83: .cmp 0e
 
-039c4c: bf $bits
+039c4c: .lda.long.x $bits
 
 0c3513: b6 $reentry-not-party,2 02
 :       $reentry-everyone,2 02

@@ -1,9 +1,9 @@
-02688c: ea ea ea
+02688c: .nop .nop .nop
 
 VALIDATION
 
 026889: ff
 02688a: 7f 50
-02688c: 20 f7 50
-02688f: 20 a8 50
+02688c: .jsr.addr f7 50
+02688f: .jsr.addr a8 50
 026892: ff

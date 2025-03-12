@@ -1,25 +1,25 @@
 .addr   jun-checker                     {{jun-global-checker}}
 .addr   main                            620ba0
 
-0201be: 22 $main
-:       ea ea ea ea
+0201be: .jsl $main
+:       .nop .nop .nop .nop
 
 $main
-:       fe 19 32
-:       d0 check-double-time
-:       de 19 32
-:       6b
+:       .inc.addr.x 19 32
+:       .bne check-double-time
+:       .dec.addr.x 19 32
+:       .rtl
 .label check-double-time
-:       a9 {{jun-index-double-time}}
-:       22 $jun-checker
-:       f0 exit-main
-:       a9 80
-:       9d 19 32
+:       .lda {{jun-index-double-time}}
+:       .jsl $jun-checker
+:       .beq exit-main
+:       .lda 80
+:       .sta.addr.x 19 32
 .label exit-main
-:       6b
+:       .rtl
 
 VALIDATION
 
-0201be: fe 19 32
-:       d0 03
-:       de 19 32
+0201be: .inc.addr.x 19 32
+:       .bne 03
+:       .dec.addr.x 19 32

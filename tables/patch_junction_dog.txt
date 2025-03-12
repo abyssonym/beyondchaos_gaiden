@@ -1,22 +1,22 @@
 .addr   jun-checker-y               {{jun-global-checker-y}}
 .addr   main                        620240
 
-022282: 22 $main
+022282: .jsl $main
 
 $main
-:       a9 {{jun-index-dog}}
-:       22 $jun-checker-y
-:       f0 exit-normal
-:       b9 f9 3e
-:       09 40
-:       0a
-:       6b
+:       .lda {{jun-index-dog}}
+:       .jsl $jun-checker-y
+:       .beq exit-normal
+:       .lda.addr.y f9 3e
+:       .ora 40
+:       .asl
+:       .rtl
 .label exit-normal
-:       b9 f9 3e
-:       0a
-:       6b
+:       .lda.addr.y f9 3e
+:       .asl
+:       .rtl
 
 VALIDATION
 
-022282: b9 f9 3e
-:       0a
+022282: .lda.addr.y f9 3e
+:       .asl

@@ -7,7 +7,7 @@
 #.addr   main    026469
 .addr   main    0267c0
 
-0249e0: 20 $main,2                                          # 0249e3
+0249e0: .jsr.addr $main,2                                   # 0249e3
 
 $main
 :       ad 08 02 c9  0b d0 1d ad  01 20 c9 37  d0 0a ad 32
@@ -16,7 +16,7 @@ $main
 
 VALIDATION
 
-0249e0: ad 4b 2f                                            # 0249e3
+0249e0: .lda.addr 4b 2f                                     # 0249e3
 
 $main
 :       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff

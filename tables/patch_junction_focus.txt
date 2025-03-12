@@ -7,155 +7,155 @@
 .addr   check-focus                     620d80
 .addr   check-able-bodied               620d40
 
-020956: 5c $main-focus
-:       ea ea
+020956: .jml $main-focus
+:       .nop .nop
 
-02597a: 22 $main-lucid-dead
+02597a: .jsl $main-lucid-dead
 
 $main-focus
-:       f4 c2 b0
-:       f4 01 21
+:       .pea c2 b0
+:       .pea 01 21
 
-:       20 $check-focus,2
-:       f0 no-focus
-:       c2 20
-:       a9 ff cf
-:       23 03
-:       83 03
-:       a9 fe fe
-:       23 01
-:       83 01
-:       e2 20
+:       .jsr.addr $check-focus,2
+:       .beq no-focus
+:       .rep 20
+:       .lda ff cf
+:       .and.sr 03
+:       .sta.sr 03
+:       .lda fe fe
+:       .and.sr 01
+:       .sta.sr 01
+:       .sep 20
 
 .label no-focus
-:       20 $check-lucid-dead,2
-:       f0 no-lucid-dead
-:       c2 20
-:       a9 fd ff
-:       23 03
-:       83 03
-:       e2 20
+:       .jsr.addr $check-lucid-dead,2
+:       .beq no-lucid-dead
+:       .rep 20
+:       .lda fd ff
+:       .and.sr 03
+:       .sta.sr 03
+:       .sep 20
 
 .label no-lucid-dead
-:       bd 18 30
-:       2c 2c 3f
-:       f0 main-focus-exit
-:       a9 {{jun-index-highwind}}
-:       22 $jun-checker
-:       f0 main-focus-exit
-:       c2 20
-:       a9 ff df
-:       23 01
-:       83 01
-:       e2 20
+:       .lda.addr.x 18 30
+:       .bit.addr 2c 3f
+:       .beq main-focus-exit
+:       .lda {{jun-index-highwind}}
+:       .jsl $jun-checker
+:       .beq main-focus-exit
+:       .rep 20
+:       .lda ff df
+:       .and.sr 01
+:       .sta.sr 01
+:       .sep 20
 
 .label main-focus-exit
-:       5c $return-focus
+:       .jml $return-focus
 
 $main-lucid-dead
-:       20 $check-lucid-dead,2
-:       d0 lucid-dead-active
-:       a9 40
-:       04 b8
+:       .jsr.addr $check-lucid-dead,2
+:       .bne lucid-dead-active
+:       .lda 40
+:       .tsb.dp b8
 .label lucid-dead-active
-:       6b
+:       .rtl
 
 $check-able-bodied
-:       08
-:       22 $jun-check-entity-living
-:       f0 exit-not-able-bodied
+:       .php
+:       .jsl $jun-check-entity-living
+:       .beq exit-not-able-bodied
 
-:       c2 20
-:       a9 c2 b8
-:       3c e4 3e
-:       d0 exit-not-able-bodied
-:       a9 10 22
-:       3c f8 3e
-:       d0 exit-not-able-bodied
+:       .rep 20
+:       .lda c2 b8
+:       .bit.addr.x e4 3e
+:       .bne exit-not-able-bodied
+:       .lda 10 22
+:       .bit.addr.x f8 3e
+:       .bne exit-not-able-bodied
 
 .label exit-able-bodied
-:       28
-:       c2 02
-:       60
+:       .plp
+:       .rep 02
+:       .rts
 .label exit-not-able-bodied
-:       28
-:       e2 02
-:       60
+:       .plp
+:       .sep 02
+:       .rts
 
 $check-lucid-dead
-:       e0 08
-:       b0 exit-lucid-no-stack
-:       48
-:       86 10
+:       .cpx 08
+:       .bcs exit-lucid-no-stack
+:       .pha
+:       .stx.dp 10
 
-:       a9 {{jun-index-lucid-dead}}
-:       22 $jun-checker
-:       d0 exit-has-lucid-dead
+:       .lda {{jun-index-lucid-dead}}
+:       .jsl $jun-checker
+:       .bne exit-has-lucid-dead
 
-:       a2 06
+:       .ldx 06
 .label necromancer-loop
-:       e4 10
-:       f0 necromancer-skip
-:       20 $check-able-bodied,2
-:       f0 necromancer-skip
-:       a9 {{jun-index-necromancer}}
-:       22 $jun-checker
-:       d0 exit-has-lucid-dead
+:       .cpx.dp 10
+:       .beq necromancer-skip
+:       .jsr.addr $check-able-bodied,2
+:       .beq necromancer-skip
+:       .lda {{jun-index-necromancer}}
+:       .jsl $jun-checker
+:       .bne exit-has-lucid-dead
 .label necromancer-skip
-:       ca ca
-:       10 necromancer-loop
+:       .dex .dex
+:       .bpl necromancer-loop
 
 .label exit-no-lucid-dead
-:       a6 10
-:       68
+:       .ldx.dp 10
+:       .pla
 .label exit-lucid-no-stack
-:       e2 02
-:       60
+:       .sep 02
+:       .rts
 .label exit-has-lucid-dead
-:       a6 10
-:       68
-:       c2 02
-:       60
+:       .ldx.dp 10
+:       .pla
+:       .rep 02
+:       .rts
 
 $check-focus
-:       e0 08
-:       b0 exit-focus-no-stack
-:       48
-:       86 10
+:       .cpx 08
+:       .bcs exit-focus-no-stack
+:       .pha
+:       .stx.dp 10
 
-:       a9 {{jun-index-focus}}
-:       22 $jun-checker
-:       d0 exit-has-focus
+:       .lda {{jun-index-focus}}
+:       .jsl $jun-checker
+:       .bne exit-has-focus
 
-:       a2 06
+:       .ldx 06
 .label commander-loop
-:       e4 10
-:       f0 commander-skip
-:       20 $check-able-bodied,2
-:       f0 commander-skip
-:       a9 {{jun-index-commander}}
-:       22 $jun-checker
-:       d0 exit-has-focus
+:       .cpx.dp 10
+:       .beq commander-skip
+:       .jsr.addr $check-able-bodied,2
+:       .beq commander-skip
+:       .lda {{jun-index-commander}}
+:       .jsl $jun-checker
+:       .bne exit-has-focus
 .label commander-skip
-:       ca ca
-:       10 commander-loop
+:       .dex .dex
+:       .bpl commander-loop
 
 .label exit-no-focus
-:       a6 10
-:       68
+:       .ldx.dp 10
+:       .pla
 .label exit-focus-no-stack
-:       e2 02
-:       60
+:       .sep 02
+:       .rts
 .label exit-has-focus
-:       a6 10
-:       68
-:       c2 02
-:       60
+:       .ldx.dp 10
+:       .pla
+:       .rep 02
+:       .rts
 
 VALIDATION
 
-020956: f4 c2 b0
-:       f4 01 21
+020956: .pea c2 b0
+:       .pea 01 21
 
-02597a: a9 40
-:       04 b8
+02597a: .lda 40
+:       .tsb.dp b8

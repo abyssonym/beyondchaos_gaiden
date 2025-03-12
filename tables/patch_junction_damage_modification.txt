@@ -36,538 +36,538 @@
 .def    phoenix-index-plus-one  51
 .def    gaia-elements-bits      10 20 01 04 40 80 08 02
 
-02336f: 5c $main
+02336f: .jml $main
 
 $main
-:       48 da 5a
+:       .pha .phx .phy
 
-:       20 $check-has-esper,2
-:       f0 no-esper-main
-:       a9 {{jun-index-esper-attack}}
-:       22 $jun-checker
-:       f0 no-esper-main
-:       da
-:       20 $get-esper-data-offset,2
-:       bf 01 00 c4
-:       0c a1 11
-:       e2 10
-:       fa
+:       .jsr.addr $check-has-esper,2
+:       .beq no-esper-main
+:       .lda {{jun-index-esper-attack}}
+:       .jsl $jun-checker
+:       .beq no-esper-main
+:       .phx
+:       .jsr.addr $get-esper-data-offset,2
+:       .lda.long.x 01 00 c4
+:       .tsb.addr a1 11
+:       .sep 10
+:       .plx
 
 .label no-esper-main
-:       a9 {{jun-index-boost-fire}}
-:       20 $check-element,2
-:       a9 {{jun-index-boost-ice}}
-:       20 $check-element,2
-:       a9 {{jun-index-boost-bolt}}
-:       20 $check-element,2
-:       a9 {{jun-index-boost-poison}}
-:       20 $check-element,2
-:       a9 {{jun-index-boost-wind}}
-:       20 $check-element,2
-:       a9 {{jun-index-boost-pearl}}
-:       20 $check-element,2
-:       a9 {{jun-index-boost-earth}}
-:       20 $check-element,2
-:       a9 {{jun-index-boost-water}}
-:       20 $check-element,2
+:       .lda {{jun-index-boost-fire}}
+:       .jsr.addr $check-element,2
+:       .lda {{jun-index-boost-ice}}
+:       .jsr.addr $check-element,2
+:       .lda {{jun-index-boost-bolt}}
+:       .jsr.addr $check-element,2
+:       .lda {{jun-index-boost-poison}}
+:       .jsr.addr $check-element,2
+:       .lda {{jun-index-boost-wind}}
+:       .jsr.addr $check-element,2
+:       .lda {{jun-index-boost-pearl}}
+:       .jsr.addr $check-element,2
+:       .lda {{jun-index-boost-earth}}
+:       .jsr.addr $check-element,2
+:       .lda {{jun-index-boost-water}}
+:       .jsr.addr $check-element,2
 
-:       20 $check-esper,2
-:       20 $check-nuke,2
-:       20 $check-phys,2
+:       .jsr.addr $check-esper,2
+:       .jsr.addr $check-nuke,2
+:       .jsr.addr $check-phys,2
 
-:       20 $main-misc,2
+:       .jsr.addr $main-misc,2
 
-:       da
-:       ae e2 11
-:       bf $background-dances-address
-:       aa
-:       bf @gaia-elements-address,3
-:       fa
-:       2c a1 11
-:       f0 no-gaia-boost
-:       a9 {{jun-index-gaia-boost}}
-:       22 $jun-checker
-:       f0 no-gaia-boost
-:       20 $boost-damage-half,2
+:       .phx
+:       .ldx.addr e2 11
+:       .lda.long.x $background-dances-address
+:       .tax
+:       .lda.long.x @gaia-elements-address,3
+:       .plx
+:       .bit.addr a1 11
+:       .beq no-gaia-boost
+:       .lda {{jun-index-gaia-boost}}
+:       .jsl $jun-checker
+:       .beq no-gaia-boost
+:       .jsr.addr $boost-damage-half,2
 
 .label no-gaia-boost
-:       a9 {{jun-index-atma-force}}
-:       22 $jun-checker
-:       f0 no-atma-force
-:       20 $do-atma-force,2
+:       .lda {{jun-index-atma-force}}
+:       .jsl $jun-checker
+:       .beq no-atma-force
+:       .jsr.addr $do-atma-force,2
 
 .label no-atma-force
-:       7a fa 68
-:       ad a2 11
-:       4a
-:       5c $return
+:       .ply .plx .pla
+:       .lda.addr a2 11
+:       .lsr
+:       .jml $return
 
 .label gaia-elements-address
 :       gaia-elements-bits
 
 $main-misc
-:       da 08
-:       c2 20
+:       .phx .php
+:       .rep 20
 
-:       a9 {{jun-index-loner}} 00
-:       22 $jun-checker
-:       f0 no-loner
+:       .lda {{jun-index-loner}} 00
+:       .jsl $jun-checker
+:       .beq no-loner
 
-:       a9 00 00
-:       48
-:       bd 18 30
-:       89 0f 00
-:       f0 no-characters
-:       09 0f 00
+:       .lda 00 00
+:       .pha
+:       .lda.addr.x 18 30
+:       .bit 0f 00
+:       .beq no-characters
+:       .ora 0f 00
 .label no-characters
-:       89 00 3f
-:       f0 no-monsters
-:       09 00 3f
+:       .bit 00 3f
+:       .beq no-monsters
+:       .ora 00 3f
 .label no-monsters
-:       48
+:       .pha
 
-:       a2 12
+:       .ldx 12
 .label loner-loop
-:       bd 18 30
-:       23 01
-:       f0 loner-skip
-:       22 $jun-check-entity-living
-:       f0 loner-skip
-:       a3 03
-:       1a
-:       83 03
+:       .lda.addr.x 18 30
+:       .and.sr 01
+:       .beq loner-skip
+:       .jsl $jun-check-entity-living
+:       .beq loner-skip
+:       .lda.sr 03
+:       .inc
+:       .sta.sr 03
 .label loner-skip
-:       ca ca
-:       10 loner-loop
+:       .dex .dex
+:       .bpl loner-loop
 
-:       68
-:       a9 05 00
-:       38
-:       e3 01
-:       10 no-underflow
-:       a9 00 00
+:       .pla
+:       .lda 05 00
+:       .sec
+:       .sbc.sr 01
+:       .bpl no-underflow
+:       .lda 00 00
 .label no-underflow
-:       83 01
-:       68
-:       aa
-:       4e b0 11
-:       20 $multiply-damage,2
-:       fa da
+:       .sta.sr 01
+:       .pla
+:       .tax
+:       .lsr.addr b0 11
+:       .jsr.addr $multiply-damage,2
+:       .plx .phx
 
 .label no-loner
-:       a9 {{jun-index-crisis-arm}} 00
-:       22 $jun-checker
-:       f0 no-junction
+:       .lda {{jun-index-crisis-arm}} 00
+:       .jsl $jun-checker
+:       .beq no-junction
 
-:       4e b0 11
-:       4e b0 11
-:       bd f4 3b
-:       a2 0a
-:       22 $jun-divide
-:       20 $multiply-damage,2
+:       .lsr.addr b0 11
+:       .lsr.addr b0 11
+:       .lda.addr.x f4 3b
+:       .ldx 0a
+:       .jsl $jun-divide
+:       .jsr.addr $multiply-damage,2
 
 .label no-junction
-:       28 fa
-:       60
+:       .plp .plx
+:       .rts
 
 $do-atma-force
-:       08
-:       c2 30
-:       48 da 5a
-:       20 @af-get-expected-hp,2
-:       48
-:       20 @af-get-current-hp,2
-:       48
-:       ad b0 11
-:       c3 01
-:       90 af-damage-is-less
-:       fa
-:       80 af-begin-multiply
+:       .php
+:       .rep 30
+:       .pha .phx .phy
+:       .jsr.addr @af-get-expected-hp,2
+:       .pha
+:       .jsr.addr @af-get-current-hp,2
+:       .pha
+:       .lda.addr b0 11
+:       .cmp.sr 01
+:       .bcc af-damage-is-less
+:       .plx
+:       .bra af-begin-multiply
 .label af-damage-is-less
-:       aa
-:       68
+:       .tax
+:       .pla
 .label af-begin-multiply
-:       7a
-:       20 @af-multiply-damage,2
+:       .ply
+:       .jsr.addr @af-multiply-damage,2
 
-:       48
-:       18
-:       63 01
-:       90 af-no-carry-1
-:       a9 ff ff
+:       .pha
+:       .clc
+:       .adc.sr 01
+:       .bcc af-no-carry-1
+:       .lda ff ff
 .label af-no-carry-1
-:       18
-:       63 01
-:       90 af-no-carry-2
-:       a9 ff ff
+:       .clc
+:       .adc.sr 01
+:       .bcc af-no-carry-2
+:       .lda ff ff
 .label af-no-carry-2
-:       83 01
-:       68
-:       8d b0 11
+:       .sta.sr 01
+:       .pla
+:       .sta.addr b0 11
 
-:       7a fa 68
-:       28
-:       60
+:       .ply .plx .pla
+:       .plp
+:       .rts
 
 # hp-growths-address
 .label af-get-expected-hp
-:       da
-:       a9 00 00
-:       48
-:       e0 08 00
-:       b0 af-get-expected-is-monster
-:       a0 06 00
+:       .phx
+:       .lda 00 00
+:       .pha
+:       .cpx 08 00
+:       .bcs af-get-expected-is-monster
+:       .ldy 06 00
 .label af-get-expected-human-loop
-:       bb
-:       22 $jun-check-entity-present
-:       d0 af-get-expected-human-is-present
-:       a3 03
-:       aa
+:       .tyx
+:       .jsl $jun-check-entity-present
+:       .bne af-get-expected-human-is-present
+:       .lda.sr 03
+:       .tax
 .label af-get-expected-human-is-present
-:       20 @af-calculate-expected-hp,2
-:       63 01
-:       83 01
-:       88 88
-:       10 af-get-expected-human-loop
-:       80 af-get-expected-exit
+:       .jsr.addr @af-calculate-expected-hp,2
+:       .adc.sr 01
+:       .sta.sr 01
+:       .dey .dey
+:       .bpl af-get-expected-human-loop
+:       .bra af-get-expected-exit
 .label af-get-expected-is-monster
-:       a0 0a 00
+:       .ldy 0a 00
 .label af-get-expected-monster-loop
-:       98
-:       18
-:       69 08 00
-:       aa
-:       22 $jun-check-entity-present
-:       f0 af-get-expected-monster-skip
-:       bd $max-hp-address,2
-:       4a 4a 4a
-:       63 01
-:       83 01
+:       .tya
+:       .clc
+:       .adc 08 00
+:       .tax
+:       .jsl $jun-check-entity-present
+:       .beq af-get-expected-monster-skip
+:       .lda.addr.x $max-hp-address,2
+:       .lsr .lsr .lsr
+:       .adc.sr 01
+:       .sta.sr 01
 .label af-get-expected-monster-skip
-:       88 88
-:       10 af-get-expected-monster-loop
+:       .dey .dey
+:       .bpl af-get-expected-monster-loop
 .label af-get-expected-exit
-:       68
-:       d0 af-get-expected-nonzero
-:       1a
+:       .pla
+:       .bne af-get-expected-nonzero
+:       .inc
 .label af-get-expected-nonzero
-:       fa
-:       60
+:       .plx
+:       .rts
 
 .label af-calculate-expected-hp
-:       5a
-:       a9 23 00
-:       48
-:       bc $character-info,2
-:       b9 $character-base-level-address,2
-:       29 ff 00
-:       3a 3a
-:       30 af-calculate-expected-exit
-:       aa
+:       .phy
+:       .lda 23 00
+:       .pha
+:       .ldy.addr.x $character-info,2
+:       .lda.addr.y $character-base-level-address,2
+:       .and ff 00
+:       .dec .dec
+:       .bmi af-calculate-expected-exit
+:       .tax
 .label af-calculate-expected-loop
-:       bf $hp-growths-address
-:       29 ff 00
-:       18
-:       63 01
-:       90 af-calculate-expected-no-overflow
-:       a9 0f 27
+:       .lda.long.x $hp-growths-address
+:       .and ff 00
+:       .clc
+:       .adc.sr 01
+:       .bcc af-calculate-expected-no-overflow
+:       .lda 0f 27
 .label af-calculate-expected-no-overflow
-:       83 01
-:       ca
-:       10 af-calculate-expected-loop
+:       .sta.sr 01
+:       .dex
+:       .bpl af-calculate-expected-loop
 .label af-calculate-expected-exit
-:       68
-:       7a
-:       60
+:       .pla
+:       .ply
+:       .rts
 
 .label af-get-current-hp
-:       da
-:       a9 00 00
-:       48
-:       e0 08 00
-:       b0 af-get-current-is-monster
-:       a0 06 00
+:       .phx
+:       .lda 00 00
+:       .pha
+:       .cpx 08 00
+:       .bcs af-get-current-is-monster
+:       .ldy 06 00
 .label af-get-current-human-loop
-:       bb
-:       22 $jun-check-entity-present
-:       f0 af-get-current-human-skip
-:       a3 01
-:       7d $current-hp-address,2
-:       83 01
+:       .tyx
+:       .jsl $jun-check-entity-present
+:       .beq af-get-current-human-skip
+:       .lda.sr 01
+:       .adc.addr.x $current-hp-address,2
+:       .sta.sr 01
 .label af-get-current-human-skip
-:       88 88
-:       10 af-get-current-human-loop
-:       80 af-get-current-exit
+:       .dey .dey
+:       .bpl af-get-current-human-loop
+:       .bra af-get-current-exit
 .label af-get-current-is-monster
-:       a0 0a 00
+:       .ldy 0a 00
 .label af-get-current-monster-loop
-:       98
-:       18
-:       69 08 00
-:       aa
-:       22 $jun-check-entity-present
-:       f0 af-get-current-monster-skip
-:       bd $current-hp-address,2
-:       4a 4a 4a
-:       63 01
-:       83 01
+:       .tya
+:       .clc
+:       .adc 08 00
+:       .tax
+:       .jsl $jun-check-entity-present
+:       .beq af-get-current-monster-skip
+:       .lda.addr.x $current-hp-address,2
+:       .lsr .lsr .lsr
+:       .adc.sr 01
+:       .sta.sr 01
 .label af-get-current-monster-skip
-:       88 88
-:       10 af-get-current-monster-loop
+:       .dey .dey
+:       .bpl af-get-current-monster-loop
 .label af-get-current-exit
-:       68
-:       fa
-:       60
+:       .pla
+:       .plx
+:       .rts
 
 .label af-multiply-damage
-:       48
-:       8a
+:       .pha
+:       .txa
 .label af-multiply-damage-loop
-:       4a
-:       89 00 ff
-:       f0 af-multiply-damage-end-loop
-:       48
-:       98
-:       4a
-:       a8
-:       68
-:       80 af-multiply-damage-loop
+:       .lsr
+:       .bit 00 ff
+:       .beq af-multiply-damage-end-loop
+:       .pha
+:       .tya
+:       .lsr
+:       .tay
+:       .pla
+:       .bra af-multiply-damage-loop
 .label af-multiply-damage-end-loop
-:       85 e8
-:       68
-:       f4 $long-multiplication-address,2
-:       22 $jun-generic-dispatch
+:       .sta.dp e8
+:       .pla
+:       .pea $long-multiplication-address,2
+:       .jsl $jun-generic-dispatch
 .label af-multiply-damage-2nd-loop
-:       a5 e9
-:       89 00 ff
-:       f0 af-multiply-damage-end-2nd-loop
-:       e2 20
-:       18
-:       46 ea
-:       66 e9
-:       66 e8
-:       c2 20
-:       98
-:       4a
-:       a8
-:       80 af-multiply-damage-2nd-loop
+:       .lda.dp e9
+:       .bit 00 ff
+:       .beq af-multiply-damage-end-2nd-loop
+:       .sep 20
+:       .clc
+:       .lsr.dp ea
+:       .ror.dp e9
+:       .ror.dp e8
+:       .rep 20
+:       .tya
+:       .lsr
+:       .tay
+:       .bra af-multiply-damage-2nd-loop
 .label af-multiply-damage-end-2nd-loop
-:       a5 e8
-:       85 2c
-:       98
-:       c9 00 00
-:       d0 af-nonzero-divisor
-:       1a
+:       .lda.dp e8
+:       .sta.dp 2c
+:       .tya
+:       .cmp 00 00
+:       .bne af-nonzero-divisor
+:       .inc
 .label af-nonzero-divisor
-:       85 2e
-:       f4 $long-division-address,2
-:       22 $jun-generic-dispatch
-:       c2 20
-:       a5 30
-:       60
+:       .sta.dp 2e
+:       .pea $long-division-address,2
+:       .jsl $jun-generic-dispatch
+:       .rep 20
+:       .lda.dp 30
+:       .rts
 
 $multiply-damage
-:       a9 00 00
+:       .lda 00 00
 .label multiply-loop
-:       e0 00
-:       f0 end-multiply-loop
-:       18
-:       6d b0 11
-:       90 no-overflow
-:       7b
-:       3a
-:       80 end-multiply-loop
+:       .cpx 00
+:       .beq end-multiply-loop
+:       .clc
+:       .adc.addr b0 11
+:       .bcc no-overflow
+:       .tdc
+:       .dec
+:       .bra end-multiply-loop
 .label no-overflow
-:       ca
-:       80 multiply-loop
+:       .dex
+:       .bra multiply-loop
 .label end-multiply-loop
-:       8d b0 11
-:       60
+:       .sta.addr b0 11
+:       .rts
 
 $check-element
-:       48 da
-:       86 10
-:       29 07
-:       aa
-:       bf $bits
-:       fa
-:       2c a1 11
-:       f0 check-element-pull-exit
-:       68
-:       22 $jun-checker
-:       f0 no-boost
-:       20 $boost-damage-half,2
+:       .pha .phx
+:       .stx.dp 10
+:       .and 07
+:       .tax
+:       .lda.long.x $bits
+:       .plx
+:       .bit.addr a1 11
+:       .beq check-element-pull-exit
+:       .pla
+:       .jsl $jun-checker
+:       .beq no-boost
+:       .jsr.addr $boost-damage-half,2
 .label  no-boost
 
-:       29 07
-:       aa
-:       18
-:       69 {{jun-index-fire-font}}
-:       22 $jun-check-count-all-living
+:       .and 07
+:       .tax
+:       .clc
+:       .adc {{jun-index-fire-font}}
+:       .jsl $jun-check-count-all-living
 .label font-loop
-:       3a
-:       30 end-font-loop
-:       20 $boost-damage-quarter,2
-:       80 font-loop
+:       .dec
+:       .bmi end-font-loop
+:       .jsr.addr $boost-damage-quarter,2
+:       .bra font-loop
 .label end-font-loop
 
-:       8a
-:       18
-:       69 {{jun-index-fire-sink}}
-:       22 $jun-check-count-all-living
+:       .txa
+:       .clc
+:       .adc {{jun-index-fire-sink}}
+:       .jsl $jun-check-count-all-living
 .label sink-loop
-:       3a
-:       30 end-sink-loop
-:       20 $reduce-damage-quarter,2
-:       80 sink-loop
+:       .dec
+:       .bmi end-sink-loop
+:       .jsr.addr $reduce-damage-quarter,2
+:       .bra sink-loop
 .label end-sink-loop
 
 .label check-element-exit
-:       a6 10
-:       60
+:       .ldx.dp 10
+:       .rts
 .label check-element-pull-exit
-:       a6 10
-:       68
-:       60
+:       .ldx.dp 10
+:       .pla
+:       .rts
 
 $check-esper
-:       a5 b5
-:       c9 19
-:       f0 is-esper
-:       c9 02
-:       d0 not-esper
-:       a5 b6
-:       c9 ramuh-index
-:       90 not-esper
-:       c9 phoenix-index-plus-one
-:       b0 not-esper
+:       .lda.dp b5
+:       .cmp 19
+:       .beq is-esper
+:       .cmp 02
+:       .bne not-esper
+:       .lda.dp b6
+:       .cmp ramuh-index
+:       .bcc not-esper
+:       .cmp phoenix-index-plus-one
+:       .bcs not-esper
 .label is-esper
-:       a9 {{jun-index-boost-esper}}
-:       22 $jun-checker
-:       f0 not-esper
-:       20 $boost-damage-half,2
+:       .lda {{jun-index-boost-esper}}
+:       .jsl $jun-checker
+:       .beq not-esper
+:       .jsr.addr $boost-damage-half,2
 .label not-esper
-:       60
+:       .rts
 
 $check-nuke
-:       ad a1 11
-:       d0 not-nuke
-:       ad a2 11
-:       89 01
-:       d0 not-nuke
-:       ad a4 11
-:       89 81
-:       d0 not-nuke
+:       .lda.addr a1 11
+:       .bne not-nuke
+:       .lda.addr a2 11
+:       .bit 01
+:       .bne not-nuke
+:       .lda.addr a4 11
+:       .bit 81
+:       .bne not-nuke
 
-:       a9 {{jun-index-boost-nuke}}
-:       22 $jun-checker
-:       f0 no-nuke-boost
-:       20 $boost-damage-half,2
+:       .lda {{jun-index-boost-nuke}}
+:       .jsl $jun-checker
+:       .beq no-nuke-boost
+:       .jsr.addr $boost-damage-half,2
 .label no-nuke-boost
 
-:       a9 {{jun-index-nuke-font}}
-:       22 $jun-check-count-all-living
+:       .lda {{jun-index-nuke-font}}
+:       .jsl $jun-check-count-all-living
 .label nuke-font-loop
-:       3a
-:       30 end-nuke-font-loop
-:       20 $boost-damage-quarter,2
-:       80 nuke-font-loop
+:       .dec
+:       .bmi end-nuke-font-loop
+:       .jsr.addr $boost-damage-quarter,2
+:       .bra nuke-font-loop
 .label end-nuke-font-loop
 
-:       a9 {{jun-index-nuke-sink}}
-:       22 $jun-check-count-all-living
+:       .lda {{jun-index-nuke-sink}}
+:       .jsl $jun-check-count-all-living
 .label nuke-sink-loop
-:       3a
-:       30 end-nuke-sink-loop
-:       20 $reduce-damage-quarter,2
-:       80 nuke-sink-loop
+:       .dec
+:       .bmi end-nuke-sink-loop
+:       .jsr.addr $reduce-damage-quarter,2
+:       .bra nuke-sink-loop
 .label end-nuke-sink-loop
 
 .label not-nuke
-:       60
+:       .rts
 
 $check-phys
-:       ad a2 11
-:       89 01
-:       f0 not-phys
+:       .lda.addr a2 11
+:       .bit 01
+:       .beq not-phys
 
-:       a9 {{jun-index-boost-phys}}
-:       22 $jun-checker
-:       f0 no-phys-boost
-:       20 $boost-damage-half,2
+:       .lda {{jun-index-boost-phys}}
+:       .jsl $jun-checker
+:       .beq no-phys-boost
+:       .jsr.addr $boost-damage-half,2
 .label no-phys-boost
 
-:       a9 {{jun-index-phys-font}}
-:       22 $jun-check-count-all-living
+:       .lda {{jun-index-phys-font}}
+:       .jsl $jun-check-count-all-living
 .label phys-font-loop
-:       3a
-:       30 end-phys-font-loop
-:       20 $boost-damage-quarter,2
-:       80 phys-font-loop
+:       .dec
+:       .bmi end-phys-font-loop
+:       .jsr.addr $boost-damage-quarter,2
+:       .bra phys-font-loop
 .label end-phys-font-loop
 
-:       a9 {{jun-index-phys-sink}}
-:       22 $jun-check-count-all-living
+:       .lda {{jun-index-phys-sink}}
+:       .jsl $jun-check-count-all-living
 .label phys-sink-loop
-:       3a
-:       30 end-phys-sink-loop
-:       20 $reduce-damage-quarter,2
-:       80 phys-sink-loop
+:       .dec
+:       .bmi end-phys-sink-loop
+:       .jsr.addr $reduce-damage-quarter,2
+:       .bra phys-sink-loop
 .label end-phys-sink-loop
 
 .label not-phys
-:       60
+:       .rts
 
 $boost-damage-half
-:       48 08
-:       c2 20
-:       ad b0 11
-:       4a
-:       18
-:       6d b0 11
-:       90 no-overflow-half
-:       a9 ff ff
+:       .pha .php
+:       .rep 20
+:       .lda.addr b0 11
+:       .lsr
+:       .clc
+:       .adc.addr b0 11
+:       .bcc no-overflow-half
+:       .lda ff ff
 .label no-overflow-half
-:       8d b0 11
-:       28 68
-:       60
+:       .sta.addr b0 11
+:       .plp .pla
+:       .rts
 
 $boost-damage-quarter
-:       48 08
-:       c2 20
-:       ad b0 11
-:       4a 4a
-:       18
-:       6d b0 11
-:       90 no-overflow-quarter
-:       a9 ff ff
+:       .pha .php
+:       .rep 20
+:       .lda.addr b0 11
+:       .lsr .lsr
+:       .clc
+:       .adc.addr b0 11
+:       .bcc no-overflow-quarter
+:       .lda ff ff
 .label no-overflow-quarter
-:       8d b0 11
-:       28 68
-:       60
+:       .sta.addr b0 11
+:       .plp .pla
+:       .rts
 
 $reduce-damage-quarter
-:       48 08
-:       c2 20
-:       ad b0 11
-:       4a
-:       8d b0 11
-:       4a
-:       18
-:       6d b0 11
-:       8d b0 11
-:       28 68
-:       60
+:       .pha .php
+:       .rep 20
+:       .lda.addr b0 11
+:       .lsr
+:       .sta.addr b0 11
+:       .lsr
+:       .clc
+:       .adc.addr b0 11
+:       .sta.addr b0 11
+:       .plp .pla
+:       .rts
 
 VALIDATION
 
-02336f: ad a2 11
-:       4a
+02336f: .lda.addr a2 11
+:       .lsr
 
-0247b7: 08
-:       e2 20
-:       64 ea
+0247b7: .php
+:       .sep 20
+:       .stz.dp ea
 
-02b8f3: da
-:       c2 20
-:       64 30
+02b8f3: .phx
+:       .rep 20
+:       .stz.dp 30

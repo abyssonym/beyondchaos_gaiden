@@ -6,108 +6,108 @@
 .addr   sketch-rate-return-normal   023b3d
 .addr   sketch-rate-return-success  023b42
 
-022c22: 22 $main-level
-:       fa 60
+022c22: .jsl $main-level
+:       .plx .rts
 
-023b37: 5c $main-sketch-rate
-:       ea ea
+023b37: .jml $main-sketch-rate
+:       .nop .nop
 
-024527: 22 $main-sketch-ailments
-:       ea
+024527: .jsl $main-sketch-ailments
+:       .nop
 
 $main-level
-:       5a
-:       ad 17 34
-:       30 exit-normal
+:       .phy
+:       .lda.addr 17 34
+:       .bmi exit-normal
 
-:       9b
-:       aa
-:       a9 {{jun-index-art-license}}
-:       22 $jun-checker
-:       f0 exit-normal
+:       .txy
+:       .tax
+:       .lda {{jun-index-art-license}}
+:       .jsl $jun-checker
+:       .beq exit-normal
 
-:       bd 18 3b
-:       d9 18 3b
-:       b0 level-is-greater
-:       b9 18 3b
+:       .lda.addr.x 18 3b
+:       .cmp.addr.y 18 3b
+:       .bcs level-is-greater
+:       .lda.addr.y 18 3b
 .label level-is-greater
-:       8d af 11
+:       .sta.addr af 11
 
-:       a9 01
-:       2c a2 11
-:       f0 not-physical
+:       .lda 01
+:       .bit.addr a2 11
+:       .beq not-physical
 
-:       bd 2c 3b
-:       d9 2c 3b
-:       b0 vigor-is-greater
-:       b9 2c 3b
+:       .lda.addr.x 2c 3b
+:       .cmp.addr.y 2c 3b
+:       .bcs vigor-is-greater
+:       .lda.addr.y 2c 3b
 .label vigor-is-greater
-:       8d ae 11
-:       80 skip-mpower
+:       .sta.addr ae 11
+:       .bra skip-mpower
 
 .label not-physical
-:       bd 41 3b
-:       d9 41 3b
-:       b0 mpower-is-greater
-:       b9 41 3b
+:       .lda.addr.x 41 3b
+:       .cmp.addr.y 41 3b
+:       .bcs mpower-is-greater
+:       .lda.addr.y 41 3b
 .label mpower-is-greater
-:       8d ae 11
+:       .sta.addr ae 11
 
 .label skip-mpower
-:       a9 20
-:       0c a4 11
-:       7a
-:       6b
+:       .lda 20
+:       .tsb.addr a4 11
+:       .ply
+:       .rtl
 .label exit-normal
-:       bd 18 3b
-:       8d af 11
-:       7a
-:       6b
+:       .lda.addr.x 18 3b
+:       .sta.addr af 11
+:       .ply
+:       .rtl
 
 $main-sketch-rate
-:       a9 {{jun-index-art-license}}
-:       22 $jun-checker
-:       d0 exit-sketch-rate-success
-:       bd 45 3c
-:       4a 4a 4a
-:       5c $sketch-rate-return-normal
+:       .lda {{jun-index-art-license}}
+:       .jsl $jun-checker
+:       .bne exit-sketch-rate-success
+:       .lda.addr.x 45 3c
+:       .lsr .lsr .lsr
+:       .jml $sketch-rate-return-normal
 .label exit-sketch-rate-success
-:       5c $sketch-rate-return-success
+:       .jml $sketch-rate-return-success
 
 $main-sketch-ailments
-:       da
-:       e2 20
+:       .phx
+:       .sep 20
 
-:       ad 17 34
-:       30 ailments-not-sketching
-:       aa
+:       .lda.addr 17 34
+:       .bmi ailments-not-sketching
+:       .tax
 
-:       a9 {{jun-index-art-license}}
-:       22 $jun-checker
-:       f0 ailments-not-sketching
+:       .lda {{jun-index-art-license}}
+:       .jsl $jun-checker
+:       .beq ailments-not-sketching
 
-:       c2 20
-:       b9 d4 3d
-:       85 fc
-:       b9 e8 3d
-:       85 fe
+:       .rep 20
+:       .lda.addr.y d4 3d
+:       .sta.dp fc
+:       .lda.addr.y e8 3d
+:       .sta.dp fe
 
 .label ailments-not-sketching
-:       c2 20
-:       fa
-:       b9 e4 3e
-:       85 f8
-:       6b
+:       .rep 20
+:       .plx
+:       .lda.addr.y e4 3e
+:       .sta.dp f8
+:       .rtl
 
 VALIDATION
 
-022c22: ad 17 34
-:       30 01
-:       aa
-:       bd 18 3b
+022c22: .lda.addr 17 34
+:       .bmi 01
+:       .tax
+:       .lda.addr.x 18 3b
 
-023b37: bd 45 3c
-:       4a 4a 4a
+023b37: .lda.addr.x 45 3c
+:       .lsr .lsr .lsr
 
-024527: b9 e4 3e
-:       85 f8
+024527: .lda.addr.y e4 3e
+:       .sta.dp f8

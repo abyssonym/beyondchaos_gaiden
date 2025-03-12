@@ -10,125 +10,125 @@
 
 .addr   current-level-address           7e3b18
 
-0225fa: 5c $main
-:       ea ea
+0225fa: .jml $main
+:       .nop .nop
 
 $main
-:       bb
+:       .tyx
 
-:       20 $do-juggernaut-burst,2
+:       .jsr.addr $do-juggernaut-burst,2
 
-:       a9 {{jun-index-regenerator}}
-:       22 $jun-checker
-:       f0 no-regenerator
-:       bd e8 3d
-:       09 02
-:       9d e8 3d
+:       .lda {{jun-index-regenerator}}
+:       .jsl $jun-checker
+:       .beq no-regenerator
+:       .lda.addr.x e8 3d
+:       .ora 02
+:       .sta.addr.x e8 3d
 
 .label no-regenerator
-:       22 $jun-check-entity-living
-:       f0 no-auto-reraise
-:       a9 {{jun-index-final-fenix}}
-:       22 $jun-checker
-:       d0 yes-auto-reraise
-:       a9 {{jun-index-auto-reraise}}
-:       22 $jun-checker
-:       f0 no-auto-reraise
+:       .jsl $jun-check-entity-living
+:       .beq no-auto-reraise
+:       .lda {{jun-index-final-fenix}}
+:       .jsl $jun-checker
+:       .bne yes-auto-reraise
+:       .lda {{jun-index-auto-reraise}}
+:       .jsl $jun-checker
+:       .beq no-auto-reraise
 .label yes-auto-reraise
-:       bd f9 3e
-:       09 04
-:       9d f9 3e
+:       .lda.addr.x f9 3e
+:       .ora 04
+:       .sta.addr.x f9 3e
 
 .label no-auto-reraise
-:       da
-:       20 $check-esper-defense,2
-:       f0 no-esper-defense
-:       aa
-:       bf 00 00 c4
-:       89 40 00
-:       d0 no-esper-defense
+:       .phx
+:       .jsr.addr $check-esper-defense,2
+:       .beq no-esper-defense
+:       .tax
+:       .lda.long.x 00 00 c4
+:       .bit 40 00
+:       .bne no-esper-defense
 # check whether the esper restores instead of inflicts status
-:       bf 04 00 c4
-:       89 04 00
-:       d0 no-esper-defense
-:       bf 0a 00 c4
-:       19 e4 3e
-:       99 e4 3e
-:       bf 0c 00 c4
-:       19 f8 3e
-:       29 ff df
-:       99 f8 3e
+:       .lda.long.x 04 00 c4
+:       .bit 04 00
+:       .bne no-esper-defense
+:       .lda.long.x 0a 00 c4
+:       .ora.addr.y e4 3e
+:       .sta.addr.y e4 3e
+:       .lda.long.x 0c 00 c4
+:       .ora.addr.y f8 3e
+:       .and ff df
+:       .sta.addr.y f8 3e
 
 .label no-esper-defense
-:       e2 30
-:       a9 {{jun-index-plague}}
-:       22 $jun-checker
-:       f0 no-plague
-:       20 @do-plague,2
+:       .sep 30
+:       .lda {{jun-index-plague}}
+:       .jsl $jun-checker
+:       .beq no-plague
+:       .jsr.addr @do-plague,2
 
 .label no-plague
-:       fa
-:       a9 {{jun-index-initiative}}
-:       22 $jun-checker
-:       f0 main-exit
-:       a9 ff
-:       99 19 32
+:       .plx
+:       .lda {{jun-index-initiative}}
+:       .jsl $jun-checker
+:       .beq main-exit
+:       .lda ff
+:       .sta.addr.y 19 32
 .label main-exit
-:       c2 20
-:       88 88
-:       10 continue-loop
-:       5c $return-terminate
+:       .rep 20
+:       .dey .dey
+:       .bpl continue-loop
+:       .jml $return-terminate
 .label continue-loop
-:       5c $return-loop
+:       .jml $return-loop
 
 .label do-plague
-:       5a
-:       a0 12
+:       .phy
+:       .ldy 12
 .label plague-loop
-:       22 $jun-check-are-same-team
-:       d0 plague-skip
-:       b9 1d 33
-:       89 01
-:       f0 plague-skip
-:       a9 20
-:       19 04 32
-:       99 04 32
+:       .jsl $jun-check-are-same-team
+:       .bne plague-skip
+:       .lda.addr.y 1d 33
+:       .bit 01
+:       .beq plague-skip
+:       .lda 20
+:       .ora.addr.y 04 32
+:       .sta.addr.y 04 32
 .label plague-skip
-:       88 88
-:       10 plague-loop
-:       7a
-:       60
+:       .dey .dey
+:       .bpl plague-loop
+:       .ply
+:       .rts
 
 $do-juggernaut-burst
-:       a9 {{jun-index-juggernaut}}
-:       22 $jun-checker
-:       f0 no-juggernaut
-:       bd $current-level-address,2
-:       1a
-:       4a
-:       9d $current-level-address,2
+:       .lda {{jun-index-juggernaut}}
+:       .jsl $jun-checker
+:       .beq no-juggernaut
+:       .lda.addr.x $current-level-address,2
+:       .inc
+:       .lsr
+:       .sta.addr.x $current-level-address,2
 
 .label no-juggernaut
-:       a9 {{jun-index-burst}}
-:       22 $jun-checker
-:       f0 no-burst
-:       bd $current-level-address,2
-:       1a
-:       4a
-:       18
-:       7d $current-level-address,2
-:       c9 80
-:       90 no-burst-overflow
-:       a9 7f
+:       .lda {{jun-index-burst}}
+:       .jsl $jun-checker
+:       .beq no-burst
+:       .lda.addr.x $current-level-address,2
+:       .inc
+:       .lsr
+:       .clc
+:       .adc.addr.x $current-level-address,2
+:       .cmp 80
+:       .bcc no-burst-overflow
+:       .lda 7f
 .label no-burst-overflow
-:       9d $current-level-address,2
+:       .sta.addr.x $current-level-address,2
 
 .label no-burst
-:       60
+:       .rts
 
 VALIDATION
 
-0225f7: 99 19 32
-:       c2 20
-:       88 88
-:       10 94
+0225f7: .sta.addr.y 19 32
+:       .rep 20
+:       .dey .dey
+:       .bpl 94

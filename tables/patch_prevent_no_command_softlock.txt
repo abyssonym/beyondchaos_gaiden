@@ -1,18 +1,18 @@
 .addr   main                            61f040
 
-02533b: 22 $main
-:       ea
+02533b: .jsl $main
+:       .nop
 
 $main
-:       b9 16 16
-:       c9 ff ff
-:       d0 no-softlock
-:       a9 00 ff
+:       .lda.addr.y 16 16
+:       .cmp ff ff
+:       .bne no-softlock
+:       .lda 00 ff
 .label no-softlock
-:       85 fc
-:       6b
+:       .sta.dp fc
+:       .rtl
 
 VALIDATION
 
-02533b: b9 16 16
-:       85 fc
+02533b: .lda.addr.y 16 16
+:       .sta.dp fc

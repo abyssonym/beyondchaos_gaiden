@@ -3,27 +3,27 @@
 .addr   return-normal                   023543
 .addr   return-runic                    023545
 
-02353e: 5c $main
+02353e: .jml $main
 
 $main
-:       da
-:       bb
-:       a9 {{jun-index-innate-runic}}
-:       22 $jun-checker
-:       f0 no-junction
+:       .phx
+:       .tyx
+:       .lda {{jun-index-innate-runic}}
+:       .jsl $jun-checker
+:       .beq no-junction
 
-:       fa
-:       b9 4c 3e
-:       5c $return-runic
+:       .plx
+:       .lda.addr.y 4c 3e
+:       .jml $return-runic
 
 .label no-junction
-:       fa
-:       b9 4c 3e
-:       89 06
-:       5c $return-normal
+:       .plx
+:       .lda.addr.y 4c 3e
+:       .bit 06
+:       .jml $return-normal
 
 VALIDATION
 
-02353e: b9 4c 3e
-:       89 06
-:       f0 19
+02353e: .lda.addr.y 4c 3e
+:       .bit 06
+:       .beq 19

@@ -1,29 +1,29 @@
 .addr   main                    57f040
 
-011b6b: 22 $main
+011b6b: .jsl $main
 
 $main
-:       c9 3e
-:       b0 do-over-overmax-digits
-:       c9 0a
-:       b0 do-overmax-digits
-:       65 68
-:       85 69
-:       6b
+:       .cmp 3e
+:       .bge do-over-overmax-digits
+:       .cmp 0a
+:       .bge do-overmax-digits
+:       .adc.dp 68
+:       .sta.dp 69
+:       .rtl
 .label do-overmax-digits
-:       65 68
-:       38
-:       e9 3f
-:       85 69
-:       6b
+:       .adc.dp 68
+:       .sec
+:       .sbc 3f
+:       .sta.dp 69
+:       .rtl
 .label do-over-overmax-digits
-:       65 68
-:       38
-:       e9 35
-:       85 69
-:       6b
+:       .adc.dp 68
+:       .sec
+:       .sbc 35
+:       .sta.dp 69
+:       .rtl
 
 VALIDATION
 
-011b6b: 65 68
-:       85 69
+011b6b: .adc.dp 68
+:       .sta.dp 69

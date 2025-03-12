@@ -10,128 +10,128 @@
 .addr   wide-bits                       00b4f3
 .addr   acting-as-enemies               7e3a42
 
-021254: 5c $main
+021254: .jml $main
 
 $main
-:       be 6c 33
-:       30 check-junctions
+:       .ldx.addr.y 6c 33
+:       .bmi check-junctions
 .label exit-with-bodyguard
-:       5c $return-love-token
+:       .jml $return-love-token
 .label check-junctions
-:       20 @check-paladins,2
-:       10 exit-with-bodyguard
+:       .jsr.addr @check-paladins,2
+:       .bpl exit-with-bodyguard
 .label no-paladins
-:       bb
-:       a9 {{jun-index-popular}} 00
-:       22 $jun-checker
-:       f0 no-bodyguards
-:       20 @check-popular,2
-:       10 exit-with-bodyguard
+:       .tyx
+:       .lda {{jun-index-popular}} 00
+:       .jsl $jun-checker
+:       .beq no-bodyguards
+:       .jsr.addr @check-popular,2
+:       .bpl exit-with-bodyguard
 .label no-bodyguards
-:       a2 ff
-:       5c $return-no-bodyguards
+:       .ldx ff
+:       .jml $return-no-bodyguards
 
 .label check-paladins
-:       20 @get-potential-bodyguards,2
-:       a2 12
+:       .jsr.addr @get-potential-bodyguards,2
+:       .ldx 12
 
 .label paladins-loop
-:       48
-:       3f $wide-bits
-:       f0 paladins-skip
-:       a9 {{jun-index-true-paladin}} 00
-:       22 $jun-checker
-:       d0 paladins-skip
-:       68
-:       1f $wide-bits
-:       5f $wide-bits
-:       48
+:       .pha
+:       .and.long.x $wide-bits
+:       .beq paladins-skip
+:       .lda {{jun-index-true-paladin}} 00
+:       .jsl $jun-checker
+:       .bne paladins-skip
+:       .pla
+:       .ora.long.x $wide-bits
+:       .eor.long.x $wide-bits
+:       .pha
 .label paladins-skip
-:       68
-:       ca ca
-:       10 paladins-loop
+:       .pla
+:       .dex .dex
+:       .bpl paladins-loop
 
-:       c9 00 00
-:       f0 paladins-fail
-:       22 $jun-select-bit
-:       22 $jun-bit-to-index
-:       8a 0a aa
-:       60
+:       .cmp 00 00
+:       .beq paladins-fail
+:       .jsl $jun-select-bit
+:       .jsl $jun-bit-to-index
+:       .txa .asl .tax
+:       .rts
 .label paladins-fail
-:       a2 ff
-:       60
+:       .ldx ff
+:       .rts
 
 .label check-popular
-:       20 @get-potential-bodyguards,2
-:       c9 00 00
-:       f0 popular-fail
-:       22 $jun-select-bit
-:       22 $jun-bit-to-index
-:       8a 0a aa
-:       60
+:       .jsr.addr @get-potential-bodyguards,2
+:       .cmp 00 00
+:       .beq popular-fail
+:       .jsl $jun-select-bit
+:       .jsl $jun-bit-to-index
+:       .txa .asl .tax
+:       .rts
 .label popular-fail
-:       a2 ff
-:       60
+:       .ldx ff
+:       .rts
 
 .label get-potential-bodyguards
-:       a9 00 00
-:       a2 12
-:       48
+:       .lda 00 00
+:       .ldx 12
+:       .pha
 .label potential-loop
-:       bd a0 3a
-:       4a
-:       90 potential-skip
-:       bd b8 32
-:       10 potential-skip
-:       bd 58 33
-:       10 potential-skip
-:       bd e4 3e
-:       89 d2 a0
-:       d0 potential-skip
-:       bd f8 3e
-:       89 10 32
-:       d0 potential-skip
-:       22 $jun-check-entity-living
-:       f0 potential-skip
-:       68
-:       1f $wide-bits
-:       48
+:       .lda.addr.x a0 3a
+:       .lsr
+:       .bcc potential-skip
+:       .lda.addr.x b8 32
+:       .bpl potential-skip
+:       .lda.addr.x 58 33
+:       .bpl potential-skip
+:       .lda.addr.x e4 3e
+:       .bit d2 a0
+:       .bne potential-skip
+:       .lda.addr.x f8 3e
+:       .bit 10 32
+:       .bne potential-skip
+:       .jsl $jun-check-entity-living
+:       .beq potential-skip
+:       .pla
+:       .ora.long.x $wide-bits
+:       .pha
 .label potential-skip
-:       ca ca
-:       10 potential-loop
+:       .dex .dex
+:       .bpl potential-loop
 
-:       68
-:       bb
-:       1f $wide-bits
-:       5f $wide-bits
-:       22 $jun-rng1
-:       b0 potential-force-allies-only
-:       48
-:       a9 {{jun-index-popular}} 00
-:       22 $jun-checker
-:       d0 potential-pull-exit
-:       68
+:       .pla
+:       .tyx
+:       .ora.long.x $wide-bits
+:       .eor.long.x $wide-bits
+:       .jsl $jun-rng1
+:       .bcs potential-force-allies-only
+:       .pha
+:       .lda {{jun-index-popular}} 00
+:       .jsl $jun-checker
+:       .bne potential-pull-exit
+:       .pla
 .label potential-force-allies-only
-:       48
-:       c0 08
-:       b0 potential-is-monster
-:       bb
-:       bf $wide-bits
-:       2d $acting-as-enemies,2
-:       d0 potential-is-monster
-:       68
-:       29 0f 00
-:       60
+:       .pha
+:       .cpy 08
+:       .bcs potential-is-monster
+:       .tyx
+:       .lda.long.x $wide-bits
+:       .and.addr $acting-as-enemies,2
+:       .bne potential-is-monster
+:       .pla
+:       .and 0f 00
+:       .rts
 .label potential-is-monster
-:       68
-:       29 f0 ff
-:       60
+:       .pla
+:       .and f0 ff
+:       .rts
 .label potential-pull-exit
-:       68
-:       60
+:       .pla
+:       .rts
 
 VALIDATION
 
-021253: da
-:       be 6c 33
-:       30 06
+021253: .phx
+:       .ldx.addr.y 6c 33
+:       .bmi 06

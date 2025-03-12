@@ -9,93 +9,93 @@
 
 .addr   living-characters               7e3a74
 
-025b74: 22 $main
-:       ea ea
+025b74: .jsl $main
+:       .nop .nop
 
-020c98: 5c $main-damage
+020c98: .jml $main-damage
 
 $main
-:       5a
-:       bd f8 3e
-:       29 02
-:       d0 exit-normal
+:       .phy
+:       .lda.addr.x f8 3e
+:       .and 02
+:       .bne exit-normal
 
-:       da 5a
-:       8a bb a8
-:       a2 12
+:       .phx .phy
+:       .txa .tyx .tay
+:       .ldx 12
 .label leech-loop
-:       20 $check-has-leech,2
-:       d0 exit-leech
-:       ca ca
-:       10 leech-loop
-:       7a fa
+:       .jsr.addr $check-has-leech,2
+:       .bne exit-leech
+:       .dex .dex
+:       .bpl leech-loop
+:       .ply .plx
 
 .label exit-normal
-:       bd e5 3e
-:       1d 4d 3e
-:       7a
-:       6b
+:       .lda.addr.x e5 3e
+:       .ora.addr.x 4d 3e
+:       .ply
+:       .rtl
 
 .label exit-leech
-:       7a fa
-:       a9 40
-:       7a
-:       6b
+:       .ply .plx
+:       .lda 40
+:       .ply
+:       .rtl
 
 $main-damage
-:       99 d0 33
-:       c9 00 00
-:       f0 exit-main-damage
-:       1a
-:       f0 exit-main-damage
+:       .sta.addr.y d0 33
+:       .cmp 00 00
+:       .beq exit-main-damage
+:       .inc
+:       .beq exit-main-damage
 
-:       22 $jun-check-is-damage-over-time
-:       f0 exit-main-damage
+:       .jsl $jun-check-is-damage-over-time
+:       .beq exit-main-damage
 
-:       a2 12
+:       .ldx 12
 .label leech-damage-loop
-:       20 $check-has-leech,2
-:       f0 leech-damage-skip
-:       bd e4 33
-:       1a
-:       f0 zero-healing
-:       3a
+:       .jsr.addr $check-has-leech,2
+:       .beq leech-damage-skip
+:       .lda.addr.x e4 33
+:       .inc
+:       .beq zero-healing
+:       .dec
 .label zero-healing
-:       18
-:       79 d0 33
-:       9d e4 33
+:       .clc
+:       .adc.addr.y d0 33
+:       .sta.addr.x e4 33
 .label leech-damage-skip
-:       ca ca
-:       10 leech-damage-loop
+:       .dex .dex
+:       .bpl leech-damage-loop
 
 .label exit-main-damage
-:       28
-:       5c $return-normal
+:       .plp
+:       .jml $return-normal
 
 $check-has-leech
-:       08
-:       e2 20
-:       22 $jun-check-are-same-team
-:       d0 has-leech-fail
+:       .php
+:       .sep 20
+:       .jsl $jun-check-are-same-team
+:       .bne has-leech-fail
 
-:       22 $jun-check-entity-living
-:       f0 has-leech-fail
-:       a9 {{jun-index-leech}}
-:       22 $jun-checker
-:       f0 has-leech-fail
+:       .jsl $jun-check-entity-living
+:       .beq has-leech-fail
+:       .lda {{jun-index-leech}}
+:       .jsl $jun-checker
+:       .beq has-leech-fail
 
-:       28
-:       c2 02
-:       60
+:       .plp
+:       .rep 02
+:       .rts
 .label has-leech-fail
-:       28
-:       e2 02
-:       60
+:       .plp
+:       .sep 02
+:       .rts
 
 VALIDATION
 
-020c98: 99 d0 33
-:       28
+020c98: .sta.addr.y d0 33
+:       .plp
 
-025b74: bd e5 3e
-:       1d 4d 3e
+025b74: .lda.addr.x e5 3e
+:       .ora.addr.x 4d 3e

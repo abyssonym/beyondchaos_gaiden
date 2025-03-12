@@ -6,134 +6,134 @@
 
 .addr   main1       57f080
 
-00de5e: 09 01
-:       48
-:       b2 76
-:       c9 0b
-:       f0 05
-:       68
-:       20 a4 de
-:       48 68
-:       9d 1a 63
-:       6b
+00de5e: .ora 01
+:       .pha
+:       .lda.dp.i 76
+:       .cmp 0b
+:       .beq 05
+:       .pla
+:       .jsr.addr a4 de
+:       .pha .pla
+:       .sta.addr.x 1a 63
+:       .rtl
 
-:       09 01
-:       48
-:       b2 76
-:       c9 03
-:       f0 05
-:       68
-:       20 a4 de
-:       48 68
-:       9d 3f 7b
-:       6b
+:       .ora 01
+:       .pha
+:       .lda.dp.i 76
+:       .cmp 03
+:       .beq 05
+:       .pla
+:       .jsr.addr a4 de
+:       .pha .pla
+:       .sta.addr.x 3f 7b
+:       .rtl
 
-:       48
-:       bd 1a 63
-:       80 04
-:       48
-:       bd 3f 7b
-:       29 40
-:       f0 06
-:       68 18
-:       69 04
-:       80 01
-:       68
-:       99 03 03
-:       99 07 03
-:       6b
+:       .pha
+:       .lda.addr.x 1a 63
+:       .bra 04
+:       .pha
+:       .lda.addr.x 3f 7b
+:       .and 40
+:       .beq 06
+:       .pla .clc
+:       .adc 04
+:       .bra 01
+:       .pla
+:       .sta.addr.y 03 03
+:       .sta.addr.y 07 03
+:       .rtl
 
 :       63 14
 :       ae 7e
 
-:       48 da
-:       7b
-:       aa
-:       bf a0 de c0
-:       9d f8 7f
-:       9d f8 7d
-:       e8
-:       e0 04 00
-:       d0 f0
-:       fa 68
-:       09 40
-:       60
+:       .pha .phx
+:       .tdc
+:       .tax
+:       .lda.long.x a0 de c0
+:       .sta.addr.x f8 7f
+:       .sta.addr.x f8 7d
+:       .inx
+:       .cpx 04 00
+:       .bne f0
+:       .plx .pla
+:       .ora 40
+:       .rts
 
-012b9b: ea ea
-:       22 8a de c0
+012b9b: .nop .nop
+:       .jsl 8a de c0
 
-012d2b: ea ea
-:       22 84 de c0
+012d2b: .nop .nop
+:       .jsl 84 de c0
 
-0191a0: b3 a4
+0191a0: .lda.sr.y a4
 
-0191a6: 09 96
+0191a6: .ora 96
 
-01a5a9: ea
-:       22 5e de c0
+01a5a9: .nop
+:       .jsl 5e de c0
 
-01a6e6: ea
-:       22 71 de c0
+01a6e6: .nop
+:       .jsl 71 de c0
 
-01ac21: 90 07
-:       22 @main3,3
-:       20 5b ac
-:       20 35 ac
-:       60
+01ac21: .bcc 07
+:       .jsl @main3,3
+:       .jsr.addr 5b ac
+:       .jsr.addr 35 ac
+:       .rts
 
-01ac2e: 20 b3 9c
-:       6b
+01ac2e: .jsr.addr b3 9c
+:       .rtl
 :       ff ff ff
 
-0263a8: 22 $main1
+0263a8: .jsl $main1
 
-0263b9: 5c @main2,3
-:       ea
+0263b9: .jml @main2,3
+:       .nop
 
 $main1
-:       eb
-:       48
-:       e2 20
-:       ad a3 11
-:       c2 20
-:       10 05
-:       68
-:       09 05 00
-:       6b
-:       68
-:       09 0b 00
-:       6b
+:       .xba
+:       .pha
+:       .sep 20
+:       .lda.addr a3 11
+:       .rep 20
+:       .bpl 05
+:       .pla
+:       .ora 05 00
+:       .rtl
+:       .pla
+:       .ora 0b 00
+:       .rtl
 
 .label main2
-:       a9 03
-:       48
-:       ad a3 11
-:       10 05
-:       68
-:       a9 08
-:       80 01
-:       68
-:       f4 bd 63
-:       5c 9b 62 c2
+:       .lda 03
+:       .pha
+:       .lda.addr a3 11
+:       .bpl 05
+:       .pla
+:       .lda 08
+:       .bra 01
+:       .pla
+:       .pea bd 63
+:       .jml 9b 62 c2
 
 .label main3
-:       7b
-:       a8
-:       84 1e
-:       c8 c8
-:       b1 76
-:       22 2e ac c1
-:       da
-:       7b
-:       aa
-:       bf a1 c6 c2
-:       9d f8 7f
-:       9d f8 7d
-:       e8
-:       e0 08 00
-:       d0 f0
-:       fa
-:       6b
+:       .tdc
+:       .tay
+:       .sty.dp 1e
+:       .iny .iny
+:       .lda.dp.i.y 76
+:       .jsl 2e ac c1
+:       .phx
+:       .tdc
+:       .tax
+:       .lda.long.x a1 c6 c2
+:       .sta.addr.x f8 7f
+:       .sta.addr.x f8 7d
+:       .inx
+:       .cpx 08 00
+:       .bne f0
+:       .plx
+:       .rtl
 
 VALIDATION
 

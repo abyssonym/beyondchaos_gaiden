@@ -11,107 +11,107 @@
 
 .def    poach-rare-rate                 20
 
-0213a1: 5c $main
-:       ea ea
+0213a1: .jml $main
+:       .nop .nop
 
 $main
-:       08
-:       c0 08
-:       90 exit
-:       a5 b5
-:       29 ff 00
-:       d0 exit
+:       .php
+:       .cpy 08
+:       .bcc exit
+:       .lda.dp b5
+:       .and ff 00
+:       .bne exit
 
 # here we get the character index from the stack, then store it in $EE
 # which would have happened anyway, we're just doing it a little sooner
-:       e2 20
-:       a3 05
-:       85 ee
-:       c2 30
+:       .sep 20
+:       .lda.sr 05
+:       .sta.dp ee
+:       .rep 30
 
-:       29 ff 00
-:       c9 08 00
-:       b0 exit
+:       .and ff 00
+:       .cmp 08 00
+:       .bcs exit
 
-:       da
-:       aa
+:       .phx
+:       .tax
 
 # check for imp status
-:       b9 e4 3e
-:       89 20 00
-:       f0 check-poach
+:       .lda.addr.y e4 3e
+:       .bit 20 00
+:       .beq check-poach
 
-:       a9 {{jun-index-imp-harvest}} 00
-:       22 $jun-checker
-:       d0 imp-harvest
+:       .lda {{jun-index-imp-harvest}} 00
+:       .jsl $jun-checker
+:       .bne imp-harvest
 
 .label check-poach
-:       a9 {{jun-index-poach}} 00
-:       22 $jun-checker
-:       d0 poach
+:       .lda {{jun-index-poach}} 00
+:       .jsl $jun-checker
+:       .bne poach
 
 .label pull-and-exit
-:       fa
+:       .plx
 .label exit
-:       28
-:       a9 80 00
-:       5c $return 
+:       .plp
+:       .lda 80 00
+:       .jml $return
 
 .label imp-harvest
-:       20 $get-steal-or-drop,2
+:       .jsr.addr $get-steal-or-drop,2
 # always choose rare item
-:       20 $obtain-item,2
-:       80 pull-and-exit
+:       .jsr.addr $obtain-item,2
+:       .bra pull-and-exit
 
 .label poach
-:       20 $get-steal-or-drop,2
+:       .jsr.addr $get-steal-or-drop,2
 # choose rare item 1/8 of the time
-:       aa
-:       22 $jun-rng2
-:       29 ff 00
-:       c9 poach-rare-rate 00
-:       90 poach-choose-rare
-:       8a
-:       eb
-:       80 poach-item-chosen
+:       .tax
+:       .jsl $jun-rng2
+:       .and ff 00
+:       .cmp poach-rare-rate 00
+:       .bcc poach-choose-rare
+:       .txa
+:       .xba
+:       .bra poach-item-chosen
 .label poach-choose-rare
-:       8a
+:       .txa
 .label poach-item-chosen
-:       20 $obtain-item,2
-:       80 pull-and-exit
+:       .jsr.addr $obtain-item,2
+:       .bra pull-and-exit
 
 $get-steal-or-drop
-:       b9 $monster-indexes,2
-:       0a 0a
-:       aa
-:       22 $jun-rng2
-:       4a
-:       b0 choose-drop
-:       bf $monster-steals
-:       60
+:       .lda.addr.y $monster-indexes,2
+:       .asl .asl
+:       .tax
+:       .jsl $jun-rng2
+:       .lsr
+:       .bcs choose-drop
+:       .lda.long.x $monster-steals
+:       .rts
 .label choose-drop
-:       bf $monster-drops
-:       60
+:       .lda.long.x $monster-drops
+:       .rts
 
 $obtain-item
-:       29 ff 00
-:       c9 ff 00
-:       f0 obtain-item-exit
-:       48
-:       e2 20
-:       8d 35 2f
-:       a9 b0
-:       8d 01 34
-:       a5 ee
-:       c2 20
-:       aa
-:       68
-:       9d f4 32
-:       bd 18 30
-:       0c 8c 3a
+:       .and ff 00
+:       .cmp ff 00
+:       .beq obtain-item-exit
+:       .pha
+:       .sep 20
+:       .sta.addr 35 2f
+:       .lda b0
+:       .sta.addr 01 34
+:       .lda.dp ee
+:       .rep 20
+:       .tax
+:       .pla
+:       .sta.addr.x f4 32
+:       .lda.addr.x 18 30
+:       .tsb.addr 8c 3a
 .label obtain-item-exit
-:       60
+:       .rts
 
 VALIDATION
-0213a1: a9 80 00
-:       4c $jump-set-death,2
+0213a1: .lda 80 00
+:       .jmp $jump-set-death,2

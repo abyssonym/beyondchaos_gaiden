@@ -3,62 +3,62 @@
 .addr   return-dead                     021390
 .addr   return-alive                    02133c
 
-02134a: 5c $main
+02134a: .jml $main
 
 $main
-:       f0 exit-dead
-:       90 exit-dead
+:       .beq exit-dead
+:       .bcc exit-dead
 
-:       da
-:       bb
-:       a9 {{jun-index-gilgam-heart}} 00
-:       22 $jun-checker
-:       f0 still-alive
+:       .phx
+:       .tyx
+:       .lda {{jun-index-gilgam-heart}} 00
+:       .jsl $jun-checker
+:       .beq still-alive
 
-:       ad 01 34
-:       29 ff 00
-:       c9 26 00
-:       f0 running-total
+:       .lda.addr 01 34
+:       .and ff 00
+:       .cmp 26 00
+:       .beq running-total
 
-:       e2 20
-:       a9 26
-:       8d 01 34
-:       9c 3a 2f
-:       c2 20
+:       .sep 20
+:       .lda 26
+:       .sta.addr 01 34
+:       .stz.addr 3a 2f
+:       .rep 20
 
-:       a5 ee
-:       1a
-:       8d 38 2f
-:       80 add-gold
+:       .lda.dp ee
+:       .inc
+:       .sta.addr 38 2f
+:       .bra add-gold
 
 .label running-total
-:       a5 ee
-:       1a
-:       18
-:       6d 38 2f
-:       90 no-carry-total
-:       ee 3a 2f
+:       .lda.dp ee
+:       .inc
+:       .clc
+:       .adc.addr 38 2f
+:       .bcc no-carry-total
+:       .inc.addr 3a 2f
 .label  no-carry-total
-:       8d 38 2f
-:       a5 ee
-:       1a
+:       .sta.addr 38 2f
+:       .lda.dp ee
+:       .inc
 
 .label add-gold
-:       18
-:       6d 60 18
-:       8d 60 18
-:       90 no-carry
-:       ee 62 18
+:       .clc
+:       .adc.addr 60 18
+:       .sta.addr 60 18
+:       .bcc no-carry
+:       .inc.addr 62 18
 
 .label no-carry
 .label still-alive
-:       fa
-:       b9 f4 3b
-:       5c $return-alive
+:       .plx
+:       .lda.addr.y f4 3b
+:       .jml $return-alive
 .label exit-dead
-:       5c $return-dead
+:       .jml $return-dead
 
 VALIDATION
-02134a: f0 44
-:       b0 ee
-:       80 40
+02134a: .beq 44
+:       .bcs ee
+:       .bra 40

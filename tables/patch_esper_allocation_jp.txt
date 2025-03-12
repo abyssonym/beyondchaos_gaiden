@@ -1,79 +1,79 @@
-.def char_esper_addr        80 78 f0
-.def cant_equip_text_addr   70 78 f0
-.def uneq_addr              40 78 f0
-.def chkesp_addr            10 78 f0
+.def char-esper-addr        80 78 f0
+.def cant-equip-text-addr   70 78 f0
+.def uneq-addr              40 78 f0
+.def chkesp-addr            10 78 f0
 
-035b7d: 20 cd 5b
-035f36: 20 cd 5b
-036006: 20 cd 5b
+035b7d: .jsr.addr cd 5b
+035f36: .jsr.addr cd 5b
+036006: .jsr.addr cd 5b
 
-035bcd: 5c chkesp_addr
+035bcd: .jml chkesp-addr
 
-035bec: a9 2c                       # gray text / blue shadow
+035bec: .lda 2c                     # gray text / blue shadow
 
-035bf3: 5c uneq_addr
+035bf3: .jml uneq-addr
 
 035f3d:
-: c9 20
-: f0 16
+: .cmp 20
+: .beq 16
 
 # ChkEsp
 307810:
-:da                                 # phx
-:08                                 # php
-:85 e0                              # sta $e0
-:0a                                 # asl
-:aa                                 # tax
-:e2 10                              # sep #$10
-:da                                 # phx
-:a5 28                              # lda $28 (current slot)
-:aa                                 # tax
-:b5 69                              # lda $69,X (actor in slot)
-:0a                                 # asl
-:aa                                 # tax
-:c2 20                              # rep #$20
-:bf 56 a4 c3                        # lda $c3a456,x (character bit mask)
-:fa                                 # plx
-:3f char_esper_addr                 # and $char_esper_addr,x (character-esper data)
-:f0 no_eq                           # beq
+: .phx                              # phx
+: .php                              # php
+: .sta.dp e0                        # sta $e0
+: .asl                              # asl
+: .tax                              # tax
+: .sep 10                           # sep #$10
+: .phx                              # phx
+: .lda.dp 28                        # lda $28 (current slot)
+: .tax                              # tax
+: .lda.dp.x 69                      # lda $69,X (actor in slot)
+: .asl                              # asl
+: .tax                              # tax
+: .rep 20                           # rep #$20
+: .lda.long.x 56 a4 c3              # lda $c3a456,x (character bit mask)
+: .plx                              # plx
+: .and.long.x char-esper-addr       # and $char-esper-addr,x (character-esper data)
+: .beq no-eq                        # beq
 
 # Eq
-:28                                 # plp
-:fa                                 # plx
-:a6 00                              # ldx $00
-:5c d1 5b c3                        # jml $c35bd1 (esper color)
+: .plp                              # plp
+: .plx                              # plx
+: .ldx.dp 00                        # ldx $00
+: .jml d1 5b c3                # jml $c35bd1 (esper color)
 
 # NoEq
-.label no_eq
-:28                                 # plp
-:fa                                 # plx
-:a9 28                              # lda #$28 (color: gray)
-:5c ee 5b c3                        # jml $c35bee (esper color)
+.label no-eq
+: .plp                              # plp
+: .plx                              # plx
+: .lda 28                           # lda #$28 (color: gray)
+: .jml ee 5b c3                # jml $c35bee (esper color)
 
 # Uneq
 307840:
-:bd 02 16                           # lda $1602,x (name letter)
-:c9 80                              # cmp #$80  (???)
-:b0 someone_else_equipped           # bcs
-:fa                                 # plx
-:a6 00                              # ldx #$00
-.label cant_equip_loop
-:bf cant_equip_text_addr            # lda $cant_equip_text_addr,x (can't equip text?)
-:f0 terminate_cant_equip_loop       # beq
-:8d 80 21                           # sta $2180
-:e8                                 # inx
-:80 cant_equip_loop                 # bra
-.label someone_else_equipped
-:a9 20                              # lda #$20 (palette 0)
-:85 29                              # sta $29 (color: user's)
-:5c f7 5b c3                        # jml $c35bf7 (back to where we were)
-.label terminate_cant_equip_loop
-:9c 80 21                           # stz $2180
+: .lda.addr.x 02 16                 # lda $1602,x (name letter)
+: .cmp 80                           # cmp #$80  (???)
+: .bcs someone-else-equipped        # bcs
+: .plx                              # plx
+: .ldx.dp 00                        # ldx #$00
+.label cant-equip-loop
+: .lda.long.x cant-equip-text-addr  # lda $cant-equip-text-addr,x (can't equip text?)
+: .beq terminate-cant-equip-loop    # beq
+: .sta.addr 80 21                   # sta $2180
+: .inx                              # inx
+: .bra cant-equip-loop              # bra
+.label someone-else-equipped
+: .lda 20                           # lda #$20 (palette 0)
+: .sta.dp 29                        # sta $29 (color: user's)
+: .jml f7 5b c3                # jml $c35bf7 (back to where we were)
+.label terminate-cant-equip-loop
+: .stz.addr 80 21                   # stz $2180
 #:5c d9 7f c3                        # jml $c37fd9 (draw string)
-:5c 92 43 c3                        # jml $c34392 (draw string)
+: .jml 92 43 c3                # jml $c34392 (draw string)
 
 307870:
-:00
+: 00
 # C  a  n  '  t     e  q  u  i  p  !
 #:82 9a a7 c3 ad ff 9e aa ae a2 a9 be 00
 

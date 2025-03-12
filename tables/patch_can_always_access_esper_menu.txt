@@ -14,75 +14,75 @@
 .def    gogo-index              0c
 
 $gogo-check
-:       80 04
+:       .bra 04
 
 $main-call
-:       22 $main
+:       .jsl $main
 
 #$check-learn-rate-call
-#:       22 $check-learn-rate
+#:       .jsl $check-learn-rate
 
 $check-learned-call
-:       22 $check-learned
+:       .jsl $check-learned
 
 $main
-:       a9 20
-:       a6 00
-:       95 79
-:       e8
-:       a9 24
-:       6b
+:       .lda 20
+:       .ldx.dp 00
+:       .sta.dp.x 79
+:       .inx
+:       .lda 24
+:       .rtl
 
 $check-learn-rate
-:       20 $check-character,2
-:       90 exit-learn-rate-normal
-:       a9 00
-:       6b
+:       .jsr.addr $check-character,2
+:       .bcc exit-learn-rate-normal
+:       .lda 00
+:       .rtl
 .label exit-learn-rate-normal
-:       bf $esper-data
-:       6b
+:       .lda.long.x $esper-data
+:       .rtl
 
 $check-learned
-:       20 $check-character,2
-:       90 exit-learned-normal
-:       e2 02
-:       6b
+:       .jsr.addr $check-character,2
+:       .bcc exit-learned-normal
+:       .sep 02
+:       .rtl
 .label exit-learned-normal
-:       a5 e1
-:       c9 ff
-:       6b
+:       .lda.dp e1
+:       .cmp ff
+:       .rtl
 
 $check-character
-:       da 5a
-:       a9 00
-:       eb
-:       a5 char-slot-index
-:       0a
-:       aa
-:       b4 char-data-pointers
-:       b9 00 00
-:       c9 gogo-index
-:       90 less-than-gogo
-:       7a fa
-:       38
-:       60
+:       .phx .phy
+:       .lda 00
+:       .xba
+:       .lda.dp char-slot-index
+:       .asl
+:       .tax
+:       .ldy.dp.x char-data-pointers
+:       .lda.addr.y 00 00
+:       .cmp gogo-index
+:       .bcc less-than-gogo
+:       .ply .plx
+:       .sec
+:       .rts
 .label less-than-gogo
-:       7a fa
-:       18
-:       60
+:       .ply .plx
+:       .clc
+:       .rts
 
 VALIDATION
 
 $gogo-check
-:       d0 04
+:       .bne 04
 
 $main-call
-:       a9 24
-:       a6 00
+:       .lda 24
+:       .ldx.dp 00
 
 $check-learn-rate-call
-:       bf $esper-data
+:       .lda.long.x $esper-data
 
 $check-learned-call
-:       a5 e1
-:       c9 ff
+:       .lda.dp e1
+:       .cmp ff

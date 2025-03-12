@@ -42,408 +42,408 @@
 .def    flinch-rate                 40
 .def    gaia-assist-rate            40
 
-022211: 5c $main
+022211: .jml $main
 
-024692: 22 $main-firestarter
-:       ea ea ea
+024692: .jsl $main-firestarter
+:       .nop .nop .nop
 
 $main
-:       e2 20
-:       64 fe
-:       da
+:       .sep 20
+:       .stz.dp fe
+:       .phx
 
-:       a9 80
-:       1d 04 32
-:       9d 04 32
-:       a9 80
-:       19 04 32
-:       99 04 32
+:       .lda 80
+:       .ora.addr.x 04 32
+:       .sta.addr.x 04 32
+:       .lda 80
+:       .ora.addr.y 04 32
+:       .sta.addr.y 04 32
 
-:       b9 0d 3f
-:       f0 no-freeze
-:       b9 f9 3e
-:       29 02
-:       f0 no-freeze
-:       a9 {{jun-index-null-freeze}}
-:       22 $jun-checker-y
-:       d0 freeze-exit-miss
+:       .lda.addr.y 0d 3f
+:       .beq no-freeze
+:       .lda.addr.y f9 3e
+:       .and 02
+:       .beq no-freeze
+:       .lda {{jun-index-null-freeze}}
+:       .jsl $jun-checker-y
+:       .bne freeze-exit-miss
 
 .label no-freeze
-:       b9 e5 3e
-:       89 80
-:       f0 no-sleep
-:       b9 f9 3c
-:       f0 no-sleep
-:       a9 {{jun-index-null-sleep}}
-:       22 $jun-checker-y
-:       d0 freeze-exit-miss
+:       .lda.addr.y e5 3e
+:       .bit 80
+:       .beq no-sleep
+:       .lda.addr.y f9 3c
+:       .beq no-sleep
+:       .lda {{jun-index-null-sleep}}
+:       .jsl $jun-checker-y
+:       .bne freeze-exit-miss
 
 .label no-sleep
-:       fa
+:       .plx
 
-:       a9 {{jun-index-resonate}}
-:       22 $jun-checker
-:       d0 resonate
-:       22 $jun-checker-y
-:       d0 resonate
-:       80 no-resonate
+:       .lda {{jun-index-resonate}}
+:       .jsl $jun-checker
+:       .bne resonate
+:       .jsl $jun-checker-y
+:       .bne resonate
+:       .bra no-resonate
 .label resonate
-:       20 $main-resonate,2
-:       e2 20
+:       .jsr.addr $main-resonate,2
+:       .sep 20
 
 .label no-resonate
-:       a9 {{jun-index-decisive}}
-:       22 $jun-checker
-:       f0 no-decisive
-:       9c 1a 34
+:       .lda {{jun-index-decisive}}
+:       .jsl $jun-checker
+:       .beq no-decisive
+:       .stz.addr 1a 34
 
 .label no-decisive
-:       ad 1a 34
-:       f0 no-counter
-:       4c $main-counter,2
+:       .lda.addr 1a 34
+:       .beq no-counter
+:       .jmp $main-counter,2
 
 .label no-counter
-:       5c $return-normal
+:       .jml $return-normal
 .label freeze-exit-miss
-:       fa
-:       5c $return-miss
+:       .plx
+:       .jml $return-miss
 
 $main-firestarter
-:       da 5a
+:       .phx .phy
 
-:       e2 20
-:       a2 12
+:       .sep 20
+:       .ldx 12
 .label firestarter-loop
-:       8a
-:       c3 01
-:       f0 firestarter-skip
-:       22 $jun-check-entity-can-act
-:       f0 firestarter-skip
-:       c2 20
-:       bd 18 30
-:       85 b8
-:       22 $jun-set-target-allies
-:       b9 18 30
-:       25 b8
-:       e2 20
-:       f0 firestarter-skip
-:       a9 {{jun-index-firestarter}}
-:       22 $jun-checker
-:       f0 firestarter-skip
-:       a9 02
-:       8d 7a 3a
-:       a9 00
-:       8d 7b 3a
+:       .txa
+:       .cmp.sr 01
+:       .beq firestarter-skip
+:       .jsl $jun-check-entity-can-act
+:       .beq firestarter-skip
+:       .rep 20
+:       .lda.addr.x 18 30
+:       .sta.dp b8
+:       .jsl $jun-set-target-allies
+:       .lda.addr.y 18 30
+:       .and.dp b8
+:       .sep 20
+:       .beq firestarter-skip
+:       .lda {{jun-index-firestarter}}
+:       .jsl $jun-checker
+:       .beq firestarter-skip
+:       .lda 02
+:       .sta.addr 7a 3a
+:       .lda 00
+:       .sta.addr 7b 3a
 # set mp cost to zero, because it will be wrong if the spell isn't learned
-:       a9 40
-:       04 b1
-:       22 $jun-queue-command
+:       .lda 40
+:       .tsb.dp b1
+:       .jsl $jun-queue-command
 .label firestarter-skip
-:       ca ca
-:       10 firestarter-loop
+:       .dex .dex
+:       .bpl firestarter-loop
 
 .label exit-normal
-:       e2 20
-:       64 b8
-:       64 b9
-:       7a fa
-:       a9 22
-:       99 0d 3f
-:       6b
+:       .sep 20
+:       .stz.dp b8
+:       .stz.dp b9
+:       .ply .plx
+:       .lda 22
+:       .sta.addr.y 0d 3f
+:       .rtl
 
 $main-counter
-:       b9 18 30
-:       3c 18 30
-:       f0 not-targeting-self
-:       82 counter-exit-just-exit,2
+:       .lda.addr.y 18 30
+:       .bit.addr.x 18 30
+:       .beq not-targeting-self
+:       .brl counter-exit-just-exit,2
 .label not-targeting-self
 
-:       c2 20
-:       a5 b8
-:       48
-:       e2 20
+:       .rep 20
+:       .lda.dp b8
+:       .pha
+:       .sep 20
 
-:       22 $jun-check-are-same-team
-:       d0 no-counter-all
+:       .jsl $jun-check-are-same-team
+:       .bne no-counter-all
 
-:       22 $jun-rng1
-:       b0 no-flinch
-:       a9 {{jun-index-flinch}}
-:       22 $jun-checker
-:       f0 no-flinch
-:       b9 19 32
-:       4a 4a
-:       f0 no-flinch
-:       99 19 32
+:       .jsl $jun-rng1
+:       .bcs no-flinch
+:       .lda {{jun-index-flinch}}
+:       .jsl $jun-checker
+:       .beq no-flinch
+:       .lda.addr.y 19 32
+:       .lsr .lsr
+:       .beq no-flinch
+:       .sta.addr.y 19 32
 
 .label no-flinch
-:       22 $jun-rng2
-:       c9 flinch-rate
-:       b0 no-counter-all
-:       a9 {{jun-index-counter-all}}
-:       22 $jun-checker-y
-:       f0 no-counter-all
-:       20 $queue-counter,2
+:       .jsl $jun-rng2
+:       .cmp flinch-rate
+:       .bcs no-counter-all
+:       .lda {{jun-index-counter-all}}
+:       .jsl $jun-checker-y
+:       .beq no-counter-all
+:       .jsr.addr $queue-counter,2
 
 .label no-counter-all
-:       a9 {{jun-index-discordant}}
-:       22 $jun-checker
-:       f0 no-discordant
-:       20 $do-discordant,2
+:       .lda {{jun-index-discordant}}
+:       .jsl $jun-checker
+:       .beq no-discordant
+:       .jsr.addr $do-discordant,2
 
 .label no-discordant
-:       7b
-:       a9 01
-:       24 b1
-:       d0 no-return-magic
-:       ad a5 11
-:       f0 no-return-magic
-:       c2 20
-:       c0 08
-:       b0 monsters-ignore-mp
-:       3a
-:       d9 $current-mp-address,2
-:       b0 no-return-magic
+:       .tdc
+:       .lda 01
+:       .bit.dp b1
+:       .bne no-return-magic
+:       .lda.addr a5 11
+:       .beq no-return-magic
+:       .rep 20
+:       .cpy 08
+:       .bcs monsters-ignore-mp
+:       .dec
+:       .cmp.addr.y $current-mp-address,2
+:       .bcs no-return-magic
 .label monsters-ignore-mp
-:       a9 {{jun-index-return-magic}} 00
-:       22 $jun-checker-y
-:       f0 no-return-magic
-:       bd 18 30
-:       85 b8
-:       a5 b5
-:       8d 7a 3a
-:       e2 20
-:       a9 02
-:       8d 7a 3a
-:       da
-:       bb
-:       22 $jun-queue-command
-:       fa
+:       .lda {{jun-index-return-magic}} 00
+:       .jsl $jun-checker-y
+:       .beq no-return-magic
+:       .lda.addr.x 18 30
+:       .sta.dp b8
+:       .lda.dp b5
+:       .sta.addr 7a 3a
+:       .sep 20
+:       .lda 02
+:       .sta.addr 7a 3a
+:       .phx
+:       .tyx
+:       .jsl $jun-queue-command
+:       .plx
 
 .label no-return-magic
-:       e2 20
-:       20 $main-esper-counter,2
-:       20 $main-gaia,2
+:       .sep 20
+:       .jsr.addr $main-esper-counter,2
+:       .jsr.addr $main-gaia,2
 
 # check for physical
-:       ad a2 11
-:       4a
-:       90 counter-exit-normal
+:       .lda.addr a2 11
+:       .lsr
+:       .bcc counter-exit-normal
 
-:       b9 e4 3e
-:       89 10
-:       d0 no-sunken-state
+:       .lda.addr.y e4 3e
+:       .bit 10
+:       .bne no-sunken-state
 
-:       a9 {{jun-index-sunken-state}}
-:       22 $jun-checker-y
-:       f0 no-sunken-state
-:       da
-:       bb
-:       a9 vanish-spell-index
-:       22 $jun-queue-self-spell
-:       fa
+:       .lda {{jun-index-sunken-state}}
+:       .jsl $jun-checker-y
+:       .beq no-sunken-state
+:       .phx
+:       .tyx
+:       .lda vanish-spell-index
+:       .jsl $jun-queue-self-spell
+:       .plx
 
 .label no-sunken-state
-:       a5 b5
-:       d0 no-hamedo
-:       22 $jun-rng1
-:       b0 no-hamedo
-:       a9 {{jun-index-hamedo}}
-:       22 $jun-checker-y
-:       f0 no-hamedo
-:       20 $queue-counter,2
+:       .lda.dp b5
+:       .bne no-hamedo
+:       .jsl $jun-rng1
+:       .bcs no-hamedo
+:       .lda {{jun-index-hamedo}}
+:       .jsl $jun-checker-y
+:       .beq no-hamedo
+:       .jsr.addr $queue-counter,2
 
 .label counter-exit-miss
-:       c2 20
-:       68
-:       85 b8
-:       e2 20
-:       5c $return-miss
+:       .rep 20
+:       .pla
+:       .sta.dp b8
+:       .sep 20
+:       .jml $return-miss
 
 .label no-hamedo
 .label counter-exit-normal
-:       c2 20
-:       68
-:       85 b8
-:       e2 20
+:       .rep 20
+:       .pla
+:       .sta.dp b8
+:       .sep 20
 .label counter-exit-just-exit
-:       5c $return-normal
+:       .jml $return-normal
 
 $queue-counter
-:       da
-:       c2 20
-:       bd 18 30
-:       85 b8
-:       9c 7a 3a
-:       e2 20
-:       bb
-:       22 $jun-check-entity-can-act
-:       f0 exit-queue-counter
-:       22 $jun-queue-command
+:       .phx
+:       .rep 20
+:       .lda.addr.x 18 30
+:       .sta.dp b8
+:       .stz.addr 7a 3a
+:       .sep 20
+:       .tyx
+:       .jsl $jun-check-entity-can-act
+:       .beq exit-queue-counter
+:       .jsl $jun-queue-command
 .label exit-queue-counter
-:       fa
-:       60
+:       .plx
+:       .rts
 
 $main-resonate
 # this is largely duplicated rippler code,
 # except with the originally intended "banned status" bitmasks
-:       08
-:       c2 20
+:       .php
+:       .rep 20
 
-:       bd e4 3e
-:       39 e4 3e
-:       49 ff ff
-:       29 rippler-allowed-statuses1
-:       85 ee
-:       bd e4 3e
-:       25 ee
-:       99 d4 3d
+:       .lda.addr.x e4 3e
+:       .and.addr.y e4 3e
+:       .eor ff ff
+:       .and rippler-allowed-statuses1
+:       .sta.dp ee
+:       .lda.addr.x e4 3e
+:       .and.dp ee
+:       .sta.addr.y d4 3d
 
-:       9d fc 3d
-:       b9 e4 3e
-:       25 ee
-:       9d d4 3d
-:       99 fc 3d
+:       .sta.addr.x fc 3d
+:       .lda.addr.y e4 3e
+:       .and.dp ee
+:       .sta.addr.x d4 3d
+:       .sta.addr.y fc 3d
 
-:       bd f8 3e
-:       39 f8 3e
-:       49 ff ff
-:       29 rippler-allowed-statuses2
-:       85 ee
-:       bd f8 3e
-:       25 ee
-:       99 e8 3d
+:       .lda.addr.x f8 3e
+:       .and.addr.y f8 3e
+:       .eor ff ff
+:       .and rippler-allowed-statuses2
+:       .sta.dp ee
+:       .lda.addr.x f8 3e
+:       .and.dp ee
+:       .sta.addr.y e8 3d
 
-:       9d 10 3e
-:       b9 f8 3e
-:       25 ee
-:       9d e8 3d
-:       99 10 3e
+:       .sta.addr.x 10 3e
+:       .lda.addr.y f8 3e
+:       .and.dp ee
+:       .sta.addr.x e8 3d
+:       .sta.addr.y 10 3e
 
-:       28
-:       60
+:       .plp
+:       .rts
 
 $main-esper-counter
-:       a9 {{jun-index-esper-counter}}
-:       22 $jun-checker-y
-:       f0 no-esper-counter
-:       c2 20
-:       a5 b8
-:       48
-:       bd 18 30
-:       85 b8
-:       e2 20
-:       da 5a
-:       8a
-:       bb
-:       a8
-:       20 $get-esper-spell,2
-:       c9 ff
-:       f0 skip-esper-counter
-:       eb
-:       a9 40
-:       04 b1
-:       a9 final-attack-command-index
-:       c2 20
-:       8d 7a 3a
-:       22 $jun-queue-command
+:       .lda {{jun-index-esper-counter}}
+:       .jsl $jun-checker-y
+:       .beq no-esper-counter
+:       .rep 20
+:       .lda.dp b8
+:       .pha
+:       .lda.addr.x 18 30
+:       .sta.dp b8
+:       .sep 20
+:       .phx .phy
+:       .txa
+:       .tyx
+:       .tay
+:       .jsr.addr $get-esper-spell,2
+:       .cmp ff
+:       .beq skip-esper-counter
+:       .xba
+:       .lda 40
+:       .tsb.dp b1
+:       .lda final-attack-command-index
+:       .rep 20
+:       .sta.addr 7a 3a
+:       .jsl $jun-queue-command
 .label skip-esper-counter
-:       7a fa
-:       c2 20
-:       68
-:       85 b8
-:       e2 20
+:       .ply .plx
+:       .rep 20
+:       .pla
+:       .sta.dp b8
+:       .sep 20
 .label no-esper-counter
-:       60
+:       .rts
 
 $main-gaia
-:       da 5a
-:       ad 7c 3a
-:       c9 spell-proc-command-index
-:       f0 no-gaia-defender
-:       22 $jun-check-is-damage-over-time
-:       d0 no-gaia-defender
-:       a9 {{jun-index-gaia-assist}}
-:       22 $jun-checker
-:       f0 no-gaia-attacker
-:       20 @do-gaia,2
+:       .phx .phy
+:       .lda.addr 7c 3a
+:       .cmp spell-proc-command-index
+:       .beq no-gaia-defender
+:       .jsl $jun-check-is-damage-over-time
+:       .bne no-gaia-defender
+:       .lda {{jun-index-gaia-assist}}
+:       .jsl $jun-checker
+:       .beq no-gaia-attacker
+:       .jsr.addr @do-gaia,2
 
 .label no-gaia-attacker
-:       8a bb a8
-:       a9 {{jun-index-gaia-assist}}
-:       22 $jun-checker
-:       f0 no-gaia-defender
-:       20 @do-gaia,2
+:       .txa .tyx .tay
+:       .lda {{jun-index-gaia-assist}}
+:       .jsl $jun-checker
+:       .beq no-gaia-defender
+:       .jsr.addr @do-gaia,2
 
 .label no-gaia-defender
-:       7a fa
-:       60
+:       .ply .plx
+:       .rts
 
 .label do-gaia
-:       b9 e1 32
-:       48
-:       22 $jun-rng2
-:       c9 gaia-assist-rate
-:       b0 do-gaia-exit
-:       da
-:       ae e2 11
-:       bf $background-dances-address
-:       99 e1 32
-:       fa
-:       f4 $pick-dance-move,2
-:       22 $jun-generic-dispatch
-:       22 $jun-check-are-same-team
-:       d0 gaia-same-team
-:       22 $jun-check-spell-targets-ally
-:       d0 do-gaia-exit
-:       80 do-gaia-spell
+:       .lda.addr.y e1 32
+:       .pha
+:       .jsl $jun-rng2
+:       .cmp gaia-assist-rate
+:       .bcs do-gaia-exit
+:       .phx
+:       .ldx.addr e2 11
+:       .lda.long.x $background-dances-address
+:       .sta.addr.y e1 32
+:       .plx
+:       .pea $pick-dance-move,2
+:       .jsl $jun-generic-dispatch
+:       .jsl $jun-check-are-same-team
+:       .bne gaia-same-team
+:       .jsl $jun-check-spell-targets-ally
+:       .bne do-gaia-exit
+:       .bra do-gaia-spell
 .label gaia-same-team
-:       22 $jun-check-spell-targets-ally
-:       f0 do-gaia-exit
+:       .jsl $jun-check-spell-targets-ally
+:       .beq do-gaia-exit
 .label do-gaia-spell
-:       48
-:       c2 20
-:       b9 18 30
-:       85 b8
-:       e2 20
-:       a9 spell-proc-command-index
-:       8d 7a 3a
-:       68
-:       8d 7b 3a
-:       22 $jun-queue-command
+:       .pha
+:       .rep 20
+:       .lda.addr.y 18 30
+:       .sta.dp b8
+:       .sep 20
+:       .lda spell-proc-command-index
+:       .sta.addr 7a 3a
+:       .pla
+:       .sta.addr 7b 3a
+:       .jsl $jun-queue-command
 .label do-gaia-exit
-:       68
-:       99 e1 32
-:       60
+:       .pla
+:       .sta.addr.y e1 32
+:       .rts
 
 $do-discordant
-:       da
-:       c2 20
-:       bd f4 3b
-:       a2 0a
-:       22 $jun-divide
-:       e2 20
-:       da
-:       b9 18 3b
-:       a2 0a
-:       22 $jun-divide
-:       eb
-:       a9 0a
-:       22 $jun-mult
-:       18
-:       63 01
-:       d0 discordant-not-zero
-:       1a
+:       .phx
+:       .rep 20
+:       .lda.addr.x f4 3b
+:       .ldx 0a
+:       .jsl $jun-divide
+:       .sep 20
+:       .phx
+:       .lda.addr.y 18 3b
+:       .ldx 0a
+:       .jsl $jun-divide
+:       .xba
+:       .lda 0a
+:       .jsl $jun-mult
+:       .clc
+:       .adc.sr 01
+:       .bne discordant-not-zero
+:       .inc
 .label discordant-not-zero
-:       99 18 3b
-:       68
-:       fa
-:       60
+:       .sta.addr.y 18 3b
+:       .pla
+:       .plx
+:       .rts
 
 VALIDATION
 
-022211: e2 20
-:       64 fe
+022211: .sep 20
+:       .stz.dp fe
 
-024692: e2 20
-:       a9 22
+024692: .sep 20
+:       .lda 22

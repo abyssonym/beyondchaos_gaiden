@@ -5,19 +5,19 @@
 .addr   pointer-address                 {{jun-global-command-jump}}
 
 $main
-:       bb
-:       a9 16
-:       8d 7a 3a
+:       .tyx
+:       .lda 16
+:       .sta.addr 7a 3a
 
 # duplicated action queue code
-:       8a da
-:       ae 67 3a
-:       9d 20 38
-:       fa
-:       ee 67 3a
+:       .txa .phx
+:       .ldx.addr 67 3a
+:       .sta.addr.x 20 38
+:       .plx
+:       .inc.addr 67 3a
 
-:       22 $jun-set-target-counter
-:       5c $reentry-address
+:       .jsl $jun-set-target-counter
+:       .jml $reentry-address
 
 $pointer-address
 :       $main,2

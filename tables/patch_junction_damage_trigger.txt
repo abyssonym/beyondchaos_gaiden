@@ -53,758 +53,758 @@
 .def    revenge-spell-index         92
 .def    potion-index                e9
 
-022af2: 22 $main-nihopalaoa
+022af2: .jsl $main-nihopalaoa
 
-0262f1: 22 $main-calc
+0262f1: .jsl $main-calc
 
-0262f7: 22 $main
-:       ea ea
+0262f7: .jsl $main
+:       .nop .nop
 
 $main
-:       b9 e4 33
-:       c9 ff ff
-:       f0 no-check-heal
-:       20 $check-heal,2
-:       20 $do-blood-restriction,2
-:       80 heal-or-damage
+:       .lda.addr.y e4 33
+:       .cmp ff ff
+:       .beq no-check-heal
+:       .jsr.addr $check-heal,2
+:       .jsr.addr $do-blood-restriction,2
+:       .bra heal-or-damage
 
 .label no-check-heal
-:       b9 d0 33
-:       c9 ff ff
-:       f0 no-junction
+:       .lda.addr.y d0 33
+:       .cmp ff ff
+:       .beq no-junction
 
 .label heal-or-damage
-:       20 $check-brace,2
-:       20 $check-catch,2
+:       .jsr.addr $check-brace,2
+:       .jsr.addr $check-catch,2
 
-:       a9 {{jun-index-double-time}} 00
-:       22 $jun-checker
-:       f0 no-double-time
-:       20 $reduce-damage-half,2
-:       20 $reduce-healing-half,2
+:       .lda {{jun-index-double-time}} 00
+:       .jsl $jun-checker
+:       .beq no-double-time
+:       .jsr.addr $reduce-damage-half,2
+:       .jsr.addr $reduce-healing-half,2
 
 .label no-double-time
-:       a5 b5
-:       29 ff 00
-:       c9 01 00
-:       d0 no-chemist
-:       a9 {{jun-index-chemist}} 00
-:       22 $jun-checker
-:       f0 no-chemist
-:       20 $boost-healing-double,2
-:       20 $boost-damage-double,2
+:       .lda.dp b5
+:       .and ff 00
+:       .cmp 01 00
+:       .bne no-chemist
+:       .lda {{jun-index-chemist}} 00
+:       .jsl $jun-checker
+:       .beq no-chemist
+:       .jsr.addr $boost-healing-double,2
+:       .jsr.addr $boost-damage-double,2
 
 .label no-chemist
-:       ad 7c 3a
-:       29 ff 00
-:       c9 22 00
-:       f0 no-reverse
-:       a9 {{jun-index-reverse}} 00
-:       22 $jun-checker
-:       f0 no-reverse
-:       20 $reverse-damage,2
+:       .lda.addr 7c 3a
+:       .and ff 00
+:       .cmp 22 00
+:       .beq no-reverse
+:       .lda {{jun-index-reverse}} 00
+:       .jsl $jun-checker
+:       .beq no-reverse
+:       .jsr.addr $reverse-damage,2
 
 .label no-reverse
-:       20 $check-precision,2
-:       22 $jun-check-is-damage-over-time
-:       d0 cap-damage
+:       .jsr.addr $check-precision,2
+:       .jsl $jun-check-is-damage-over-time
+:       .bne cap-damage
 
-:       20 $do-meatbone-auto-potion,2
-:       20 $do-corrosive,2
-:       20 $do-juggler,2
+:       .jsr.addr $do-meatbone-auto-potion,2
+:       .jsr.addr $do-corrosive,2
+:       .jsr.addr $do-juggler,2
 
 .label cap-damage
-:       20 $do-cap-damage,2
+:       .jsr.addr $do-cap-damage,2
 
 .label no-junction
-:       b9 d0 33
-:       d9 e4 33
-:       6b
+:       .lda.addr.y d0 33
+:       .cmp.addr.y e4 33
+:       .rtl
 
 $do-cap-damage
-:       b9 d0 33
-:       c9 10 27
-:       90 cap-damage-no-damage-overflow
-:       c9 ff ff
-:       f0 cap-damage-no-damage-overflow
-:       a9 0f 27
-:       99 d0 33
+:       .lda.addr.y d0 33
+:       .cmp 10 27
+:       .bcc cap-damage-no-damage-overflow
+:       .cmp ff ff
+:       .beq cap-damage-no-damage-overflow
+:       .lda 0f 27
+:       .sta.addr.y d0 33
 
 .label cap-damage-no-damage-overflow
-:       b9 e4 33
-:       c9 10 27
-:       90 cap-damage-no-healing-overflow
-:       c9 ff ff
-:       f0 cap-damage-no-healing-overflow
-:       a9 0f 27
-:       99 e4 33
+:       .lda.addr.y e4 33
+:       .cmp 10 27
+:       .bcc cap-damage-no-healing-overflow
+:       .cmp ff ff
+:       .beq cap-damage-no-healing-overflow
+:       .lda 0f 27
+:       .sta.addr.y e4 33
 
 .label cap-damage-no-healing-overflow
-:       60
+:       .rts
 
 $main-nihopalaoa
-:       da
-:       bb
-:       20 $check-nihopalaoa,2
-:       f0 exit-no-nihopalaoa
-:       a9 05
-:       1c a4 11
-:       a9 04
-:       1c a2 11
-:       a9 80
-:       2c a4 11
-:       d0 nihopalaoa-miss-death-prot
-:       2c aa 11
-:       d0 nihopalaoa-miss-death-prot
-:       80 exit-no-nihopalaoa
+:       .phx
+:       .tyx
+:       .jsr.addr $check-nihopalaoa,2
+:       .beq exit-no-nihopalaoa
+:       .lda 05
+:       .trb.addr a4 11
+:       .lda 04
+:       .trb.addr a2 11
+:       .lda 80
+:       .bit.addr a4 11
+:       .bne nihopalaoa-miss-death-prot
+:       .bit.addr aa 11
+:       .bne nihopalaoa-miss-death-prot
+:       .bra exit-no-nihopalaoa
 .label nihopalaoa-miss-death-prot
-:       a9 02
-:       0c a2 11
+:       .lda 02
+:       .tsb.addr a2 11
 .label exit-no-nihopalaoa
-:       fa
-:       bf 00 50 d8
-:       6b
+:       .plx
+:       .lda.long.x 00 50 d8
+:       .rtl
 
 $check-heal
-:       a9 {{jun-index-heal-boost}} 00
-:       22 $jun-checker
-:       f0 no-heal-boost
-:       20 $boost-healing-half,2
+:       .lda {{jun-index-heal-boost}} 00
+:       .jsl $jun-checker
+:       .beq no-heal-boost
+:       .jsr.addr $boost-healing-half,2
 .label no-heal-boost
 
-:       a9 {{jun-index-heal-font}} 00
-:       22 $jun-check-count-all-living
+:       .lda {{jun-index-heal-font}} 00
+:       .jsl $jun-check-count-all-living
 .label heal-font-loop
-:       3a
-:       30 end-heal-font-loop
-:       20 $boost-healing-quarter,2
-:       80 heal-font-loop
+:       .dec
+:       .bmi end-heal-font-loop
+:       .jsr.addr $boost-healing-quarter,2
+:       .bra heal-font-loop
 .label end-heal-font-loop
 
-:       a9 {{jun-index-heal-sink}} 00
-:       22 $jun-check-count-all-living
+:       .lda {{jun-index-heal-sink}} 00
+:       .jsl $jun-check-count-all-living
 .label heal-sink-loop
-:       3a
-:       30 end-heal-sink-loop
-:       20 $reduce-healing-quarter,2
-:       80 heal-sink-loop
+:       .dec
+:       .bmi end-heal-sink-loop
+:       .jsr.addr $reduce-healing-quarter,2
+:       .bra heal-sink-loop
 .label end-heal-sink-loop
 
 .label not-heal
-:       60
+:       .rts
 
 $do-blood-restriction
-:       b9 18 30
-:       3c 18 30
-:       f0 no-blood
-:       e2 20
-:       ad a5 11
-:       f0 no-blood
-:       a9 01
-:       2c a4 11
-:       f0 no-blood
-:       a9 {{jun-index-blood-mage}}
-:       22 $jun-checker
-:       f0 no-blood
-:       c2 20
-:       9e e4 33
+:       .lda.addr.y 18 30
+:       .bit.addr.x 18 30
+:       .beq no-blood
+:       .sep 20
+:       .lda.addr a5 11
+:       .beq no-blood
+:       .lda 01
+:       .bit.addr a4 11
+:       .beq no-blood
+:       .lda {{jun-index-blood-mage}}
+:       .jsl $jun-checker
+:       .beq no-blood
+:       .rep 20
+:       .stz.addr.x e4 33
 .label no-blood
-:       c2 20
-:       60
+:       .rep 20
+:       .rts
 
 $main-calc
-:       64 f0
-:       64 f2
-:       a0 12
+:       .stz.dp f0
+:       .stz.dp f2
+:       .ldy 12
 .label main-calc-loop
-:       20 $check-calc,2
-:       88 88
-:       10 main-calc-loop
-:       6b
+:       .jsr.addr $check-calc,2
+:       .dey .dey
+:       .bpl main-calc-loop
+:       .rtl
 
 $check-brace
-:       da
-:       bb
-:       b9 a1 3a
-:       89 02 00
-:       f0 no-brace
-:       a9 {{jun-index-brace}} 00
-:       22 $jun-checker
-:       f0 no-brace
-:       20 $reduce-damage-half,2
+:       .phx
+:       .tyx
+:       .lda.addr.y a1 3a
+:       .bit 02 00
+:       .beq no-brace
+:       .lda {{jun-index-brace}} 00
+:       .jsl $jun-checker
+:       .beq no-brace
+:       .jsr.addr $reduce-damage-half,2
 .label no-brace
-:       fa
-:       60
+:       .plx
+:       .rts
 
 $check-nihopalaoa
-:       48 08
-:       e2 20
-:       a5 b5
-:       c9 01
-:       d0 not-nihopalaoa
-:       a9 {{jun-index-nihopalaoa}}
-:       22 $jun-checker
-:       f0 not-nihopalaoa
-:       28 68
-:       c2 02
-:       60
+:       .pha .php
+:       .sep 20
+:       .lda.dp b5
+:       .cmp 01
+:       .bne not-nihopalaoa
+:       .lda {{jun-index-nihopalaoa}}
+:       .jsl $jun-checker
+:       .beq not-nihopalaoa
+:       .plp .pla
+:       .rep 02
+:       .rts
 .label not-nihopalaoa
-:       28 68
-:       e2 02
-:       60
+:       .plp .pla
+:       .sep 02
+:       .rts
 
 $reverse-damage
-:       b9 d0 33
-:       48
-:       b9 e4 33
-:       99 d0 33
-:       68
-:       99 e4 33
-:       60
+:       .lda.addr.y d0 33
+:       .pha
+:       .lda.addr.y e4 33
+:       .sta.addr.y d0 33
+:       .pla
+:       .sta.addr.y e4 33
+:       .rts
 
 $check-precision
-:       a5 b8
-:       da
-:       22 $jun-count-bits
-:       e0 02
-:       90 no-precision-pull
-:       fa
+:       .lda.dp b8
+:       .phx
+:       .jsl $jun-count-bits
+:       .cpx 02
+:       .bcc no-precision-pull
+:       .plx
 
-:       e2 20
-:       a9 {{jun-index-precision}}
-:       22 $jun-checker
-:       f0 no-precision
+:       .sep 20
+:       .lda {{jun-index-precision}}
+:       .jsl $jun-checker
+:       .beq no-precision
 
-:       e0 08
-:       b0 enemy-precision
-:       c0 08
-:       b0 no-precision
-:       80 yes-precision
+:       .cpx 08
+:       .bcs enemy-precision
+:       .cpy 08
+:       .bcs no-precision
+:       .bra yes-precision
 
 .label enemy-precision
-:       c0 08
-:       90 no-precision
+:       .cpy 08
+:       .bcc no-precision
 
 .label yes-precision
-:       c2 20
-:       a9 ff ff
-:       99 d0 33
-:       60
+:       .rep 20
+:       .lda ff ff
+:       .sta.addr.y d0 33
+:       .rts
 .label no-precision-pull
-:       fa
+:       .plx
 .label no-precision
-:       c2 20
-:       60
+:       .rep 20
+:       .rts
 
 $check-calc
-:       da
-:       20 $check-nonzero-nonlethal-damage,2
-:       f0 no-damage-split
-:       bb
-:       a9 {{jun-index-damage-split}} 00
-:       22 $jun-checker
-:       f0 no-damage-split
-:       fa da
-:       fe d0 33
-:       f0 calc-attacker-damage-not-null
-:       de d0 33
+:       .phx
+:       .jsr.addr $check-nonzero-nonlethal-damage,2
+:       .beq no-damage-split
+:       .tyx
+:       .lda {{jun-index-damage-split}} 00
+:       .jsl $jun-checker
+:       .beq no-damage-split
+:       .plx .phx
+:       .inc.addr.x d0 33
+:       .beq calc-attacker-damage-not-null
+:       .dec.addr.x d0 33
 .label  calc-attacker-damage-not-null
-:       b9 d0 33
-:       4a 4a
-:       18
-:       7d d0 33
-:       9d d0 33
-:       b9 d0 33
-:       48
-:       4a 4a
-:       99 d0 33
-:       68
-:       38
-:       f9 d0 33
-:       99 d0 33
+:       .lda.addr.y d0 33
+:       .lsr .lsr
+:       .clc
+:       .adc.addr.x d0 33
+:       .sta.addr.x d0 33
+:       .lda.addr.y d0 33
+:       .pha
+:       .lsr .lsr
+:       .sta.addr.y d0 33
+:       .pla
+:       .sec
+:       .sbc.addr.y d0 33
+:       .sta.addr.y d0 33
 
 .label no-damage-split
-:       b9 e4 33
-:       1a
-:       f0 no-distribute
-:       bb
-:       a9 {{jun-index-distribute}} 00
-:       22 $jun-checker
-:       f0 no-distribute
-:       b9 e4 33
-:       18
-:       79 $current-hp-address,2
-:       d9 $max-hp-address,2
-:       90 no-distribute
-:       38
-:       f9 $max-hp-address,2
-:       48
-:       b9 $max-hp-address,2
-:       38
-:       f9 $current-hp-address,2
-:       99 e4 33
-:       68
-:       c0 08
-:       b0 distribute-is-monster
-:       20 $do-distribute-characters,2
-:       80 no-distribute
+:       .lda.addr.y e4 33
+:       .inc
+:       .beq no-distribute
+:       .tyx
+:       .lda {{jun-index-distribute}} 00
+:       .jsl $jun-checker
+:       .beq no-distribute
+:       .lda.addr.y e4 33
+:       .clc
+:       .adc.addr.y $current-hp-address,2
+:       .cmp.addr.y $max-hp-address,2
+:       .bcc no-distribute
+:       .sec
+:       .sbc.addr.y $max-hp-address,2
+:       .pha
+:       .lda.addr.y $max-hp-address,2
+:       .sec
+:       .sbc.addr.y $current-hp-address,2
+:       .sta.addr.y e4 33
+:       .pla
+:       .cpy 08
+:       .bcs distribute-is-monster
+:       .jsr.addr $do-distribute-characters,2
+:       .bra no-distribute
 .label distribute-is-monster
-:       20 $do-distribute-monsters,2
+:       .jsr.addr $do-distribute-monsters,2
 
 .label no-distribute
-:       fa
-:       60
+:       .plx
+:       .rts
 
 $do-distribute-characters
-:       da 5a 48
-:       a0 00
-:       a2 06
+:       .phx .phy .pha
+:       .ldy 00
+:       .ldx 06
 
-:       e2 20
+:       .sep 20
 .label dist-char-count-loop
-:       8a
-:       c3 03
-:       f0 dist-char-count-skip
-:       22 $jun-check-entity-living
-:       f0 dist-char-count-skip
-:       c8
+:       .txa
+:       .cmp.sr 03
+:       .beq dist-char-count-skip
+:       .jsl $jun-check-entity-living
+:       .beq dist-char-count-skip
+:       .iny
 .label dist-char-count-skip
-:       ca ca
-:       10 dist-char-count-loop
-:       c2 20
+:       .dex .dex
+:       .bpl dist-char-count-loop
+:       .rep 20
 
-:       c0 00
-:       f0 dist-char-exit
-:       bb
-:       68
-:       22 $jun-divide
-:       48
+:       .cpy 00
+:       .beq dist-char-exit
+:       .tyx
+:       .pla
+:       .jsl $jun-divide
+:       .pha
 
-:       a2 06
+:       .ldx 06
 .label dist-char-heal-loop
-:       e2 20
-:       8a
-:       c3 03
-:       f0 dist-char-heal-skip
-:       22 $jun-check-entity-living
-:       f0 dist-char-heal-skip
-:       c2 20
-:       bd e4 33
-:       1a
-:       f0 dist-char-heal-not-null
-:       3a
+:       .sep 20
+:       .txa
+:       .cmp.sr 03
+:       .beq dist-char-heal-skip
+:       .jsl $jun-check-entity-living
+:       .beq dist-char-heal-skip
+:       .rep 20
+:       .lda.addr.x e4 33
+:       .inc
+:       .beq dist-char-heal-not-null
+:       .dec
 .label dist-char-heal-not-null
-:       18
-:       63 01
-:       9d e4 33
+:       .clc
+:       .adc.sr 01
+:       .sta.addr.x e4 33
 .label dist-char-heal-skip
-:       ca ca
-:       10 dist-char-heal-loop
+:       .dex .dex
+:       .bpl dist-char-heal-loop
 
 .label dist-char-exit
-:       c2 20
-:       68 7a fa
-:       60
+:       .rep 20
+:       .pla .ply .plx
+:       .rts
 
 $do-distribute-monsters
-:       da 5a 48
-:       a0 00
-:       a2 12
+:       .phx .phy .pha
+:       .ldy 00
+:       .ldx 12
 
-:       e2 20
+:       .sep 20
 .label dist-mon-count-loop
-:       8a
-:       c3 03
-:       f0 dist-mon-count-skip
-:       22 $jun-check-entity-living
-:       f0 dist-mon-count-skip
-:       c8
+:       .txa
+:       .cmp.sr 03
+:       .beq dist-mon-count-skip
+:       .jsl $jun-check-entity-living
+:       .beq dist-mon-count-skip
+:       .iny
 .label dist-mon-count-skip
-:       ca ca
-:       e0 07
-:       b0 dist-mon-count-loop
-:       c2 20
+:       .dex .dex
+:       .cpx 07
+:       .bcs dist-mon-count-loop
+:       .rep 20
 
-:       c0 00
-:       f0 dist-mon-exit
-:       bb
-:       68
-:       22 $jun-divide
-:       48
+:       .cpy 00
+:       .beq dist-mon-exit
+:       .tyx
+:       .pla
+:       .jsl $jun-divide
+:       .pha
 
-:       a2 12
+:       .ldx 12
 .label dist-mon-heal-loop
-:       e2 20
-:       8a
-:       c3 03
-:       f0 dist-mon-heal-skip
-:       22 $jun-check-entity-living
-:       f0 dist-mon-heal-skip
-:       c2 20
-:       bd e4 33
-:       1a
-:       f0 dist-mon-heal-not-null
-:       3a
+:       .sep 20
+:       .txa
+:       .cmp.sr 03
+:       .beq dist-mon-heal-skip
+:       .jsl $jun-check-entity-living
+:       .beq dist-mon-heal-skip
+:       .rep 20
+:       .lda.addr.x e4 33
+:       .inc
+:       .beq dist-mon-heal-not-null
+:       .dec
 .label dist-mon-heal-not-null
-:       18
-:       63 01
-:       9d e4 33
+:       .clc
+:       .adc.sr 01
+:       .sta.addr.x e4 33
 .label dist-mon-heal-skip
-:       ca ca
-:       e0 07
-:       b0 dist-mon-heal-loop
+:       .dex .dex
+:       .cpx 07
+:       .bcs dist-mon-heal-loop
 
 .label dist-mon-exit
-:       c2 20
-:       68 7a fa
-:       60
+:       .rep 20
+:       .pla .ply .plx
+:       .rts
 
 $check-catch
-:       da
-:       a5 b5
-:       29 ff 00
-:       c9 throw-index 00
-:       d0 catch-exit
-:       bb
-:       a9 {{jun-index-catch}} 00
-:       22 $jun-checker
-:       f0 catch-exit
-:       9e d0 33
-:       e0 08
-:       b0 catch-exit
+:       .phx
+:       .lda.dp b5
+:       .and ff 00
+:       .cmp throw-index 00
+:       .bne catch-exit
+:       .tyx
+:       .lda {{jun-index-catch}} 00
+:       .jsl $jun-checker
+:       .beq catch-exit
+:       .stz.addr.x d0 33
+:       .cpx 08
+:       .bcs catch-exit
 
-:       ad 7a 3a
-:       29 ff 00
-:       c9 throw-index 00
-:       d0 catch-exit
+:       .lda.addr 7a 3a
+:       .and ff 00
+:       .cmp throw-index 00
+:       .bne catch-exit
 
-:       22 $jun-rng1
-:       b0 catch-exit
+:       .jsl $jun-rng1
+:       .bcs catch-exit
 
-:       e2 20
-:       a9 b0
-:       8d 01 34
-:       a5 b6
-:       8d 35 2f
-:       9d f4 32
-:       bd 18 30
-:       0c 8c 3a
-:       c2 20
+:       .sep 20
+:       .lda b0
+:       .sta.addr 01 34
+:       .lda.dp b6
+:       .sta.addr 35 2f
+:       .sta.addr.x f4 32
+:       .lda.addr.x 18 30
+:       .tsb.addr 8c 3a
+:       .rep 20
 
 .label catch-exit
-:       fa
-:       60
+:       .plx
+:       .rts
 
 $boost-healing-half
-:       b9 e4 33
-:       c9 ff ff
-:       f0 exit-boost-healing-half
-:       4a
-:       18
-:       79 e4 33
-:       90 healing-half-no-overflow
-:       a9 fe ff
+:       .lda.addr.y e4 33
+:       .cmp ff ff
+:       .beq exit-boost-healing-half
+:       .lsr
+:       .clc
+:       .adc.addr.y e4 33
+:       .bcc healing-half-no-overflow
+:       .lda fe ff
 .label healing-half-no-overflow
-:       99 e4 33
+:       .sta.addr.y e4 33
 .label exit-boost-healing-half
-:       60
+:       .rts
 
 $boost-healing-quarter
-:       48
-:       b9 e4 33
-:       c9 ff ff
-:       f0 exit-healing-quarter
-:       4a 4a
-:       18
-:       79 e4 33
-:       90 healing-quarter-no-overflow
-:       a9 fe ff
+:       .pha
+:       .lda.addr.y e4 33
+:       .cmp ff ff
+:       .beq exit-healing-quarter
+:       .lsr .lsr
+:       .clc
+:       .adc.addr.y e4 33
+:       .bcc healing-quarter-no-overflow
+:       .lda fe ff
 .label healing-quarter-no-overflow
-:       99 e4 33
+:       .sta.addr.y e4 33
 .label exit-healing-quarter
-:       68
-:       60
+:       .pla
+:       .rts
 
 $reduce-healing-quarter
-:       48
-:       b9 e4 33
-:       c9 ff ff
-:       f0 exit-healing-reduce
-:       4a
-:       99 e4 33
-:       4a
-:       18
-:       79 e4 33
-:       99 e4 33
+:       .pha
+:       .lda.addr.y e4 33
+:       .cmp ff ff
+:       .beq exit-healing-reduce
+:       .lsr
+:       .sta.addr.y e4 33
+:       .lsr
+:       .clc
+:       .adc.addr.y e4 33
+:       .sta.addr.y e4 33
 .label exit-healing-reduce
-:       68
-:       60
+:       .pla
+:       .rts
 
 $boost-healing-double
-:       b9 e4 33
-:       c9 ff ff
-:       f0 exit-healing-double
-:       0a
-:       90 healing-double-no-overflow
-:       a9 fe ff
+:       .lda.addr.y e4 33
+:       .cmp ff ff
+:       .beq exit-healing-double
+:       .asl
+:       .bcc healing-double-no-overflow
+:       .lda fe ff
 .label healing-double-no-overflow
-:       99 e4 33
+:       .sta.addr.y e4 33
 .label exit-healing-double
-:       60
+:       .rts
 
 $boost-damage-double
-:       b9 d0 33
-:       c9 ff ff
-:       f0 exit-damage-double
-:       0a
-:       90 damage-double-no-overflow
-:       a9 fe ff
+:       .lda.addr.y d0 33
+:       .cmp ff ff
+:       .beq exit-damage-double
+:       .asl
+:       .bcc damage-double-no-overflow
+:       .lda fe ff
 .label damage-double-no-overflow
-:       99 d0 33
+:       .sta.addr.y d0 33
 .label exit-damage-double
-:       60
+:       .rts
 
 $reduce-damage-half
-:       b9 d0 33
-:       c9 ff ff
-:       f0 exit-damage-half
-:       4a
-:       99 d0 33
+:       .lda.addr.y d0 33
+:       .cmp ff ff
+:       .beq exit-damage-half
+:       .lsr
+:       .sta.addr.y d0 33
 .label exit-damage-half
-:       60
+:       .rts
 
 $reduce-healing-half
-:       b9 e4 33
-:       c9 ff ff
-:       f0 exit-reduce-healing-half
-:       4a
-:       99 e4 33
+:       .lda.addr.y e4 33
+:       .cmp ff ff
+:       .beq exit-reduce-healing-half
+:       .lsr
+:       .sta.addr.y e4 33
 .label exit-reduce-healing-half
-:       60
+:       .rts
 
 $check-nonzero-nonlethal-damage
-:       48
-:       b9 d0 33
-:       f0 non-non-is-zero
-:       1a
-:       f0 non-non-is-zero
-:       3a
-:       d9 $current-hp-address,2
-:       b0 non-non-is-lethal
-:       68
-:       c2 02
-:       60
+:       .pha
+:       .lda.addr.y d0 33
+:       .beq non-non-is-zero
+:       .inc
+:       .beq non-non-is-zero
+:       .dec
+:       .cmp.addr.y $current-hp-address,2
+:       .bcs non-non-is-lethal
+:       .pla
+:       .rep 02
+:       .rts
 .label non-non-is-zero
 .label non-non-is-lethal
-:       68
-:       e2 02
-:       60
+:       .pla
+:       .sep 02
+:       .rts
 
 $retarget-salve
-:       a9 {{jun-index-salve}}
-:       22 $jun-checker
-:       f0 no-salve
-:       22 $jun-set-target-allies
+:       .lda {{jun-index-salve}}
+:       .jsl $jun-checker
+:       .beq no-salve
+:       .jsl $jun-set-target-allies
 .label no-salve
-:       60
+:       .rts
 
 $do-meatbone-auto-potion
-:       da
+:       .phx
 
 # check for decisive blow
-:       ad 1a 34
-:       29 ff 00
-:       f0 auto-potion-exit-all
+:       .lda.addr 1a 34
+:       .and ff 00
+:       .beq auto-potion-exit-all
 
 # check for mp damage
-:       a9 80 00
-:       2c a3 11
-:       d0 auto-potion-exit-all
+:       .lda 80 00
+:       .bit.addr a3 11
+:       .bne auto-potion-exit-all
 
-:       20 $check-nonzero-nonlethal-damage,2
-:       f0 auto-potion-exit-all
+:       .jsr.addr $check-nonzero-nonlethal-damage,2
+:       .beq auto-potion-exit-all
 
 .label check-meatbone
-:       22 $jun-compare-x-y
-:       f0 no-meatbone
+:       .jsl $jun-compare-x-y
+:       .beq no-meatbone
 
-:       bb
-:       b9 $max-hp-address,2
-:       4a 4a 4a
-:       d9 $current-hp-address,2
-:       90 no-meatbone
-:       a9 {{jun-index-meatbone-cut}} 00
-:       22 $jun-checker
-:       f0 no-meatbone
-:       22 $jun-set-target-counter
-:       a5 b8
-:       2d 74 3a
-:       f0 no-meatbone
-:       a9 44 revenge-spell-index
-:       8d 7a 3a
-:       22 $jun-queue-command
+:       .tyx
+:       .lda.addr.y $max-hp-address,2
+:       .lsr .lsr .lsr
+:       .cmp.addr.y $current-hp-address,2
+:       .bcc no-meatbone
+:       .lda {{jun-index-meatbone-cut}} 00
+:       .jsl $jun-checker
+:       .beq no-meatbone
+:       .jsl $jun-set-target-counter
+:       .lda.dp b8
+:       .and.addr 74 3a
+:       .beq no-meatbone
+:       .lda 44 revenge-spell-index
+:       .sta.addr 7a 3a
+:       .jsl $jun-queue-command
 
 .label no-meatbone
-:       ad 7a 3a
-:       29 ff 00
-:       c9 01 00
-:       d0 continue-auto-potion
+:       .lda.addr 7a 3a
+:       .and ff 00
+:       .cmp 01 00
+:       .bne continue-auto-potion
 
-:       24 b1
-:       d0 auto-potion-exit-all
+:       .bit.dp b1
+:       .bne auto-potion-exit-all
 
 .label continue-auto-potion
-:       bb
-:       a9 {{jun-index-auto-potion}} 00
-:       22 $jun-checker
-:       f0 auto-potion-exit
+:       .tyx
+:       .lda {{jun-index-auto-potion}} 00
+:       .jsl $jun-checker
+:       .beq auto-potion-exit
 
-:       a9 00 00
-:       e0 08
-:       90 skip-monster-rng-check
-:       22 $jun-rng1
-:       90 do-not-deduct-item
+:       .lda 00 00
+:       .cpx 08
+:       .bcc skip-monster-rng-check
+:       .jsl $jun-rng1
+:       .bcc do-not-deduct-item
 .label auto-potion-exit-all
-:       80 auto-potion-fail
+:       .bra auto-potion-fail
 .label skip-monster-rng-check
-:       a9 potion-index 00
-:       22 $jun-deduct-item-if-possible
-:       f0 auto-potion-fail
-:       e2 20
-:       a9 potion-index
-:       9d f4 32
-:       c2 20
+:       .lda potion-index 00
+:       .jsl $jun-deduct-item-if-possible
+:       .beq auto-potion-fail
+:       .sep 20
+:       .lda potion-index
+:       .sta.addr.x f4 32
+:       .rep 20
 .label do-not-deduct-item
 
-:       bd 18 30
-:       85 b8
-:       e2 20
-:       20 $retarget-salve,2
+:       .lda.addr.x 18 30
+:       .sta.dp b8
+:       .sep 20
+:       .jsr.addr $retarget-salve,2
 
-:       a9 01
-:       8d 7a 3a
-:       a9 potion-index
-:       8d 7b 3a
-:       22 $jun-queue-command
-:       80 auto-potion-exit
+:       .lda 01
+:       .sta.addr 7a 3a
+:       .lda potion-index
+:       .sta.addr 7b 3a
+:       .jsl $jun-queue-command
+:       .bra auto-potion-exit
 .label auto-potion-fail
 .label auto-potion-exit
-:       c2 20
-:       fa
-:       60
+:       .rep 20
+:       .plx
+:       .rts
 
 $do-corrosive
-:       a9 {{jun-index-corrosive}} 00
-:       22 $jun-checker
-:       f0 no-corrosive
-:       b9 d0 33
-:       89 00 c0
-:       d0 no-corrosive
+:       .lda {{jun-index-corrosive}} 00
+:       .jsl $jun-checker
+:       .beq no-corrosive
+:       .lda.addr.y d0 33
+:       .bit 00 c0
+:       .bne no-corrosive
 
-:       48
-:       ad a3 11
-:       89 80 00
-:       d0 corrode-mp
+:       .pha
+:       .lda.addr a3 11
+:       .bit 80 00
+:       .bne corrode-mp
 
 .label corrode-hp
-:       68
-:       d9 $current-hp-address,2
-:       90 corrosive-damage-below-current-hp
-:       b9 $current-hp-address,2
+:       .pla
+:       .cmp.addr.y $current-hp-address,2
+:       .bcc corrosive-damage-below-current-hp
+:       .lda.addr.y $current-hp-address,2
 .label corrosive-damage-below-current-hp
-:       1a 1a
-:       4a 4a
-:       48
-:       b9 $max-hp-address,2
-:       38
-:       e3 01
-:       99 $max-hp-address,2
-:       68
+:       .inc .inc
+:       .lsr .lsr
+:       .pha
+:       .lda.addr.y $max-hp-address,2
+:       .sec
+:       .sbc.sr 01
+:       .sta.addr.y $max-hp-address,2
+:       .pla
 .label no-corrosive
-:       60
+:       .rts
 
 .label corrode-mp
-:       68
-:       d9 $current-mp-address,2
-:       90 corrosive-damage-below-current-mp
-:       b9 $current-mp-address,2
+:       .pla
+:       .cmp.addr.y $current-mp-address,2
+:       .bcc corrosive-damage-below-current-mp
+:       .lda.addr.y $current-mp-address,2
 .label corrosive-damage-below-current-mp
-:       1a 1a
-:       4a 4a
-:       48
-:       b9 $max-mp-address,2
-:       38
-:       e3 01
-:       99 $max-mp-address,2
-:       68
-:       60
+:       .inc .inc
+:       .lsr .lsr
+:       .pha
+:       .lda.addr.y $max-mp-address,2
+:       .sec
+:       .sbc.sr 01
+:       .sta.addr.y $max-mp-address,2
+:       .pla
+:       .rts
 
 $do-juggler
-:       e2 20
-:       a9 {{jun-index-juggler}}
-:       22 $jun-checker-y
-:       f0 no-juggler
+:       .sep 20
+:       .lda {{jun-index-juggler}}
+:       .jsl $jun-checker-y
+:       .beq no-juggler
 
-:       a9 01
-:       2c a2 11
+:       .lda 01
+:       .bit.addr a2 11
 
-:       d0 juggler-physical-attack
+:       .bne juggler-physical-attack
 
-:       b9 $current-mdef-address,2
-:       d9 $current-defense-address,2
-:       b0 juggler-ma-mdef-greater
-:       20 @swap-defense-mdef,2
+:       .lda.addr.y $current-mdef-address,2
+:       .cmp.addr.y $current-defense-address,2
+:       .bcs juggler-ma-mdef-greater
+:       .jsr.addr @swap-defense-mdef,2
 .label juggler-ma-mdef-greater
-:       b9 $current-mblock-address,2
-:       d9 $current-evade-address,2
+:       .lda.addr.y $current-mblock-address,2
+:       .cmp.addr.y $current-evade-address,2
 # internally, a LOWER value in the evade byte is BETTER
-:       90 juggler-ma-mblock-greater
-:       20 @swap-evade-mblock,2
+:       .bcc juggler-ma-mblock-greater
+:       .jsr.addr @swap-evade-mblock,2
 .label juggler-ma-mblock-greater
 
-:       80 no-juggler
+:       .bra no-juggler
 .label juggler-physical-attack
 
-:       b9 $current-defense-address,2
-:       d9 $current-mdef-address,2
-:       b0 juggler-pa-defense-greater
-:       20 @swap-defense-mdef,2
+:       .lda.addr.y $current-defense-address,2
+:       .cmp.addr.y $current-mdef-address,2
+:       .bcs juggler-pa-defense-greater
+:       .jsr.addr @swap-defense-mdef,2
 .label juggler-pa-defense-greater
-:       b9 $current-evade-address,2
-:       d9 $current-mblock-address,2
+:       .lda.addr.y $current-evade-address,2
+:       .cmp.addr.y $current-mblock-address,2
 # internally, a LOWER value in the evade byte is BETTER
-:       90 juggler-pa-evade-greater
-:       20 @swap-evade-mblock,2
+:       .bcc juggler-pa-evade-greater
+:       .jsr.addr @swap-evade-mblock,2
 .label juggler-pa-evade-greater
 
 .label no-juggler
-:       c2 20
-:       60
+:       .rep 20
+:       .rts
 
 .label swap-defense-mdef
-:       b9 $current-defense-address,2
-:       48
-:       b9 $current-mdef-address,2
-:       99 $current-defense-address,2
-:       68
-:       99 $current-mdef-address,2
-:       60
+:       .lda.addr.y $current-defense-address,2
+:       .pha
+:       .lda.addr.y $current-mdef-address,2
+:       .sta.addr.y $current-defense-address,2
+:       .pla
+:       .sta.addr.y $current-mdef-address,2
+:       .rts
 
 .label swap-evade-mblock
-:       b9 $current-evade-address,2
-:       48
-:       b9 $current-mblock-address,2
-:       99 $current-evade-address,2
-:       68
-:       99 $current-mblock-address,2
-:       60
+:       .lda.addr.y $current-evade-address,2
+:       .pha
+:       .lda.addr.y $current-mblock-address,2
+:       .sta.addr.y $current-evade-address,2
+:       .pla
+:       .sta.addr.y $current-mblock-address,2
+:       .rts
 
 VALIDATION
 
-0262f1: 64 f0
-:       64 f2
+0262f1: .stz.dp f0
+:       .stz.dp f2
 
-022af2: bf 00 50 d8
+022af2: .lda.long.x 00 50 d8
 
-0262f7: b9 d0 33
-:       d9 e4 33
+0262f7: .lda.addr.y d0 33
+:       .cmp.addr.y e4 33

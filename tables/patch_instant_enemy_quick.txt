@@ -1,19 +1,19 @@
 .addr   main-atb                        57f0e0
 
-0211bb: 22 $main-atb
-:       ea
+0211bb: .jsl $main-atb
+:       .nop
 
 $main-atb:
-:       ec 04 34
-:       d0 not-quick
-:       a9 ff
-:       9d 19 32
+:       .cpx.addr 04 34
+:       .bne not-quick
+:       .lda ff
+:       .sta.addr.x 19 32
 .label not-quick
-:       c2 21
-:       bd 18 32
-:       6b
+:       .rep 21
+:       .lda.addr.x 18 32
+:       .rtl
 
 VALIDATION
 
-0211bb: c2 21
-:       bd 18 32
+0211bb: .rep 21
+:       .lda.addr.x 18 32

@@ -7,44 +7,44 @@
 .addr   pointer-address                 {{jun-global-command-summon}}
 
 $main
-:       bb
-:       e0 08
-:       90 is-player-character
-:       e2 30
-:       a9 1b
-:       22 $jun-rng3
-:       80 do-summon
+:       .tyx
+:       .cpx 08
+:       .bcc is-player-character
+:       .sep 30
+:       .lda 1b
+:       .jsl $jun-rng3
+:       .bra do-summon
 
 .label is-player-character
-:       c2 30
-:       bd 10 30
-:       aa
-:       e2 20
-:       bd 1e 16
-:       c9 ff
-:       e2 10
-:       f0 no-esper
+:       .rep 30
+:       .lda.addr.x 10 30
+:       .tax
+:       .sep 20
+:       .lda.addr.x 1e 16
+:       .cmp ff
+:       .sep 10
+:       .beq no-esper
 
 .label do-summon
-:       18
-:       69 36
-:       85 b6
-:       a9 02
-:       85 b5
-:       64 b8
-:       64 b9
-:       9c 15 34
-:       bb
+:       .clc
+:       .adc 36
+:       .sta.dp b6
+:       .lda 02
+:       .sta.dp b5
+:       .stz.dp b8
+:       .stz.dp b9
+:       .stz.addr 15 34
+:       .tyx
 
-:       22 $jun-check-entity-living
-:       d0 step-forward
-:       a9 10
-:       14 b0
+:       .jsl $jun-check-entity-living
+:       .bne step-forward
+:       .lda 10
+:       .trb.dp b0
 .label step-forward
-:       5c $reentry-address
+:       .jml $reentry-address
 
 .label no-esper
-:       5c $reentry-fail-address
+:       .jml $reentry-fail-address
 
 $pointer-address
 :       $main,2
