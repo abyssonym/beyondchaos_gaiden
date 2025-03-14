@@ -5,7 +5,7 @@ unknown0,1
 tileproperties,1
 attacks,bit:u50 u51 u52 u53 u54 u55 u56 enable_encounters
 unknown1,1
-graphic_sets,4,list
+graphic_sets,4
 tileformations,2
 mapdata,4
 unknown2,1

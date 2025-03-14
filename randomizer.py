@@ -1,6 +1,6 @@
 from collections import Counter, defaultdict
 from itertools import combinations
-from os import path
+from os import environ, path
 from time import gmtime, time
 from traceback import format_exc
 
@@ -3842,6 +3842,18 @@ class LocationObject(TableObject):
         return names.locations[self.index]
 
     @property
+    def mapdata_indexes(self):
+        return [(self.mapdata >> (i*10)) & 0x3ff for i in range(3)]
+
+    @property
+    def graphic_set_indexes(self):
+        return [(self.graphic_sets >> (i*7)) & 0x7f for i in range(4)]
+
+    @property
+    def tileformation_indexes(self):
+        return [(self.graphic_sets >> ((i*7)+2)) & 0x7f for i in range(2)]
+
+    @property
     def events(self):
         return EventObject.getgroup(self.index)
 
@@ -5131,7 +5143,10 @@ def get_event_parser():
 
 def export_script(filename=None):
     if filename is None:
-        filename = f'script.{get_outfile()}.export.txt'
+        if 'FF6_SCRIPT_EXPORT' in environ:
+            filename = environ['FF6_SCRIPT_EXPORT']
+        else:
+            filename = f'script.{get_outfile()}.export.txt'
     parser = get_event_parser()
 
     s = ''
@@ -5157,7 +5172,10 @@ def export_script(filename=None):
 
 def import_script(filename=None):
     if filename is None:
-        filename = f'script.{get_outfile()}.import.txt'
+        if 'FF6_SCRIPT_IMPORT' in environ:
+            filename = environ['FF6_SCRIPT_IMPORT']
+        else:
+            filename = input('Filename of event script to import? ')
     parser = get_event_parser()
     with open(filename) as f:
         script = f.read()
