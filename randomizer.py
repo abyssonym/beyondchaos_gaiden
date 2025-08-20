@@ -22,7 +22,7 @@ from randomtools.utils import utilrandom as random
 
 VERSION = "7.4"
 ALL_OBJECTS = None
-DEBUG_MODE = False
+DEBUG_MODE = True
 FOOLS = False
 EVENT_PARSER = None
 PARSE_UNUSED = True
@@ -1836,20 +1836,22 @@ class MonsterObject(TableObject):
         self.difficulty_boost()
 
     def cleanup(self):
-        elements, old_elements = (self.absorb | self.null), (
-            self.old_data['absorb'] | self.old_data['null'])
-        if (elements & old_elements) == elements:
-            self.absorb = self.old_data['absorb']
-            self.null = self.old_data['null']
-        if self.immunities & self.old_data['immunities'] == self.immunities:
-            self.immunities = self.old_data['immunities']
+        if not DEBUG_MODE:
+            elements, old_elements = (self.absorb | self.null), (
+                self.old_data['absorb'] | self.old_data['null'])
+            if (elements & old_elements) == elements:
+                self.absorb = self.old_data['absorb']
+                self.null = self.old_data['null']
+            if (self.immunities & self.old_data['immunities']) \
+                    == self.immunities:
+                self.immunities = self.old_data['immunities']
 
-        if self.is_boss and self.rank >= 0:
-            for attr in sorted(self.mutate_attributes):
-                setattr(self, attr, max(getattr(self, attr),
-                                        self.old_data[attr]))
+            if self.is_boss and self.rank >= 0:
+                for attr in sorted(self.mutate_attributes):
+                    setattr(self, attr, max(getattr(self, attr),
+                                            self.old_data[attr]))
 
-        self.statuses ^= (self.statuses & self.immunities)
+            self.statuses ^= (self.statuses & self.immunities)
 
         if 'easymodo' in get_activated_codes():
             for attr in self.mutate_attributes:
@@ -3450,6 +3452,10 @@ class NaturalMagicMixin(TableObject):
         assert new_spell in candidates
         self.spell = new_spell.index
 
+    def cleanup(self):
+        if DEBUG_MODE:
+            self.level = 1
+
 
 class TerraNatMagObject(NaturalMagicMixin): pass
 class CelesNatMagObject(NaturalMagicMixin): pass
@@ -4189,9 +4195,13 @@ def execute_fanatix_mode():
             0xD4, 0xF0+i,
             ]
 
-    if 'bonanza' in get_activated_codes():
+    if 'bonanza' in get_activated_codes() or DEBUG_MODE:
         for i in range(27):   # espers
             opening_event += [0x86, i + 0x36,]
+
+    if DEBUG_MODE:
+        for i in range(0xff):
+            opening_event += [0x80, i]
 
     opening_event += [
         0x80, 0xf0,
@@ -4634,6 +4644,10 @@ def execute_fanatix_mode():
             if i not in partydict[n]:
                 locked |= (1 << i)
 
+        if DEBUG_MODE and n == 0:
+            locked = 0
+            for i in range(16):
+                script += [0x3D, i]
         script += [
             0x99, 0x01] + int_to_bytelist(locked, 2) + [        # party select
             0x6B] + int_to_bytelist(l.index | 0x1000, 2) + [9, 27, 0x00,
