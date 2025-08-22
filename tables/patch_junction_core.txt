@@ -34,6 +34,7 @@
 .addr   jun-monster-blacklist               {{jun-global-monster-blacklist}}
 
 .addr   jun-mult                            {{jun-global-mult}}
+.addr   jun-mult32                          {{jun-global-mult32}}
 .addr   jun-divide                          {{jun-global-divide}}
 .addr   jun-rng1                            {{jun-global-rng1}}
 .addr   jun-rng2                            {{jun-global-rng2}}
@@ -668,6 +669,61 @@ $jun-divide
 :   .lda.long 14 42 00
 :   .plp
 :   .ply
+:   .rtl
+
+# Product of 16-bit A and 16-bit X
+# High word of result in X, low word in A
+$jun-mult32
+:   .rep 31
+:   .phb
+:   .phy
+
+:   .sta.long 004202  # store first factor at least 8 cycles early
+:   .tay
+:   .tdc
+:   .pha            # high word of product (initialize to zero)
+:   .sep 20
+:   .pha
+:   .plb
+
+:   .stx.addr 4203  # multiplying - wait 8 cycles
+
+# Swap low bytes & endianness of X and Y registers
+:   .phx
+:   .phy
+:   .phx
+:   .pla
+:   .plx
+:   .ply
+:   .pla
+:   .rep 31
+
+:   .lda.addr 4216
+:   .stx.addr 4202  # multiplying - wait 8 cycles (including lda)
+:   .pha            # low word of product
+
+:   .lda.addr 4216
+:   .sty.addr 4202  # multiplying - wait 8 cycles
+:   .adc.sr 02      # will never set carry
+:   .sta.sr 02
+
+:   .lda.addr 4216
+:   .stx.addr 4203  # multiplying - wait 8 cycles
+:   .adc.sr 02
+:   .sta.sr 02
+
+:   .lda.sr 03
+:   .bcc mult32-no-carry
+:   .adc 00ff
+.label mult32-no-carry
+
+:   .adc.addr 4216
+:   .sta.sr 03
+
+:   .pla
+:   .plx
+:   .ply
+:   .plb
 :   .rtl
 
 # 0 or 1 (in carry bit)

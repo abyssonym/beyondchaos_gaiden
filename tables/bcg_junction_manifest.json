@@ -843,6 +843,7 @@
         "monster-equip-steal-enabled":      "6104fc",
         "monster-equip-drop-enabled":       "6104fe",
         "mult":                             "610800",
+        "mult32":                           "610b00",
         "queue-command":                    "610ff0",
         "queue-self-spell":                 "610fc0",
         "reload-character-commands":        "610f80",

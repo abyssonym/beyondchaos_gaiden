@@ -4,8 +4,9 @@
 .addr   jun-check-count-all-living      {{jun-global-check-count-all-living}}
 .addr   jun-divide                      {{jun-global-divide}}
 .addr   jun-generic-dispatch            {{jun-global-generic-dispatch}}
-.addr   long-multiplication-address     0247b7
-.addr   long-division-address           02b8f3
+.addr   jun-mult32                      {{jun-global-mult32}}
+
+.addr   long-division-address           024792
 
 .addr   main                            620300
 .addr   main-misc                       620600
@@ -177,17 +178,9 @@ $do-atma-force
 :       .jsr.addr @af-get-expected-hp,2
 :       .pha
 :       .jsr.addr @af-get-current-hp,2
-:       .pha
-:       .lda.addr b0 11
-:       .cmp.sr 01
-:       .bcc af-damage-is-less
-:       .plx
-:       .bra af-begin-multiply
-.label af-damage-is-less
 :       .tax
-:       .pla
-.label af-begin-multiply
 :       .ply
+:       .lda.addr b0 11
 :       .jsr.addr @af-multiply-damage,2
 
 :       .pha
@@ -320,50 +313,39 @@ $do-atma-force
 :       .rts
 
 .label af-multiply-damage
+# A - Max Damage
+# X - Current HP
+# Y - Expected HP
+#:       .lda 270f
+#:       .ldy 9c3c
+:       .jsl $jun-mult32
+:       .bra af-shift-dividend
+.label af-shift-divisor-and-dividend
+# shift loop starts here
 :       .pha
+:       .tya
+:       .lsr
+:       .tay
+:       .bra af-shift-dividend-low
+.label af-shift-dividend
+:       .pha
+.label af-shift-dividend-low
 :       .txa
-.label af-multiply-damage-loop
 :       .lsr
-:       .bit 00 ff
-:       .beq af-multiply-damage-end-loop
-:       .pha
-:       .tya
-:       .lsr
-:       .tay
+:       .tax
 :       .pla
-:       .bra af-multiply-damage-loop
-.label af-multiply-damage-end-loop
-:       .sta.dp e8
-:       .pla
-:       .pea $long-multiplication-address,2
-:       .jsl $jun-generic-dispatch
-.label af-multiply-damage-2nd-loop
-:       .lda.dp e9
-:       .bit 00 ff
-:       .beq af-multiply-damage-end-2nd-loop
-:       .sep 20
-:       .clc
-:       .lsr.dp ea
-:       .ror.dp e9
-:       .ror.dp e8
-:       .rep 20
-:       .tya
-:       .lsr
-:       .tay
-:       .bra af-multiply-damage-2nd-loop
-.label af-multiply-damage-end-2nd-loop
-:       .lda.dp e8
-:       .sta.dp 2c
-:       .tya
-:       .cmp 00 00
+:       .ror
+:       .cpx 0000
+:       .bne af-shift-divisor-and-dividend
+:       .cpy 0100
+:       .bge af-shift-divisor-and-dividend
+# shift loop ends here
+:       .tyx
 :       .bne af-nonzero-divisor
-:       .inc
+:       .inx
 .label af-nonzero-divisor
-:       .sta.dp 2e
 :       .pea $long-division-address,2
 :       .jsl $jun-generic-dispatch
-:       .rep 20
-:       .lda.dp 30
 :       .rts
 
 $multiply-damage
