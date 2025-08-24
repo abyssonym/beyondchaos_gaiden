@@ -4,16 +4,28 @@ hirom
 table ff6_bank_c3.tbl,rtl
 incsrc ff6_bank_c3_defs.asm
 
+!blt = bcc
+!bge = bcs
+
 org $C3FFFF
 
 org $C30247
-         dw #C39621      ; Update entry 36 in C301DB jump table
+         dw C39621      ; Update entry 36 in C301DB jump table
 
 org $C30285
-         dw #C39887      ; Update entry 55 in C301DB jump table
+         dw C39887      ; Update entry 55 in C301DB jump table
 
 org $C30289
-         dw #C3990F      ; Update entry 57 in C301DB jump table
+         dw C3990F      ; Update entry 57 in C301DB jump table
+
+!PORTRAIT_X = $00ca
+!PORTRAIT_Y = $000b
+
+org $C361BD
+        dw !PORTRAIT_X
+
+org $C361CE
+        dw !PORTRAIT_Y
 
 org $C31BB8
 ; 35: Initialize Equip menu
@@ -39,15 +51,17 @@ C31BD7:  JSR C39032      ; Draw menu; status
          STA $27         ; Queue: Option list
          JMP $3541       ; BRT:1 + NMI
 
-warnpc $C31C32
+assert pc() <= $C31C32
 
 org $C31BE8
 ; Update JSR target (L+R switch)
-         JSR $964F       ; Update menu colours (Equip)
+         ;JSR $964F       ; Update menu colours (Equip)
+         NOP #3
 
 org $C31BF6
 ; Update JSR target (L+R switch)
-         JSR $9656       ; Update menu colours (Remove)
+         ;JSR $9656       ; Update menu colours (Remove)
+         NOP #3
 
 org $C31C01
 ; Update JSR and JMP targets
@@ -69,16 +83,16 @@ org $C32E72
 
 org $C3372D
 ; Update text pointer
-         dw #review
+         dw review
 
 org $C38E64
 ; Cursor positions for Equip menu options
-C38E64:  dw $0840        ; EQP
-         dw $0870        ; OPT
-         dw $08A0        ; RM
-         dw $08C8        ; EMPTY
+C38E64:  dw $2010        ; EQP
+         dw $2038        ; OPT
+         dw $2060        ; RM
+         dw $2080        ; EMPTY
 
-warnpc $C38E6D
+assert pc() <= $C38E6D
 
 org $C38E75
 ; Update LDY pointer
@@ -92,22 +106,24 @@ C38E7B:  db $81          ; Wraps all ways
          db $02          ; 2 column
          db $03          ; 3 rows
 
-warnpc $C38E88
+assert pc() <= $C38E88
 
 org $C38FB4
          NOP #12          ; Blanking out a routine that handles allowing/forbidding "Empty", which we no longer use
 
-warnpc $C38FC1
-
-;org $C3FFFF
+assert pc() <= $C38FC1
 
 org $C39032
 ; Draw Equip menu, create portrait, update status via gear
 C39032:  JSR $9093       ; Do boxes; face
          JSR $911B       ; Draw info; status
          JSR C3A6AB
-         NOP #10
+         NOP #4
+         LDA $26
+         CMP #$7E
+         !bge C39032_skip_options
          JSR $904E       ; Draw top options
+C39032_skip_options:
          JMP $0E6E       ; Upload BG3 A+B
 
 org $C39093
@@ -125,24 +141,28 @@ C39093:  JSR $9110       ; Load actor stats
          JSR $6A28       ; Clear BG2 map A
          JSR $6A2D       ; Clear BG2 map B
          LDY #C3947F     ; C3/947F
-         JSR $0341       ; Draw stats box A
+         JSR $0341       ; Draw bottom-level stats box
          LDY #C39487     ; C3/9487
-         JSR $0341       ; Draw option box
+         JSR $0341       ; Draw mid-level equipment box
+         NOP #3
+         JSR $6A3C       ; Clear BG3 map A
+         JSR $6A41       ; Clear BG3 map B
+         LDA $26
+         CMP #$7E
+         !bge C39093_skip_draw_name
          LDY #C3948F     ; C3/9487
-         JSR $0341       ; Draw option box
-         LDY #C39497     ; C3/9487
-         JSR $0341       ; Draw option box
-         NOP #12
+         JSR $0341       ; Draw top-level menu box
+         JSR $93E5       ; Draw actor name
+         ;LDY #C39497     ; C3/9497
+         ;JSR $0341       ; Draw name box
+C39093_skip_draw_name:
          JSR $0E52       ; Upload windows
          JSR $6A15       ; Clear BG1 map A
          JSR $6A19       ; Clear BG1 map B
          JSR $0E28       ; Upload BG1 A+B
          JSR $0E36       ; Upload BG1 C...
-         JSR $6A3C       ; Clear BG3 map A
-         JSR $6A41       ; Clear BG3 map B
-         JSR $93E5       ; Draw actor name
-         ; JSR $61B2       ; Create portrait
-         NOP #3
+         NOP #9
+         JSR $61B2       ; Create portrait
          LDA #$2C        ; Palette 3
          STA $29         ; Color: Blue
          LDX #$A34D      ; Text ptrs loc
@@ -154,34 +174,33 @@ C39093:  JSR $9110       ; Load actor stats
          JSR $69BA       ; Draw Speed, etc.
          JMP $0E6E       ; Upload BG3 A+B
 
+assert pc() <= $C39110
+
 org $C3911B
-C3911B:  JMP C3911B_extension
+C3911B:  JSR C3911B_extension
+         JSR wait_for_interrupt
+         JMP $0E6E       ; Upload BG3 A+B
 
 org $C393E5
 ; Draw actor name in Equip or Relic menu
-C393E5:  JSR $93F2      ; Actor's address
+C393E5:  JSR $93F2       ; Actor's address
          LDA #$2C        ; Palette 0
          STA $29         ; Color: Blue
-         LDY #$788D      ; Text position
+         LDY #$7911      ; Text position
+         JMP $34CF
 
-warnpc $C3946D
+assert pc() <= $C3946D
 
 org $C3947F
 ; Window layout for Equip and Relic menus
-C3947F:  dw $5B4B,$0D1C  ; 30x15 at $5B4B (Stats w/o title)
-C39487:  dw $584B,$0A1C  ; 30x04 at $588B (Options)
-C3948F:  dw $584B,$011C  ; Menu
-C39497:  dw $584B,$0106  ; Name
+C3947F:  dw $5B4B,$0D1C  ; 30x14 at $5B4B (Bottom-level stats box)
+C39487:  dw $588B,$091C  ; 30x09 at $588B (Mid-level equipment box)
+C3948F:  dw $58CD,$0213  ; Top-level menu box
+C39497:  dw $5A4B,$0106  ; Name
 
 org $C3960C
 ; Switch to layout with options in Equip or Relic menu
 C3960C:  RTS
-
-org $C3964F
-        JMP C3964F_extension
-
-org $C39656
-        JMP C39656_extension
 
 org $C3966C
 ; Jump table for the above
@@ -191,18 +210,20 @@ C3966C:  dw $9674       ; EQUIP
          dw $969F       ; EMPTY
 
 org $C39674
+; Leaving top menu to enter equip menu (formerly used to change colors)
 ; Update JSR targets
 C39674:  NOP #3
-         JSR $964F       ; Update menu colours (Equip)
+         JSR clear_option_box
 
 org $C39688
 ; remove old optimum code to display text
 C39688:  NOP #3
 
 org $C3968E
+; Leaving top menu to enter remove menu (formerly used to change colors)
 ; Update JSR target
 C3968E:  NOP #3
-         JSR $9656       ; Update menu colours (Remove)
+         JSR clear_option_box
 
 org $C396A2
 ; Update JSR target
@@ -226,7 +247,7 @@ rmloop:
         BPL rmloop
         RTS
 
-warnpc $C396D2
+assert pc() <= $C396D2
 
 org $C396E9
 ; Minor optimisation -- called at start of /96F0 subroutine
@@ -238,7 +259,6 @@ C396F0:  JSR $9110        ; Get gear FX
          JSR _396A8
 
 org $C39887
-;org $C3FFFF
 ; 55: Handle selection of gear slot to fill
 ; some duplicated code at C398CF
 C39887:  JSR load_description
@@ -261,21 +281,16 @@ C39887:  JSR load_description
          JSR $9233       ; Draw stat preview
          JSR $1368       ; Refresh screen
          JMP $9CAC       ; Draw item list
-; section C?
-         ;JMP $1368       ; Refresh screen
-; Fork: Handle B
+; Fork: Handle B (return to top menu from mid-level menu)
 C398B4:  LDA $09         ; No-autofire keys
          BIT #$80        ; Pushing B?
          BEQ C398C8      ; Branch if not
 C398B4_pushing_b:
          JSR $0EA9       ; Sound: Cursor
          JSR $8E50       ; Load navig data
-         JSR C398B4_extension
-         LDA #$36        ; C3/9621
-         STA $26         ; Next: Option list
-         RTS
+         JMP C398B4_extension
 
-warnpc $C398c9
+assert pc() <= $C398c8
 
 org $C398C8
 ; Fork: Handle L and R, prepare for menu reset
@@ -308,9 +323,7 @@ C398F4:  LDA $09         ; No-autofire keys
          BEQ C39908      ; Branch if not
          JSR $0EA9       ; Sound: Cursor
          JSR $8E50       ; Load navig data
-         JSR $8E59       ; Relocate cursor
-         LDA #$36        ; C3/9621
-         STA $26         ; Next: Option list
+         JSR C398F4_extension
          RTS
 
 ; Fork: Handle L and R, prepare for menu reset
@@ -366,17 +379,7 @@ C3996E:  JSR $0EC0       ; Play buzzer
          JSR $305D       ; Pixelate screen
          RTS
 
-warnpc $C3F43A
-
-; org $C39A5D
-; From genji_menu_fix.asm
-; JSR Wpn_Index
-
-; org $C39A90		; Right hand
-; JMP DW_Chk_RH
-
-; org $C39ABC		; Left hand
-; JMP DW_Chk_LH
+assert pc() <= $C3F43A
 
 org $C39B59
 ; Compile compatible gear for actor's body part
@@ -392,7 +395,7 @@ C39B59:  JSR $9C2A       ; Init list
          BCC C39BEE      ; Handle torso
          JMP C3A051      ; Handle relics
 
-warnpc $C39B73
+assert pc() <= $C39B73
 
 org $C39B72
 ;; ORIGINAL FOR BRANCHING
@@ -445,8 +448,8 @@ C3A088:  SEP #$20        ; 8-bit A
 
 org $C3A0E5
 ; duplicated from C3A0E5
-C3A0E5:  LDA #$10        ; Description: Off
-         TSB $45         ; Set menu flag
+C3A0E5:  JSR backout
+         NOP
 ; mostly duplicated from C3994D
          JSR $9C87       ; Clear stat preview
          REP #$20        ; 16-bit A
@@ -464,8 +467,7 @@ C3A0E5:  LDA #$10        ; Description: Off
          RTS
 
 org $C3A1C3
-;print "C3A1C3 is at: ",pc
-; Load item description for equipped relic (unused)
+; Load item description for equipped gear
 C3A1C3:  JSR $8308      ; Set desc ptrs
          JSR $93F2      ; Define Y (Character SRAM block)
          REP #$20       ; 16-bit A
@@ -491,10 +493,10 @@ C3A2AE:  dw C3A2BA       ; R-hand
          dw C3A2E2       ; Relic 2
 
 ; Positioned text for options in Equip menu
-C3A31A:  dw $789D : db "EQP",$00
-C3A322:  dw $78A9 : db "OPT",$00
-C3A32C:  dw $78B5 : db "RM",$00
-C3A334:  dw $78BF : db "EMP",$00
+C3A31A:  dw $7991 : db "EQP",$00
+C3A322:  dw $799B : db "OPT",$00
+C3A32C:  dw $79A5 : db "RM",$00
+C3A334:  dw $79AD : db "EMP",$00
 
 org $C3A6AB
 ; Build description tilemap for Relic menu
@@ -527,13 +529,7 @@ C3A6AB:  LDX #$7849      ; Base: 7E/7849
          STX $E0         ; Priority enabled
          JMP $A783      ; Do line 2, row 2
 
-;org $C3F43B
-;         JSR $9110
-
-; org $C3FBD0
-; FREE SPACE
-
-warnpc $C40000
+assert pc() <= $C40000
 
 ; USE FREE SPACE
 
@@ -643,7 +639,7 @@ draw_generic_equipped:
          PHA
          ASL
          TAX
-         LDA C3A2AE,X
+         LDA $C3A2AE,X
          TAX
          PHA
          LDA $C30000,X
@@ -664,15 +660,11 @@ draw_generic_equipped:
          JMP $9479       ; Draw its name
 drEmpty: LDA #$24        ; Palette 1
          STA $29         ; Color: Gray
-         JMP $02F9
+         JMP clear_and_write
 
 ; 36: Handle Equip menu options
 ; some duplicated code at C3A097
-C39621:  LDA #$10        ; Description: Off
-         TSB $45         ; Set menu flag
-         ; JSR $1368       ; Refresh screen
-         JSR $9E14       ; Queue BG3 upload
-         JSR $904E       ; Draw options
+C39621:  JSR $9E14       ; Queue BG3 upload
          JSR $8E56       ; Handle D-Pad
          LDA $08         ; No-autofire keys
          BIT #$80        ; Pushing A?
@@ -702,12 +694,9 @@ do_optimum:
          RTS
 
 load_description:
-         LDA $09
-         BIT #$40        ; Pushing Y?
-         BEQ .nodsc      ; Branch if not
          LDA #$10
          TRB $45
-.nodsc   JSR $9E14       ; Queue text upload
+         JSR $9E14       ; Queue text upload
          JSR $8E72       ; Handle D-Pad
          JSR C3A1C3      ; Load description for equipped gear
          RTS
@@ -760,46 +749,129 @@ C39887_section_b:
          RTS
 
 C398B4_extension:
+         JSR restore_option_box
          JSR $8E59       ; Relocate cursor
-         LDA #$10        ; Description: Off
-         TSB $45         ; Set menu flag
-         JSR $1368       ; Refresh screen
+         LDA #$36        ; C3/9621
+         STA $26         ; Next: Option list
+         RTS
+
+C398F4_extension:
+         JSR restore_option_box
+         JSR $8E59       ; Relocate cursor
+         LDA #$36        ; C3/9621
+         STA $26         ; Next: Option list
          RTS
 
 ; Replacement positioned text for main menu
 review:  dw $7AB9 : db "Review",$00
 
-; Highlight "Equip", gray out "Remove" and "Empty"
-C3964F_extension:
-         JSR gray_options
-         LDY #C3A31A     ; Text pointer
-         JMP $02F9
+clear_option_box:
+         LDY #C3947F     ; C3/947F
+         JSR $0341       ; Draw stats box A
+         LDY #C39487     ; C3/9487
+         JSR $0341       ; Draw option box
 
-; Highlight "Remove", gray out "Equip" and "Empty"
-C39656_extension:
-         JSR gray_options
-         LDY #C3A32C     ; Text pointer
-         JMP $02F9
+         LDA $26
+         CMP #$7E
+         !bge clear_option_box_skip
 
-gray_options:
-         LDA #$24
-         STA $29
-         LDY #C3A31A
-         JSR $02F9
-         LDY #C3A334
-         JSR $02F9
-         LDY #C3A322
-         JSR $02F9
-         LDY #C3A32C
-         JSR $02F9
-         JSR $808A
+         LDX #$7849      ; Base: 7E/7849
+         STX $EB         ; Set map ptr LBs
+         LDA #$7E        ; Bank: 7E
+         STA $ED         ; Set ptr HB
+
+         LDY #$017C      ; Ends at 30,8
+         STY $E7         ; Set row's limit
+         LDY #$0144      ; Starts at 3,8
+         LDX #$3501      ; Tile 257, pal 5
+         STX $E0         ; Priority enabled
+         JSR $A783       ; Do line 1, row 2
+
+         REP #$20
+         LDA #$7911
+         LDX #clear_slot
+         JSR write_arbitrary_with_location
+
+         JSR wait_for_interrupt
+clear_option_box_skip:
+         JSR $0E52       ; Upload windows
+         JSR $0E6E       ; Upload BG3 A+B
+         JSR C3A1C3      ; Load description for equipped gear
+
          RTS
 
-; Positioned text for Equip and Relic menus
-C3A2BA:  dw $7A8D : db " R-hand      ",$00
-C3A2C3:  dw $7AAB : db " L-hand      ",$00
-C3A2CC:  dw $7B0D : db " Head        ",$00
-C3A2D3:  dw $7B2B : db " Body        ",$00
-C3A2DA:  dw $7B8D : db " Relic       ",$00
-C3A2E2:  dw $7BAB : db " Relic       ",$00
+restore_option_box:
+         LDA #$10        ; Description: Off
+         TSB $45         ; Set menu flag
 
+         JSR $a796       ; Clear description in RAM
+         JSR $a991       ; Set up description copy to VRAM
+
+         LDY #C39487     ; C3/9487
+         JSR $0341       ; Draw option box
+
+         LDY #C3947F     ; C3/947F
+         JSR $0341       ; Draw stats box A
+
+         LDY #C3948F     ; C3/9487
+         JSR $0341       ; Draw option box
+
+         JSR $93E5       ; Draw actor name
+         JSR $904E       ; Draw top options
+
+         JSR wait_for_interrupt
+         JSR $14ac       ; Force copy to VRAM
+         JSR $0E52       ; Upload windows
+         JSR $9E23       ; Queue BG3 upload
+
+         RTS
+
+write_arbitrary:
+         STY $E7
+         LDA #$C3
+         STA $E9
+         REP #$20
+         LDA [$E7]
+write_arbitrary_with_location:
+         STA $EB
+         STX $E7
+         LDX $00
+         TXY
+         JMP $030C
+
+clear_and_write:
+        PHY
+        LDX #clear_slot
+        JSR write_arbitrary
+        PLY
+        JSR $02F9
+        RTS
+
+backout:
+        LDA #$01
+        TSB $45
+        LDA #$00
+        STA $7e3649
+        STA $7e9ec9
+        RTS
+
+wait_for_interrupt:
+        LDA $26
+        CMP #$7E
+        !bge skip_wait
+        CMP #$36
+        !blt skip_wait
+        WAI
+skip_wait:
+        RTS
+
+; Positioned text for Equip and Relic menus
+C3A2BA:  dw $7A8D : db " R-hand",$00
+C3A2C3:  dw $7AAB : db " L-hand",$00
+C3A2CC:  dw $7B0D : db " Head",$00
+C3A2D3:  dw $7B2B : db " Body",$00
+C3A2DA:  dw $7B8D : db " Relic",$00
+C3A2E2:  dw $7BAB : db " Relic",$00
+clear_slot:         db "             ",$00
+
+assert pc() <= $C40000
