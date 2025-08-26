@@ -233,11 +233,12 @@ $salve-check-item-is-consumable
 :       .phx
 :       .rep 20
 :       .asl
-:       .sta.dp 10
+:       .pha
 :       .asl .asl .asl .asl
 :       .sec
-:       .sbc.dp 10
+:       .sbc.sr 01
 :       .tax
+:       .pla
 :       .lda 00 00
 :       .sep 20
 :       .lda.long.x $item-table-address
