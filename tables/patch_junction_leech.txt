@@ -61,9 +61,13 @@ $main-damage
 :       .beq zero-healing
 :       .dec
 .label zero-healing
+:       .pha
+:       .lda.addr.y d0 33
+:       .lsr .inc .lsr
 :       .clc
-:       .adc.addr.y d0 33
+:       .adc.sr 01
 :       .sta.addr.x e4 33
+:       .pla
 .label leech-damage-skip
 :       .dex .dex
 :       .bpl leech-damage-loop
