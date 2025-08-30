@@ -1428,19 +1428,21 @@
         "juggler": [
             "patch_junction_damage_trigger.txt"
         ],
-        "angel_wing":           [],
-        "glass_aura":           [
+        "angel_wing": [],
+        "glass_aura": [
             "patch_junction_damage_trigger.txt"
         ],
-        "power_charge":         [
+        "power_charge": [
             "patch_junction_damage_trigger.txt"
         ],
-        "discharge":            [
+        "discharge": [
             "patch_junction_damage_trigger.txt"
         ],
-        "aura_hunter":          [
+        "aura_hunter": [
             "patch_junction_damage_trigger.txt"
         ],
-        "veil":                 []
+        "veil": [
+            "patch_junction_status_trigger.txt"
+        ]
     }
 }

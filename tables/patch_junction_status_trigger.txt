@@ -3,22 +3,48 @@
 .addr   jun-check-entity-can-act        {{jun-global-check-entity-can-act}}
 .addr   jun-check-are-same-team         {{jun-global-check-are-same-team}}
 .addr   jun-deduct-item-if-possible     {{jun-global-deduct-item-if-possible}}
+.addr   jun-generic-dispatch            {{jun-global-generic-dispatch}}
 .addr   jun-mult                        {{jun-global-mult}}
 .addr   jun-rng1                        {{jun-global-rng1}}
+.addr   jun-rng2-noluck                 {{jun-global-rng2-noluck}}
 .addr   jun-count-bits                  {{jun-global-count-bits}}
 .addr   jun-queue-command               {{jun-global-queue-command}}
 .addr   main                            622080
 .addr   main-auto-item                  6222c0
+.addr   main-veil                       622400
+.addr       status-set-1-address            7e3dd4
+.addr       status-set-2-address            7e3de8
+.addr       status-clear-1-address          7e3dfc
+.addr       status-clear-2-address          7e3e10
+.addr       current-status-1-address        7e3ee4
+.addr       current-status-2-address        7e3ef8
+.addr       immunity-1-address              7e331c
+.addr       immunity-2-address              7e3330
 .addr   use-best-item                   622200
 .addr       inventory-address               7e2686
 .addr       inventory-quantity-address      7e2689
 .addr       item-properties-type            185000
 .addr       item-properties-status-byte     185015
 .addr   do-auto-item                    622280
+.addr   handle-safe-shell-immunity      622480
 
 .def    wound-status                80 00
 .def    zombie-status               02 00
 .def    remedy-status               65 48
+
+.def    status-safe                 40
+.def    status-shell                20
+.def    status-safe-shell           60
+.def    bad-status-1                67      # does not include wound
+.def    bad-status-2                f9
+.def    bad-status-3                14      # stop, slow
+.def    bad-status-4                02      # freeze
+
+0220d2: .jsl $handle-safe-shell-immunity
+:       .nop .nop
+
+02439d: .jsl $main-veil
+:       .nop
 
 024585: .jsl $main
 :       .nop
@@ -36,6 +62,89 @@ $main
 :       .plp .plx
 :       .lda.dp fc
 :       .bit 02 00
+:       .rtl
+
+$main-veil
+:       .lda.addr.y $current-status-2-address,2
+:       .bit status-safe-shell 00
+:       .beq exit-veil-just-exit
+:       .tyx
+:       .lda.addr.x $status-set-2-address,2
+:       .and.addr.x $immunity-2-address,2
+:       .ora.addr.x $current-status-2-address,2
+:       .eor.addr.x $current-status-2-address,2
+:       .and bad-status-3 bad-status-4
+:       .pha
+:       .lda.addr.x $status-set-1-address,2
+:       .and.addr.x $immunity-1-address,2
+:       .ora.addr.x $current-status-1-address,2
+:       .eor.addr.x $current-status-1-address,2
+:       .and bad-status-1 bad-status-2
+:       .pha
+:       .ora.sr 03
+:       .beq exit-veil
+.label veil-bad-status
+:       .jsl $jun-rng2-noluck
+:       .bit 0001
+:       .bne veil-choose-shell
+:       .lda status-safe 00
+:       .bra veil-safe-shell-chosen
+.label veil-choose-shell
+:       .lda status-shell 00
+.label veil-safe-shell-chosen
+:       .bit.addr.x $current-status-2-address,2
+:       .beq exit-veil
+:       .pha
+:       .lda {{jun-index-veil}} 00
+:       .jsl $jun-checker
+:       .beq exit-veil-pla
+:       .lda.addr.x $immunity-2-address,2
+:       .ora.sr 01
+:       .sta.addr.x $immunity-2-address,2
+:       .lda.addr.x $status-clear-2-address,2
+:       .ora.sr 01
+:       .sta.addr.x $status-clear-2-address,2
+:       .lda.addr.x $status-set-1-address,2
+:       .ora.sr 03
+:       .eor.sr 03
+:       .sta.addr.x $status-set-1-address,2
+:       .lda.addr.x $status-set-2-address,2
+:       .ora.sr 05
+:       .eor.sr 05
+:       .sta.addr.x $status-set-2-address,2
+.label exit-veil-pla
+:       .pla
+.label exit-veil
+:       .pla
+:       .pla
+.label exit-veil-just-exit
+:       .pea 450d
+:       .jsl $jun-generic-dispatch
+:       .lda.dp fc
+:       .rtl
+
+$handle-safe-shell-immunity
+:       .pea 527d
+:       .jsl $jun-generic-dispatch
+:       .pea 2675
+:       .jsl $jun-generic-dispatch
+:       .php
+:       .sep 20
+:       .lda {{jun-index-glass-aura}}
+:       .jsl $jun-checker
+:       .bne safe-shell-immunity-disable
+:       .lda {{jun-index-discharge}}
+:       .jsl $jun-checker
+:       .bne safe-shell-immunity-disable
+:       .lda {{jun-index-veil}}
+:       .jsl $jun-checker
+:       .beq safe-shell-immunity-exit
+.label safe-shell-immunity-disable
+:       .lda.addr.x $immunity-2-address,2
+:       .ora status-safe-shell
+:       .sta.addr.x $immunity-2-address,2
+.label safe-shell-immunity-exit
+:       .plp
 :       .rtl
 
 $main-auto-item
