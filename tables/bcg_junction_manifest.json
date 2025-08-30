@@ -196,7 +196,13 @@
         "atma_force":           "ab",
         "corrosive":            "ac",
         "overheal":             "ad",
-        "juggler":              "ae"
+        "juggler":              "ae",
+        "angel_wing":           "af",
+        "glass_aura":           "b0",
+        "power_charge":         "b1",
+        "discharge":            "b2",
+        "aura_hunter":          "b3",
+        "veil":                 "b4"
     },
 
     "junction_short_names": {
@@ -372,7 +378,13 @@
         "atma_force":           "Atma Force",
         "corrosive":            "Corrosive",
         "overheal":             "Overheal",
-        "juggler":              "Juggler"
+        "juggler":              "Juggler",
+        "angel_wing":           "Angel Wing",
+        "glass_aura":           "Glass Aura",
+        "power_charge":         "Power Charge",
+        "discharge":            "Discharge",
+        "aura_hunter":          "Aura Hunter",
+        "veil":                 "Veil"
     },
 
     "junction_tags": {
@@ -548,7 +560,13 @@
         "atma_force":           ["life", "-death", "heal"],
         "corrosive":            ["poison", "debuff", "-heal"],
         "overheal":             ["heal"],
-        "juggler":              ["defend"]
+        "juggler":              ["defend"],
+        "angel_wing":           ["magic", "berserk"],
+        "glass_aura":           ["defend", "buff", "safe", "shell"],
+        "power_charge":         ["buff", "fire", "ice", "bolt", "poison", "wind", "pearl", "earth", "water"],
+        "discharge":            ["safe", "shell", "physical", "magic", "buff"],
+        "aura_hunter":          ["safe", "shell", "debuff", "buff"],
+        "veil":                 ["safe", "shell", "debuff", "status", "heal"]
     },
 
     "esper_tags":       "tags_esper.json",
@@ -1409,6 +1427,18 @@
         ],
         "juggler": [
             "patch_junction_damage_trigger.txt"
-        ]
+        ],
+        "angel_wing":           [],
+        "glass_aura":           [
+            "patch_junction_damage_trigger.txt"
+        ],
+        "power_charge":         [],
+        "discharge":            [
+            "patch_junction_damage_trigger.txt"
+        ],
+        "aura_hunter":          [
+            "patch_junction_damage_trigger.txt"
+        ],
+        "veil":                 []
     }
 }

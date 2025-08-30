@@ -26,6 +26,7 @@
 .addr   boost-healing-half              620ea0
 .addr   boost-healing-double            620ec0
 .addr   boost-damage-double             620ee0
+.addr   boost-damage-half               620e80
 .addr   boost-healing-quarter           620f60
 .addr   reduce-healing-quarter          620f80
 .addr   reduce-damage-half              620ce0
@@ -38,6 +39,7 @@
 .addr   do-blood-restriction            6207c0
 .addr   do-corrosive                    6229a0
 .addr   do-juggler                      622c00
+.addr   main-aura                       623000
 
 .addr   current-hp-address              7e3bf4
 .addr   current-mp-address              7e3c08
@@ -49,9 +51,17 @@
 .addr   current-evade-address           7e3b54
 .addr   current-mblock-address          7e3b55
 
+.addr   safe-shell-status-address       7e3ef8
+.addr   safe-shell-immunity-address     7e3330
+.addr   safe-shell-to-set-address       7e3de8
+.addr   safe-shell-to-clear-address     7e3e10
+
 .def    throw-index                 08
 .def    revenge-spell-index         92
 .def    potion-index                e9
+
+.def    status-safe                 40
+.def    status-shell                20
 
 022af2: .jsl $main-nihopalaoa
 
@@ -74,6 +84,7 @@ $main
 :       .beq no-junction
 
 .label heal-or-damage
+:       .jsr.addr $main-aura,2
 :       .jsr.addr $check-brace,2
 :       .jsr.addr $check-catch,2
 
@@ -564,6 +575,20 @@ $boost-damage-double
 .label exit-damage-double
 :       .rts
 
+$boost-damage-half
+:       .lda.addr.y d0 33
+:       .cmp ff ff
+:       .beq exit-boost-damage-half
+:       .lsr
+:       .clc
+:       .adc.addr.y d0 33
+:       .bcc damage-half-no-overflow
+:       .lda fe ff
+.label damage-half-no-overflow
+:       .sta.addr.y d0 33
+.label exit-boost-damage-half
+:       .rts
+
 $reduce-damage-half
 :       .lda.addr.y d0 33
 :       .cmp ff ff
@@ -797,6 +822,174 @@ $do-juggler
 :       .sta.addr.y $current-evade-address,2
 :       .pla
 :       .sta.addr.y $current-mblock-address,2
+:       .rts
+
+$main-aura
+#:       .lda.addr.y d0 33
+#:       .beq aura-exit-no-stack
+#:       .inc
+#:       .beq aura-exit-no-stack
+:       .php
+:       .sep 20
+:       .cpx 13
+:       .bge aura-exit
+:       .lda.addr a2 11
+:       .bit 01
+:       .beq aura-not-phys
+
+:       .lda.addr.x $safe-shell-status-address,2
+:       .bit status-safe
+:       .beq attacker-not-safe
+:       .jsr.addr @check-do-discharge,2
+:       .beq attacker-not-safe
+:       .jsr.addr @remove-safe,2
+
+.label attacker-not-safe
+:       .lda.addr.y $safe-shell-status-address,2
+:       .bit status-safe
+:       .beq aura-exit
+
+:       .jsr.addr @check-do-aura-hunter,2
+:       .beq glass-aura-safe
+:       .jsr.addr @remove-safe-y,2
+:       .jsr.addr @set-safe,2
+:       .bra aura-exit
+
+.label glass-aura-safe
+:       .jsr.addr @check-do-glass-aura,2
+:       .beq aura-exit
+:       .jsr.addr @remove-safe-y,2
+
+:       .bra aura-exit
+
+.label aura-not-phys
+:       .lda.addr.x $safe-shell-status-address,2
+:       .bit status-shell
+:       .beq attacker-not-shell
+:       .jsr.addr @check-do-discharge,2
+:       .beq attacker-not-shell
+:       .jsr.addr @remove-shell,2
+
+.label attacker-not-shell
+:       .lda.addr.y $safe-shell-status-address,2
+:       .bit status-shell
+:       .beq aura-exit
+
+:       .jsr.addr @check-do-aura-hunter,2
+:       .beq glass-aura-shell
+:       .jsr.addr @remove-shell-y,2
+:       .jsr.addr @set-shell,2
+:       .bra aura-exit
+
+.label glass-aura-shell
+:       .jsr.addr @check-do-glass-aura,2
+:       .beq aura-exit
+:       .jsr.addr @remove-shell-y,2
+
+.label aura-exit
+:       .plp
+.label aura-exit-no-stack
+:       .rts
+
+.label check-do-discharge
+:       .lda {{jun-index-discharge}}
+:       .jsl $jun-checker
+:       .beq discharge-exit
+:       .rep 20
+:       .jsr.addr $boost-damage-half,2
+:       .jsr.addr $boost-healing-half,2
+:       .sep 20
+:       .rep 02
+.label discharge-exit
+:       .rts
+
+.label check-do-aura-hunter
+:       .rep 20
+:       .lda.addr.y d0 33
+:       .beq aura-hunter-exit
+:       .inc
+:       .beq aura-hunter-exit
+:       .jsl $jun-compare-x-y
+:       .beq aura-hunter-exit
+:       .lda {{jun-index-aura-hunter}} 00
+:       .jsl $jun-checker
+:       .beq aura-hunter-exit
+:       .jsr.addr $boost-damage-half,2
+:       .jsr.addr $boost-damage-half,2
+:       .jsr.addr $boost-healing-half,2
+:       .jsr.addr $boost-healing-half,2
+:       .rep 02
+.label aura-hunter-exit
+:       .sep 20
+:       .rts
+
+.label check-do-glass-aura
+:       .lda {{jun-index-glass-aura}}
+:       .jsl $jun-checker-y
+:       .beq glass-aura-exit-failure
+:       .jsl $jun-rng1
+:       .bcs glass-aura-exit-failure
+:       .phx
+:       .tyx
+:       .stz.addr.x d0 33
+:       .stz.addr.x d1 33
+:       .plx
+.label glass-aura-exit-success
+:       .rep 02
+:       .rts
+.label glass-aura-exit-failure
+:       .sep 02
+:       .rts
+
+.label swap-x-y
+:       .phx
+:       .tyx
+:       .ply
+:       .rts
+
+.label remove-generic-safe-shell
+:       .pha
+:       .lda.addr.x $safe-shell-immunity-address,2
+:       .ora.sr 01
+:       .sta.addr.x $safe-shell-immunity-address,2
+:       .lda.addr.x $safe-shell-to-clear-address,2
+:       .ora.sr 01
+:       .sta.addr.x $safe-shell-to-clear-address,2
+:       .pla
+:       .rts
+
+.label remove-safe
+:       .lda status-safe
+:       .jsr.addr @remove-generic-safe-shell,2
+:       .rts
+
+.label remove-safe-y
+:       .jsr.addr @swap-x-y,2
+:       .jsr.addr @remove-safe,2
+:       .jsr.addr @swap-x-y,2
+:       .rts
+
+.label set-safe
+:       .lda.addr.x $safe-shell-to-set-address,2
+:       .ora status-safe
+:       .sta.addr.x $safe-shell-to-set-address,2
+:       .rts
+
+.label remove-shell
+:       .lda status-shell
+:       .jsr.addr @remove-generic-safe-shell,2
+:       .rts
+
+.label remove-shell-y
+:       .jsr.addr @swap-x-y,2
+:       .jsr.addr @remove-shell,2
+:       .jsr.addr @swap-x-y,2
+:       .rts
+
+.label set-shell
+:       .lda.addr.x $safe-shell-to-set-address,2
+:       .ora status-shell
+:       .sta.addr.x $safe-shell-to-set-address,2
 :       .rts
 
 VALIDATION
