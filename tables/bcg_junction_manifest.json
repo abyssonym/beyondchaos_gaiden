@@ -1428,7 +1428,10 @@
         "juggler": [
             "patch_junction_damage_trigger.txt"
         ],
-        "angel_wing": [],
+        "angel_wing": [
+            "patch_junction_angel_wing.txt",
+            "patch_junction_hit_trigger.txt"
+        ],
         "glass_aura": [
             "patch_junction_damage_trigger.txt"
         ],

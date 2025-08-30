@@ -1,0 +1,108 @@
+.addr   jun-checker                 {{jun-global-checker}}
+.addr   jun-generic-dispatch        {{jun-global-generic-dispatch}}
+.addr   jun-rng2-noluck             {{jun-global-rng2-noluck}}
+.addr   main                        622c60
+.addr       berserk-status-address      7e3ee5
+.addr       muddle-clear-address        7e3dfd
+.addr       known-spells                7e3cf8
+.addr       known-lores                 7e3a87
+
+.def    status-berserk              10
+.def    status-muddle-mute          28
+
+.def    lore-command                0c
+
+02038e: .jsl $main
+:       .nop
+
+$main
+:       .lda status-berserk
+:       .bit.addr.x $berserk-status-address,2
+:       .beq main-exit-normal
+:       .lda {{jun-index-angel-wing}}
+:       .jsl $jun-checker
+:       .beq main-exit-normal
+
+:       .phy
+:       .txa
+:       .asl
+:       .pha
+:       .adc.sr 01
+:       .adc.sr 01
+:       .sta.sr 01
+:       .ply
+
+:       .lda.addr.y 202e
+:       .cmp lore-command
+:       .beq yes-lore
+:       .lda.addr.y 2031
+:       .cmp lore-command
+:       .beq yes-lore
+:       .lda.addr.y 2034
+:       .cmp lore-command
+:       .beq yes-lore
+:       .lda.addr.y 2037
+:       .cmp lore-command
+:       .bne no-lore
+
+.label yes-lore
+:       .lda.addr $known-lores,2
+:       .bne done-lore
+.label no-lore
+:       .lda 00
+.label done-lore
+:       .pha
+:       .txy
+
+:       .lda.addr.x $known-spells,2
+:       .ora.sr 01
+:       .beq no-magic-cancel
+
+:       .lda.addr.x $berserk-status-address,2
+:       .ora status-muddle-mute
+:       .eor status-muddle-mute
+:       .sta.addr.x $berserk-status-address,2
+
+:       .lda.addr.x $known-spells,2
+:       .beq do-lore
+
+:       .lda.sr 01
+:       .beq do-magic
+
+:       .jsl $jun-rng2-noluck
+:       .bit 01
+:       .beq do-magic
+
+.label do-lore
+:       .pea 04f6
+:       .jsl $jun-generic-dispatch
+:       .xba
+:       .lda lore-command
+:       .bra main-exit-angel-wing
+
+.label do-magic
+:       .pea 051a
+:       .jsl $jun-generic-dispatch
+:       .xba
+:       .lda 02
+:       .bra main-exit-angel-wing
+
+.label no-magic-cancel
+:       .pla
+:       .ply
+.label main-exit-normal
+:       .pea 0420
+:       .jsl $jun-generic-dispatch
+:       .bra main-exit-exit
+.label main-exit-angel-wing
+:       .sta.sr 01
+:       .pla
+:       .ply
+.label main-exit-exit
+:       .cmp 17
+:       .rtl
+
+VALIDATION
+
+02038e: 20 20 04
+:       c9 17

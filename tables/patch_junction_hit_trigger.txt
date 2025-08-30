@@ -1,4 +1,5 @@
 .addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-checker-y                   {{jun-global-checker-y}}
 .addr   jun-check-entity-can-act        {{jun-global-check-entity-can-act}}
 .addr   jun-deduct-item-if-possible     {{jun-global-deduct-item-if-possible}}
 .addr   jun-rng1                        {{jun-global-rng1}}
@@ -6,7 +7,7 @@
 .addr   jun-check-is-damage-over-time   {{jun-global-check-is-damage-over-time}}
 .addr   jun-check-are-same-team         {{jun-global-check-are-same-team}}
 .addr   main                            622e00
-.addr   null-secondary-data             6227e0
+.addr   null-secondary-data             6224c0
 .addr   do-quickening-penalty           622780
 
 .addr   stolen-item                     7e32f4
@@ -17,10 +18,14 @@
 .addr   current-max-hp-address          7e3c1c
 .addr   current-max-mp-address          7e3c30
 
+.addr   berserk-status-address          7e3ee5
+
 .def    super-ball-item-index       fa
 .def    hyperdrive-index            d1
 .def    custom-mp-command-index     {{jun-command-index-custom-mp-spell}}
 .def    fixed-damage-command-index  {{jun-command-index-fixed-damage}}
+
+.def    status-berserk              10
 
 021771: .jsl $null-secondary-data
 
@@ -221,6 +226,25 @@ $do-quickening-penalty
 :       .rts
 
 $null-secondary-data
+:       .lda.addr 11a5
+:       .beq no-angel-wing
+:       .lda.addr.y $berserk-status-address,2
+:       .bit status-berserk
+:       .beq no-angel-wing
+:       .lda {{jun-index-angel-wing}}
+:       .jsl $jun-checker-y
+:       .beq no-angel-wing
+:       .stz.addr 11a5
+:       .stz.addr 3a4c
+:       .lda.addr 11a6
+:       .lsr
+:       .clc
+:       .adc.addr 11a6
+:       .bcc angel-wing-no-overflow
+:       .lda ff
+.label angel-wing-no-overflow
+:       .sta.addr 11a6
+.label no-angel-wing
 :       .lda.dp b5
 :       .cmp 13
 :       .beq is-dance
