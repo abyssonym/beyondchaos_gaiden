@@ -1432,7 +1432,9 @@
         "glass_aura":           [
             "patch_junction_damage_trigger.txt"
         ],
-        "power_charge":         [],
+        "power_charge":         [
+            "patch_junction_damage_trigger.txt"
+        ],
         "discharge":            [
             "patch_junction_damage_trigger.txt"
         ],

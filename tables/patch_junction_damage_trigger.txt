@@ -20,7 +20,7 @@
 .addr   do-distribute-characters        621d00
 .addr   do-distribute-monsters          621d60
 .addr   check-nihopalaoa                622940
-.addr   check-heal                      6217a0
+.addr   check-heal                      622da0
 .addr   check-brace                     621280
 .addr   check-catch                     620c80
 .addr   boost-healing-half              620ea0
@@ -56,12 +56,16 @@
 .addr   safe-shell-to-set-address       7e3de8
 .addr   safe-shell-to-clear-address     7e3e10
 
+.addr   animation-address-1             7e2d6e
+.addr   animation-address-2             7e2d72
+
 .def    throw-index                 08
 .def    revenge-spell-index         92
 .def    potion-index                e9
 
 .def    status-safe                 40
 .def    status-shell                20
+.def    status-marvel               6a
 
 022af2: .jsl $main-nihopalaoa
 
@@ -201,6 +205,23 @@ $check-heal
 :       .bra heal-sink-loop
 .label end-heal-sink-loop
 
+:       .lda.addr 11a4
+:       .bit 0001
+:       .beq check-power-charge
+:       .lda 2506
+:       .cmp.addr $animation-address-1,2
+:       .beq check-power-charge
+:       .cmp.addr $animation-address-2,2
+:       .beq check-power-charge
+:       .bra no-power-charge
+.label check-power-charge
+:       .lda {{jun-index-power-charge}} 00
+:       .jsl $jun-checker-y
+:       .beq no-power-charge
+:       .lda.addr.y $safe-shell-to-set-address,2
+:       .ora status-marvel 00
+:       .sta.addr.y $safe-shell-to-set-address,2
+.label no-power-charge
 .label not-heal
 :       .rts
 
