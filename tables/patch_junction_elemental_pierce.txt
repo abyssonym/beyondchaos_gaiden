@@ -110,8 +110,8 @@ $main
 :       .lda.long.x 01 00 c4
 :       .sep 10
 :       .tsb.addr a1 11
-:       .and.dp 10
-:       .trb.dp 10
+#:       .and.dp 10
+#:       .trb.dp 10
 :       .plx
 
 .label no-esper-main
