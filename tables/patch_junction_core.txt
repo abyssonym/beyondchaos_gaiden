@@ -2,6 +2,7 @@
 .addr       character-info                      7e3010
 .addr       combatant-bits                      7e3018
 .addr   jun-checker-y                       {{jun-global-checker-y}}
+.addr   jun-checker-half                    {{jun-global-checker-half}}
 
 .addr   jun-check-whitelist                 {{jun-global-check-whitelist}}
 .addr   jun-check-blacklist                 {{jun-global-check-blacklist}}
@@ -227,6 +228,15 @@ $jun-checker-y
 :   .rtl
 .label checker-y-fail
 :   .plx
+:   .sep 02
+:   .rtl
+
+$jun-checker-half
+:   .jsl $jun-rng1
+:   .bcs checker-half-fail
+:   .jsl $jun-checker
+:   .rtl
+.label checker-half-fail
 :   .sep 02
 :   .rtl
 

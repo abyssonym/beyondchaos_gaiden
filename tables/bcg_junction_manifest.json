@@ -841,6 +841,7 @@
         "check-whitelist-monster-version":  "610280",
         "checker":                          "610000",
         "checker-y":                        "6100e0",
+        "checker-half":                     "6100f0",
         "command-custom-mp-spell":          "61f184",
         "command-final-attack":             "61f188",
         "command-fixed-damage":             "61f18a",

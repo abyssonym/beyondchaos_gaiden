@@ -1,4 +1,4 @@
-.addr   jun-checker                     {{jun-global-checker}}
+.addr   jun-checker-half                {{jun-global-checker-half}}
 .addr   jun-check-are-same-team         {{jun-global-check-are-same-team}}
 .addr   jun-check-entity-living         {{jun-global-check-entity-living}}
 .addr   jun-check-is-damage-over-time   {{jun-global-check-is-damage-over-time}}
@@ -48,6 +48,11 @@ $main-damage
 :       .beq exit-main-damage
 :       .inc
 :       .beq exit-main-damage
+:       .pha
+:       .lda.addr 11a4
+:       .lsr
+:       .pla
+:       .bcs exit-main-damage
 
 :       .jsl $jun-check-is-damage-over-time
 :       .beq exit-main-damage
@@ -63,7 +68,10 @@ $main-damage
 .label zero-healing
 :       .pha
 :       .lda.addr.y d0 33
-:       .lsr .inc .lsr
+:       .cpx 08
+:       .bge leech-is-monster
+:       .lsr
+.label  leech-is-monster
 :       .clc
 :       .adc.sr 01
 :       .sta.addr.x e4 33
@@ -85,7 +93,7 @@ $check-has-leech
 :       .jsl $jun-check-entity-living
 :       .beq has-leech-fail
 :       .lda {{jun-index-leech}}
-:       .jsl $jun-checker
+:       .jsl $jun-checker-half
 :       .beq has-leech-fail
 
 :       .plp
