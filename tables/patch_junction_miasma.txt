@@ -5,7 +5,7 @@
 .addr   jun-rng2-noluck                 {{jun-global-rng2-noluck}}
 .addr   jun-rng3                        {{jun-global-rng3}}
 .addr   main                            620b40
-.addr   main-level-modulation           622860
+.addr   main-level-modulation           623140
 
 .addr   monster-indexes                 7e1ff9
 .addr   character-info                  7e3010
@@ -14,7 +14,7 @@
 .addr   monster-base-level-address      0f0010
 
 .def    miasma-success-rate             40
-.def    level-modulation-rate           80
+.def    level-modulation-rate           40
 
 025ad6: .jsl $main
 
@@ -77,11 +77,23 @@ $main-level-modulation
 :       .jsl $jun-checker
 :       .beq no-juggernaut
 :       .jsr.addr @do-juggernaut,2
+:       .jsl $jun-rng2-noluck
+:       .cmp level-modulation-rate
+:       .bcs no-juggernaut
+:       .jsr.addr @do-juggernaut,2
 
 .label no-juggernaut
 :       .lda {{jun-index-burst}}
 :       .jsl $jun-checker
 :       .beq no-burst
+:       .jsr.addr @do-burst,2
+:       .jsl $jun-rng2-noluck
+:       .cmp level-modulation-rate
+:       .bcs no-burst
+:       .jsr.addr @do-burst,2
+:       .jsl $jun-rng2-noluck
+:       .cmp level-modulation-rate
+:       .bcs no-burst
 :       .jsr.addr @do-burst,2
 
 .label no-burst
