@@ -20,11 +20,11 @@
 .addr                   relic-effects-address           7e3c45
 .addr               check-esper-castable            6219c0
 
-.addr   no-select-disabled-esper        62f200
+.addr   no-select-disabled-esper        6202c0
 .addr       no-select-return-select         0182da
 .addr       no-select-return-no-select      0182fa
 
-.addr   get-esper-menu-offset           62f300
+.addr   get-esper-menu-offset           6202e0
 .addr       esper-menu-offsets-address      014b5f
 
 .addr   menu-active-character           7e62ca

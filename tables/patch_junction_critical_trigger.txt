@@ -21,8 +21,8 @@
 .def    first-command-index         {{jun-index-critical-runic=30}}
 .def    overflow-command-index      35
 
-.addr   do-self-spell                   625000
-.addr   do-command                      626000
+.addr   do-self-spell                   6204a0
+.addr   do-command                      6204c0
 
 .def    escape-spell-index          c2
 
