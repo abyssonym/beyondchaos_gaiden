@@ -743,57 +743,60 @@ $jun-rng1
 
 # 0 to 255
 $jun-rng2
-:   .phx .php
-:   .sep 30
-:   .lda {{jun-index-luck-sink}}
-:   .jsl $jun-check-count-all-living
-:   .pha
-:   .lda {{jun-index-luck-font}}
-:   .jsl $jun-check-count-all-living
-:   .sec
-:   .sbc.sr 01
-:   .sta.sr 01
-:   .bmi rng2-sink-mode
-
-.label rng2-font-mode
-:   .plx
 :   .jsr.addr @jun-rng2-raw,2
-:   .pha
-.label rng2-font-loop
-:   .dex
-:   .bmi rng2-exit
-#:   20 @jun-rng2-raw,2
-#:   4a
-#:   90 rng2-font-loop
-:   .jsr.addr @jun-rng2-raw,2
-:   .cmp.sr 01
-:   .bcs rng2-font-loop
-:   .sta.sr 01
-:   .bra rng2-font-loop
-
-.label rng2-sink-mode
-:   .pla
-:   .eor ff
-:   .inc
-:   .tax
-:   .jsr.addr @jun-rng2-raw,2
-:   .pha
-.label rng2-sink-loop
-:   .dex
-:   .bmi rng2-exit
-#:   20 @jun-rng2-raw,2
-#:   4a
-#:   90 rng2-sink-loop
-:   .jsr.addr @jun-rng2-raw,2
-:   .cmp.sr 01
-:   .bcc rng2-sink-loop
-:   .sta.sr 01
-:   .bra rng2-sink-loop
-
-.label rng2-exit
-:   .pla
-:   .plp .plx
 :   .rtl
+# Body removed for poor performance
+#:   .phx .php
+#:   .sep 30
+#:   .lda {{jun-index-luck-sink}}
+#:   .jsl $jun-check-count-all-living
+#:   .pha
+#:   .lda {{jun-index-luck-font}}
+#:   .jsl $jun-check-count-all-living
+#:   .sec
+#:   .sbc.sr 01
+#:   .sta.sr 01
+#:   .bmi rng2-sink-mode
+#
+#.label rng2-font-mode
+#:   .plx
+#:   .jsr.addr @jun-rng2-raw,2
+#:   .pha
+#.label rng2-font-loop
+#:   .dex
+#:   .bmi rng2-exit
+##:   20 @jun-rng2-raw,2
+##:   4a
+##:   90 rng2-font-loop
+#:   .jsr.addr @jun-rng2-raw,2
+#:   .cmp.sr 01
+#:   .bcs rng2-font-loop
+#:   .sta.sr 01
+#:   .bra rng2-font-loop
+#
+#.label rng2-sink-mode
+#:   .pla
+#:   .eor ff
+#:   .inc
+#:   .tax
+#:   .jsr.addr @jun-rng2-raw,2
+#:   .pha
+#.label rng2-sink-loop
+#:   .dex
+#:   .bmi rng2-exit
+##:   20 @jun-rng2-raw,2
+##:   4a
+##:   90 rng2-sink-loop
+#:   .jsr.addr @jun-rng2-raw,2
+#:   .cmp.sr 01
+#:   .bcc rng2-sink-loop
+#:   .sta.sr 01
+#:   .bra rng2-sink-loop
+#
+#.label rng2-exit
+#:   .pla
+#:   .plp .plx
+#:   .rtl
 .label jun-rng2-raw
 :   .phx .php
 :   .sep 30

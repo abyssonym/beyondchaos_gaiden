@@ -1,11 +1,21 @@
 .addr   jun-checker                     {{jun-global-checker}}
 .addr   jun-check-entity-living         {{jun-global-check-entity-living}}
+.addr   check-able-bodied               {{jun-global-check-able-bodied}}
+
 .addr   main-focus                      620800
 .addr   main-lucid-dead                 620860
 .addr   return-focus                    02095c
 .addr   check-lucid-dead                620d00
-.addr   check-focus                     620d80
-.addr   check-able-bodied               620d40
+.addr   check-focus                     622f80
+
+.addr   zombie-status-address           7e3ee4
+.addr   berserk-muddle-status-address   7e3ee5
+.addr   dance-status-address            7e3ef8
+.addr   rage-status-address             7e3ef9
+.def    status-zombie           02
+.def    status-berserk-muddle   30
+.def    status-dance            01
+.def    status-rage             01
 
 020956: .jml $main-focus
 :       .nop .nop
@@ -85,8 +95,13 @@ $check-able-bodied
 $check-lucid-dead
 :       .cpx 08
 :       .bcs exit-lucid-no-stack
+
 :       .pha
 :       .stx.dp 10
+
+:       .lda status-zombie
+:       .bit.addr.x $zombie-status-address,2
+:       .beq exit-no-lucid-dead
 
 :       .lda {{jun-index-lucid-dead}}
 :       .jsl $jun-checker
@@ -123,6 +138,17 @@ $check-focus
 :       .pha
 :       .stx.dp 10
 
+:       .lda status-berserk-muddle
+:       .bit $berserk-muddle-status-address,2
+:       .bne attempt-focus
+:       .lda status-dance
+:       .bit $dance-status-address,2
+:       .bne attempt-focus
+:       .lda status-rage
+:       .bit $rage-status-address,2
+:       .beq exit-no-focus
+
+.label attempt-focus
 :       .lda {{jun-index-focus}}
 :       .jsl $jun-checker
 :       .bne exit-has-focus

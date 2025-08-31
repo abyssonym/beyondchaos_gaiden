@@ -791,7 +791,7 @@
         "every_monster":    ["quickening", "reverse"]
     },
 
-    "always_banlist":       [],
+    "always_banlist":       ["luck_font", "luck_sink", "junction_jammer"],
     "character_banlist":    [],
     "esper_banlist":        ["repel_nuke", "caller"],
     "equip_banlist":        ["repel_nuke", "boost_nuke"],
@@ -819,6 +819,7 @@
         "bit-to-combatant-index":           "6109c0",
         "bit-to-index":                     "6108d0",
         "check-are-same-team":              "6105e0",
+        "check-able-bodied":                "622f40",
         "check-blacklist":                  "610180",
         "check-blacklist-monster-version":  "6102c0",
         "check-count-all-living":           "610680",
