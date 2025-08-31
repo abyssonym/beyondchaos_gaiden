@@ -1,5 +1,5 @@
 .addr   jun-checker                     {{jun-global-checker}}
-.addr   jun-check-count-all-living      {{jun-global-check-count-all-living}}
+.addr   jun-check-count-half-living     {{jun-global-check-count-half-living}}
 .addr   jun-force-update                {{jun-global-force-update}}
 .addr   main                            622000
 .addr   main-initialize                 6220a0
@@ -18,17 +18,24 @@ $main
 
 :       .pha
 :       .lda {{jun-index-time-sink}} 00
-:       .jsl $jun-check-count-all-living
+:       .jsl $jun-check-count-half-living
 :       .pha
 :       .lda {{jun-index-time-font}} 00
-:       .jsl $jun-check-count-all-living
+:       .jsl $jun-check-count-half-living
 :       .sec
 :       .sbc.sr 01
 :       .tax
 :       .pla .pla
 :       .cpx 00
 :       .beq exit-main
-:       .bmi decrease-modification-loop
+:       .sep 20
+:       .pha
+:       .txa
+:       .asl
+:       .tax
+:       .pla
+:       .rep 20
+:       .bcs decrease-modification-loop
 
 .label increase-modification-loop
 :       .pha

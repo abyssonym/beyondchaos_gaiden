@@ -66,6 +66,7 @@
 .addr       present-enemies                     7e3a79
 .addr   jun-check-entity-can-act            {{jun-global-check-entity-can-act}}
 .addr   jun-check-count-all-living          {{jun-global-check-count-all-living}}
+.addr   jun-check-count-half-living         {{jun-global-check-count-half-living}}
 .addr   jun-deduct-item-if-possible         {{jun-global-deduct-item-if-possible}}
 .addr   jun-ally-deduct-item-if-possible    {{jun-global-ally-deduct-item-if-possible}}
 .addr       jun-check-inventory                 {{jun-global-check-inventory}}
@@ -991,6 +992,29 @@ $jun-check-count-all-living
 .label all-living-skip
 :   .dex .dex
 :   .bpl all-living-loop
+
+:   .lda 00
+:   .xba
+:   .tya
+:   .ply .plx .plp
+:   .rtl
+
+$jun-check-count-half-living
+#   A - junction index
+:   .php .phx .phy
+:   .sep 30
+
+:   .ldy 00
+:   .ldx 12
+.label half-living-loop
+:   .jsl $jun-check-entity-living
+:   .beq half-living-skip
+:   .jsl $jun-checker-half
+:   .beq half-living-skip
+:   .iny
+.label half-living-skip
+:   .dex .dex
+:   .bpl half-living-loop
 
 :   .lda 00
 :   .xba
