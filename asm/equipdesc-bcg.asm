@@ -82,9 +82,9 @@ c38e64:
 assert pc() <= $c38e6d
 
 org $c38e72
-; JSR $072d      ; Standard navigation, can wrap both sides
-; JSR $81c7      ; "Line feed" wrap like in esper menu
-    jsr custom_wrap_navigation_hook
+    jsr $072d      ; Standard navigation, can wrap both sides
+    ;jsr $81c7      ; "Line feed" wrap like in esper menu
+    ;jsr custom_wrap_navigation_hook
 ; Update LDY pointer
     ldy #c38e80
 
