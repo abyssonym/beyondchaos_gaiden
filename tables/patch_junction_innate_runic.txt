@@ -13,17 +13,17 @@ $main
 :       .beq no-junction
 
 :       .plx
-:       .lda.addr.y 4c 3e
+:       .lda.addr.y 3e4c
 :       .jml $return-runic
 
 .label no-junction
 :       .plx
-:       .lda.addr.y 4c 3e
+:       .lda.addr.y 3e4c
 :       .bit 06
 :       .jml $return-normal
 
 VALIDATION
 
-02353e: .lda.addr.y 4c 3e
+02353e: .lda.addr.y 3e4c
 :       .bit 06
 :       .beq 19

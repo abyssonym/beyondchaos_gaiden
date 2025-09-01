@@ -39,49 +39,49 @@ $main-esper-attack-misc-effect
 :       .beq no-esper-attack-misc-junction
 :       .phx
 :       .jsr.addr $get-esper-data-offset,2
-:       .lda.long.x 04 00 c4
+:       .lda.long.x c40004
 :       .and 03
-:       .tsb.addr a4 11
+:       .tsb.addr 11a4
 :       .jsl $jun-rng2
 :       .cmp esper-attack-rate
 :       .bcs esper-attack-misc-cleanup
 
 :       .rep 20
-:       .lda.long.x 04 00 c4
-:       .and 04 00
+:       .lda.long.x c40004
+:       .and 0004
 :       .bne misc-cure-status
 
-:       .lda.long.x 0a 00 c4
+:       .lda.long.x c4000a
 :       .pha
-:       .lda.addr.y a1 3a
-:       .bit 04 00
+:       .lda.addr.y 3aa1
+:       .bit 0004
 :       .beq no-death-protection
 :       .pla
-:       .and 7f ff
+:       .and ff7f
 :       .pha
 .label no-death-protection
 :       .pla
-:       .ora.addr.y d4 3d
-:       .sta.addr.y d4 3d
-:       .lda.long.x 0c 00 c4
-:       .ora.addr.y e8 3d
-:       .and ff df
-:       .sta.addr.y e8 3d
+:       .ora.addr.y 3dd4
+:       .sta.addr.y 3dd4
+:       .lda.long.x c4000c
+:       .ora.addr.y 3de8
+:       .and dfff
+:       .sta.addr.y 3de8
 :       .bra esper-attack-misc-cleanup
 
 .label misc-cure-status
-:       .lda.long.x 0a 00 c4
-:       .ora.addr.y fc 3d
-:       .sta.addr.y fc 3d
-:       .lda.long.x 0c 00 c4
-:       .ora.addr.y 10 3e
-:       .sta.addr.y 10 3e
+:       .lda.long.x c4000a
+:       .ora.addr.y 3dfc
+:       .sta.addr.y 3dfc
+:       .lda.long.x c4000c
+:       .ora.addr.y 3e10
+:       .sta.addr.y 3e10
 
 .label esper-attack-misc-cleanup
 :       .sep 30
 :       .plx
 .label no-esper-attack-misc-junction
-:       .lda.addr a4 11
+:       .lda.addr 11a4
 :       .bmi hp-based-damage
 :       .jml $return-esper-attack-misc-normal
 .label hp-based-damage
@@ -89,10 +89,10 @@ $main-esper-attack-misc-effect
 
 $main
 :       .phx
-:       .lda.addr a1 11
+:       .lda.addr 11a1
 :       .sta.dp 10
 
-:       .cpx.addr 17 34
+:       .cpx.addr 3417
 :       .bne not-sketching
 :       .lda {{jun-index-art-license}}
 :       .jsl $jun-checker
@@ -107,9 +107,9 @@ $main
 :       .beq no-esper-main
 :       .phx
 :       .jsr.addr $get-esper-data-offset,2
-:       .lda.long.x 01 00 c4
+:       .lda.long.x c40001
 :       .sep 10
-:       .tsb.addr a1 11
+:       .tsb.addr 11a1
 #:       .and.dp 10
 #:       .trb.dp 10
 :       .plx
@@ -146,11 +146,11 @@ $main
 :       .jml $return-non-elemental
 
 $fix-force-field
-:       .lda.addr a1 11
+:       .lda.addr 11a1
 :       .ora.dp 10
 :       .beq force-field-not-nullified
-:       .ora.addr c8 3e
-:       .eor.addr c8 3e
+:       .ora.addr 3ec8
+:       .eor.addr 3ec8
 :       .beq force-field-nullified
 .label force-field-not-nullified
 :       .jml $return-force-field-no-nullify
@@ -158,9 +158,9 @@ $fix-force-field
 :       .jml $return-force-field-nullify
 
 $check-prism
-:       .lda.addr a1 11
+:       .lda.addr 11a1
 :       .bne exit-no-prism
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .bit 20
 :       .beq exit-no-prism
 :       .lda {{jun-index-prism-wall}}
@@ -170,7 +170,7 @@ $check-prism
 :       .jsl $jun-checker
 :       .bne prism-wall
 .label exit-no-prism
-:       .lda.addr a1 11
+:       .lda.addr 11a1
 :       .rts
 .label prism-wall
 :       .jsl $jun-rng2
@@ -203,10 +203,10 @@ $check-element
 $check-has-esper
 :       .pha .phy .php
 :       .rep 10
-:       .cpx 08 00
+:       .cpx 0008
 :       .bcs check-no-esper
-:       .ldy.addr.x 10 30
-:       .lda.addr.y 1e 16
+:       .ldy.addr.x 3010
+:       .lda.addr.y 161e
 :       .cmp ff
 :       .beq check-no-esper
 :       .plp .ply .pla
@@ -220,8 +220,8 @@ $check-has-esper
 $get-esper-data-offset
 :       .rep 10
 :       .pha .phy .php
-:       .ldy.addr.x 10 30
-:       .lda.addr.y 1e 16
+:       .ldy.addr.x 3010
+:       .lda.addr.y 161e
 :       .clc
 :       .adc 36
 :       .xba
@@ -229,23 +229,23 @@ $get-esper-data-offset
 :       .rep 20
 :       .jsl $jun-mult
 :       .clc
-:       .adc c0 6a
+:       .adc 6ac0
 :       .tax
 :       .plp .ply .pla
 :       .rts
 
 VALIDATION
 
-020b8e: .lda.addr a4 11
+020b8e: .lda.addr 11a4
 :       .bmi 05
 
-020bd3: .lda.addr a1 11
+020bd3: .lda.addr 11a1
 :       .beq 46
 
-020bd8: .lda.addr c8 3e
+020bd8: .lda.addr 3ec8
 :       .eor ff
-:       .and.addr a1 11
+:       .and.addr 11a1
 
-020be5: .bit.addr a1 11
-020bf5: .bit.addr a1 11
-020c03: .bit.addr a1 11
+020be5: .bit.addr 11a1
+020bf5: .bit.addr 11a1
+020c03: .bit.addr 11a1

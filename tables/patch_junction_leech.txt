@@ -16,7 +16,7 @@
 
 $main
 :       .phy
-:       .lda.addr.x f8 3e
+:       .lda.addr.x 3ef8
 :       .and 02
 :       .bne exit-normal
 
@@ -31,8 +31,8 @@ $main
 :       .ply .plx
 
 .label exit-normal
-:       .lda.addr.x e5 3e
-:       .ora.addr.x 4d 3e
+:       .lda.addr.x 3ee5
+:       .ora.addr.x 3e4d
 :       .ply
 :       .rtl
 
@@ -43,8 +43,8 @@ $main
 :       .rtl
 
 $main-damage
-:       .sta.addr.y d0 33
-:       .cmp 00 00
+:       .sta.addr.y 33d0
+:       .cmp 0000
 :       .beq exit-main-damage
 :       .inc
 :       .beq exit-main-damage
@@ -61,20 +61,20 @@ $main-damage
 .label leech-damage-loop
 :       .jsr.addr $check-has-leech,2
 :       .beq leech-damage-skip
-:       .lda.addr.x e4 33
+:       .lda.addr.x 33e4
 :       .inc
 :       .beq zero-healing
 :       .dec
 .label zero-healing
 :       .pha
-:       .lda.addr.y d0 33
+:       .lda.addr.y 33d0
 :       .cpx 08
 :       .bge leech-is-monster
 :       .lsr
 .label  leech-is-monster
 :       .clc
 :       .adc.sr 01
-:       .sta.addr.x e4 33
+:       .sta.addr.x 33e4
 :       .pla
 .label leech-damage-skip
 :       .dex .dex
@@ -106,8 +106,8 @@ $check-has-leech
 
 VALIDATION
 
-020c98: .sta.addr.y d0 33
+020c98: .sta.addr.y 33d0
 :       .plp
 
-025b74: .lda.addr.x e5 3e
-:       .ora.addr.x 4d 3e
+025b74: .lda.addr.x 3ee5
+:       .ora.addr.x 3e4d

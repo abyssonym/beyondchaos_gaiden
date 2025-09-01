@@ -24,11 +24,11 @@ $main
 # 16-bit A
 # target in Y
 :       .ldx 02
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .bmi exit-normal-concerns-mp
 :       .lda.addr.y $current-mp-address,2
 :       .beq exit-normal
-:       .lda.addr.y d0 33
+:       .lda.addr.y 33d0
 :       .beq exit-normal
 :       .inc
 :       .beq exit-normal
@@ -50,25 +50,25 @@ $main
 
 :       .phx
 :       .tyx
-:       .lda.addr 7a 3a
+:       .lda.addr 3a7a
 :       .pha
 :       .lda.dp b8
 :       .pha
-:       .lda.addr.y d0 33
-:       .ora 00 40
+:       .lda.addr.y 33d0
+:       .ora 4000
 :       .sta.dp b8
 :       .lda fixed-damage-command-index 00
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .jsl $jun-queue-command
 
 :       .pla
 :       .sta.dp b8
 :       .pla
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .plx
 
-:       .lda ff ff
-:       .sta.addr.y d0 33
+:       .lda ffff
+:       .sta.addr.y 33d0
 
 :       .rtl
 .label exit-normal
@@ -79,9 +79,9 @@ $main
 VALIDATION
 
 0212f7: .ldx 02
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .bmi 02
 :       .ldx 00
 
-025402: .stz.addr.x 08 3c
-:       .stz.addr.x 30 3c
+025402: .stz.addr.x 3c08
+:       .stz.addr.x 3c30

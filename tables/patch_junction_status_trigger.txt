@@ -61,7 +61,7 @@ $main
 .label exit-main
 :       .plp .plx
 :       .lda.dp fc
-:       .bit 02 00
+:       .bit 0002
 :       .rtl
 
 $main-veil
@@ -149,8 +149,8 @@ $handle-safe-shell-immunity
 
 $main-auto-item
 :       .lda.dp fc
-:       .ora.addr.y e4 3e
-:       .eor.addr.y e4 3e
+:       .ora.addr.y 3ee4
+:       .eor.addr.y 3ee4
 :       .pha
 
 :       .and wound-status
@@ -194,12 +194,12 @@ $do-auto-item
 :       .jsr.addr $use-best-item,2
 :       .beq auto-item-skip
 :       .sep 20
-:       .sta.addr.x f4 32
-:       .sta.addr 7b 3a
+:       .sta.addr.x 32f4
+:       .sta.addr 3a7b
 :       .lda 01
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .rep 20
-:       .lda.addr.y 18 30
+:       .lda.addr.y 3018
 :       .sta.dp b8
 :       .jsl $jun-queue-command
 .label auto-item-skip
@@ -213,22 +213,22 @@ $use-best-item
 :       .phx .php
 :       .rep 30
 :       .phy
-:       .lda ff 00
+:       .lda 00ff
 :       .pha
 
-:       .ldy 00 00
+:       .ldy 0000
 .label use-best-inventory-loop
 :       .lda.addr.y $inventory-quantity-address,2
-:       .and ff 00
+:       .and 00ff
 :       .beq use-best-inventory-skip
 :       .lda.addr.y $inventory-address,2
-:       .and ff 00
-:       .ora 00 1e
+:       .and 00ff
+:       .ora 1e00
 :       .jsl $jun-mult
 :       .tax
 :       .lda.long.x $item-properties-type
-:       .and 2f 00
-:       .cmp 26 00
+:       .and 002f
+:       .cmp 0026
 :       .bne use-best-inventory-skip
 :       .lda.long.x $item-properties-status-byte
 :       .cmp.sr 0d
@@ -236,7 +236,7 @@ $use-best-item
 :       .and.sr 0d
 :       .beq use-best-inventory-skip
 :       .phx
-:       .ldx 00 00
+:       .ldx 0000
 :       .jsl $jun-count-bits
 :       .txa
 :       .plx
@@ -249,15 +249,15 @@ $use-best-item
 :       .sta.sr 01
 .label use-best-inventory-skip
 :       .iny .iny .iny .iny .iny
-:       .cpy 00 05
+:       .cpy 0500
 :       .bne use-best-inventory-loop
 
 .label exit-use-best
 :       .pla
 :       .ply
 :       .plp .plx
-:       .and ff 00
-:       .cmp ff 00
+:       .and 00ff
+:       .cmp 00ff
 :       .beq use-best-nothing-found
 :       .cpy 08
 :       .bcs use-best-monster-success
@@ -278,4 +278,4 @@ $use-best-item
 VALIDATION
 
 024585: .lda.dp fc
-:       .bit 02 00
+:       .bit 0002

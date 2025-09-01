@@ -60,7 +60,7 @@ $check-character
 :       .asl
 :       .tax
 :       .ldy.dp.x char-data-pointers
-:       .lda.addr.y 00 00
+:       .lda.addr.y 0000
 :       .cmp gogo-index
 :       .bcc less-than-gogo
 :       .ply .plx

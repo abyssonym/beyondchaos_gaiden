@@ -22,7 +22,7 @@ $main
 :       .txy
 :       .jsr.addr $main-level-modulation,2
 
-:       .lda.addr.x e4 3e
+:       .lda.addr.x 3ee4
 :       .and 04
 :       .beq not-poisoned
 
@@ -42,7 +42,7 @@ $main
 :       .bne poison-loop
 
 .label not-poisoned
-:       .lda.addr.x f8 3e
+:       .lda.addr.x 3ef8
 :       .and 02
 :       .beq no-junction
 :       .jsl $jun-rng1
@@ -53,7 +53,7 @@ $main
 
 .label no-junction
 :       .tyx
-:       .lda.addr.x f0 3a
+:       .lda.addr.x 3af0
 :       .rtl
 
 .label trigger-miasma
@@ -104,7 +104,7 @@ $main-level-modulation
 :       .php
 :       .rep 30
 :       .phx
-:       .cpx 08 00
+:       .cpx 0008
 :       .bcs get-base-level-monster
 :       .lda.addr.x $character-info,2
 :       .tax
@@ -116,7 +116,7 @@ $main-level-modulation
 :       .tax
 :       .lda.long.x $monster-base-level-address
 .label get-base-level-exit
-:       .and ff 00
+:       .and 00ff
 :       .plx .plp
 :       .rts
 
@@ -158,5 +158,5 @@ $main-level-modulation
 :       .rts
 
 VALIDATION
-025ad6: .lda.addr.x f0 3a
+025ad6: .lda.addr.x 3af0
 :       .txy

@@ -4,16 +4,16 @@
 :       .nop
 
 $main-atb:
-:       .cpx.addr 04 34
+:       .cpx.addr 3404
 :       .bne not-quick
 :       .lda ff
-:       .sta.addr.x 19 32
+:       .sta.addr.x 3219
 .label not-quick
 :       .rep 21
-:       .lda.addr.x 18 32
+:       .lda.addr.x 3218
 :       .rtl
 
 VALIDATION
 
 0211bb: .rep 21
-:       .lda.addr.x 18 32
+:       .lda.addr.x 3218

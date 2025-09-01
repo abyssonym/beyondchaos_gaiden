@@ -19,7 +19,7 @@ $main
 :       .cpy 08
 :       .bcc exit
 :       .lda.dp b5
-:       .and ff 00
+:       .and 00ff
 :       .bne exit
 
 # here we get the character index from the stack, then store it in $EE
@@ -29,16 +29,16 @@ $main
 :       .sta.dp ee
 :       .rep 30
 
-:       .and ff 00
-:       .cmp 08 00
+:       .and 00ff
+:       .cmp 0008
 :       .bcs exit
 
 :       .phx
 :       .tax
 
 # check for imp status
-:       .lda.addr.y e4 3e
-:       .bit 20 00
+:       .lda.addr.y 3ee4
+:       .bit 0020
 :       .beq check-poach
 
 :       .lda {{jun-index-imp-harvest}} 00
@@ -54,7 +54,7 @@ $main
 :       .plx
 .label exit
 :       .plp
-:       .lda 80 00
+:       .lda 0080
 :       .jml $return
 
 .label imp-harvest
@@ -68,7 +68,7 @@ $main
 # choose rare item 1/8 of the time
 :       .tax
 :       .jsl $jun-rng2
-:       .and ff 00
+:       .and 00ff
 :       .cmp poach-rare-rate 00
 :       .bcc poach-choose-rare
 :       .txa
@@ -94,24 +94,24 @@ $get-steal-or-drop
 :       .rts
 
 $obtain-item
-:       .and ff 00
-:       .cmp ff 00
+:       .and 00ff
+:       .cmp 00ff
 :       .beq obtain-item-exit
 :       .pha
 :       .sep 20
-:       .sta.addr 35 2f
+:       .sta.addr 2f35
 :       .lda b0
-:       .sta.addr 01 34
+:       .sta.addr 3401
 :       .lda.dp ee
 :       .rep 20
 :       .tax
 :       .pla
-:       .sta.addr.x f4 32
-:       .lda.addr.x 18 30
-:       .tsb.addr 8c 3a
+:       .sta.addr.x 32f4
+:       .lda.addr.x 3018
+:       .tsb.addr 3a8c
 .label obtain-item-exit
 :       .rts
 
 VALIDATION
-0213a1: .lda 80 00
+0213a1: .lda 0080
 :       .jmp $jump-set-death,2

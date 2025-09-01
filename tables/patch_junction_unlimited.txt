@@ -16,8 +16,8 @@ $main
 :       .lda {{jun-index-unlimited}}
 :       .jsl $jun-checker
 :       .beq no-junction
-:       .lda.addr.y 18 30
-:       .bit.addr 2f 3f
+:       .lda.addr.y 3018
+:       .bit.addr 3f2f
 :       .bne desperation-repeat
 :       .jsl $jun-rng2
 :       .cmp first-desperation-rate
@@ -28,8 +28,8 @@ $main
 :       .jsl $jun-rng2
 :       .cmp second-desperation-rate
 :       .bcs exit
-:       .lda.addr.y 18 30
-:       .trb.addr 2f 3f
+:       .lda.addr.y 3018
+:       .trb.addr 3f2f
 :       .lda 00
 :       .bra exit
 .label no-junction

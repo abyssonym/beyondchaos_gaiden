@@ -44,10 +44,10 @@ $main-target-manip-spread-single
 :       .bcc spread-single-yes-manip
 .label spread-single-no-manip
 :       .plx
-:       .jml f6 58 c2
+:       .jml c258f6
 .label spread-single-yes-manip
 :       .plx
-:       .jml ed 58 c2
+:       .jml c258ed
 
 $main-target-manipulation
 # check for runic animation
@@ -81,7 +81,7 @@ $main-target-manipulation
 
 $main-sneeze-guard
 :       .sep 20
-:       .lda.addr ad 11
+:       .lda.addr 11ad
 :       .bit 20
 :       .beq no-sneeze
 :       .ldy 12
@@ -92,7 +92,7 @@ $main-sneeze-guard
 :       .jsl $jun-checker-y
 :       .beq sneeze-guard-loop-skip
 :       .rep 20
-:       .lda.addr.y 18 30
+:       .lda.addr.y 3018
 :       .trb.dp b8
 :       .sep 20
 .label sneeze-guard-loop-skip
@@ -100,7 +100,7 @@ $main-sneeze-guard
 :       .bpl sneeze-guard-loop
 .label no-sneeze
 :       .rep 20
-:       .lda.addr 2c 3f
+:       .lda.addr 3f2c
 :       .trb.dp b8
 :       .rtl
 
@@ -110,13 +110,13 @@ $main-taunt
 :       .lda.dp b8
 :       .pha
 :       .jsl $jun-set-target-allies
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .bit.dp b8
 :       .bne main-taunt-fail
 
 :       .ldx 12
 .label main-taunt-loop
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .jsl $jun-check-entity-living
 :       .bne main-taunt-entity-alive
 :       .trb.dp b8
@@ -132,7 +132,7 @@ $main-taunt
 :       .jsl $jun-checker
 :       .bne main-taunt-skip
 .label main-taunt-unset
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .trb.dp b8
 .label main-taunt-skip
 :       .dex .dex
@@ -166,13 +166,13 @@ $main-camouflage
 :       .lda.dp b8
 :       .pha
 :       .jsl $jun-set-target-allies
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .bit.dp b8
 :       .bne main-camouflage-fail
 
 :       .ldx 12
 .label main-camouflage-loop
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .jsl $jun-check-entity-living
 :       .bne main-camouflage-entity-alive
 :       .trb.dp b8
@@ -182,7 +182,7 @@ $main-camouflage
 :       .lda {{jun-index-camouflage}} 00
 :       .jsl $jun-checker
 :       .beq main-camouflage-skip
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .trb.dp b8
 .label main-camouflage-skip
 :       .dex .dex
@@ -205,7 +205,7 @@ $main-camouflage
 $salve-target-group
 :       .jsl $salve-check-item-is-consumable
 :       .bne salve-target-group-return-normal
-:       .lda.addr.x 88 26
+:       .lda.addr.x 2688
 :       .bit 40
 :       .bne salve-target-group-return-normal
 :       .lda.addr $menu-active-character,2
@@ -216,14 +216,14 @@ $salve-target-group
 :       .jsl $jun-checker
 :       .beq salve-target-group-return-pull
 :       .plx
-:       .lda.addr.x 88 26
+:       .lda.addr.x 2688
 :       .ora 28
 :       .bra salve-target-group-return-new
 
 .label salve-target-group-return-pull
 :       .plx
 .label salve-target-group-return-normal
-:       .lda.addr.x 88 26
+:       .lda.addr.x 2688
 .label salve-target-group-return-new
 :       .sta.addr $selector-targeting-address,2
 :       .rtl
@@ -239,7 +239,7 @@ $salve-check-item-is-consumable
 :       .sbc.sr 01
 :       .tax
 :       .pla
-:       .lda 00 00
+:       .lda 0000
 :       .sep 20
 :       .lda.long.x $item-table-address
 :       .plx
@@ -256,7 +256,7 @@ $salve-check-item-is-consumable
 
 VALIDATION
 
-018925: .lda.addr.x 88 26
+018925: .lda.addr.x 2688
 :       .sta.addr $selector-targeting-address,2
 
 0258af: .beq 3c
@@ -267,5 +267,5 @@ VALIDATION
 :       .jsr.addr $old-bit-select,2
 :       .sta.dp b8
 
-025930: .lda.addr 2c 3f
+025930: .lda.addr 3f2c
 :       .trb.dp b8

@@ -16,15 +16,15 @@ $main
 :       .beq exit-normal
 
 :       .rep 20
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .sta.dp b8
 :       .jsl $jun-set-target-allies
 :       .sep 20
 
 :       .lda final-attack-command-index
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .lda phoenix-spell-index
-:       .sta.addr 7b 3a
+:       .sta.addr 3a7b
 :       .jsl $jun-queue-command
 :       .jml $return-fenix
 

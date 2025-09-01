@@ -12,37 +12,37 @@ $main
 :       .lda {{jun-index-barehanded}} 00
 :       .jsl $jun-checker
 :       .beq holding-equipment
-:       .lda.addr.x 10 30
+:       .lda.addr.x 3010
 :       .tax
-:       .lda.addr.x 1f 16
-:       .cmp ff ff
+:       .lda.addr.x 161f
+:       .cmp ffff
 :       .bne holding-equipment
-:       .lda.addr.x 08 16
-:       .and ff 00
-:       .ora 00 05
+:       .lda.addr.x 1608
+:       .and 00ff
+:       .ora 0500
 :       .jsl $jun-mult
 :       .clc
 :       .adc.dp ac
-:       .bit 00 ff
+:       .bit ff00
 :       .beq no-overflow
-:       .lda ff 00
+:       .lda 00ff
 .label no-overflow
 :       .plp .plx
-:       .sta.addr.x 68 3b
+:       .sta.addr.x 3b68
 :       .xba
-:       .ora.addr.x 68 3b
-:       .sta.addr.x 68 3b
+:       .ora.addr.x 3b68
+:       .sta.addr.x 3b68
 :       .rtl
 .label holding-equipment
 :       .plp .plx
 :       .lda.dp ac
-:       .sta.addr.x 68 3b
+:       .sta.addr.x 3b68
 :       .rtl
 
 VALIDATION
 
 0210e1: .lda.dp fd
-:       .adc.addr.y ac 11
+:       .adc.addr.y 11ac
 
 0228ea: .lda.dp ac
-:       .sta.addr.x 68 3b
+:       .sta.addr.x 3b68

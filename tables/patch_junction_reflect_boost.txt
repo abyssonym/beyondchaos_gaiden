@@ -11,11 +11,11 @@ $main
 :       .lda.sr 06
 :       .tax
 :       .rep 20
-:       .lda 00 00
+:       .lda 0000
 :       .pha
 :       .ldy 12
 .label loop
-:       .lda.addr.y 18 30
+:       .lda.addr.y 3018
 :       .and.sr 06
 :       .bne test-for-boost
 :       .jsl $jun-compare-x-y
@@ -36,7 +36,7 @@ $main
 
 :       .pla
 :       .bne boost-reflect
-:       .lsr.addr b0 11
+:       .lsr.addr 11b0
 :       .rtl
 
 .label boost-reflect
@@ -49,4 +49,4 @@ $main
 
 VALIDATION
 0234bb: .rep 20
-:       .lsr.addr b0 11
+:       .lsr.addr 11b0

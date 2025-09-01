@@ -8,11 +8,11 @@
 0222a8: .jml $main
 
 $main
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .lsr
 :       .bcs is-physical
 
-:       .lda.addr a4 11
+:       .lda.addr 11a4
 :       .bit 40
 :       .bne exit-check-level
 
@@ -26,7 +26,7 @@ $main
 
 :       .plx
 .label is-physical
-:       .lda.addr a4 11
+:       .lda.addr 11a4
 :       .jml $return-normal
 .label exit-check-level
 :       .jml $return-check-level

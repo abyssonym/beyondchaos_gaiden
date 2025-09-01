@@ -13,7 +13,7 @@ $main
 :       .cmp.sr 01
 :       .beq is-self-so-skip
 :       .pla .pla
-:       .sta.addr.y e0 32
+:       .sta.addr.y 32e0
 :       .rtl
 .label is-self-so-skip
 :       .pla .pla
@@ -22,6 +22,6 @@ $main
 VALIDATION
 
 023629: .ror
-:       .sta.addr.y e0 32
+:       .sta.addr.y 32e0
 023637: .ror
-:       .sta.addr.y e0 32
+:       .sta.addr.y 32e0

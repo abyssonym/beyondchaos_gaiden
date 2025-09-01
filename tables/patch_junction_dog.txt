@@ -7,16 +7,16 @@ $main
 :       .lda {{jun-index-dog}}
 :       .jsl $jun-checker-y
 :       .beq exit-normal
-:       .lda.addr.y f9 3e
+:       .lda.addr.y 3ef9
 :       .ora 40
 :       .asl
 :       .rtl
 .label exit-normal
-:       .lda.addr.y f9 3e
+:       .lda.addr.y 3ef9
 :       .asl
 :       .rtl
 
 VALIDATION
 
-022282: .lda.addr.y f9 3e
+022282: .lda.addr.y 3ef9
 :       .asl

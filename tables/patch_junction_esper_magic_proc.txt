@@ -15,12 +15,12 @@
 :       .nop
 
 $main
-:       .lda.addr a5 11
+:       .lda.addr 11a5
 :       .bne is-valid-proc
 :       .lda 02
 :       .cmp.dp b5
 :       .beq main-esper-proc-exit
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .cmp.dp b8
 :       .bne is-valid-proc
 :       .lda 12
@@ -30,7 +30,7 @@ $main
 .label is-valid-proc
 :       .lda.dp b5
 :       .beq skip-strikes-number-check
-:       .lda.addr 70 3a
+:       .lda.addr 3a70
 :       .bne main-esper-proc-exit
 .label skip-strikes-number-check
 :       .lda {{jun-index-esper-magic}}
@@ -39,13 +39,13 @@ $main
 :       .jsr.addr $get-esper-spell,2
 :       .cmp ff
 :       .beq main-esper-proc-exit
-:       .sta.addr 00 34
+:       .sta.addr 3400
 :       .lda 10
 :       .trb.dp b2
-:       .inc.addr 70 3a
+:       .inc.addr 3a70
 
 .label main-esper-proc-exit
-:       .lda.addr 01 34
+:       .lda.addr 3401
 :       .cmp ff
 :       .rtl
 
@@ -82,7 +82,7 @@ $get-esper-spell
 :       .rep 30
 :       .lda.sr 03
 :       .clc
-:       .adc 08 00
+:       .adc 0008
 :       .tax
 :       .sep 20
 
@@ -142,9 +142,9 @@ $check-esper-spell-targeting
 
 VALIDATION
 
-023250: .lda.addr 01 34
+023250: .lda.addr 3401
 :       .cmp ff
 
-023649: .lda.addr 89 3a
+023649: .lda.addr 3a89
 :       .bit 40
 :       .beq 15

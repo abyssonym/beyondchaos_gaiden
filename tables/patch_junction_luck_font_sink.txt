@@ -14,7 +14,7 @@
 VALIDATION
 
 024b53: .pha
-:       .jsr.addr 5a 4b
+:       .jsr.addr 4b5a
 :       .lsr
 
 024b5a: .phx

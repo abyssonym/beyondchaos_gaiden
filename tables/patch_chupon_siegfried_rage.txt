@@ -16,7 +16,7 @@ $main
 
 VALIDATION
 
-0249e0: .lda.addr 4b 2f                                     # 0249e3
+0249e0: .lda.addr 2f4b                                      # 0249e3
 
 $main
 :       ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff

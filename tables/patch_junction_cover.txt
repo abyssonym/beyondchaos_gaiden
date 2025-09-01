@@ -13,7 +13,7 @@
 021254: .jml $main
 
 $main
-:       .ldx.addr.y 6c 33
+:       .ldx.addr.y 336c
 :       .bmi check-junctions
 .label exit-with-bodyguard
 :       .jml $return-love-token
@@ -51,7 +51,7 @@ $main
 :       .dex .dex
 :       .bpl paladins-loop
 
-:       .cmp 00 00
+:       .cmp 0000
 :       .beq paladins-fail
 :       .jsl $jun-select-bit
 :       .jsl $jun-bit-to-index
@@ -63,7 +63,7 @@ $main
 
 .label check-popular
 :       .jsr.addr @get-potential-bodyguards,2
-:       .cmp 00 00
+:       .cmp 0000
 :       .beq popular-fail
 :       .jsl $jun-select-bit
 :       .jsl $jun-bit-to-index
@@ -74,22 +74,22 @@ $main
 :       .rts
 
 .label get-potential-bodyguards
-:       .lda 00 00
+:       .lda 0000
 :       .ldx 12
 :       .pha
 .label potential-loop
-:       .lda.addr.x a0 3a
+:       .lda.addr.x 3aa0
 :       .lsr
 :       .bcc potential-skip
-:       .lda.addr.x b8 32
+:       .lda.addr.x 32b8
 :       .bpl potential-skip
-:       .lda.addr.x 58 33
+:       .lda.addr.x 3358
 :       .bpl potential-skip
-:       .lda.addr.x e4 3e
-:       .bit d2 a0
+:       .lda.addr.x 3ee4
+:       .bit a0d2
 :       .bne potential-skip
-:       .lda.addr.x f8 3e
-:       .bit 10 32
+:       .lda.addr.x 3ef8
+:       .bit 3210
 :       .bne potential-skip
 :       .jsl $jun-check-entity-living
 :       .beq potential-skip
@@ -120,11 +120,11 @@ $main
 :       .and.addr $acting-as-enemies,2
 :       .bne potential-is-monster
 :       .pla
-:       .and 0f 00
+:       .and 000f
 :       .rts
 .label potential-is-monster
 :       .pla
-:       .and f0 ff
+:       .and fff0
 :       .rts
 .label potential-pull-exit
 :       .pla
@@ -133,5 +133,5 @@ $main
 VALIDATION
 
 021253: .phx
-:       .ldx.addr.y 6c 33
+:       .ldx.addr.y 336c
 :       .bmi 06

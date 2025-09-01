@@ -32,15 +32,15 @@ $main-umaro
 .label exit-berserk
 :       .plx
 :       .lda fd
-:       .and.addr.x a0 3a
-:       .sta.addr.x a0 3a
+:       .and.addr.x 3aa0
+:       .sta.addr.x 3aa0
 :       .pla
 :       .jml $return-umaro
 .label exit-not-berserk
 :       .plx
 :       .lda 02
-:       .ora.addr.x a0 3a
-:       .sta.addr.x a0 3a
+:       .ora.addr.x 3aa0
+:       .sta.addr.x 3aa0
 :       .pla
 :       .jml $return-not-umaro
 .label exit-just-exit

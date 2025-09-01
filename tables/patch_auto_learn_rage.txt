@@ -1,17 +1,17 @@
-024840: .jsr.addr 07 4a
-:       .jml 00 72 f0
+024840: .jsr.addr 4a07
+:       .jml f07200
 
-307200: .ldx.addr 0b 30
+307200: .ldx.addr 300b
 :       .bmi no-gau
 :       .lda 01
-:       .jml 47 48 c2
+:       .jml c24847
 .label no-gau
-:       .jml 61 48 c2
+:       .jml c24861
 
 VALIDATION
 
-024840: .ldx.addr 0b 30
+024840: .ldx.addr 300b
 :       .bmi 1c
 :       .lda 01
-024847: .trb.addr e4 11
-024861: .ldx.addr 03 30
+024847: .trb.addr 11e4
+024861: .ldx.addr 3003

@@ -23,16 +23,16 @@
 02597a: .jsl $main-lucid-dead
 
 $main-focus
-:       .pea c2 b0
-:       .pea 01 21
+:       .pea b0c2
+:       .pea 2101
 
 :       .jsr.addr $check-focus,2
 :       .beq no-focus
 :       .rep 20
-:       .lda ff cf
+:       .lda cfff
 :       .and.sr 03
 :       .sta.sr 03
-:       .lda fe fe
+:       .lda fefe
 :       .and.sr 01
 :       .sta.sr 01
 :       .sep 20
@@ -41,20 +41,20 @@ $main-focus
 :       .jsr.addr $check-lucid-dead,2
 :       .beq no-lucid-dead
 :       .rep 20
-:       .lda fd ff
+:       .lda fffd
 :       .and.sr 03
 :       .sta.sr 03
 :       .sep 20
 
 .label no-lucid-dead
-:       .lda.addr.x 18 30
-:       .bit.addr 2c 3f
+:       .lda.addr.x 3018
+:       .bit.addr 3f2c
 :       .beq main-focus-exit
 :       .lda {{jun-index-highwind}}
 :       .jsl $jun-checker
 :       .beq main-focus-exit
 :       .rep 20
-:       .lda ff df
+:       .lda dfff
 :       .and.sr 01
 :       .sta.sr 01
 :       .sep 20
@@ -76,11 +76,11 @@ $check-able-bodied
 :       .beq exit-not-able-bodied
 
 :       .rep 20
-:       .lda c2 b8
-:       .bit.addr.x e4 3e
+:       .lda b8c2
+:       .bit.addr.x 3ee4
 :       .bne exit-not-able-bodied
-:       .lda 10 22
-:       .bit.addr.x f8 3e
+:       .lda 2210
+:       .bit.addr.x 3ef8
 :       .bne exit-not-able-bodied
 
 .label exit-able-bodied
@@ -180,8 +180,8 @@ $check-focus
 
 VALIDATION
 
-020956: .pea c2 b0
-:       .pea 01 21
+020956: .pea b0c2
+:       .pea 2101
 
 02597a: .lda 40
 :       .tsb.dp b8

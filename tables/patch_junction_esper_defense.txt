@@ -9,7 +9,7 @@
 $main
 :       .pha .phx .phy
 :       .rep 10
-:       .cpx 08 00
+:       .cpx 0008
 :       .bcs no-junction
 :       .txy
 
@@ -18,63 +18,63 @@ $main
 :       .tax
 
 :       .sep 20
-:       .lda.long.x 01 00 c4
-:       .ora.addr.y cd 3b
-:       .sta.addr.y cd 3b
+:       .lda.long.x c40001
+:       .ora.addr.y 3bcd
+:       .sta.addr.y 3bcd
 :       .rep 20
 
-:       .lda.long.x 00 00 c4
-:       .bit 40 00
+:       .lda.long.x c40000
+:       .bit 0040
 :       .bne target-enemy
 # check whether the esper restores instead of inflicts status
-:       .lda.long.x 04 00 c4
-:       .bit 04 00
+:       .lda.long.x c40004
+:       .bit 0004
 :       .beq no-junction
 
 .label target-enemy
-:       .lda.long.x 0a 00 c4
-:       .and.addr.y 1c 33
-:       .eor.addr.y 1c 33
-:       .sta.addr.y 1c 33
-:       .lda.long.x 0c 00 c4
-:       .and.addr.y 30 33
-:       .eor.addr.y 30 33
-:       .sta.addr.y 30 33
+:       .lda.long.x c4000a
+:       .and.addr.y 331c
+:       .eor.addr.y 331c
+:       .sta.addr.y 331c
+:       .lda.long.x c4000c
+:       .and.addr.y 3330
+:       .eor.addr.y 3330
+:       .sta.addr.y 3330
 
 .label no-junction
 :       .sep 10
 :       .ply .plx .pla
 :       .lda.dp d8
-:       .sta.addr.x 58 3c
+:       .sta.addr.x 3c58
 :       .rtl
 
 $check-esper-defense
 :       .rep 30
-:       .cpy 08 00
+:       .cpy 0008
 :       .bcs check-esper-defense-fail
 :       .lda {{jun-index-esper-defense}} 00
 :       .jsl $jun-checker
 :       .beq check-esper-defense-fail
-:       .lda.addr.y 10 30
+:       .lda.addr.y 3010
 :       .clc
-:       .adc 1e 16
+:       .adc 161e
 :       .tax
-:       .lda.addr.x 00 00
-:       .and ff 00
-:       .cmp ff 00
+:       .lda.addr.x 0000
+:       .and 00ff
+:       .cmp 00ff
 :       .beq check-esper-defense-fail
 :       .clc
-:       .adc 36 00
-:       .ora 00 0e
+:       .adc 0036
+:       .ora 0e00
 :       .jsl $jun-mult
 :       .clc
-:       .adc c0 6a
+:       .adc 6ac0
 :       .rts
 .label check-esper-defense-fail
-:       .lda 00 00
+:       .lda 0000
 :       .rts
 
 VALIDATION
 
 02293d: .lda.dp d8
-:       .sta.addr.x 58 3c
+:       .sta.addr.x 3c58

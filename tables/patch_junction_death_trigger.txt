@@ -29,11 +29,11 @@ $main
 :       .phx
 :       .tyx
 :       .rep 20
-:       .lda.addr.y e4 3e
-:       .bit 80 00
+:       .lda.addr.y 3ee4
+:       .bit 0080
 :       .bne skip-everything
-:       .lda.addr 1a 34
-:       .and ff 00
+:       .lda.addr 341a
+:       .and 00ff
 :       .beq skip-everything
 :       .bra do-stuff
 .label skip-everything
@@ -41,7 +41,7 @@ $main
 .label do-stuff
 :       .lda.dp b8
 :       .pha
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .sta.dp b8
 :       .sep 20
 
@@ -69,12 +69,12 @@ $main
 :       .beq no-esper
 
 :       .lda summon-command-index
-:       .sta.addr 7a 3a
-:       .stz.addr 7b 3a
+:       .sta.addr 3a7a
+:       .stz.addr 3a7b
 
 :       .lda 80
-:       .ora.addr.x 04 32
-:       .sta.addr.x 04 32
+:       .ora.addr.x 3204
+:       .sta.addr.x 3204
 :       .jsl $jun-queue-command
 
 .label no-esper
@@ -92,20 +92,20 @@ $main
 :       .pla
 :       .sta.dp b8
 .label main-finish
-:       .lda 80 00
+:       .lda 0080
 :       .trb.dp f4
 :       .plx
 :       .rtl
 
 .label queue-final-attack
-:       .sta.addr 7b 3a
+:       .sta.addr 3a7b
 :       .lda final-attack-command-index
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .jsl $jun-queue-command
 :       .rts
 
 .label check-already-death
-:       .lda.addr.y 18 30
+:       .lda.addr.y 3018
 :       .cpx 08
 :       .bcs already-death-is-monster
 :       .bit.addr $character-died-flag,2
@@ -115,34 +115,34 @@ $main
 :       .rts
 
 $main-rippler-instant-death
-:       .lda.addr.x a1 3a
+:       .lda.addr.x 3aa1
 :       .bit death-prot-bit
 :       .beq attacker-skip
-:       .lda.addr.x d4 3d
+:       .lda.addr.x 3dd4
 :       .bit death-bit
 :       .beq attacker-skip
 :       .eor death-bit
-:       .sta.addr.x d4 3d
+:       .sta.addr.x 3dd4
 
 .label attacker-skip
-:       .lda.addr.y a1 3a
+:       .lda.addr.y 3aa1
 :       .bit death-prot-bit
 :       .beq defender-skip
-:       .lda.addr.y d4 3d
+:       .lda.addr.y 3dd4
 :       .bit death-bit
 :       .beq defender-skip
 :       .eor death-bit
-:       .sta.addr.y d4 3d
+:       .sta.addr.y 3dd4
 
 .label defender-skip
-:       .lda.addr.x f8 3e
-:       .and.addr.y f8 3e
+:       .lda.addr.x 3ef8
+:       .and.addr.y 3ef8
 :       .rtl
 
 VALIDATION
 
-023c2a: .lda.addr.x f8 3e
-:       .and.addr.y f8 3e
+023c2a: .lda.addr.x 3ef8
+:       .and.addr.y 3ef8
 
-024606: .lda 80 00
+024606: .lda 0080
 :       .trb.dp f4

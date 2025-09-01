@@ -5,25 +5,25 @@
 022226: .jml $main
 
 $main
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .lsr
 :       .bcs exit-miss-physical
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .bit 02
 :       .beq exit-hit
-:       .lda.addr.y a1 3a
+:       .lda.addr.y 3aa1
 :       .bit 04
 :       .bne exit-miss-instant-death
 .label exit-hit
 :       .jml $return-hit
 .label exit-miss-instant-death
-:       .lda.addr.y fc 3d
+:       .lda.addr.y 3dfc
 :       .ora 10
-:       .sta.addr.y fc 3d
+:       .sta.addr.y 3dfc
 .label exit-miss-physical
 :       .jml $return-miss
 
 VALIDATION
 
-022226: .lda.addr a2 11
+022226: .lda.addr 11a2
 :       .lsr

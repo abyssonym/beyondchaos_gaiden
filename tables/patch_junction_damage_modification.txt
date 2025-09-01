@@ -49,8 +49,8 @@ $main
 :       .beq no-esper-main
 :       .phx
 :       .jsr.addr $get-esper-data-offset,2
-:       .lda.long.x 01 00 c4
-:       .tsb.addr a1 11
+:       .lda.long.x c40001
+:       .tsb.addr 11a1
 :       .sep 10
 :       .plx
 
@@ -79,12 +79,12 @@ $main
 :       .jsr.addr $main-misc,2
 
 :       .phx
-:       .ldx.addr e2 11
+:       .ldx.addr 11e2
 :       .lda.long.x $background-dances-address
 :       .tax
 :       .lda.long.x @gaia-elements-address,3
 :       .plx
-:       .bit.addr a1 11
+:       .bit.addr 11a1
 :       .beq no-gaia-boost
 :       .lda {{jun-index-gaia-boost}}
 :       .jsl $jun-checker
@@ -99,7 +99,7 @@ $main
 
 .label no-atma-force
 :       .ply .plx .pla
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .lsr
 :       .jml $return
 
@@ -114,22 +114,22 @@ $main-misc
 :       .jsl $jun-checker
 :       .beq no-loner
 
-:       .lda 00 00
+:       .lda 0000
 :       .pha
-:       .lda.addr.x 18 30
-:       .bit 0f 00
+:       .lda.addr.x 3018
+:       .bit 000f
 :       .beq no-characters
-:       .ora 0f 00
+:       .ora 000f
 .label no-characters
-:       .bit 00 3f
+:       .bit 3f00
 :       .beq no-monsters
-:       .ora 00 3f
+:       .ora 3f00
 .label no-monsters
 :       .pha
 
 :       .ldx 12
 .label loner-loop
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .and.sr 01
 :       .beq loner-skip
 :       .jsl $jun-check-entity-living
@@ -142,16 +142,16 @@ $main-misc
 :       .bpl loner-loop
 
 :       .pla
-:       .lda 05 00
+:       .lda 0005
 :       .sec
 :       .sbc.sr 01
 :       .bpl no-underflow
-:       .lda 00 00
+:       .lda 0000
 .label no-underflow
 :       .sta.sr 01
 :       .pla
 :       .tax
-:       .lsr.addr b0 11
+:       .lsr.addr 11b0
 :       .jsr.addr $multiply-damage,2
 :       .plx .phx
 
@@ -160,9 +160,9 @@ $main-misc
 :       .jsl $jun-checker
 :       .beq no-junction
 
-:       .lsr.addr b0 11
-:       .lsr.addr b0 11
-:       .lda.addr.x f4 3b
+:       .lsr.addr 11b0
+:       .lsr.addr 11b0
+:       .lda.addr.x 3bf4
 :       .ldx 0a
 :       .jsl $jun-divide
 :       .jsr.addr $multiply-damage,2
@@ -180,23 +180,23 @@ $do-atma-force
 :       .jsr.addr @af-get-current-hp,2
 :       .tax
 :       .ply
-:       .lda.addr b0 11
+:       .lda.addr 11b0
 :       .jsr.addr @af-multiply-damage,2
 
 :       .pha
 :       .clc
 :       .adc.sr 01
 :       .bcc af-no-carry-1
-:       .lda ff ff
+:       .lda ffff
 .label af-no-carry-1
 :       .clc
 :       .adc.sr 01
 :       .bcc af-no-carry-2
-:       .lda ff ff
+:       .lda ffff
 .label af-no-carry-2
 :       .sta.sr 01
 :       .pla
-:       .sta.addr b0 11
+:       .sta.addr 11b0
 
 :       .ply .plx .pla
 :       .plp
@@ -205,11 +205,11 @@ $do-atma-force
 # hp-growths-address
 .label af-get-expected-hp
 :       .phx
-:       .lda 00 00
+:       .lda 0000
 :       .pha
-:       .cpx 08 00
+:       .cpx 0008
 :       .bcs af-get-expected-is-monster
-:       .ldy 06 00
+:       .ldy 0006
 .label af-get-expected-human-loop
 :       .tyx
 :       .jsl $jun-check-entity-present
@@ -224,11 +224,11 @@ $do-atma-force
 :       .bpl af-get-expected-human-loop
 :       .bra af-get-expected-exit
 .label af-get-expected-is-monster
-:       .ldy 0a 00
+:       .ldy 000a
 .label af-get-expected-monster-loop
 :       .tya
 :       .clc
-:       .adc 08 00
+:       .adc 0008
 :       .tax
 :       .jsl $jun-check-entity-present
 :       .beq af-get-expected-monster-skip
@@ -249,21 +249,21 @@ $do-atma-force
 
 .label af-calculate-expected-hp
 :       .phy
-:       .lda 23 00
+:       .lda 0023
 :       .pha
 :       .ldy.addr.x $character-info,2
 :       .lda.addr.y $character-base-level-address,2
-:       .and ff 00
+:       .and 00ff
 :       .dec .dec
 :       .bmi af-calculate-expected-exit
 :       .tax
 .label af-calculate-expected-loop
 :       .lda.long.x $hp-growths-address
-:       .and ff 00
+:       .and 00ff
 :       .clc
 :       .adc.sr 01
 :       .bcc af-calculate-expected-no-overflow
-:       .lda 0f 27
+:       .lda 270f
 .label af-calculate-expected-no-overflow
 :       .sta.sr 01
 :       .dex
@@ -275,11 +275,11 @@ $do-atma-force
 
 .label af-get-current-hp
 :       .phx
-:       .lda 00 00
+:       .lda 0000
 :       .pha
-:       .cpx 08 00
+:       .cpx 0008
 :       .bcs af-get-current-is-monster
-:       .ldy 06 00
+:       .ldy 0006
 .label af-get-current-human-loop
 :       .tyx
 :       .jsl $jun-check-entity-present
@@ -292,11 +292,11 @@ $do-atma-force
 :       .bpl af-get-current-human-loop
 :       .bra af-get-current-exit
 .label af-get-current-is-monster
-:       .ldy 0a 00
+:       .ldy 000a
 .label af-get-current-monster-loop
 :       .tya
 :       .clc
-:       .adc 08 00
+:       .adc 0008
 :       .tax
 :       .jsl $jun-check-entity-present
 :       .beq af-get-current-monster-skip
@@ -349,12 +349,12 @@ $do-atma-force
 :       .rts
 
 $multiply-damage
-:       .lda 00 00
+:       .lda 0000
 .label multiply-loop
 :       .cpx 00
 :       .beq end-multiply-loop
 :       .clc
-:       .adc.addr b0 11
+:       .adc.addr 11b0
 :       .bcc no-overflow
 :       .tdc
 :       .dec
@@ -363,7 +363,7 @@ $multiply-damage
 :       .dex
 :       .bra multiply-loop
 .label end-multiply-loop
-:       .sta.addr b0 11
+:       .sta.addr 11b0
 :       .rts
 
 $check-element
@@ -373,7 +373,7 @@ $check-element
 :       .tax
 :       .lda.long.x $bits
 :       .plx
-:       .bit.addr a1 11
+:       .bit.addr 11a1
 :       .beq check-element-pull-exit
 :       .pla
 :       .jsl $jun-checker
@@ -432,12 +432,12 @@ $check-esper
 :       .rts
 
 $check-nuke
-:       .lda.addr a1 11
+:       .lda.addr 11a1
 :       .bne not-nuke
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .bit 01
 :       .bne not-nuke
-:       .lda.addr a4 11
+:       .lda.addr 11a4
 :       .bit 81
 :       .bne not-nuke
 
@@ -469,7 +469,7 @@ $check-nuke
 :       .rts
 
 $check-phys
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .bit 01
 :       .beq not-phys
 
@@ -503,47 +503,47 @@ $check-phys
 $boost-damage-half
 :       .pha .php
 :       .rep 20
-:       .lda.addr b0 11
+:       .lda.addr 11b0
 :       .lsr
 :       .clc
-:       .adc.addr b0 11
+:       .adc.addr 11b0
 :       .bcc no-overflow-half
-:       .lda ff ff
+:       .lda ffff
 .label no-overflow-half
-:       .sta.addr b0 11
+:       .sta.addr 11b0
 :       .plp .pla
 :       .rts
 
 $boost-damage-quarter
 :       .pha .php
 :       .rep 20
-:       .lda.addr b0 11
+:       .lda.addr 11b0
 :       .lsr .lsr
 :       .clc
-:       .adc.addr b0 11
+:       .adc.addr 11b0
 :       .bcc no-overflow-quarter
-:       .lda ff ff
+:       .lda ffff
 .label no-overflow-quarter
-:       .sta.addr b0 11
+:       .sta.addr 11b0
 :       .plp .pla
 :       .rts
 
 $reduce-damage-quarter
 :       .pha .php
 :       .rep 20
-:       .lda.addr b0 11
+:       .lda.addr 11b0
 :       .lsr
-:       .sta.addr b0 11
+:       .sta.addr 11b0
 :       .lsr
 :       .clc
-:       .adc.addr b0 11
-:       .sta.addr b0 11
+:       .adc.addr 11b0
+:       .sta.addr 11b0
 :       .plp .pla
 :       .rts
 
 VALIDATION
 
-02336f: .lda.addr a2 11
+02336f: .lda.addr 11a2
 :       .lsr
 
 0247b7: .php

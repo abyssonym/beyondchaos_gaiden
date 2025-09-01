@@ -3,9 +3,9 @@
 .def uneq-addr              40 78 f0
 .def chkesp-addr            10 78 f0
 
-035b7d: .jsr.addr cd 5b
-035f36: .jsr.addr cd 5b
-036006: .jsr.addr cd 5b
+035b7d: .jsr.addr 5bcd
+035f36: .jsr.addr 5bcd
+036006: .jsr.addr 5bcd
 
 035bcd: .jml chkesp-addr
 
@@ -32,7 +32,7 @@
 : .asl                              # asl
 : .tax                              # tax
 : .rep 20                           # rep #$20
-: .lda.long.x 56 a4 c3              # lda $c3a456,x (character bit mask)
+: .lda.long.x c3a456                # lda $c3a456,x (character bit mask)
 : .plx                              # plx
 : .and.long.x char-esper-addr       # and $char-esper-addr,x (character-esper data)
 : .beq no-eq                        # beq
@@ -41,18 +41,18 @@
 : .plp                              # plp
 : .plx                              # plx
 : .ldx.dp 00                        # ldx $00
-: .jml d1 5b c3                # jml $c35bd1 (esper color)
+: .jml c35bd1                  # jml $c35bd1 (esper color)
 
 # NoEq
 .label no-eq
 : .plp                              # plp
 : .plx                              # plx
 : .lda 28                           # lda #$28 (color: gray)
-: .jml ee 5b c3                # jml $c35bee (esper color)
+: .jml c35bee                  # jml $c35bee (esper color)
 
 # Uneq
 307840:
-: .lda.addr.x 02 16                 # lda $1602,x (name letter)
+: .lda.addr.x 1602                  # lda $1602,x (name letter)
 : .cmp 80                           # cmp #$80  (???)
 : .bcs someone-else-equipped        # bcs
 : .plx                              # plx
@@ -60,17 +60,17 @@
 .label cant-equip-loop
 : .lda.long.x cant-equip-text-addr  # lda $cant-equip-text-addr,x (can't equip text?)
 : .beq terminate-cant-equip-loop    # beq
-: .sta.addr 80 21                   # sta $2180
+: .sta.addr 2180                    # sta $2180
 : .inx                              # inx
 : .bra cant-equip-loop              # bra
 .label someone-else-equipped
 : .lda 20                           # lda #$20 (palette 0)
 : .sta.dp 29                        # sta $29 (color: user's)
-: .jml f7 5b c3                # jml $c35bf7 (back to where we were)
+: .jml c35bf7                  # jml $c35bf7 (back to where we were)
 .label terminate-cant-equip-loop
-: .stz.addr 80 21                   # stz $2180
+: .stz.addr 2180                    # stz $2180
 #:5c d9 7f c3                        # jml $c37fd9 (draw string)
-: .jml 92 43 c3                # jml $c34392 (draw string)
+: .jml c34392                  # jml $c34392 (draw string)
 
 307870:
 : 00

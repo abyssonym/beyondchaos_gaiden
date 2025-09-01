@@ -8,7 +8,7 @@ $main
 :       .phx
 :       .txa
 :       .sec
-:       .sbc 14 00
+:       .sbc 0014
 :       .bmi using-hp
 :       .tax
 .label using-hp
@@ -23,12 +23,12 @@ $main
 :       .clc
 :       .adc.dp f0
 :       .bcc no-overflow
-:       .lda fe ff
+:       .lda fffe
 .label no-overflow
 :       .sta.dp f0
 
 # uncap damage done (based on drainer's HP/MP)
-:       .lda 00 80
+:       .lda 8000
 :       .trb.dp b1
 
 :       .bra yes-ravenous
@@ -36,14 +36,14 @@ $main
 :       .plx
 .label yes-ravenous
 # cap damage done (based on drainee's HP/MP)
-:       .lda.addr.y f4 3b
+:       .lda.addr.y 3bf4
 :       .cmp.dp f0
 :       .bcs enough-hp
 :       .sta.dp f0
 .label enough-hp
 
 # deal minimum 1 damage for seize effect
-:       .cmp 00 00
+:       .cmp 0000
 :       .bne nonzero-damage
 :       .lda.dp b1
 :       .bmi nonzero-damage
@@ -54,7 +54,7 @@ $main
 
 VALIDATION
 
-020e02: .lda.addr.y f4 3b
+020e02: .lda.addr.y 3bf4
 :       .cmp.dp f0
 :       .bcs 02
 :       .sta.dp f0

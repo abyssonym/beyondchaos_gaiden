@@ -17,10 +17,10 @@ $main
 
 .label is-player-character
 :       .rep 30
-:       .lda.addr.x 10 30
+:       .lda.addr.x 3010
 :       .tax
 :       .sep 20
-:       .lda.addr.x 1e 16
+:       .lda.addr.x 161e
 :       .cmp ff
 :       .sep 10
 :       .beq no-esper
@@ -33,7 +33,7 @@ $main
 :       .sta.dp b5
 :       .stz.dp b8
 :       .stz.dp b9
-:       .stz.addr 15 34
+:       .stz.addr 3415
 :       .tyx
 
 :       .jsl $jun-check-entity-living

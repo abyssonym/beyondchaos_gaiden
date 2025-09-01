@@ -10,13 +10,13 @@ $main
 :       .jsl $jun-checker
 :       .beq no-junction
 :       .rep 20
-:       .lda.addr b0 11
+:       .lda.addr 11b0
 :       .lsr
-:       .adc.addr b0 11
+:       .adc.addr 11b0
 :       .bcc no-overflow
-:       .lda ff ff
+:       .lda ffff
 .label no-overflow
-:       .sta.addr b0 11
+:       .sta.addr 11b0
 :       .sep 20
 .label no-junction
 :       .rtl

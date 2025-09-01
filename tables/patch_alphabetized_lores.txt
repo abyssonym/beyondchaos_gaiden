@@ -34,21 +34,21 @@ $main-c26
 
 $main-c3f
 :       .tdc
-:       .ldx 89 9d
-:       .stx.addr 81 21
+:       .ldx 9d89
+:       .stx.addr 2181
 :       .ldx.dp 00
 :       .lda.long.x $lore-order
 :       .tay .phx .clc
 :       .jsl @main-c2f,3
-:       .bit.addr.x 29 1d
+:       .bit.addr.x 1d29
 :       .beq 03
 :       .tya
 :       .bra 02
 :       .lda ff
-:       .sta.addr 80 21
+:       .sta.addr 2180
 :       .plx
 :       .inx
-:       .cpx 18 00
+:       .cpx 0018
 :       .bne e1
 :       .rts
 

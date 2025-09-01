@@ -84,7 +84,7 @@ $get-command-jump
 :       .lda.long.x $jun-command-table-address
 :       .sta.dp 10
 :       .sep 20
-:       .jmp.addr.i.long 10 00
+:       .jmp.addr.i.long 0010
 
 VALIDATION
 

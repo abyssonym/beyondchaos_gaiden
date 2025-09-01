@@ -16,7 +16,7 @@
 $main-enemy-steal
 :       .phx
 :       .tyx
-:       .inc.addr 01 34
+:       .inc.addr 3401
 :       .lda {{jun-index-maintenance}}
 :       .jsl $jun-checker
 :       .beq steal-no-maintenance
@@ -41,7 +41,7 @@ $main-ogre-nix
 :       .rtl
 
 VALIDATION
-023a0c: .inc.addr 01 34
+023a0c: .inc.addr 3401
 :       .jsr.addr $old-rng2,2
 
 023ee4: .jsr.addr $old-rng3,2

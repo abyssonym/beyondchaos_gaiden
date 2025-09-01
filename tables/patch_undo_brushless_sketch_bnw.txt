@@ -3,5 +3,5 @@
 
 VALIDATION
 
-02529b: .jsr.addr e8 53
+02529b: .jsr.addr 53e8
 035f44: .bcs 04

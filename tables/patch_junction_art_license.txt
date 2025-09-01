@@ -17,7 +17,7 @@
 
 $main-level
 :       .phy
-:       .lda.addr 17 34
+:       .lda.addr 3417
 :       .bmi exit-normal
 
 :       .txy
@@ -26,41 +26,41 @@ $main-level
 :       .jsl $jun-checker
 :       .beq exit-normal
 
-:       .lda.addr.x 18 3b
-:       .cmp.addr.y 18 3b
+:       .lda.addr.x 3b18
+:       .cmp.addr.y 3b18
 :       .bcs level-is-greater
-:       .lda.addr.y 18 3b
+:       .lda.addr.y 3b18
 .label level-is-greater
-:       .sta.addr af 11
+:       .sta.addr 11af
 
 :       .lda 01
-:       .bit.addr a2 11
+:       .bit.addr 11a2
 :       .beq not-physical
 
-:       .lda.addr.x 2c 3b
-:       .cmp.addr.y 2c 3b
+:       .lda.addr.x 3b2c
+:       .cmp.addr.y 3b2c
 :       .bcs vigor-is-greater
-:       .lda.addr.y 2c 3b
+:       .lda.addr.y 3b2c
 .label vigor-is-greater
-:       .sta.addr ae 11
+:       .sta.addr 11ae
 :       .bra skip-mpower
 
 .label not-physical
-:       .lda.addr.x 41 3b
-:       .cmp.addr.y 41 3b
+:       .lda.addr.x 3b41
+:       .cmp.addr.y 3b41
 :       .bcs mpower-is-greater
-:       .lda.addr.y 41 3b
+:       .lda.addr.y 3b41
 .label mpower-is-greater
-:       .sta.addr ae 11
+:       .sta.addr 11ae
 
 .label skip-mpower
 :       .lda 20
-:       .tsb.addr a4 11
+:       .tsb.addr 11a4
 :       .ply
 :       .rtl
 .label exit-normal
-:       .lda.addr.x 18 3b
-:       .sta.addr af 11
+:       .lda.addr.x 3b18
+:       .sta.addr 11af
 :       .ply
 :       .rtl
 
@@ -68,7 +68,7 @@ $main-sketch-rate
 :       .lda {{jun-index-art-license}}
 :       .jsl $jun-checker
 :       .bne exit-sketch-rate-success
-:       .lda.addr.x 45 3c
+:       .lda.addr.x 3c45
 :       .lsr .lsr .lsr
 :       .jml $sketch-rate-return-normal
 .label exit-sketch-rate-success
@@ -78,7 +78,7 @@ $main-sketch-ailments
 :       .phx
 :       .sep 20
 
-:       .lda.addr 17 34
+:       .lda.addr 3417
 :       .bmi ailments-not-sketching
 :       .tax
 
@@ -87,27 +87,27 @@ $main-sketch-ailments
 :       .beq ailments-not-sketching
 
 :       .rep 20
-:       .lda.addr.y d4 3d
+:       .lda.addr.y 3dd4
 :       .sta.dp fc
-:       .lda.addr.y e8 3d
+:       .lda.addr.y 3de8
 :       .sta.dp fe
 
 .label ailments-not-sketching
 :       .rep 20
 :       .plx
-:       .lda.addr.y e4 3e
+:       .lda.addr.y 3ee4
 :       .sta.dp f8
 :       .rtl
 
 VALIDATION
 
-022c22: .lda.addr 17 34
+022c22: .lda.addr 3417
 :       .bmi 01
 :       .tax
-:       .lda.addr.x 18 3b
+:       .lda.addr.x 3b18
 
-023b37: .lda.addr.x 45 3c
+023b37: .lda.addr.x 3c45
 :       .lsr .lsr .lsr
 
-024527: .lda.addr.y e4 3e
+024527: .lda.addr.y 3ee4
 :       .sta.dp f8

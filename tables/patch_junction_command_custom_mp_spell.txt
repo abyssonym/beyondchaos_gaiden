@@ -16,8 +16,8 @@ $main
 :       .sta.dp b5
 
 :       .lda.dp b7
-:       .sta.addr 4c 3a
-:       .sta.addr a5 11
+:       .sta.addr 3a4c
+:       .sta.addr 11a5
 :       .lda ff
 :       .sta.dp b7
 

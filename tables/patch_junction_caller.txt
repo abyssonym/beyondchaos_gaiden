@@ -58,7 +58,7 @@ $main-multicast
 :       .pla
 :       .tyx
 :       .sec
-:       .bit.addr 2e 3f
+:       .bit.addr 3f2e
 :       .rtl
 .label allow-multicast
 :       .pla
@@ -94,7 +94,7 @@ $no-select-disabled-esper
 :       .lda.dp 04
 :       .bpl no-select-no-select
 :       .jsr.addr $get-esper-menu-offset,2
-:       .lda.addr.x 8f 20
+:       .lda.addr.x 208f
 :       .bmi no-select-no-select
 :       .jml $no-select-return-select
 .label no-select-no-select
@@ -111,7 +111,7 @@ $get-next-esper
 :       .dex
 :       .cpx overflow-index 00
 :       .bne right-no-overflow
-:       .ldx 00 00
+:       .ldx 0000
 :       .bra left-no-underflow
 .label  right-no-overflow
 :       .bcc left-no-underflow
@@ -126,8 +126,8 @@ $get-next-esper
 
 $setup-esper-list-iteration
 :       .jsr.addr $get-esper-menu-offset,2
-:       .lda.addr.x 8e 20
-:       .ldx 00 00
+:       .lda.addr.x 208e
+:       .ldx 0000
 .label setup-loop
 :       .cmp.long.x $esper-order-address
 :       .beq end-setup-loop
@@ -144,9 +144,9 @@ $check-esper-available
 :       .and 03
 :       .asl
 :       .tax
-:       .lda.addr.x 10 30
+:       .lda.addr.x 3010
 :       .tax
-:       .lda.addr.x 1e 16
+:       .lda.addr.x 161e
 :       .cmp.sr 05
 :       .beq esper-is-available
 :       .lda.sr 05
@@ -154,7 +154,7 @@ $check-esper-available
 :       .beq esper-is-not-available
 :       .jsr.addr $check-can-equip-esper,2
 :       .beq esper-is-not-available
-:       .ldx 1e 00
+:       .ldx 001e
 .label esper-available-loop
 :       .txa
 :       .lsr
@@ -162,7 +162,7 @@ $check-esper-available
 :       .lda 25
 :       .jsl $jun-mult
 :       .tay
-:       .lda.addr.y 1e 16
+:       .lda.addr.y 161e
 :       .cmp.sr 05
 :       .beq esper-is-not-available
 :       .dex .dex
@@ -186,7 +186,7 @@ $check-esper-owned
 :       .tax
 :       .lda.long.x $bits
 :       .plx
-:       .bit.addr.x 69 1a
+:       .bit.addr.x 1a69
 :       .bne esper-is-owned
 :       .pla
 :       .rep 10
@@ -202,7 +202,7 @@ $check-can-equip-esper
 :       .lda.addr $menu-active-character,2
 :       .asl
 :       .tax
-:       .lda.addr.x d8 3e
+:       .lda.addr.x 3ed8
 :       .asl
 :       .tax
 :       .pla
@@ -228,27 +228,27 @@ $set-new-esper
 :       .asl
 :       .tax
 :       .pla .pha
-:       .sta.addr.x 44 33
-:       .ldy.addr.x 10 30
+:       .sta.addr.x 3344
+:       .ldy.addr.x 3010
 :       .pla
-:       .sta.addr.y 1e 16
+:       .sta.addr.y 161e
 :       .jsr.addr $get-esper-menu-offset,2
-:       .sta.addr.x 8e 20
+:       .sta.addr.x 208e
 :       .cmp ff
 :       .beq set-new-is-empty
 :       .jsr.addr $get-mp-cost-targeting,2
-:       .sta.addr.x 91 20
+:       .sta.addr.x 2091
 :       .xba
-:       .sta.addr.x 90 20
+:       .sta.addr.x 2090
 :       .bra set-new-check-castable
 .label set-new-is-empty
 :       .lda ff
-:       .sta.addr.x 91 20
+:       .sta.addr.x 2091
 :       .lda ff
-:       .sta.addr.x 90 20
+:       .sta.addr.x 2090
 .label set-new-check-castable
 :       .jsr.addr $check-esper-castable,2
-:       .ror.addr.x 8f 20
+:       .ror.addr.x 208f
 :       .rts
 
 # duplicated from c2/5723
@@ -294,21 +294,21 @@ $check-esper-castable
 :       .php
 :       .rep 20
 :       .pha .phx
-:       .lda.addr.x 8e 20
-:       .and ff 00
-:       .cmp 80 00
+:       .lda.addr.x 208e
+:       .and 00ff
+:       .cmp 0080
 :       .bcs esper-not-castable
-:       .lda.addr.x 91 20
-:       .and ff 00
+:       .lda.addr.x 2091
+:       .and 00ff
 :       .pha
 :       .lda.addr $menu-active-character,2
-:       .and 03 00
+:       .and 0003
 :       .asl
 :       .tax
-:       .lda.addr.x e4 3e
-:       .bit 20 00
+:       .lda.addr.x 3ee4
+:       .bit 0020
 :       .bne pull-esper-not-castable
-:       .lda.addr.x 08 3c
+:       .lda.addr.x 3c08
 :       .cmp.sr 01
 :       .bcs pull-esper-castable
 .label pull-esper-not-castable
@@ -328,7 +328,7 @@ $get-esper-menu-offset
 :       .rep 20
 :       .pha
 :       .lda.addr $menu-active-character,2
-:       .and 03 00
+:       .and 0003
 :       .asl
 :       .tax
 :       .lda.long.x $esper-menu-offsets-address
@@ -352,4 +352,4 @@ VALIDATION
 
 025789: .tyx
 :       .sec
-:       .bit.addr 2e 3f
+:       .bit.addr 3f2e

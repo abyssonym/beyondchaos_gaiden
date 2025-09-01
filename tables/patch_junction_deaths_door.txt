@@ -9,11 +9,11 @@ $main
 :       .bcc exit-hit
 
 :       .sep 20
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .bit 02
 :       .beq exit-miss
 
-:       .lda.addr.x 05 3b
+:       .lda.addr.x 3b05
 :       .cmp 01
 :       .beq condemned-case
 
@@ -22,35 +22,35 @@ $main
 :       .beq exit-miss
 
 # duplicated Revenge code
-:       .stz.addr 14 34
+:       .stz.addr 3414
 :       .rep 20
 :       .pha
 :       .sec
-:       .lda.addr.x 1c 3c
-:       .sbc.addr.x f4 3b
+:       .lda.addr.x 3c1c
+:       .sbc.addr.x 3bf4
 
 :       .cpx 08
 :       .bcc damage-and-miss
-:       .bit 00 80
+:       .bit 8000
 :       .bne damage-and-miss
 :       .lsr .lsr .lsr
 
 .label damage-and-miss
-:       .bit 00 80
+:       .bit 8000
 :       .beq damage-is-positive
-:       .eor ff ff
+:       .eor ffff
 :       .inc
-:       .sta.addr.y e4 33
+:       .sta.addr.y 33e4
 :       .bra damage-is-negative-skip
 .label damage-is-positive
-:       .sta.addr.y d0 33
+:       .sta.addr.y 33d0
 .label damage-is-negative-skip
 :       .pla
 :       .sep 20
 
 .label exit-miss
 :       .plp
-:       .lda.addr.y 18 30
+:       .lda.addr.y 3018
 :       .trb.dp a4
 :       .rtl
 .label exit-hit
@@ -62,10 +62,10 @@ $main
 :       .jsl $jun-check-count-all-living
 :       .cmp 00
 :       .beq exit-miss
-:       .stz.addr 14 34
+:       .stz.addr 3414
 :       .rep 20
 :       .pha
-:       .lda 0f 27
+:       .lda 270f
 :       .bra damage-and-miss
 
 VALIDATION

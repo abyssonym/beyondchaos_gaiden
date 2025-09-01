@@ -13,7 +13,7 @@
 $main
 :       .tyx
 :       .rep 20
-:       .lda.addr.y 18 30
+:       .lda.addr.y 3018
 :       .bit.addr $living-characters,2
 :       .beq exit-fail
 :       .lda.dp b8
@@ -25,7 +25,7 @@ $main
 :       .sta.dp bb
 :       .stz.dp ba
 
-:       .lda.addr 7d 3a
+:       .lda.addr 3a7d
 :       .sta.dp b6
 
 :       .phx .phy .pha
@@ -40,7 +40,7 @@ $main
 :       .lda 02
 :       .sta.dp b5
 # restrict targeting and do not retarget
-:       .lda.addr a0 11
+:       .lda.addr 11a0
 :       .and 40
 :       .ora 03
 :       .sta.dp bb

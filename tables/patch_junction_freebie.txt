@@ -10,7 +10,7 @@
 
 $main
 :       .php
-:       .lda.addr 7a 3a
+:       .lda.addr 3a7a
 :       .cmp 01
 :       .beq freebie-valid-command
 :       .cmp 08
@@ -24,16 +24,16 @@ $main
 :       .jsl $jun-checker
 :       .beq exit-no-freebie
 :       .lda b1
-:       .sta.addr 01 34
+:       .sta.addr 3401
 :       .plp
 :       .rtl
 .label exit-no-freebie
 :       .plp
 :       .lda ff
-:       .sta.addr.x f4 32
+:       .sta.addr.x 32f4
 :       .rtl
 
 VALIDATION
 
 0218b0: .lda ff
-:       .sta.addr.x f4 32
+:       .sta.addr.x 32f4

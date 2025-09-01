@@ -4,6 +4,6 @@ VALIDATION
 
 026889: ff
 02688a: 7f 50
-02688c: .jsr.addr f7 50
-02688f: .jsr.addr a8 50
+02688c: .jsr.addr 50f7
+02688f: .jsr.addr 50a8
 026892: ff

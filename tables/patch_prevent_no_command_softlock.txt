@@ -4,15 +4,15 @@
 :       .nop
 
 $main
-:       .lda.addr.y 16 16
-:       .cmp ff ff
+:       .lda.addr.y 1616
+:       .cmp ffff
 :       .bne no-softlock
-:       .lda 00 ff
+:       .lda ff00
 .label no-softlock
 :       .sta.dp fc
 :       .rtl
 
 VALIDATION
 
-02533b: .lda.addr.y 16 16
+02533b: .lda.addr.y 1616
 :       .sta.dp fc

@@ -11,8 +11,8 @@
 :       .nop .nop
 
 $main
-:       .ora.addr.y 10 3e
-:       .sta.addr.y 10 3e
+:       .ora.addr.y 3e10
+:       .sta.addr.y 3e10
 
 # check already poisoned
 :       .lda poison-bit
@@ -23,11 +23,11 @@ $main
 :       .bit.dp fc
 :       .beq exit-normal
 
-:       .lda.addr a9 11
-:       .and ff 00
-:       .cmp 42 00
+:       .lda.addr 11a9
+:       .and 00ff
+:       .cmp 0042
 :       .bne not-rippler
-:       .lda.addr.x e4 3e
+:       .lda.addr.x 3ee4
 :       .bit poison-bit
 :       .beq exit-normal
 
@@ -35,7 +35,7 @@ $main
 :       .jsl $jun-rng1
 :       .bcs exit-normal
 
-:       .lda.addr.y 1c 33
+:       .lda.addr.y 331c
 :       .bit poison-bit
 :       .bne exit-normal
 
@@ -43,18 +43,18 @@ $main
 :       .jsl $jun-checker
 :       .beq exit-normal
 
-:       .lda.addr.y e4 3e
+:       .lda.addr.y 3ee4
 :       .ora poison-bit
-:       .sta.addr.y e4 3e
+:       .sta.addr.y 3ee4
 :       .jml $return-poisoned
 
 .label exit-normal
 :       .jml $return-normal
 
 .label already-poisoned
-:       .lda.addr 7c 3a
-:       .and ff 00
-:       .cmp 22 00
+:       .lda.addr 3a7c
+:       .and 00ff
+:       .cmp 0022
 :       .bne exit-normal
 :       .jml $return-poisoned
 
@@ -63,8 +63,8 @@ VALIDATION
 #02445c: ad a7 11
 #:       4a
 
-024456: .ora.addr.y 10 3e
-:       .sta.addr.y 10 3e
+024456: .ora.addr.y 3e10
+:       .sta.addr.y 3e10
 
 # Verify the exit in case of conflict with "informative miss" patch
 $return-poisoned

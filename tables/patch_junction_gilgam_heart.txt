@@ -15,45 +15,45 @@ $main
 :       .jsl $jun-checker
 :       .beq still-alive
 
-:       .lda.addr 01 34
-:       .and ff 00
-:       .cmp 26 00
+:       .lda.addr 3401
+:       .and 00ff
+:       .cmp 0026
 :       .beq running-total
 
 :       .sep 20
 :       .lda 26
-:       .sta.addr 01 34
-:       .stz.addr 3a 2f
+:       .sta.addr 3401
+:       .stz.addr 2f3a
 :       .rep 20
 
 :       .lda.dp ee
 :       .inc
-:       .sta.addr 38 2f
+:       .sta.addr 2f38
 :       .bra add-gold
 
 .label running-total
 :       .lda.dp ee
 :       .inc
 :       .clc
-:       .adc.addr 38 2f
+:       .adc.addr 2f38
 :       .bcc no-carry-total
-:       .inc.addr 3a 2f
+:       .inc.addr 2f3a
 .label  no-carry-total
-:       .sta.addr 38 2f
+:       .sta.addr 2f38
 :       .lda.dp ee
 :       .inc
 
 .label add-gold
 :       .clc
-:       .adc.addr 60 18
-:       .sta.addr 60 18
+:       .adc.addr 1860
+:       .sta.addr 1860
 :       .bcc no-carry
-:       .inc.addr 62 18
+:       .inc.addr 1862
 
 .label no-carry
 .label still-alive
 :       .plx
-:       .lda.addr.y f4 3b
+:       .lda.addr.y 3bf4
 :       .jml $return-alive
 .label exit-dead
 :       .jml $return-dead

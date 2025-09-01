@@ -75,16 +75,16 @@
 :       .nop .nop
 
 $main
-:       .lda.addr.y e4 33
-:       .cmp ff ff
+:       .lda.addr.y 33e4
+:       .cmp ffff
 :       .beq no-check-heal
 :       .jsr.addr $check-heal,2
 :       .jsr.addr $do-blood-restriction,2
 :       .bra heal-or-damage
 
 .label no-check-heal
-:       .lda.addr.y d0 33
-:       .cmp ff ff
+:       .lda.addr.y 33d0
+:       .cmp ffff
 :       .beq no-junction
 
 .label heal-or-damage
@@ -100,8 +100,8 @@ $main
 
 .label no-double-time
 :       .lda.dp b5
-:       .and ff 00
-:       .cmp 01 00
+:       .and 00ff
+:       .cmp 0001
 :       .bne no-chemist
 :       .lda {{jun-index-chemist}} 00
 :       .jsl $jun-checker
@@ -110,9 +110,9 @@ $main
 :       .jsr.addr $boost-damage-double,2
 
 .label no-chemist
-:       .lda.addr 7c 3a
-:       .and ff 00
-:       .cmp 22 00
+:       .lda.addr 3a7c
+:       .and 00ff
+:       .cmp 0022
 :       .beq no-reverse
 :       .lda {{jun-index-reverse}} 00
 :       .jsl $jun-checker
@@ -132,27 +132,27 @@ $main
 :       .jsr.addr $do-cap-damage,2
 
 .label no-junction
-:       .lda.addr.y d0 33
-:       .cmp.addr.y e4 33
+:       .lda.addr.y 33d0
+:       .cmp.addr.y 33e4
 :       .rtl
 
 $do-cap-damage
-:       .lda.addr.y d0 33
-:       .cmp 10 27
+:       .lda.addr.y 33d0
+:       .cmp 2710
 :       .bcc cap-damage-no-damage-overflow
-:       .cmp ff ff
+:       .cmp ffff
 :       .beq cap-damage-no-damage-overflow
-:       .lda 0f 27
-:       .sta.addr.y d0 33
+:       .lda 270f
+:       .sta.addr.y 33d0
 
 .label cap-damage-no-damage-overflow
-:       .lda.addr.y e4 33
-:       .cmp 10 27
+:       .lda.addr.y 33e4
+:       .cmp 2710
 :       .bcc cap-damage-no-healing-overflow
-:       .cmp ff ff
+:       .cmp ffff
 :       .beq cap-damage-no-healing-overflow
-:       .lda 0f 27
-:       .sta.addr.y e4 33
+:       .lda 270f
+:       .sta.addr.y 33e4
 
 .label cap-damage-no-healing-overflow
 :       .rts
@@ -163,21 +163,21 @@ $main-nihopalaoa
 :       .jsr.addr $check-nihopalaoa,2
 :       .beq exit-no-nihopalaoa
 :       .lda 05
-:       .trb.addr a4 11
+:       .trb.addr 11a4
 :       .lda 04
-:       .trb.addr a2 11
+:       .trb.addr 11a2
 :       .lda 80
-:       .bit.addr a4 11
+:       .bit.addr 11a4
 :       .bne nihopalaoa-miss-death-prot
-:       .bit.addr aa 11
+:       .bit.addr 11aa
 :       .bne nihopalaoa-miss-death-prot
 :       .bra exit-no-nihopalaoa
 .label nihopalaoa-miss-death-prot
 :       .lda 02
-:       .tsb.addr a2 11
+:       .tsb.addr 11a2
 .label exit-no-nihopalaoa
 :       .plx
-:       .lda.long.x 00 50 d8
+:       .lda.long.x d85000
 :       .rtl
 
 $check-heal
@@ -226,20 +226,20 @@ $check-heal
 :       .rts
 
 $do-blood-restriction
-:       .lda.addr.y 18 30
-:       .bit.addr.x 18 30
+:       .lda.addr.y 3018
+:       .bit.addr.x 3018
 :       .beq no-blood
 :       .sep 20
-:       .lda.addr a5 11
+:       .lda.addr 11a5
 :       .beq no-blood
 :       .lda 01
-:       .bit.addr a4 11
+:       .bit.addr 11a4
 :       .beq no-blood
 :       .lda {{jun-index-blood-mage}}
 :       .jsl $jun-checker
 :       .beq no-blood
 :       .rep 20
-:       .stz.addr.x e4 33
+:       .stz.addr.x 33e4
 .label no-blood
 :       .rep 20
 :       .rts
@@ -257,8 +257,8 @@ $main-calc
 $check-brace
 :       .phx
 :       .tyx
-:       .lda.addr.y a1 3a
-:       .bit 02 00
+:       .lda.addr.y 3aa1
+:       .bit 0002
 :       .beq no-brace
 :       .lda {{jun-index-brace}} 00
 :       .jsl $jun-checker
@@ -286,12 +286,12 @@ $check-nihopalaoa
 :       .rts
 
 $reverse-damage
-:       .lda.addr.y d0 33
+:       .lda.addr.y 33d0
 :       .pha
-:       .lda.addr.y e4 33
-:       .sta.addr.y d0 33
+:       .lda.addr.y 33e4
+:       .sta.addr.y 33d0
 :       .pla
-:       .sta.addr.y e4 33
+:       .sta.addr.y 33e4
 :       .rts
 
 $check-precision
@@ -319,8 +319,8 @@ $check-precision
 
 .label yes-precision
 :       .rep 20
-:       .lda ff ff
-:       .sta.addr.y d0 33
+:       .lda ffff
+:       .sta.addr.y 33d0
 :       .rts
 .label no-precision-pull
 :       .plx
@@ -337,33 +337,33 @@ $check-calc
 :       .jsl $jun-checker
 :       .beq no-damage-split
 :       .plx .phx
-:       .inc.addr.x d0 33
+:       .inc.addr.x 33d0
 :       .beq calc-attacker-damage-not-null
-:       .dec.addr.x d0 33
+:       .dec.addr.x 33d0
 .label  calc-attacker-damage-not-null
-:       .lda.addr.y d0 33
+:       .lda.addr.y 33d0
 :       .lsr .lsr
 :       .clc
-:       .adc.addr.x d0 33
-:       .sta.addr.x d0 33
-:       .lda.addr.y d0 33
+:       .adc.addr.x 33d0
+:       .sta.addr.x 33d0
+:       .lda.addr.y 33d0
 :       .pha
 :       .lsr .lsr
-:       .sta.addr.y d0 33
+:       .sta.addr.y 33d0
 :       .pla
 :       .sec
-:       .sbc.addr.y d0 33
-:       .sta.addr.y d0 33
+:       .sbc.addr.y 33d0
+:       .sta.addr.y 33d0
 
 .label no-damage-split
-:       .lda.addr.y e4 33
+:       .lda.addr.y 33e4
 :       .inc
 :       .beq no-distribute
 :       .tyx
 :       .lda {{jun-index-distribute}} 00
 :       .jsl $jun-checker
 :       .beq no-distribute
-:       .lda.addr.y e4 33
+:       .lda.addr.y 33e4
 :       .clc
 :       .adc.addr.y $current-hp-address,2
 :       .cmp.addr.y $max-hp-address,2
@@ -374,7 +374,7 @@ $check-calc
 :       .lda.addr.y $max-hp-address,2
 :       .sec
 :       .sbc.addr.y $current-hp-address,2
-:       .sta.addr.y e4 33
+:       .sta.addr.y 33e4
 :       .pla
 :       .cpy 08
 :       .bcs distribute-is-monster
@@ -421,14 +421,14 @@ $do-distribute-characters
 :       .jsl $jun-check-entity-living
 :       .beq dist-char-heal-skip
 :       .rep 20
-:       .lda.addr.x e4 33
+:       .lda.addr.x 33e4
 :       .inc
 :       .beq dist-char-heal-not-null
 :       .dec
 .label dist-char-heal-not-null
 :       .clc
 :       .adc.sr 01
-:       .sta.addr.x e4 33
+:       .sta.addr.x 33e4
 .label dist-char-heal-skip
 :       .dex .dex
 :       .bpl dist-char-heal-loop
@@ -473,14 +473,14 @@ $do-distribute-monsters
 :       .jsl $jun-check-entity-living
 :       .beq dist-mon-heal-skip
 :       .rep 20
-:       .lda.addr.x e4 33
+:       .lda.addr.x 33e4
 :       .inc
 :       .beq dist-mon-heal-not-null
 :       .dec
 .label dist-mon-heal-not-null
 :       .clc
 :       .adc.sr 01
-:       .sta.addr.x e4 33
+:       .sta.addr.x 33e4
 .label dist-mon-heal-skip
 :       .dex .dex
 :       .cpx 07
@@ -494,19 +494,19 @@ $do-distribute-monsters
 $check-catch
 :       .phx
 :       .lda.dp b5
-:       .and ff 00
+:       .and 00ff
 :       .cmp throw-index 00
 :       .bne catch-exit
 :       .tyx
 :       .lda {{jun-index-catch}} 00
 :       .jsl $jun-checker
 :       .beq catch-exit
-:       .stz.addr.x d0 33
+:       .stz.addr.x 33d0
 :       .cpx 08
 :       .bcs catch-exit
 
-:       .lda.addr 7a 3a
-:       .and ff 00
+:       .lda.addr 3a7a
+:       .and 00ff
 :       .cmp throw-index 00
 :       .bne catch-exit
 
@@ -515,12 +515,12 @@ $check-catch
 
 :       .sep 20
 :       .lda b0
-:       .sta.addr 01 34
+:       .sta.addr 3401
 :       .lda.dp b6
-:       .sta.addr 35 2f
-:       .sta.addr.x f4 32
-:       .lda.addr.x 18 30
-:       .tsb.addr 8c 3a
+:       .sta.addr 2f35
+:       .sta.addr.x 32f4
+:       .lda.addr.x 3018
+:       .tsb.addr 3a8c
 :       .rep 20
 
 .label catch-exit
@@ -528,109 +528,109 @@ $check-catch
 :       .rts
 
 $boost-healing-half
-:       .lda.addr.y e4 33
-:       .cmp ff ff
+:       .lda.addr.y 33e4
+:       .cmp ffff
 :       .beq exit-boost-healing-half
 :       .lsr
 :       .clc
-:       .adc.addr.y e4 33
+:       .adc.addr.y 33e4
 :       .bcc healing-half-no-overflow
-:       .lda fe ff
+:       .lda fffe
 .label healing-half-no-overflow
-:       .sta.addr.y e4 33
+:       .sta.addr.y 33e4
 .label exit-boost-healing-half
 :       .rts
 
 $boost-healing-quarter
 :       .pha
-:       .lda.addr.y e4 33
-:       .cmp ff ff
+:       .lda.addr.y 33e4
+:       .cmp ffff
 :       .beq exit-healing-quarter
 :       .lsr .lsr
 :       .clc
-:       .adc.addr.y e4 33
+:       .adc.addr.y 33e4
 :       .bcc healing-quarter-no-overflow
-:       .lda fe ff
+:       .lda fffe
 .label healing-quarter-no-overflow
-:       .sta.addr.y e4 33
+:       .sta.addr.y 33e4
 .label exit-healing-quarter
 :       .pla
 :       .rts
 
 $reduce-healing-quarter
 :       .pha
-:       .lda.addr.y e4 33
-:       .cmp ff ff
+:       .lda.addr.y 33e4
+:       .cmp ffff
 :       .beq exit-healing-reduce
 :       .lsr
-:       .sta.addr.y e4 33
+:       .sta.addr.y 33e4
 :       .lsr
 :       .clc
-:       .adc.addr.y e4 33
-:       .sta.addr.y e4 33
+:       .adc.addr.y 33e4
+:       .sta.addr.y 33e4
 .label exit-healing-reduce
 :       .pla
 :       .rts
 
 $boost-healing-double
-:       .lda.addr.y e4 33
-:       .cmp ff ff
+:       .lda.addr.y 33e4
+:       .cmp ffff
 :       .beq exit-healing-double
 :       .asl
 :       .bcc healing-double-no-overflow
-:       .lda fe ff
+:       .lda fffe
 .label healing-double-no-overflow
-:       .sta.addr.y e4 33
+:       .sta.addr.y 33e4
 .label exit-healing-double
 :       .rts
 
 $boost-damage-double
-:       .lda.addr.y d0 33
-:       .cmp ff ff
+:       .lda.addr.y 33d0
+:       .cmp ffff
 :       .beq exit-damage-double
 :       .asl
 :       .bcc damage-double-no-overflow
-:       .lda fe ff
+:       .lda fffe
 .label damage-double-no-overflow
-:       .sta.addr.y d0 33
+:       .sta.addr.y 33d0
 .label exit-damage-double
 :       .rts
 
 $boost-damage-half
-:       .lda.addr.y d0 33
-:       .cmp ff ff
+:       .lda.addr.y 33d0
+:       .cmp ffff
 :       .beq exit-boost-damage-half
 :       .lsr
 :       .clc
-:       .adc.addr.y d0 33
+:       .adc.addr.y 33d0
 :       .bcc damage-half-no-overflow
-:       .lda fe ff
+:       .lda fffe
 .label damage-half-no-overflow
-:       .sta.addr.y d0 33
+:       .sta.addr.y 33d0
 .label exit-boost-damage-half
 :       .rts
 
 $reduce-damage-half
-:       .lda.addr.y d0 33
-:       .cmp ff ff
+:       .lda.addr.y 33d0
+:       .cmp ffff
 :       .beq exit-damage-half
 :       .lsr
-:       .sta.addr.y d0 33
+:       .sta.addr.y 33d0
 .label exit-damage-half
 :       .rts
 
 $reduce-healing-half
-:       .lda.addr.y e4 33
-:       .cmp ff ff
+:       .lda.addr.y 33e4
+:       .cmp ffff
 :       .beq exit-reduce-healing-half
 :       .lsr
-:       .sta.addr.y e4 33
+:       .sta.addr.y 33e4
 .label exit-reduce-healing-half
 :       .rts
 
 $check-nonzero-nonlethal-damage
 :       .pha
-:       .lda.addr.y d0 33
+:       .lda.addr.y 33d0
 :       .beq non-non-is-zero
 :       .inc
 :       .beq non-non-is-zero
@@ -658,13 +658,13 @@ $do-meatbone-auto-potion
 :       .phx
 
 # check for decisive blow
-:       .lda.addr 1a 34
-:       .and ff 00
+:       .lda.addr 341a
+:       .and 00ff
 :       .beq auto-potion-exit-all
 
 # check for mp damage
-:       .lda 80 00
-:       .bit.addr a3 11
+:       .lda 0080
+:       .bit.addr 11a3
 :       .bne auto-potion-exit-all
 
 :       .jsr.addr $check-nonzero-nonlethal-damage,2
@@ -684,16 +684,16 @@ $do-meatbone-auto-potion
 :       .beq no-meatbone
 :       .jsl $jun-set-target-counter
 :       .lda.dp b8
-:       .and.addr 74 3a
+:       .and.addr 3a74
 :       .beq no-meatbone
 :       .lda 44 revenge-spell-index
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .jsl $jun-queue-command
 
 .label no-meatbone
-:       .lda.addr 7a 3a
-:       .and ff 00
-:       .cmp 01 00
+:       .lda.addr 3a7a
+:       .and 00ff
+:       .cmp 0001
 :       .bne continue-auto-potion
 
 :       .bit.dp b1
@@ -705,7 +705,7 @@ $do-meatbone-auto-potion
 :       .jsl $jun-checker
 :       .beq auto-potion-exit
 
-:       .lda 00 00
+:       .lda 0000
 :       .cpx 08
 :       .bcc skip-monster-rng-check
 :       .jsl $jun-rng1
@@ -718,19 +718,19 @@ $do-meatbone-auto-potion
 :       .beq auto-potion-fail
 :       .sep 20
 :       .lda potion-index
-:       .sta.addr.x f4 32
+:       .sta.addr.x 32f4
 :       .rep 20
 .label do-not-deduct-item
 
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .sta.dp b8
 :       .sep 20
 :       .jsr.addr $retarget-salve,2
 
 :       .lda 01
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .lda potion-index
-:       .sta.addr 7b 3a
+:       .sta.addr 3a7b
 :       .jsl $jun-queue-command
 :       .bra auto-potion-exit
 .label auto-potion-fail
@@ -743,13 +743,13 @@ $do-corrosive
 :       .lda {{jun-index-corrosive}} 00
 :       .jsl $jun-checker
 :       .beq no-corrosive
-:       .lda.addr.y d0 33
-:       .bit 00 c0
+:       .lda.addr.y 33d0
+:       .bit c000
 :       .bne no-corrosive
 
 :       .pha
-:       .lda.addr a3 11
-:       .bit 80 00
+:       .lda.addr 11a3
+:       .bit 0080
 :       .bne corrode-mp
 
 .label corrode-hp
@@ -792,7 +792,7 @@ $do-juggler
 :       .beq no-juggler
 
 :       .lda 01
-:       .bit.addr a2 11
+:       .bit.addr 11a2
 
 :       .bne juggler-physical-attack
 
@@ -846,7 +846,7 @@ $do-juggler
 :       .rts
 
 $main-aura
-#:       .lda.addr.y d0 33
+#:       .lda.addr.y 33d0
 #:       .beq aura-exit-no-stack
 #:       .inc
 #:       .beq aura-exit-no-stack
@@ -854,7 +854,7 @@ $main-aura
 :       .sep 20
 :       .cpx 13
 :       .bge aura-exit
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .bit 01
 :       .beq aura-not-phys
 
@@ -926,7 +926,7 @@ $main-aura
 
 .label check-do-aura-hunter
 :       .rep 20
-:       .lda.addr.y d0 33
+:       .lda.addr.y 33d0
 :       .beq aura-hunter-exit
 :       .inc
 :       .beq aura-hunter-exit
@@ -952,8 +952,8 @@ $main-aura
 :       .bcs glass-aura-exit-failure
 :       .phx
 :       .tyx
-:       .stz.addr.x d0 33
-:       .stz.addr.x d1 33
+:       .stz.addr.x 33d0
+:       .stz.addr.x 33d1
 :       .plx
 .label glass-aura-exit-success
 :       .rep 02
@@ -1018,7 +1018,7 @@ VALIDATION
 0262f1: .stz.dp f0
 :       .stz.dp f2
 
-022af2: .lda.long.x 00 50 d8
+022af2: .lda.long.x d85000
 
-0262f7: .lda.addr.y d0 33
-:       .cmp.addr.y e4 33
+0262f7: .lda.addr.y 33d0
+:       .cmp.addr.y 33e4

@@ -99,7 +99,7 @@ $jun-checker
 :   .php
 :   .rep 30
 :   .pha .phx
-:   .and ff 00
+:   .and 00ff
 :   .cmp {{jun-index-luck-font}} 00
 :   .beq no-jammer
 :   .cmp {{jun-index-luck-sink}} 00
@@ -131,18 +131,18 @@ $jun-checker
 :   .bcs is-monster
 :   .rep 30
 :   .ldy.addr.x $character-info,2
-:   .cpy ff ff
+:   .cpy ffff
 :   .beq final-exit-check-failed
 :   .bra begin-checking
 
 .label is-monster
 :   .rep 30
 :   .ldy.addr.x $monster-indexes,2
-:   .cpy ff ff
+:   .cpy ffff
 :   .beq final-exit-check-failed
 
 .label begin-checking
-:   .and ff 00
+:   .and 00ff
 :   .tay
 
 # change the data bank register
@@ -163,23 +163,23 @@ $jun-checker
 :   .sty.dp 10
 :   .stz.dp 12
 :   .stx.dp 14
-:   .cpx 08 00
+:   .cpx 0008
 :   .bcs is-still-monster
 
 :   .lda.long.x $character-info
-:   .adc 00 16
+:   .adc 1600
 :   .sta.dp 11
 :   .jsr.addr $jun-check-whitelist,2
 :   .beq no-whitelist
 :   .jsr.addr $jun-check-blacklist,2
-:   .eor 01 00
+:   .eor 0001
 :   .bra no-whitelist
 
 .label is-still-monster
 :   .jsr.addr $jun-check-whitelist-monster-version,2
 :   .beq no-whitelist
 :   .jsr.addr $jun-check-blacklist-monster-version,2
-:   .eor 01 00
+:   .eor 0001
 
 .label no-whitelist
 :   .tax
@@ -206,10 +206,10 @@ $jun-check-list
 #   X   - list address
 #   $10 - junction index
 
-:   .lda 00 00
+:   .lda 0000
 :   .sep 20
 .label check-list-loop
-:   .lda.addr.x 00 00
+:   .lda.addr.x 0000
 :   .beq check-list-found-nothing
 :   .inx
 :   .cmp.dp 10
@@ -248,25 +248,25 @@ $jun-check-whitelist
 #   $11 - character data address (unused for monsters)
 #   $14 - battle index
 
-:   .lda 00 00
+:   .lda 0000
 :   .tay
 :   .ldx.addr.y $jun-always-whitelist,2
 :   .jsr.addr $jun-check-list,2
 :   .bne found-whitelist
 
-:   .ldy 00 00
+:   .ldy 0000
 :   .lda.dp.i.y.long 11
-:   .and ff 00
+:   .and 00ff
 :   .asl
 :   .tay
 :   .ldx.addr.y $jun-character-whitelist,2
 :   .jsr.addr $jun-check-list,2
 :   .bne found-whitelist
 
-:   .ldy 1e 00
+:   .ldy 001e
 :   .lda.dp.i.y.long 11
-:   .and ff 00
-:   .cmp ff 00
+:   .and 00ff
+:   .cmp 00ff
 :   .beq jcwl-no-esper
 :   .asl
 :   .tay
@@ -275,27 +275,27 @@ $jun-check-whitelist
 :   .bne found-whitelist
 .label jcwl-no-esper
 
-:   .ldy 24 00
+:   .ldy 0024
 :   .jsr.addr $jun-check-equip-whitelist,2
 :   .bne found-whitelist
 
-:   .ldy 23 00
+:   .ldy 0023
 :   .jsr.addr $jun-check-equip-whitelist,2
 :   .bne found-whitelist
 
-:   .ldy 22 00
+:   .ldy 0022
 :   .jsr.addr $jun-check-equip-whitelist,2
 :   .bne found-whitelist
 
-:   .ldy 21 00
+:   .ldy 0021
 :   .jsr.addr $jun-check-equip-whitelist,2
 :   .bne found-whitelist
 
-:   .ldy 20 00
+:   .ldy 0020
 :   .jsr.addr $jun-check-equip-whitelist,2
 :   .bne found-whitelist
 
-:   .ldy 1f 00
+:   .ldy 001f
 :   .jsr.addr $jun-check-equip-whitelist,2
 :   .bne found-whitelist
 
@@ -313,7 +313,7 @@ $jun-check-whitelist-monster-version
 #   $10 - junction index
 #   $14 - battle index
 
-:   .lda 00 00
+:   .lda 0000
 :   .tay
 :   .ldx.addr.y $jun-always-whitelist,2
 :   .jsr.addr $jun-check-list,2
@@ -361,16 +361,16 @@ $jun-check-monster-equip-whitelist
 :   .bne check-monster-equip-exit-whitelist-success
 
 .label check-monster-equip-exit-whitelist-fail
-:   .lda 00 00
+:   .lda 0000
 :   .rts
 .label check-monster-equip-exit-whitelist-success
-:   .lda 01 00
+:   .lda 0001
 :   .rts
 
 .label whitelist-check-loot-pair
 :   .pha
 
-:   .and ff 00
+:   .and 00ff
 :   .asl
 :   .tay
 :   .ldx.addr.y $jun-equip-whitelist,2
@@ -379,7 +379,7 @@ $jun-check-monster-equip-whitelist
 
 :   .lda.sr 01
 :   .xba
-:   .and ff 00
+:   .and 00ff
 :   .asl
 :   .tay
 :   .ldx.addr.y $jun-equip-whitelist,2
@@ -416,16 +416,16 @@ $jun-check-monster-equip-blacklist
 :   .bne check-monster-equip-exit-blacklist-success
 
 .label check-monster-equip-exit-blacklist-fail
-:   .lda 00 00
+:   .lda 0000
 :   .rts
 .label check-monster-equip-exit-blacklist-success
-:   .lda 01 00
+:   .lda 0001
 :   .rts
 
 .label blacklist-check-loot-pair
 :   .pha
 
-:   .and ff 00
+:   .and 00ff
 :   .asl
 :   .tay
 :   .ldx.addr.y $jun-equip-blacklist,2
@@ -434,7 +434,7 @@ $jun-check-monster-equip-blacklist
 
 :   .lda.sr 01
 :   .xba
-:   .and ff 00
+:   .and 00ff
 :   .asl
 :   .tay
 :   .ldx.addr.y $jun-equip-blacklist,2
@@ -458,11 +458,11 @@ $monster-equip-drop-enabled
 
 $jun-check-rage
 :   .ldx.dp 14
-:   .lda.long.x f9 3e 7e
-:   .bit 01 00
+:   .lda.long.x 7e3ef9
+:   .bit 0001
 :   .beq no-rage
 :   .lda.long.x $rage-indexes
-:   .cmp ff ff
+:   .cmp ffff
 :   .beq no-rage
 :   .asl
 :   .tay
@@ -470,12 +470,12 @@ $jun-check-rage
 :   .jsr.addr $jun-check-list,2
 :   .rts
 .label no-rage
-:   .lda 00 00
+:   .lda 0000
 :   .rts
 
 $jun-check-equip-whitelist
 :   .lda.dp.i.y.long 11
-:   .and ff 00
+:   .and 00ff
 :   .asl
 :   .tay
 :   .ldx.addr.y $jun-equip-whitelist,2
@@ -483,10 +483,10 @@ $jun-check-equip-whitelist
 :   .rts
 
 $jun-check-status-whitelist
-:   .ldy 00 00
+:   .ldy 0000
 
 :   .ldx.dp 14
-:   .lda.long.x e4 3e 7e
+:   .lda.long.x 7e3ee4
 .label status-white-loop1
 :   .lsr
 :   .bcc status-white-skip1
@@ -500,11 +500,11 @@ $jun-check-status-whitelist
 :   .ply
 .label status-white-skip1
 :   .iny .iny
-:   .cpy 20 00
+:   .cpy 0020
 :   .bne status-white-loop1
 
 :   .ldx.dp 14
-:   .lda.long.x f8 3e 7e
+:   .lda.long.x 7e3ef8
 .label status-white-loop2
 :   .lsr
 :   .bcc status-white-skip2
@@ -518,10 +518,10 @@ $jun-check-status-whitelist
 :   .ply
 .label status-white-skip2
 :   .iny .iny
-:   .cpy 40 00
+:   .cpy 0040
 :   .bne status-white-loop2
 
-:   .lda 00 00
+:   .lda 0000
 :   .rts
 .label status-white-found
 :   .ply
@@ -529,19 +529,19 @@ $jun-check-status-whitelist
 :   .rts
 
 $jun-check-blacklist
-:   .ldy 00 00
+:   .ldy 0000
 :   .lda.dp.i.y.long 11
-:   .and ff 00
+:   .and 00ff
 :   .asl
 :   .tay
 :   .ldx.addr.y $jun-character-blacklist,2
 :   .jsr.addr $jun-check-list,2
 :   .bne found-blacklist
 
-:   .ldy 1e 00
+:   .ldy 001e
 :   .lda.dp.i.y.long 11
-:   .and ff 00
-:   .cmp ff 00
+:   .and 00ff
+:   .cmp 00ff
 :   .beq jcbl-no-esper
 :   .asl
 :   .tay
@@ -550,27 +550,27 @@ $jun-check-blacklist
 :   .bne found-blacklist
 .label jcbl-no-esper
 
-:   .ldy 24 00
+:   .ldy 0024
 :   .jsr.addr $jun-check-equip-blacklist,2
 :   .bne found-blacklist
 
-:   .ldy 23 00
+:   .ldy 0023
 :   .jsr.addr $jun-check-equip-blacklist,2
 :   .bne found-blacklist
 
-:   .ldy 22 00
+:   .ldy 0022
 :   .jsr.addr $jun-check-equip-blacklist,2
 :   .bne found-blacklist
 
-:   .ldy 21 00
+:   .ldy 0021
 :   .jsr.addr $jun-check-equip-blacklist,2
 :   .bne found-blacklist
 
-:   .ldy 20 00
+:   .ldy 0020
 :   .jsr.addr $jun-check-equip-blacklist,2
 :   .bne found-blacklist
 
-:   .ldy 1f 00
+:   .ldy 001f
 :   .jsr.addr $jun-check-equip-blacklist,2
 :   .bne found-blacklist
 
@@ -603,7 +603,7 @@ $jun-check-blacklist-monster-version
 
 $jun-check-equip-blacklist
 :   .lda.dp.i.y.long 11
-:   .and ff 00
+:   .and 00ff
 :   .asl
 :   .tay
 :   .ldx.addr.y $jun-equip-blacklist,2
@@ -611,10 +611,10 @@ $jun-check-equip-blacklist
 :   .rts
 
 $jun-check-status-blacklist
-:   .ldy 00 00
+:   .ldy 0000
 
 :   .ldx.dp 14
-:   .lda.long.x e4 3e 7e
+:   .lda.long.x 7e3ee4
 .label status-black-loop1
 :   .lsr
 :   .bcc status-black-skip1
@@ -628,11 +628,11 @@ $jun-check-status-blacklist
 :   .ply
 .label status-black-skip1
 :   .iny .iny
-:   .cpy 20 00
+:   .cpy 0020
 :   .bne status-black-loop1
 
 :   .ldx.dp 14
-:   .lda.long.x f8 3e 7e
+:   .lda.long.x 7e3ef8
 .label status-black-loop2
 :   .lsr
 :   .bcc status-black-skip2
@@ -646,10 +646,10 @@ $jun-check-status-blacklist
 :   .ply
 .label status-black-skip2
 :   .iny .iny
-:   .cpy 40 00
+:   .cpy 0040
 :   .bne status-black-loop2
 
-:   .lda 00 00
+:   .lda 0000
 :   .rts
 .label status-black-found
 :   .ply
@@ -659,9 +659,9 @@ $jun-check-status-blacklist
 $jun-mult
 :   .php
 :   .rep 20
-:   .sta.long 02 42 00
+:   .sta.long 004202
 :   .nop .nop .nop .nop
-:   .lda.long 16 42 00
+:   .lda.long 004216
 :   .plp
 :   .rtl
 
@@ -669,15 +669,15 @@ $jun-divide
 :   .phy
 :   .php
 :   .rep 20
-:   .sta.long 04 42 00
+:   .sta.long 004204
 :   .sep 30
 :   .txa
-:   .sta.long 06 42 00
+:   .sta.long 004206
 :   .nop .nop .nop .nop  .nop .nop .nop .nop
-:   .lda.long 16 42 00
+:   .lda.long 004216
 :   .tax
 :   .rep 20
-:   .lda.long 14 42 00
+:   .lda.long 004214
 :   .plp
 :   .ply
 :   .rtl
@@ -813,7 +813,7 @@ $jun-rng2
 :   .sep 30
 :   .inc.dp be
 :   .ldx.dp be
-:   .lda.long.x 00 fd c0
+:   .lda.long.x c0fd00
 :   .plp .plx
 :   .rts
 
@@ -821,7 +821,7 @@ $jun-rng2-noluck
 :   .phx
 :   .inc.dp be
 :   .ldx.dp be
-:   .lda.long.x 00 fd c0
+:   .lda.long.x c0fd00
 :   .plx
 :   .rtl
 
@@ -866,7 +866,7 @@ $jun-bit-to-index
 $jun-count-bits
 :   .php
 :   .rep 10
-:   .ldx 00 00
+:   .ldx 0000
 :   .lsr
 :   .bcc 01
 :   .inx
@@ -910,13 +910,13 @@ $jun-check-entity-living
 :   .txa
 :   .cmp 08
 :   .bcs check-living-is-monster
-:   .lda.addr.x 18 30
+:   .lda.addr.x 3018
 :   .bit.addr $living-characters,2
 :   .beq check-living-no
-:   .lda.addr.x f9 3e
+:   .lda.addr.x 3ef9
 :   .bit 20
 :   .bne check-living-no
-:   .lda.addr.x e4 3e
+:   .lda.addr.x 3ee4
 :   .bit 80
 :   .bne check-living-no
 :   .bra check-living-yes
@@ -939,7 +939,7 @@ $jun-check-entity-present
 :   .txa
 :   .cmp 08
 :   .bcs check-present-is-monster
-:   .lda.addr.x 18 30
+:   .lda.addr.x 3018
 :   .bit.addr $present-characters,2
 :   .bne check-present-yes
 :   .bra check-present-no
@@ -962,11 +962,11 @@ $jun-check-entity-can-act
 :   .rep 20
 :   .jsl $jun-check-entity-living
 :   .beq check-can-act-no
-:   .lda.addr.x e4 3e
-:   .bit c2 b0
+:   .lda.addr.x 3ee4
+:   .bit b0c2
 :   .bne check-can-act-no
-:   .lda.addr.x f8 3e
-:   .bit 10 02
+:   .lda.addr.x 3ef8
+:   .bit 0210
 :   .bne check-can-act-no
 :   .plp .pla
 :   .rep 02
@@ -1026,16 +1026,16 @@ $jun-check-inventory
 :       .rep 10
 :       .php
 :       .rep 30
-:       .and ff 00
+:       .and 00ff
 :       .pha
-:       .ldx 00 00
+:       .ldx 0000
 .label check-inventory-loop
 :       .lda.addr.x $inventory-address,2
-:       .and ff 00
+:       .and 00ff
 :       .cmp.sr 01
 :       .beq check-inventory-found
 :       .inx .inx .inx .inx .inx
-:       .cpx 00 05
+:       .cpx 0500
 :       .bne check-inventory-loop
 .label check-inventory-fail
 :       .pla
@@ -1124,7 +1124,7 @@ $jun-set-target-counter
 :       .sep 20
 :       .stz.dp b8
 :       .stz.dp b9
-:       .lda.addr.y e0 32
+:       .lda.addr.y 32e0
 :       .and 7f
 :       .cmp 0a
 :       .bcs no-counter-target
@@ -1133,7 +1133,7 @@ $jun-set-target-counter
 :       .beq no-counter-target
 :       .tay
 :       .rep 20
-:       .lda.addr.y 18 30
+:       .lda.addr.y 3018
 :       .sta.dp b8
 .label no-counter-target
 :       .plx .plp .ply .pla
@@ -1160,21 +1160,21 @@ $jun-reload-character-commands
 :       .phx .phy .php
 :       .rep 10
 :       .sep 20
-:       .ldy.addr.x 10 30
+:       .ldy.addr.x 3010
 
-:       .stz.addr d6 11
+:       .stz.addr 11d6
 :       .phx
-:       .ldx 05 00
+:       .ldx 0005
 .label command-changer-loop
-:       .lda.addr.y 1f 16
+:       .lda.addr.y 161f
 :       .phx
 :       .xba
 :       .lda 1e
 :       .jsl $jun-mult
 :       .tax
 :       .lda.long.x $command-change-byte-address
-:       .ora.addr d6 11
-:       .sta.addr d6 11
+:       .ora.addr 11d6
+:       .sta.addr 11d6
 :       .plx
 :       .iny
 :       .dex
@@ -1197,7 +1197,7 @@ $jun-generic-dispatch                       #   remote_call:
 :       .phk                            # phk
 :       .per remote-call-return,2       # per remote_call_return-1
 :       .pea $bank-c2-rtl-minus-one,2   # pea.w c2_rtl-1
-:       .pea ff c2                      # pea $c2ff
+:       .pea c2ff                       # pea $c2ff
 :       .php                            # php
 :       .php                            # php
 :       .rep 20                         # rep #$20
@@ -1247,12 +1247,12 @@ $jun-get-equipped-esper
 :       .phy .php
 :       .sep 20
 :       .rep 10
-:       .cpx 08 00
+:       .cpx 0008
 :       .bcs equipped-esper-fail
 :       .jsl $jun-check-entity-present
 :       .beq equipped-esper-fail
-:       .ldy.addr.x 10 30
-:       .lda.addr.y 1e 16
+:       .ldy.addr.x 3010
+:       .lda.addr.y 161e
 :       .plp .ply
 :       .rtl
 .label equipped-esper-fail
@@ -1264,17 +1264,17 @@ $jun-check-is-damage-over-time
 :       .php
 :       .rep 20
 :       .txa
-:       .cmp 13 00
+:       .cmp 0013
 :       .bcs dot-bad-indexes
 :       .tya
-:       .cmp 13 00
+:       .cmp 0013
 :       .bcs dot-bad-indexes
-:       .lda.addr.y 18 30
-:       .bit.addr.x 18 30
+:       .lda.addr.y 3018
+:       .bit.addr.x 3018
 :       .beq dot-not-targeting-self
 .label dot-bad-indexes
 :       .sep 20
-:       .lda.addr 7c 3a
+:       .lda.addr 3a7c
 :       .cmp 22
 :       .bne not-damage-over-time-command
 :       .lda 12
@@ -1332,13 +1332,13 @@ $jun-compare-x-y
 $jun-bit-to-combatant-index
 :   .php
 :   .rep 30
-:   .ldx 12 00
+:   .ldx 0012
 .label bit-to-combatant-loop
 :   .cmp.addr.x $combatant-bits,2
 :   .beq bit-to-combatant-found
 :   .dex .dex
 :   .bpl bit-to-combatant-loop
-:   .ldx ff ff
+:   .ldx ffff
 .label bit-to-combatant-found
 :   .plp
 :   .rtl

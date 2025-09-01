@@ -24,7 +24,7 @@ $main
 
 # check for physical
 :       .lda 01
-:       .bit.addr a2 11
+:       .bit.addr 11a2
 :       .bne no-reflect
 
 :       .jsl $jun-check-is-damage-over-time
@@ -62,10 +62,10 @@ $main
 :       .bne yes-reflect
 
 .label normal-reflect-check
-:       .lda.addr a3 11
+:       .lda.addr 11a3
 :       .bit 02
 :       .bne no-reflect
-:       .lda.addr.y f8 3e
+:       .lda.addr.y 3ef8
 :       .bpl no-reflect
 
 .label yes-reflect
@@ -79,13 +79,13 @@ $main
 :       .jml $return-no-reflect
 
 .label non-elemental
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .bit 01
 :       .bne normal-reflect-check
-:       .lda.addr a4 11
+:       .lda.addr 11a4
 :       .bit 81
 :       .bne normal-reflect-check
-:       .lda.addr a6 11
+:       .lda.addr 11a6
 :       .beq normal-reflect-check
 :       .lda {{jun-index-repel-nuke}}
 :       .jsl $jun-checker
@@ -113,11 +113,11 @@ VALIDATION
 
 # in unmodified roms this code is at c2/2235
 # the vanish doom patch moves it to c2/2243
-022235: .lda.addr a3 11
+022235: .lda.addr 11a3
 :       .bit 02
 
 022241: .rep 20
-:       .lda.addr.y 18 30
+:       .lda.addr.y 3018
 
-02224b: .lda.addr a2 11
+02224b: .lda.addr 11a2
 :       .bit 02

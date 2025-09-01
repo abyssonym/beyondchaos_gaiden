@@ -23,27 +23,27 @@ $main
 :       .bne found-runners
 
 :       .plx
-:       .lda.addr 91 3a
+:       .lda.addr 3a91
 :       .and 70
 :       .jml $return-found-no-runners
 .label found-runners
-:       .tsb.addr 38 3a
+:       .tsb.addr 3a38
 :       .plx
 :       .jml $return-found-runners
 
 $check-runner
-:       .lda.addr.x a0 3a
+:       .lda.addr.x 3aa0
 :       .lsr
 :       .bcc check-runner-exit
 :       .lda {{jun-index-instant-run}}
 :       .jsl $jun-checker
 :       .beq check-runner-exit
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .tsb.dp 10
 .label check-runner-exit
 :       .rts
 
 VALIDATION
 
-025bdb: .lda.addr 91 3a
+025bdb: .lda.addr 3a91
 :       .and 70

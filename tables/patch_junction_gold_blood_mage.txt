@@ -44,33 +44,33 @@ $cast-check-deduct-mp
 
 .label blood-mage-check-mp
 :       .jsr.addr $load-mp-routine,2
-:       .lda.addr.x 08 3c
-:       .cmp.addr 4c 3a
+:       .lda.addr.x 3c08
+:       .cmp.addr 3a4c
 :       .bcc not-enough-mp
 :       .jsr.addr $deduct-blood,2
 :       .bra enough-mp
 
 .label gold-mage-check-mp
 :       .jsr.addr $load-mp-routine,2
-:       .lda.addr.x 08 3c
-:       .cmp.addr 4c 3a
+:       .lda.addr.x 3c08
+:       .cmp.addr 3a4c
 :       .bcc not-enough-mp
 :       .jsr.addr $deduct-gold,2
 :       .bra enough-mp
 
 .label is-monster-no-gold
 .label no-junction-check-mp
-:       .lda.addr 4c 3a
+:       .lda.addr 3a4c
 :       .sec
-:       .lda.addr.x 08 3c
+:       .lda.addr.x 3c08
 :       .jml $return-no-junction-check-mp
 
 .label not-enough-mp
-:       .stz.addr 4c 3a
+:       .stz.addr 3a4c
 :       .jml $return-not-enough-mp
 
 .label enough-mp
-:       .stz.addr 4c 3a
+:       .stz.addr 3a4c
 :       .jml $return-enough-mp
 
 $set-end-battle-mp
@@ -82,8 +82,8 @@ $set-end-battle-mp
 :       .jsl $jun-checker
 :       .bne skip-set-mp
 
-:       .lda.addr.x 08 3c
-:       .sta.addr.y 0d 16
+:       .lda.addr.x 3c08
+:       .sta.addr.y 160d
 
 .label skip-set-mp
 :       .rtl
@@ -104,58 +104,58 @@ $load-mp-routine
 
 .label blood-mage-load-mp
 :       .jsr.addr $blood-to-mp,2
-:       .sta.addr.y 08 3c
-:       .sta.addr.y 88 2e
-:       .lda e7 03
-:       .sta.addr.y 30 3c
-:       .sta.addr.y 90 2e
+:       .sta.addr.y 3c08
+:       .sta.addr.y 2e88
+:       .lda 03e7
+:       .sta.addr.y 3c30
+:       .sta.addr.y 2e90
 :       .bra exit-load-mp
 
 .label gold-mage-load-mp
 :       .jsr.addr $gold-to-mp,2
-:       .sta.addr.y 08 3c
-:       .sta.addr.y 88 2e
-:       .lda e7 03
-:       .sta.addr.y 30 3c
-:       .sta.addr.y 90 2e
+:       .sta.addr.y 3c08
+:       .sta.addr.y 2e88
+:       .lda 03e7
+:       .sta.addr.y 3c30
+:       .sta.addr.y 2e90
 :       .bra exit-load-mp
 
 .label no-junction-load-mp
-:       .lda.addr.y 08 3c
-:       .sta.addr.y 88 2e
-:       .lda.addr.y 30 3c
-:       .sta.addr.y 90 2e
+:       .lda.addr.y 3c08
+:       .sta.addr.y 2e88
+:       .lda.addr.y 3c30
+:       .sta.addr.y 2e90
 
 .label exit-load-mp
 :       .plp
 :       .rts
 
 $blood-to-mp
-:       .lda.addr.y f4 3b
+:       .lda.addr.y 3bf4
 :       .lsr .lsr .lsr
 :       .rts
 
 $gold-to-mp
-:       .lda.addr 62 18
-:       .and ff 00
+:       .lda.addr 1862
+:       .and 00ff
 :       .bne max-gold
-:       .lda.addr 60 18
+:       .lda.addr 1860
 :       .lsr .lsr .lsr .lsr .lsr
-:       .cmp e7 03
+:       .cmp 03e7
 :       .bcs max-gold
 :       .rts
 .label max-gold
-:       .lda e7 03
+:       .lda 03e7
 :       .rts
 
 $do-mp-critical
 :       .pha .phx .phy .php
-:       .lda.addr 4c 3a
+:       .lda.addr 3a4c
 :       .pha
 
 :       .sep 20
 :       .lda.dp ee
-:       .sta.addr 4c 3a
+:       .sta.addr 3a4c
 :       .tyx
 :       .rep 20
 
@@ -172,55 +172,55 @@ $do-mp-critical
 
 .label no-gold
 :       .pla
-:       .sta.addr 4c 3a
+:       .sta.addr 3a4c
 
 :       .plp .ply .plx .pla
-:       .sta.addr.y 08 3c
-:       .lda 00 02
+:       .sta.addr.y 3c08
+:       .lda 0200
 :       .rtl
 
 $deduct-blood
-:       .lda.addr 4c 3a
+:       .lda.addr 3a4c
 :       .pha
 :       .asl .asl .asl
-:       .sta.addr 4c 3a
-:       .lda.addr.x f4 3b
+:       .sta.addr 3a4c
+:       .lda.addr.x 3bf4
 :       .sec
-:       .sbc.addr 4c 3a
-:       .sta.addr.x f4 3b
+:       .sbc.addr 3a4c
+:       .sta.addr.x 3bf4
 :       .pla
-:       .sta.addr 4c 3a
+:       .sta.addr 3a4c
 :       .rts
 
 $deduct-gold
-:       .lda.addr 4c 3a
+:       .lda.addr 3a4c
 :       .pha
 :       .asl .asl .asl .asl .asl
-:       .sta.addr 4c 3a
-:       .lda.addr 60 18
+:       .sta.addr 3a4c
+:       .lda.addr 1860
 :       .sec
-:       .sbc.addr 4c 3a
-:       .sta.addr 60 18
+:       .sbc.addr 3a4c
+:       .sta.addr 1860
 :       .sep 20
-:       .lda.addr 62 18
+:       .lda.addr 1862
 :       .sbc 00
-:       .sta.addr 62 18
+:       .sta.addr 1862
 :       .rep 20
 :       .pla
-:       .sta.addr 4c 3a
+:       .sta.addr 3a4c
 :       .rts
 
 VALIDATION
 0232b6: .sec
-:       .lda.addr.x 08 3c
+:       .lda.addr.x 3c08
 
-023f47: .sta.addr.y 08 3c
-:       .lda 00 02
+023f47: .sta.addr.y 3c08
+:       .lda 0200
 
-024973: .lda.addr.x 08 3c
-:       .sta.addr.y 0d 16
+024973: .lda.addr.x 3c08
+:       .sta.addr.y 160d
 
-025d39: .lda.addr.y 08 3c
-:       .sta.addr.y 88 2e
-:       .lda.addr.y 30 3c
-:       .sta.addr.y 90 2e
+025d39: .lda.addr.y 3c08
+:       .sta.addr.y 2e88
+:       .lda.addr.y 3c30
+:       .sta.addr.y 2e90

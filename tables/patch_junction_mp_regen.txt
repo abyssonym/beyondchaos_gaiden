@@ -7,7 +7,7 @@
 $main
 :       .phx
 :       .tyx
-:       .lda.addr a1 11
+:       .lda.addr 11a1
 :       .bne normal-regen
 :       .lda {{jun-index-mp-regen}}
 :       .jsl $jun-checker
@@ -16,17 +16,17 @@ $main
 .label normal-regen
 :       .plx
 :       .rep 20
-:       .lda.addr.y 1c 3c
+:       .lda.addr.y 3c1c
 :       .rtl
 .label mp-regen
 :       .lda 80
-:       .tsb.addr a3 11
+:       .tsb.addr 11a3
 :       .plx
 :       .rep 20
-:       .lda.addr.y 30 3c
+:       .lda.addr.y 3c30
 :       .rtl
 
 VALIDATION
 
 025056: .rep 20
-:       .lda.addr.y 1c 3c
+:       .lda.addr.y 3c1c

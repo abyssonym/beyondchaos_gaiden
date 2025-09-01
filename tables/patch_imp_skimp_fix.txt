@@ -10,15 +10,15 @@
 :       .cmp        00
 
 $fix-formation-transition
-:       .lda.addr   58 82
+:       .lda.addr 8258
 :       .asl
 :       .tax
-:       .lda.addr.x 2f 81
+:       .lda.addr.x 812f
 :       .beq fix-formation-exit-force
 .label fix-formation-exit-normal
-:       .lda.addr   58 82
+:       .lda.addr 8258
 :       .tax
-:       .lda.addr.x c2 62
+:       .lda.addr.x 62c2
 :       .rtl
 .label fix-formation-exit-force
 :       .lda        00
@@ -27,7 +27,7 @@ $fix-formation-transition
 .label force-update
 :       .tdc
 :       .inc
-:       .tsb.addr c2 62
+:       .tsb.addr 62c2
 :       .jml $force-update-return
 
 012f7f: 4a 6a 6a 6a  aa bd cd 61  f0 03 4c 1a  30 1a 9d ce

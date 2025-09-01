@@ -37,7 +37,7 @@
 :       .cpx 08
 :       .bcs 5f
 
-0239fd: .inc.addr 01 34
+0239fd: .inc.addr 3401
 .label return-no-steal
 023a00: .rts
 
@@ -47,7 +47,7 @@ $main
 :       .brl no-junction,2
 
 .label not-damage-over-time
-:       .lda.addr a9 11
+:       .lda.addr 11a9
 :       .bne no-add-steal
 :       .jsl $jun-rng1
 :       .bcs no-add-steal
@@ -55,17 +55,17 @@ $main
 :       .jsl $jun-checker
 :       .beq no-add-steal
 :       .lda a4
-:       .sta.addr a9 11
+:       .sta.addr 11a9
 
 .label no-add-steal
 :       .lda 01
-:       .bit.addr a2 11
+:       .bit.addr 11a2
 :       .beq not-physical
 :       .lda {{jun-index-vorpal}}
 :       .jsl $jun-checker
 :       .beq no-vorpal
 :       .lda 20
-:       .tsb.addr a2 11
+:       .tsb.addr 11a2
 
 .label no-vorpal
 :       .lda.dp b5
@@ -80,18 +80,18 @@ $main
 :       .trb.dp b3
 :       .lda 20
 :       .tsb.dp b3
-:       .tsb.addr a4 11
-:       .inc.addr 70 3a
+:       .tsb.addr 11a4
+:       .inc.addr 3a70
 :       .lda 10
 :       .trb.dp b2
 :       .lda hyperdrive-index
-:       .sta.addr 00 34
+:       .sta.addr 3400
 
 .label no-gunblade
 .label not-physical
-:       .lda.addr a5 11
+:       .lda.addr 11a5
 :       .beq no-quickening
-:       .lda.addr 4c 3a
+:       .lda.addr 3a4c
 :       .beq no-quickening
 :       .lda.dp b7
 :       .inc
@@ -108,30 +108,30 @@ $main
 :       .bit.addr $living-characters,2
 :       .sep 20
 :       .beq no-quickening
-:       .lda.addr 4c 3a
+:       .lda.addr 3a4c
 :       .lsr
-:       .adc.addr 4c 3a
+:       .adc.addr 3a4c
 :       .bcc quickening-no-overflow
 :       .jsr.addr $do-quickening-penalty,2
 :       .lda ff
 .label quickening-no-overflow
-:       .cmp.addr a5 11
+:       .cmp.addr 11a5
 :       .bcs not-economizer-case
-:       .lda.addr a5 11
+:       .lda.addr 11a5
 .label not-economizer-case
 :       .rep 20
-:       .and ff 00
+:       .and 00ff
 :       .dec
-:       .cmp.addr.x 08 3c
+:       .cmp.addr.x 3c08
 :       .sep 20
 :       .bcs no-quickening
 :       .inc
 :       .sta.dp b7
 :       .jsr.addr @quickening-add-hp-damage,2
 :       .lda custom-mp-command-index
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .lda.dp b6
-:       .sta.addr 7b 3a
+:       .sta.addr 3a7b
 :       .jsl $jun-queue-command
 
 .label no-quickening
@@ -140,20 +140,20 @@ $main
 :       .jsl $jun-checker
 :       .beq no-astral
 :       .lda 80
-:       .eor.addr a3 11
-:       .sta.addr a3 11
+:       .eor.addr 11a3
+:       .sta.addr 11a3
 
 .label no-astral
 :       .lda 01
-:       .bit.addr a4 11
+:       .bit.addr 11a4
 :       .bne no-vampire
 :       .lda {{jun-index-vampire}}
 :       .jsl $jun-checker
 :       .beq no-vampire
 :       .lda 02
-:       .tsb.addr a4 11
+:       .tsb.addr 11a4
 :       .lda 08
-:       .tsb.addr a2 11
+:       .tsb.addr 11a2
 
 .label no-vampire
 .label no-junction
@@ -170,7 +170,7 @@ $main
 :       .inc
 :       .bne main-return-no-steal
 :       .lda 01
-:       .sta.addr 01 34
+:       .sta.addr 3401
 .label main-return-steal
 :       .jml @return-steal,3
 .label main-return-no-steal
@@ -192,7 +192,7 @@ $do-quickening-penalty
 :       .lda.addr.x $current-current-mp-address,2
 :       .jsr.addr @reduce-three-quarters,2
 :       .sta.addr.x $current-current-mp-address,2
-:       .lda 00 00
+:       .lda 0000
 :       .sep 20
 :       .lda.addr.x $current-level-address,2
 :       .jsr.addr @reduce-three-quarters,2
@@ -212,12 +212,12 @@ $do-quickening-penalty
 
 .label quickening-add-hp-damage
 :       .lda fixed-damage-command-index
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .rep 20
 :       .lda.dp b8
 :       .pha
 :       .lda.dp b7
-:       .and ff 00
+:       .and 00ff
 :       .sta.dp b8
 :       .jsl $jun-queue-command
 :       .pla
@@ -264,9 +264,9 @@ VALIDATION
 :       .trb.dp b2
 
 0239a1: .lda 01
-:       .sta.addr 01 34
+:       .sta.addr 3401
 :       .cpx 08
 :       .bcs 5f
 
-0239fd: .inc.addr 01 34
+0239fd: .inc.addr 3401
 023a00: .rts

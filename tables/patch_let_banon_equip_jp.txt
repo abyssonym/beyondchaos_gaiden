@@ -1,13 +1,13 @@
 031ed4: .cmp 0f
 031ee9: .cmp 0f
 
-03a43b: .jsl 00 70 f0
+03a43b: .jsl f07000
 
-307000: .lda.long.x 56 a4 c3
-307004: .and ff 3f
+307000: .lda.long.x c3a456
+307004: .and 3fff
 307007: .beq 01
 307009: .rtl
-30700a: .ora ff 3f
+30700a: .ora 3fff
 30700d: .rtl
 
 3fffff: 00

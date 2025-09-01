@@ -17,9 +17,9 @@
 
 $main-equip-anything
 :       .lda.long.x $bits
-:       .and ff 3f
+:       .and 3fff
 :       .bne has-equip-set
-:       .ora ff 3f
+:       .ora 3fff
 .label has-equip-set
 :       .rtl
 

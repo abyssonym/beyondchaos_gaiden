@@ -44,7 +44,7 @@ $command-indexes-address
 $main-update-battle-timer
 :       .inc.addr $global-battle-timer,2
 :       .lda.addr $global-battle-timer,2
-:       .cmp 01 00
+:       .cmp 0001
 :       .bne nonzero-battle-timer
 :       .php
 :       .sep 20
@@ -67,8 +67,8 @@ $main
 .label timer-no-stall
 
 :       .lda 02
-:       .eor.addr.x 05 32
-:       .sta.addr.x 05 32
+:       .eor.addr.x 3205
+:       .sta.addr.x 3205
 
 :       .lda first-spell-index
 .label spell-loop
@@ -90,14 +90,14 @@ $main
 :       .cmp overflow-command-index
 :       .bcc command-loop
 
-:       .lda.addr f6 1c
+:       .lda.addr 1cf6
 :       .cmp 10
 :       .bcc no-morph
 :       .lda {{jun-index-critical-morph}}
 :       .jsl $jun-checker
 :       .beq no-morph
 :       .lda 03
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .jsl $jun-queue-command
 
 .label no-morph
@@ -105,15 +105,15 @@ $main
 :       .jsl $jun-checker
 :       .beq no-dance
 :       .phx
-:       .ldx.addr e2 11
+:       .ldx.addr 11e2
 :       .lda.long.x $background-dances-address
-:       .sta.addr.y e1 32
+:       .sta.addr.y 32e1
 :       .plx
 :       .pea $pick-dance-move,2
 :       .jsl $jun-generic-dispatch
-:       .sta.addr 7b 3a
+:       .sta.addr 3a7b
 :       .lda 13
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .jsl $jun-queue-command
 
 .label no-dance
@@ -148,8 +148,8 @@ $do-command
 :       .tax
 :       .lda.long.x $command-indexes-address
 :       .plx
-:       .sta.addr 7a 3a
-:       .stz.addr 7b 3a
+:       .sta.addr 3a7a
+:       .stz.addr 3a7b
 :       .stz.dp b8
 :       .stz.dp b9
 :       .jsl $jun-queue-command
@@ -158,5 +158,5 @@ $do-command
 
 VALIDATION
 
-020a5d: .eor.addr.x 05 32
-:       .sta.addr.x 05 32
+020a5d: .eor.addr.x 3205
+:       .sta.addr.x 3205

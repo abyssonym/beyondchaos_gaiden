@@ -13,7 +13,7 @@ $main
 :       .tya
 :       .phx
 :       .rep 20
-:       .and ff 00
+:       .and 00ff
 :       .asl .asl .asl .asl .asl
 
 :       .pha
@@ -61,33 +61,33 @@ $main
 
 .label exit-main
 :       .lsr .lsr .lsr .lsr .lsr
-:       .bit 00 ff
+:       .bit ff00
 :       .beq no-overflow
-:       .lda ff 00
+:       .lda 00ff
 .label no-overflow
 :       .sep 20
 :       .plx
-:       .sta.addr.x dd 3a
+:       .sta.addr.x 3add
 :       .rtl
 
 $main-initialize
 :       .ldx 12
 .label initialize-loop
 :       .lda 04
-:       .ora.addr.x 04 32
-:       .sta.addr.x 04 32
+:       .ora.addr.x 3204
+:       .sta.addr.x 3204
 :       .dex .dex
 :       .bpl initialize-loop
 :       .jsl $jun-force-update
 
 :       .ldx 00
-:       .lda.addr 4b 2f
+:       .lda.addr 2f4b
 :       .rtl
 
 VALIDATION
 
 0209e4: .tya
-:       .sta.addr.x dd 3a
+:       .sta.addr.x 3add
 
 0224c1: .ldx 00
-:       .lda.addr 4b 2f
+:       .lda.addr 2f4b

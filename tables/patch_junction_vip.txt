@@ -9,10 +9,10 @@ $banon_check
 :       .nop .nop .nop
 
 $main
-:       .lda.addr.x f9 3e
+:       .lda.addr.x 3ef9
 :       .bit 04
 :       .bne main-exit-normal
-:       .lda.addr.x d8 3e
+:       .lda.addr.x 3ed8
 :       .cmp 0e
 :       .beq vip-fell
 :       .lda {{jun-index-vip}}
@@ -26,6 +26,6 @@ $main
 VALIDATION
 
 $banon_check
-:       .lda.addr.x d8 3e
+:       .lda.addr.x 3ed8
 :       .cmp 0e
 :       .bne

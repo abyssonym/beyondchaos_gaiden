@@ -7,14 +7,14 @@
 $main
 :       .tyx
 :       .lda 16
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 
 # duplicated action queue code
 :       .txa .phx
-:       .ldx.addr 67 3a
-:       .sta.addr.x 20 38
+:       .ldx.addr 3a67
+:       .sta.addr.x 3820
 :       .plx
-:       .inc.addr 67 3a
+:       .inc.addr 3a67
 
 :       .jsl $jun-set-target-counter
 :       .jml $reentry-address

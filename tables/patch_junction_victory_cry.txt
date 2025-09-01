@@ -12,21 +12,21 @@ $main
 :       .lda {{jun-index-victory-cry}} 00
 :       .jsl $jun-checker
 :       .beq no-victory-cry
-:       .lda.addr.x e4 3e
-:       .and 30 00
-:       .sta.addr.x e4 3e
+:       .lda.addr.x 3ee4
+:       .and 0030
+:       .sta.addr.x 3ee4
 
-:       .lda.addr.x 1c 3c
-:       .sta.addr.x f4 3b
-:       .lda.addr.x 30 3c
-:       .sta.addr.x 08 3c
+:       .lda.addr.x 3c1c
+:       .sta.addr.x 3bf4
+:       .lda.addr.x 3c30
+:       .sta.addr.x 3c08
 
 .label no-victory-cry
 :       .plx
-:       .lda.addr 35 2f
+:       .lda.addr 2f35
 :       .rtl
 
 VALIDATION
 
 026236: .rep 21
-:       .lda.addr 35 2f
+:       .lda.addr 2f35

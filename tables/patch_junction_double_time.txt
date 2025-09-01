@@ -5,21 +5,21 @@
 :       .nop .nop .nop .nop
 
 $main
-:       .inc.addr.x 19 32
+:       .inc.addr.x 3219
 :       .bne check-double-time
-:       .dec.addr.x 19 32
+:       .dec.addr.x 3219
 :       .rtl
 .label check-double-time
 :       .lda {{jun-index-double-time}}
 :       .jsl $jun-checker
 :       .beq exit-main
 :       .lda 80
-:       .sta.addr.x 19 32
+:       .sta.addr.x 3219
 .label exit-main
 :       .rtl
 
 VALIDATION
 
-0201be: .inc.addr.x 19 32
+0201be: .inc.addr.x 3219
 :       .bne 03
-:       .dec.addr.x 19 32
+:       .dec.addr.x 3219

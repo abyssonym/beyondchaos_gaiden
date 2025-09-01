@@ -23,14 +23,14 @@ $main
 :       .clc
 :       .adc.addr.y $current-hp-address,2
 :       .bcc no-hp-overflow
-:       .lda ff ff
+:       .lda ffff
 .label no-hp-overflow
 :       .cmp.addr.y $max-hp-address,2
 :       .bcc below-max-hp
 
 :       .pha
 :       .lda.sr 09
-:       .and ff 00
+:       .and 00ff
 :       .tax
 #:       a9 22 02
 #:       cd 7a 3a
@@ -60,7 +60,7 @@ $main
 :       .clc
 :       .adc.sr 01
 :       .bcc no-overheal-hp-overflow
-:       .lda ff ff
+:       .lda ffff
 .label no-overheal-hp-overflow
 :       .sta.sr 03
 :       .pla
@@ -81,17 +81,17 @@ $main
 :       .bra choose-current-or-max-hp
 
 $main-revenge
-:       .lda.addr.y 1c 3c
-:       .sbc.addr.y f4 3b
+:       .lda.addr.y 3c1c
+:       .sbc.addr.y 3bf4
 :       .bmi revenge-heal
-:       .sta.addr b0 11
+:       .sta.addr 11b0
 :       .rtl
 .label revenge-heal
-:       .eor ff ff
+:       .eor ffff
 :       .inc
-:       .sta.addr b0 11
-:       .lda 01 00
-:       .tsb.addr a4 11
+:       .sta.addr 11b0
+:       .lda 0001
+:       .tsb.addr 11a4
 :       .rtl
 
 VALIDATION

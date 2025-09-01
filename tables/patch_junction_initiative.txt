@@ -21,9 +21,9 @@ $main
 :       .lda {{jun-index-regenerator}}
 :       .jsl $jun-checker
 :       .beq no-regenerator
-:       .lda.addr.x e8 3d
+:       .lda.addr.x 3de8
 :       .ora 02
-:       .sta.addr.x e8 3d
+:       .sta.addr.x 3de8
 
 .label no-regenerator
 :       .jsl $jun-check-entity-living
@@ -35,29 +35,29 @@ $main
 :       .jsl $jun-checker
 :       .beq no-auto-reraise
 .label yes-auto-reraise
-:       .lda.addr.x f9 3e
+:       .lda.addr.x 3ef9
 :       .ora 04
-:       .sta.addr.x f9 3e
+:       .sta.addr.x 3ef9
 
 .label no-auto-reraise
 :       .phx
 :       .jsr.addr $check-esper-defense,2
 :       .beq no-esper-defense
 :       .tax
-:       .lda.long.x 00 00 c4
-:       .bit 40 00
+:       .lda.long.x c40000
+:       .bit 0040
 :       .bne no-esper-defense
 # check whether the esper restores instead of inflicts status
-:       .lda.long.x 04 00 c4
-:       .bit 04 00
+:       .lda.long.x c40004
+:       .bit 0004
 :       .bne no-esper-defense
-:       .lda.long.x 0a 00 c4
-:       .ora.addr.y e4 3e
-:       .sta.addr.y e4 3e
-:       .lda.long.x 0c 00 c4
-:       .ora.addr.y f8 3e
-:       .and ff df
-:       .sta.addr.y f8 3e
+:       .lda.long.x c4000a
+:       .ora.addr.y 3ee4
+:       .sta.addr.y 3ee4
+:       .lda.long.x c4000c
+:       .ora.addr.y 3ef8
+:       .and dfff
+:       .sta.addr.y 3ef8
 
 .label no-esper-defense
 :       .sep 30
@@ -72,7 +72,7 @@ $main
 :       .jsl $jun-checker
 :       .beq main-exit
 :       .lda ff
-:       .sta.addr.y 19 32
+:       .sta.addr.y 3219
 .label main-exit
 :       .rep 20
 :       .dey .dey
@@ -87,12 +87,12 @@ $main
 .label plague-loop
 :       .jsl $jun-check-are-same-team
 :       .bne plague-skip
-:       .lda.addr.y 1d 33
+:       .lda.addr.y 331d
 :       .bit 01
 :       .beq plague-skip
 :       .lda 20
-:       .ora.addr.y 04 32
-:       .sta.addr.y 04 32
+:       .ora.addr.y 3204
+:       .sta.addr.y 3204
 .label plague-skip
 :       .dey .dey
 :       .bpl plague-loop
@@ -128,7 +128,7 @@ $do-juggernaut-burst
 
 VALIDATION
 
-0225f7: .sta.addr.y 19 32
+0225f7: .sta.addr.y 3219
 :       .rep 20
 :       .dey .dey
 :       .bpl 94

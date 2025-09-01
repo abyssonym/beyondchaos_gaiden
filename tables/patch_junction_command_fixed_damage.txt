@@ -20,63 +20,63 @@ $main
 :       .sta.dp ba
 
 # fixed damage
-:       .stz.addr 14 34
+:       .stz.addr 3414
 
 # no mp cost
-:       .stz.addr a5 11
+:       .stz.addr 11a5
 
 # non-elemental
-:       .stz.addr a1 11
+:       .stz.addr 11a1
 
 # target self
 :       .lda 03
-:       .sta.addr a0 11
+:       .sta.addr 11a0
 
 :       .rep 20
 
 # spell power 1 (required to do any damage)
 # clear 11a7 (miss if status fails, indexed battle messages)
-:       .lda 01 00
-:       .sta.addr a6 11
+:       .lda 0001
+:       .sta.addr 11a6
 
 # no hit rate or special effect
-:       .stz.addr a8 11
+:       .stz.addr 11a8
 
 # no status effects
-:       .stz.addr aa 11
-:       .stz.addr ac 11
+:       .stz.addr 11aa
+:       .stz.addr 11ac
 
 # no damage split, ignore defense, ignore reflect
-:       .lda 60 02
-:       .sta.addr a2 11
+:       .lda 0260
+:       .sta.addr 11a2
 
 # can't dodge, zero mp cost
-:       .lda 20 00
-:       .sta.addr a4 11
+:       .lda 0020
+:       .sta.addr 11a4
 
 # get fixed damage value from b8-b9 (normally targeting bytes)
 :       .lda.dp b8
-:       .and ff 3f
-:       .sta.addr b0 11
+:       .and 3fff
+:       .sta.addr 11b0
 
 # bit 4000 means MP damage
-:       .lda 00 40
+:       .lda 4000
 :       .bit.dp b8
 :       .beq not-concerns-mp
-:       .lda 00 80
-:       .tsb.addr a2 11
+:       .lda 8000
+:       .tsb.addr 11a2
 .label not-concerns-mp
 
 # bit 8000 means healing
-:       .lda 00 80
+:       .lda 8000
 :       .bit.dp b8
 :       .beq not-healing
-:       .lda 01 00
-:       .tsb.addr a4 11
+:       .lda 0001
+:       .tsb.addr 11a4
 .label not-healing
 
 # target only self
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .sta.dp b8
 
 :       .jml $reentry-address

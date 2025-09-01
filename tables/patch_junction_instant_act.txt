@@ -18,7 +18,7 @@ $main
 .label exit-normal-delay
 :       .pla
 :       .tax
-:       .lda.long.x 7b 06 c2
+:       .lda.long.x c2067b
 :       .rtl
 .label exit-no-delay
 :       .pla
@@ -28,4 +28,4 @@ $main
 VALIDATION
 
 0203f5: .tax
-:       .lda.long.x 7b 06 c2
+:       .lda.long.x c2067b

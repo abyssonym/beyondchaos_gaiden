@@ -2,7 +2,7 @@
 .addr   return-is-monster       024f47
 .addr   return-not-monster      02fab0
 
-02256d: .jsr.addr 5a a6     # jump to new routine in free space
+02256d: .jsr.addr a65a      # jump to new routine in free space
 
 # old version of the patch
 #024f11: c2 10           # rep #$10
@@ -18,7 +18,7 @@
 
 # occupies free space
 02fab0: .rep 10
-:       .lda.addr 7a 3a
+:       .lda.addr 3a7a
 :       .cmp 19
 :       .beq 4b
 :       .cmp 0c
@@ -27,19 +27,19 @@
 :       .beq 04
 :       .cmp 17
 :       .bne 4f
-:       .lda.addr 7b 3a
+:       .lda.addr 3a7b
 :       .sta.dp f0
 :       .rep 20
-:       .lda 04 00
+:       .lda 0004
 :       .clc
-:       .adc.addr.x 2c 30
+:       .adc.addr.x 302c
 :       .sta.dp f2
 :       .inc .inc .inc
 :       .sta.dp f4
 :       .sep 20
 # PHY sometimes unmatched
 :       .phy
-:       .ldy 00 00
+:       .ldy 0000
 :       .lda.dp.i.y f2
 :       .cmp.dp f0
 :       .beq 0a
@@ -51,38 +51,38 @@
 # PLY intended match
 :       .ply
 :       .bra 1c
-:       .lda.addr 7b 3a
+:       .lda.addr 3a7b
 :       .sec
 :       .sbc 8b
 :       .sta.dp f0
 :       .rep 20
-:       .lda dc 00
+:       .lda 00dc
 :       .bra cb
 :       .rep 20
-:       .lda.addr.x 2c 30
+:       .lda.addr.x 302c
 :       .tax
 :       .sep 20
-:       .lda.addr.x 03 00
+:       .lda.addr.x 0003
 :       .bra 00
-:       .jmp 54 4f
-:       .jmp 53 4f
+:       .jmp 4f54
+:       .jmp 4f53
 .label condensed-fix-stack
 :       .ply
 # vanilla code incorrectly determines MP cost of unlearned spells
 # we fix it by jumping to a slightly earlier address
-:       .lda.addr 7b 3a
-:       .jmp 47 4f
+:       .lda.addr 3a7b
+:       .jmp 4f47
 
 $main
 :       .rep 10
-:       .lda.addr 7b 3a
-:       .cpx 08 00
+:       .lda.addr 3a7b
+:       .cpx 0008
 :       .bcs is-monster
 :       .jml $return-not-monster
 .label is-monster
 :       .jml $return-is-monster
 
 VALIDATION
-02256d: .jsr.addr 2c 53
+02256d: .jsr.addr 532c
 02a65a: ff ff ff ff
 02fab0: ff ff ff ff

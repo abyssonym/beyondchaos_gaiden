@@ -28,16 +28,16 @@ $main
 :       .pla
 :       .sta.dp fb
 .label exit-main
-:       .lda.addr.y d8 3e
+:       .lda.addr.y 3ed8
 :       .cmp {{morpher-index:00}}
 :       .rtl
 
 $restore-normal-magic-points
 :       .phx
-:       .ldx.addr d4 3e
-:       .cpx 00 02
+:       .ldx.addr 3ed4
+:       .cpx 0200
 :       .bcs no-magic-points
-:       .lda.long.x 00 b4 df
+:       .lda.long.x dfb400
 :       .bra exit-restore
 .label no-magic-points
 :       .lda 00
@@ -53,5 +53,5 @@ VALIDATION
 :       .beq 12
 :       .lda.dp fb
 
-025e2f: .lda.addr.y d8 3e
+025e2f: .lda.addr.y 3ed8
 :       c9

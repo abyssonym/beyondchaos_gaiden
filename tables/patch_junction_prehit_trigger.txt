@@ -53,15 +53,15 @@ $main
 :       .phx
 
 :       .lda 80
-:       .ora.addr.x 04 32
-:       .sta.addr.x 04 32
+:       .ora.addr.x 3204
+:       .sta.addr.x 3204
 :       .lda 80
-:       .ora.addr.y 04 32
-:       .sta.addr.y 04 32
+:       .ora.addr.y 3204
+:       .sta.addr.y 3204
 
-:       .lda.addr.y 0d 3f
+:       .lda.addr.y 3f0d
 :       .beq no-freeze
-:       .lda.addr.y f9 3e
+:       .lda.addr.y 3ef9
 :       .and 02
 :       .beq no-freeze
 :       .lda {{jun-index-null-freeze}}
@@ -69,10 +69,10 @@ $main
 :       .bne freeze-exit-miss
 
 .label no-freeze
-:       .lda.addr.y e5 3e
+:       .lda.addr.y 3ee5
 :       .bit 80
 :       .beq no-sleep
-:       .lda.addr.y f9 3c
+:       .lda.addr.y 3cf9
 :       .beq no-sleep
 :       .lda {{jun-index-null-sleep}}
 :       .jsl $jun-checker-y
@@ -95,10 +95,10 @@ $main
 :       .lda {{jun-index-decisive}}
 :       .jsl $jun-checker
 :       .beq no-decisive
-:       .stz.addr 1a 34
+:       .stz.addr 341a
 
 .label no-decisive
-:       .lda.addr 1a 34
+:       .lda.addr 341a
 :       .beq no-counter
 :       .jmp $main-counter,2
 
@@ -120,10 +120,10 @@ $main-firestarter
 :       .jsl $jun-check-entity-can-act
 :       .beq firestarter-skip
 :       .rep 20
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .sta.dp b8
 :       .jsl $jun-set-target-allies
-:       .lda.addr.y 18 30
+:       .lda.addr.y 3018
 :       .and.dp b8
 :       .sep 20
 :       .beq firestarter-skip
@@ -131,9 +131,9 @@ $main-firestarter
 :       .jsl $jun-checker
 :       .beq firestarter-skip
 :       .lda 02
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .lda 00
-:       .sta.addr 7b 3a
+:       .sta.addr 3a7b
 # set mp cost to zero, because it will be wrong if the spell isn't learned
 :       .lda 40
 :       .tsb.dp b1
@@ -148,12 +148,12 @@ $main-firestarter
 :       .stz.dp b9
 :       .ply .plx
 :       .lda 22
-:       .sta.addr.y 0d 3f
+:       .sta.addr.y 3f0d
 :       .rtl
 
 $main-counter
-:       .lda.addr.y 18 30
-:       .bit.addr.x 18 30
+:       .lda.addr.y 3018
+:       .bit.addr.x 3018
 :       .beq not-targeting-self
 :       .brl counter-exit-just-exit,2
 .label not-targeting-self
@@ -171,10 +171,10 @@ $main-counter
 :       .lda {{jun-index-flinch}}
 :       .jsl $jun-checker
 :       .beq no-flinch
-:       .lda.addr.y 19 32
+:       .lda.addr.y 3219
 :       .lsr .lsr
 :       .beq no-flinch
-:       .sta.addr.y 19 32
+:       .sta.addr.y 3219
 
 .label no-flinch
 :       .jsl $jun-rng2
@@ -196,7 +196,7 @@ $main-counter
 :       .lda 01
 :       .bit.dp b1
 :       .bne no-return-magic
-:       .lda.addr a5 11
+:       .lda.addr 11a5
 :       .beq no-return-magic
 :       .rep 20
 :       .cpy 08
@@ -208,13 +208,13 @@ $main-counter
 :       .lda {{jun-index-return-magic}} 00
 :       .jsl $jun-checker-y
 :       .beq no-return-magic
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .sta.dp b8
 :       .lda.dp b5
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .sep 20
 :       .lda 02
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .phx
 :       .tyx
 :       .jsl $jun-queue-command
@@ -226,11 +226,11 @@ $main-counter
 :       .jsr.addr $main-gaia,2
 
 # check for physical
-:       .lda.addr a2 11
+:       .lda.addr 11a2
 :       .lsr
 :       .bcc counter-exit-normal
 
-:       .lda.addr.y e4 3e
+:       .lda.addr.y 3ee4
 :       .bit 10
 :       .bne no-sunken-state
 
@@ -272,9 +272,9 @@ $main-counter
 $queue-counter
 :       .phx
 :       .rep 20
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .sta.dp b8
-:       .stz.addr 7a 3a
+:       .stz.addr 3a7a
 :       .sep 20
 :       .tyx
 :       .jsl $jun-check-entity-can-act
@@ -290,35 +290,35 @@ $main-resonate
 :       .php
 :       .rep 20
 
-:       .lda.addr.x e4 3e
-:       .and.addr.y e4 3e
-:       .eor ff ff
+:       .lda.addr.x 3ee4
+:       .and.addr.y 3ee4
+:       .eor ffff
 :       .and rippler-allowed-statuses1
 :       .sta.dp ee
-:       .lda.addr.x e4 3e
+:       .lda.addr.x 3ee4
 :       .and.dp ee
-:       .sta.addr.y d4 3d
+:       .sta.addr.y 3dd4
 
-:       .sta.addr.x fc 3d
-:       .lda.addr.y e4 3e
+:       .sta.addr.x 3dfc
+:       .lda.addr.y 3ee4
 :       .and.dp ee
-:       .sta.addr.x d4 3d
-:       .sta.addr.y fc 3d
+:       .sta.addr.x 3dd4
+:       .sta.addr.y 3dfc
 
-:       .lda.addr.x f8 3e
-:       .and.addr.y f8 3e
-:       .eor ff ff
+:       .lda.addr.x 3ef8
+:       .and.addr.y 3ef8
+:       .eor ffff
 :       .and rippler-allowed-statuses2
 :       .sta.dp ee
-:       .lda.addr.x f8 3e
+:       .lda.addr.x 3ef8
 :       .and.dp ee
-:       .sta.addr.y e8 3d
+:       .sta.addr.y 3de8
 
-:       .sta.addr.x 10 3e
-:       .lda.addr.y f8 3e
+:       .sta.addr.x 3e10
+:       .lda.addr.y 3ef8
 :       .and.dp ee
-:       .sta.addr.x e8 3d
-:       .sta.addr.y 10 3e
+:       .sta.addr.x 3de8
+:       .sta.addr.y 3e10
 
 :       .plp
 :       .rts
@@ -330,7 +330,7 @@ $main-esper-counter
 :       .rep 20
 :       .lda.dp b8
 :       .pha
-:       .lda.addr.x 18 30
+:       .lda.addr.x 3018
 :       .sta.dp b8
 :       .sep 20
 :       .phx .phy
@@ -345,7 +345,7 @@ $main-esper-counter
 :       .tsb.dp b1
 :       .lda final-attack-command-index
 :       .rep 20
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .jsl $jun-queue-command
 .label skip-esper-counter
 :       .ply .plx
@@ -358,7 +358,7 @@ $main-esper-counter
 
 $main-gaia
 :       .phx .phy
-:       .lda.addr 7c 3a
+:       .lda.addr 3a7c
 :       .cmp spell-proc-command-index
 :       .beq no-gaia-defender
 :       .jsl $jun-check-is-damage-over-time
@@ -380,15 +380,15 @@ $main-gaia
 :       .rts
 
 .label do-gaia
-:       .lda.addr.y e1 32
+:       .lda.addr.y 32e1
 :       .pha
 :       .jsl $jun-rng2
 :       .cmp gaia-assist-rate
 :       .bcs do-gaia-exit
 :       .phx
-:       .ldx.addr e2 11
+:       .ldx.addr 11e2
 :       .lda.long.x $background-dances-address
-:       .sta.addr.y e1 32
+:       .sta.addr.y 32e1
 :       .plx
 :       .pea $pick-dance-move,2
 :       .jsl $jun-generic-dispatch
@@ -403,28 +403,28 @@ $main-gaia
 .label do-gaia-spell
 :       .pha
 :       .rep 20
-:       .lda.addr.y 18 30
+:       .lda.addr.y 3018
 :       .sta.dp b8
 :       .sep 20
 :       .lda spell-proc-command-index
-:       .sta.addr 7a 3a
+:       .sta.addr 3a7a
 :       .pla
-:       .sta.addr 7b 3a
+:       .sta.addr 3a7b
 :       .jsl $jun-queue-command
 .label do-gaia-exit
 :       .pla
-:       .sta.addr.y e1 32
+:       .sta.addr.y 32e1
 :       .rts
 
 $do-discordant
 :       .phx
 :       .rep 20
-:       .lda.addr.x f4 3b
+:       .lda.addr.x 3bf4
 :       .ldx 0a
 :       .jsl $jun-divide
 :       .sep 20
 :       .phx
-:       .lda.addr.y 18 3b
+:       .lda.addr.y 3b18
 :       .ldx 0a
 :       .jsl $jun-divide
 :       .xba
@@ -435,7 +435,7 @@ $do-discordant
 :       .bne discordant-not-zero
 :       .inc
 .label discordant-not-zero
-:       .sta.addr.y 18 3b
+:       .sta.addr.y 3b18
 :       .pla
 :       .plx
 :       .rts
