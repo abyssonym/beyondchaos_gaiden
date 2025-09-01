@@ -16,7 +16,7 @@
 .addr   do-cap-damage                   620f30
 .addr   main-nihopalaoa                 622960
 .addr   main-calc                       621dc0
-.addr   check-calc                      621c80
+.addr   check-calc                      623200
 .addr   do-distribute-characters        621d00
 .addr   do-distribute-monsters          621d60
 .addr   check-nihopalaoa                622940
@@ -363,26 +363,46 @@ $check-calc
 :       .lda {{jun-index-distribute}} 00
 :       .jsl $jun-checker
 :       .beq no-distribute
+
+:       .lda 0080
+:       .bit.addr 11a3
+:       .bne distribute-mp-mode
+.label distribute-hp-mode
+:       .lda.addr.y $max-hp-address,2
+:       .pha
+:       .lda.addr.y $current-hp-address,2
+:       .pha
+:       .bra distribute-calculation
+.label distribute-mp-mode
+:       .lda.addr.y $max-mp-address,2
+:       .pha
+:       .lda.addr.y $current-mp-address,2
+:       .pha
+
+.label distribute-calculation
 :       .lda.addr.y 33e4
 :       .clc
-:       .adc.addr.y $current-hp-address,2
-:       .cmp.addr.y $max-hp-address,2
-:       .bcc no-distribute
+:       .adc.sr 01
+:       .cmp.sr 03
+:       .bcc no-distribute-fix-stack
 :       .sec
-:       .sbc.addr.y $max-hp-address,2
+:       .sbc.sr 03
 :       .pha
-:       .lda.addr.y $max-hp-address,2
+:       .lda.sr 05
 :       .sec
-:       .sbc.addr.y $current-hp-address,2
+:       .sbc.sr 03
 :       .sta.addr.y 33e4
 :       .pla
+
 :       .cpy 08
 :       .bcs distribute-is-monster
 :       .jsr.addr $do-distribute-characters,2
-:       .bra no-distribute
+:       .bra no-distribute-fix-stack
 .label distribute-is-monster
 :       .jsr.addr $do-distribute-monsters,2
-
+.label no-distribute-fix-stack
+:       .sta.sr 03
+:       .pla .pla
 .label no-distribute
 :       .plx
 :       .rts
