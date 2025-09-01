@@ -1064,6 +1064,8 @@ class InitialRageObject(TableObject):
         if self.index == 0 and not any(iro.initial_rages
                                        for iro in InitialRageObject.every):
             self.initial_rages |= 1
+        if DEBUG_MODE:
+            self.initial_rages = 0xff
 
 
 class ShopObject(TableObject):
@@ -1856,6 +1858,9 @@ class MonsterObject(TableObject):
         if 'easymodo' in get_activated_codes():
             for attr in self.mutate_attributes:
                 setattr(self, attr, 1)
+                if 'evade' in attr.lower():
+                    setattr(self, attr, 0xff)
+            setattr(self, 'hp', self.old_data['hp'])
             self.xp = 65535
             self.gp = 65535
 
@@ -5308,6 +5313,11 @@ if __name__ == '__main__':
 
         write_seed()
         handle_exhirom()
+
+        if DEBUG_MODE:
+            f = get_open_file(get_outfile())
+            f.seek(addresses.known_lores_address)
+            f.write(b'\xff\xff\xff\xff')
 
         clean_and_write(ALL_OBJECTS)
         rewrite_snes_meta('BCG-R', VERSION, lorom=False)
