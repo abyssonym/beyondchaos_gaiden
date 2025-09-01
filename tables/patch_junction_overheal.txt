@@ -105,3 +105,6 @@ VALIDATION
 :       .sta.addr.y $current-hp-address,2
 :       .clc
 :       .rts
+
+0241ec: .lda.addr.y 3c1c
+:       .sbc.addr.y 3bf4

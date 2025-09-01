@@ -277,5 +277,11 @@ $use-best-item
 
 VALIDATION
 
+0220d2: .jsr.addr 527d
+:       .jsr.addr 2675
+
+02439d: .jsr.addr 450d
+:       .lda.dp fc
+
 024585: .lda.dp fc
 :       .bit 0002

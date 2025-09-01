@@ -7,7 +7,7 @@
 
 012122: .jsl $fix-formation-transition
 :       .nop
-:       .cmp        00
+:       .cmp 00
 
 $fix-formation-transition
 :       .lda.addr 8258
@@ -21,7 +21,7 @@ $fix-formation-transition
 :       .lda.addr.x 62c2
 :       .rtl
 .label fix-formation-exit-force
-:       .lda        00
+:       .lda 00
 :       .rtl
 
 .label force-update
@@ -74,6 +74,7 @@ $fix-formation-transition
 VALIDATION
 
 011116: 7c 25                                               # 011118
+012122: ad 58 82 aa  bd c2 62
 012f7f: 0a 0a 0a 0a  0a aa bd cd  61 f0 03 4c  4c 30 a9 01
 :       9d ce 61 ad  4b 2f 29 01  d0 38 bd c0  2e 29 08 f0
 :       15 b9 6c 7b  c9 12 f0 3f  a9 12 99 6c  7b 20 57 31

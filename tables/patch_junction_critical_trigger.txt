@@ -29,11 +29,11 @@
 .addr   pick-dance-move                 02059c
 .addr   background-dances-address       2d8e5b
 
-025bff: .jsl $main-update-battle-timer
-:       .nop
-
 020a5d: .jml $main
 :       .nop .nop
+
+025bff: .jsl $main-update-battle-timer
+:       .nop
 
 $spell-indexes-address
 :       spell-indexes-list
@@ -160,3 +160,6 @@ VALIDATION
 
 020a5d: .eor.addr.x 3205
 :       .sta.addr.x 3205
+
+025bff: .inc.addr 3a44
+:       .ldx 12
